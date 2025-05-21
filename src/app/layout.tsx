@@ -10,7 +10,7 @@ import BackgroundAnimation from './BackgroundAnimation';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Boondock Labs | Eugene Ncube's Portfolio & Tech Studio",
+  title: "Boondock Labs | Eugene Boondock's Portfolio & Tech Studio",
   description:
     "Boondock Labs - Building web apps, games, and the future of the web. Portfolio and tech studio by Eugene Ncube (aka Eugene Boondock).",
   keywords:
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   ],
   creator: "Eugene Ncube",
   openGraph: {
-    title: "Boondock Labs | Eugene Ncube's Portfolio & Tech Studio",
+    title: "Boondock Labs | Eugene Boondock's Portfolio & Tech Studio",
     description:
       "Building web apps, games, and the future of digital experiences. Portfolio by Eugene Ncube (Eugene Boondock).",
     url: "https://boondocklabs.com",
@@ -52,7 +52,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <link rel="icon" href="/boondocklabs-logo.png" sizes="any" />
+        <link rel="icon" href="/Boondocklabs.png" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="shortcut icon" href="/favicon-32x32.png" />
+        <link rel="apple-touch-icon" href="/favicon-32x32.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#18181b" />
         <meta name="author" content="Eugene Ncube" />
@@ -72,7 +75,7 @@ export default function RootLayout({
       <body className={cn(inter.className, "min-h-screen bg-transparent font-sans antialiased relative")}>
         <BackgroundAnimation />
         <Navbar />
-        <div className="pt-20 relative z-[99999]">{children}</div>
+        <div className="pt-8 relative z-[99999]">{children}</div>
         <Footer />
       </body>
     </html>

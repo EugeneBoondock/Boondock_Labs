@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useState, useRef } from 'react';
-import { ArrowRight, Globe, Code, Gamepad2, Cpu, Braces, MessagesSquare, ExternalLink, Menu, X, ChevronUp } from 'lucide-react';
+import { ArrowRight, Globe, Code, Gamepad2, Cpu, Braces, MessagesSquare, ExternalLink, Menu, X, ChevronUp, Twitter, Linkedin, Facebook, Github } from 'lucide-react';
 import Link from 'next/link';
 import { sendToGemini } from './gemini';
 import ReactMarkdown from 'react-markdown';
@@ -186,26 +186,45 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="w-full pt-0 sm:pt-0 px-4 flex justify-center items-center min-h-0">
-        <div className="glass shadow-xl max-w-2xl w-full text-center py-10 px-6 sm:px-12 mb-4 flex flex-col items-center animate-in">
-          <Image
-            src="/Boondocklabs.png"
-            alt="Boondock Labs Logo"
-            width={160}
-            height={160}
-            priority
-            className="mx-auto mb-4 drop-shadow-lg select-none animate-in-delay-1"
-          />
+        <div className="glass shadow-xl max-w-2xl w-full text-center py-10 px-6 sm:px-12 flex flex-col items-center animate-in mt-2">
+          <div className="relative flex items-center justify-center mb-4">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="rounded-full w-[180px] h-[180px] bg-[#d17927] opacity-40 blur-2xl logo-glow"></div>
+            </div>
+            <Image
+              src="/Boondocklabs.png"
+              alt="Boondock Labs Logo"
+              width={160}
+              height={160}
+              priority
+              className="mx-auto drop-shadow-lg select-none animate-in-delay-1 relative"
+            />
+          </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 accent tracking-wide animate-in-delay-1">Boondock Labs</h1>
           <p className="text-lg mb-1 cream animate-in-delay-1">By Eugene Boondock</p>
           <p className="text-lg font-medium mb-3 text-black animate-in-delay-2">
             Boldly building webapps, games, digital worlds & the future of the web
           </p>
           <p className="mb-4 text-black text-sm animate-in-delay-2">Portfolio, tech studio, and playground for ambitious digital creativity</p>
+          <div className="flex justify-center gap-4 mt-6">
+            <a href="https://twitter.com/eugeneboondock" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <Twitter className="w-6 h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+            </a>
+            <a href="https://www.linkedin.com/in/eboondock/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <Linkedin className="w-6 h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+            </a>
+            <a href="https://www.facebook.com/philosophisticater/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <Facebook className="w-6 h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+            </a>
+            <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <Github className="w-6 h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+            </a>
+          </div>
         </div>
       </section>
       {/* Chat Interface Card - moved up, visually grouped */}
-      <section className="w-full flex justify-center items-center -mt-2 sm:-mt-4">
-        <div className="glass shadow-lg max-w-2xl w-full py-4 px-3 sm:px-8 mb-8 flex flex-col items-center animate-in-delay-2">
+      <section className="w-full flex justify-center items-center">
+        <div className="glass shadow-lg max-w-2xl w-full py-4 px-3 sm:px-8 mb-8 flex flex-col items-center animate-in-delay-2 mt-4">
           <div className="w-full flex flex-col items-center">
             <div className="text-center text-lg font-medium mb-2 relative h-8">
               <span className="ghostly-text">hie, wanna talk to my AI avatar?</span>
