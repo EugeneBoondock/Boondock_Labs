@@ -86,8 +86,8 @@ export default function BackgroundAnimation() {
       return par[i];
     }
     function union(par: number[], size: number[], i: number, j: number): void {
-      let pi = find(par, i);
-      let pj = find(par, j);
+      const pi = find(par, i);
+      const pj = find(par, j);
       if (pi === pj) return;
       if (size[pi] + size[pj] <= 5) {
         par[pi] = pj;
