@@ -5,12 +5,20 @@ import { Menu, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
 export default function Navbar() {
+  const [isClient, setIsClient] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Set isClient to true after component mounts (client-side only)
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // Close menu when clicking outside
   useEffect(() => {
+    if (!isClient) return;
+    
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setNavOpen(false);
@@ -26,10 +34,12 @@ export default function Navbar() {
       document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [isClient]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
+    if (!isClient) return;
+    
     if (navOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -39,7 +49,9 @@ export default function Navbar() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [navOpen]);
+  }, [navOpen, isClient]);
+
+
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[100000] transition-all duration-300 glass-darker border-b border-zinc-800`}>
@@ -76,17 +88,25 @@ export default function Navbar() {
           {navOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-      <div 
-        className={`md:hidden fixed inset-0 bg-black bg-opacity-50 z-[100000] transition-opacity duration-300 ${
-          navOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
-        onClick={() => setNavOpen(false)}
-      />
-      <div 
-        className={`md:hidden fixed right-4 top-16 w-48 bg-[#e7dbc8] border border-zinc-300 z-[100001] shadow-sm transition-all duration-300 transform ${
-          navOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
-        }`}
-      >
+      {/* Backdrop - Only render on client side */}
+      {isClient && (
+        <div 
+          className={`md:hidden fixed inset-0 bg-black/50 z-[100000] transition-opacity duration-300 ${
+            navOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+          onClick={() => setNavOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      
+      {/* Mobile Menu - Only render on client side */}
+      {isClient && (
+        <div 
+          className={`md:hidden fixed right-4 top-16 w-56 bg-[#e7dbc8] border border-zinc-300 z-[100001] shadow-lg rounded-md transition-all duration-300 transform ${
+            navOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
+          }`}
+        >
+      
         <button className="absolute top-2 right-2 text-[#3a2c1a]" onClick={() => setNavOpen(false)}><X /></button>
         <div className="flex flex-col pt-8">
           {[
@@ -99,8 +119,9 @@ export default function Navbar() {
             <Link key={item.href} href={item.href} className="text-left px-4 py-2 text-[#3a2c1a] hover:bg-orange-100 border-b border-zinc-200 last:border-b-0" onClick={() => setNavOpen(false)}>{item.label}</Link>
           ))}
 
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }
