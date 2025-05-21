@@ -64,7 +64,7 @@ html, body {
   background-attachment: fixed;
   animation: gradientShift 15s ease infinite, patternFloat 120s linear infinite;
   color: #18181b;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  /* font-family: 'Inter', 'Segoe UI', Arial, sans-serif; */
   letter-spacing: 0.01em;
 }
 

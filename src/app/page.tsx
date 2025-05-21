@@ -191,14 +191,14 @@ export default function Home() {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="rounded-full w-[180px] h-[180px] bg-[#d17927] opacity-40 blur-2xl logo-glow"></div>
             </div>
-            <Image
-              src="/Boondocklabs.png"
-              alt="Boondock Labs Logo"
-              width={160}
-              height={160}
-              priority
+          <Image
+            src="/Boondocklabs.png"
+            alt="Boondock Labs Logo"
+            width={160}
+            height={160}
+            priority
               className="mx-auto drop-shadow-lg select-none animate-in-delay-1 relative"
-            />
+          />
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 accent tracking-wide animate-in-delay-1">Boondock Labs</h1>
           <p className="text-lg mb-1 cream animate-in-delay-1">By Eugene Boondock</p>
@@ -267,7 +267,7 @@ export default function Home() {
                         >
                           {msg.text}
                         </ReactMarkdown>
-                      </div>
+                </div>
                     </>
                   ) : (
                     <div className="max-w-[80%] text-black text-right ml-auto">{msg.text}</div>
@@ -373,7 +373,7 @@ export default function Home() {
               onClick={() => setSelectedPackage(selectedPackage === 'E-commerce Website' ? null : 'E-commerce Website')}
             >
               {selectedPackage === 'E-commerce Website' ? 'Unselect' : 'Select'}
-            </button>
+              </button>
             {selectedPackage === 'E-commerce Website' && (
               <form className="w-full mt-4 space-y-2" onSubmit={handlePackageSubmit}>
                 <input type="text" className="w-full rounded px-3 py-2 border" placeholder="Your Name" value={packageForm.name} onChange={e => setPackageForm(f => ({...f, name: e.target.value}))} required />
@@ -388,7 +388,7 @@ export default function Home() {
                 <button type="submit" className="btn-primary w-full mt-2" disabled={packageLoading}>{packageLoading ? 'Sending...' : 'Submit Inquiry'}</button>
                 {packageSent && <div className="text-green-600 text-xs mt-1">Inquiry sent! I'll get back to you soon.</div>}
                 {packageError && <div className="text-red-500 text-xs mt-1">{packageError}</div>}
-              </form>
+            </form>
             )}
           </div>
           {/* Custom/Advanced Website */}

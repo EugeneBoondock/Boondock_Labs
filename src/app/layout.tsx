@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Image from 'next/image';
@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Navbar from './Navbar';
 import BackgroundAnimation from './BackgroundAnimation';
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "Boondock Labs | Eugene Boondock's Portfolio & Tech Studio",
@@ -72,10 +72,10 @@ export default function RootLayout({
         <meta name="twitter:description" content="Building web apps, games, and the future of digital experiences. Portfolio by Eugene Ncube (Eugene Boondock)." />
         <meta name="twitter:image" content="/boondocklabs-logo.png" />
       </head>
-      <body className={cn(inter.className, "min-h-screen bg-transparent font-sans antialiased relative")}>
+      <body className={cn(montserrat.className, "min-h-screen bg-transparent font-sans antialiased relative")}>
         <BackgroundAnimation />
         <Navbar />
-        <div className="pt-8 relative z-[99999]">{children}</div>
+        <div className="pt-8 relative">{children}</div>
         <Footer />
       </body>
     </html>
