@@ -54,7 +54,7 @@ export default function Navbar() {
 
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100000] transition-all duration-300 glass-darker border-b border-zinc-800`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-darker border-b border-zinc-800`}>
       <div className="container max-w-7xl mx-auto px-4 flex items-center justify-between relative" ref={menuRef}>
         <div className="flex items-center">
           <Image
@@ -91,7 +91,7 @@ export default function Navbar() {
       {/* Backdrop - Only render on client side */}
       {isClient && (
         <div 
-          className={`md:hidden fixed inset-0 bg-black/50 z-[100000] transition-opacity duration-300 ${
+          className={`md:hidden fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
             navOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           onClick={() => setNavOpen(false)}
@@ -102,23 +102,34 @@ export default function Navbar() {
       {/* Mobile Menu - Only render on client side */}
       {isClient && (
         <div 
-          className={`md:hidden fixed right-4 top-16 w-56 bg-[#e7dbc8] border border-zinc-300 z-[100001] shadow-lg rounded-md transition-all duration-300 transform ${
+          className={`md:hidden fixed right-4 top-16 w-56 bg-[#e7dbc8] border border-zinc-300 z-50 shadow-lg rounded-md transition-all duration-300 transform ${
             navOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
           }`}
         >
-      
-        <button className="absolute top-2 right-2 text-[#3a2c1a]" onClick={() => setNavOpen(false)}><X /></button>
-        <div className="flex flex-col pt-8">
-          {[
-            { href: '/', label: 'Home' },
-            { href: '/about', label: 'About' },
-            { href: '/work', label: 'Work' },
-            { href: '/services', label: 'Services' },
-            { href: '/contact', label: 'Contact' }
-          ].map(item => (
-            <Link key={item.href} href={item.href} className="text-left px-4 py-2 text-[#3a2c1a] hover:bg-orange-100 border-b border-zinc-200 last:border-b-0" onClick={() => setNavOpen(false)}>{item.label}</Link>
-          ))}
-
+          <button 
+            className="absolute top-2 right-2 text-[#3a2c1a] hover:bg-orange-100 rounded-full p-1" 
+            onClick={() => setNavOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+          <div className="flex flex-col pt-8">
+            {[
+              { href: '/', label: 'Home' },
+              { href: '/about', label: 'About' },
+              { href: '/work', label: 'Work' },
+              { href: '/services', label: 'Services' },
+              { href: '/contact', label: 'Contact' }
+            ].map((item) => (
+              <Link 
+                key={item.href} 
+                href={item.href} 
+                className="text-left px-6 py-3 text-[#3a2c1a] hover:bg-orange-100 border-b border-zinc-200 last:border-b-0 transition-colors duration-200" 
+                onClick={() => setNavOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       )}
