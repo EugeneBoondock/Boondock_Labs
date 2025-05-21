@@ -206,7 +206,8 @@ export default function Home() {
             Boldly building webapps, games, digital worlds & the future of the web
           </p>
           <p className="mb-4 text-black text-sm animate-in-delay-2">Portfolio, tech studio, and playground for ambitious digital creativity</p>
-          <div className="flex justify-center gap-4 mt-6">
+          <p className="text-xs italic text-[#3a2c1a]/70 mb-2 font-medium tracking-wide">`translucency is by design`</p>
+          <div className="flex justify-center gap-4 mt-2">
             <a href="https://twitter.com/eugeneboondock" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
               <Twitter className="w-6 h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
             </a>

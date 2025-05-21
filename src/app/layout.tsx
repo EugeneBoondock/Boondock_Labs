@@ -75,7 +75,7 @@ export default function RootLayout({
       <body className={cn(rubik.className, "min-h-screen bg-transparent antialiased relative")}>
         <BackgroundAnimation />
         <Navbar />
-        <div className="pt-8 relative">{children}</div>
+        <main className="pt-20 relative">{children}</main>
         <Footer />
       </body>
     </html>
