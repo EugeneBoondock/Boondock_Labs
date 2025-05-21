@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     await transporter.sendMail(mailOptions);
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Failed to send email' }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Failed to send email' }, { status: 500 });
   }
 } 

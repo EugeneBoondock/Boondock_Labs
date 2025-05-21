@@ -30,8 +30,8 @@ export default function Contact() {
       if (!res.ok) throw new Error('Failed to send message');
       setSent(true);
       setForm({ name: '', email: '', subject: '', message: '' });
-    } catch (err: any) {
-      setError(err.message || 'Error sending message');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Error sending message');
     } finally {
       setLoading(false);
     }

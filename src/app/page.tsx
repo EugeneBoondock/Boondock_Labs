@@ -90,8 +90,8 @@ export default function Home() {
     try {
       const aiReply = await sendToGemini(chatInput);
       setChatHistory(h => [...h, { role: 'ai', text: aiReply }]);
-    } catch (err: any) {
-      setError(err.message || 'Error talking to AI');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Error talking to AI');
     } finally {
       setLoading(false);
       setChatInput("");
@@ -135,8 +135,8 @@ export default function Home() {
       });
       if (!res.ok) throw new Error('Failed to send summary email');
       setSummarySent(true);
-    } catch (err: any) {
-      setSummaryError(err.message || 'Error sending summary');
+    } catch (err: unknown) {
+      setSummaryError(err instanceof Error ? err.message : 'Error sending summary');
     } finally {
       setSummaryLoading(false);
     }
@@ -164,8 +164,8 @@ export default function Home() {
       if (!res.ok) throw new Error('Failed to send form');
       setPackageSent(true);
       setPackageForm({ name: '', email: '', business: '', goals: '', features: '', design: '', budget: '', timeline: '', extra: '' });
-    } catch (err: any) {
-      setPackageError(err.message || 'Error sending form');
+    } catch (err: unknown) {
+      setPackageError(err instanceof Error ? err.message : 'Error sending form');
     } finally {
       setPackageLoading(false);
     }
@@ -193,7 +193,7 @@ export default function Home() {
             width={160}
             height={160}
             priority
-            className="mx-auto mb-4 drop-shadow-lg select-none animate-in"
+            className="mx-auto mb-4 drop-shadow-lg select-none animate-in-delay-1"
           />
           <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 accent tracking-wide animate-in-delay-1">Boondock Labs</h1>
           <p className="text-lg mb-1 cream animate-in-delay-1">By Eugene Boondock</p>
@@ -236,7 +236,7 @@ export default function Home() {
                             ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
                             ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
                             li: ({node, ...props}) => <li className="mb-1" {...props} />,
-                            code: ({node, inline, ...props}: {node?: any, inline?: boolean} & React.HTMLAttributes<HTMLElement>) => 
+                            code: ({node, inline, ...props}: {node?: unknown, inline?: boolean} & React.HTMLAttributes<HTMLElement>) => 
                               inline ? 
                                 <code className="bg-gray-100 rounded px-1" {...props} /> :
                                 <code className="block bg-gray-100 rounded p-2 mb-2 overflow-x-auto" {...props} />,

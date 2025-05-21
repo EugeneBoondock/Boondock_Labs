@@ -110,7 +110,7 @@ export async function sendToGemini(message: string, history?: { role: 'user' | '
     const text = response?.candidates?.[0]?.content?.parts?.[0]?.text || response?.text();
     if (!text) throw new Error('No response from Gemini API');
     return text;
-  } catch (err: any) {
-    return `Error: ${err.message || err}`;
+  } catch (err: unknown) {
+    return `Error: ${err instanceof Error ? err.message : err}`;
   }
 } 

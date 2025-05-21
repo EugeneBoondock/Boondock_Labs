@@ -281,8 +281,8 @@ export default function BackgroundAnimation() {
         const sorted = Array.from(toDestroy).sort((a, b) => b - a);
         for (const idx of sorted) {
           particles.splice(idx, 1);
-          tension.splice(idx, 1);
-          for (let row of tension) row.splice(idx, 1);
+          const row = tension[idx];
+          for (const row of tension) row.splice(idx, 1);
         }
         return; // Skip the rest of update this frame to avoid errors
       }
