@@ -126,8 +126,8 @@ export default function BackgroundAnimation() {
       ctx.clearRect(0, 0, width, height);
       // --- Union-find for networks ---
       const n = particles.length;
-      let par = Array.from({ length: n }, (_, i) => i);
-      let size = Array(n).fill(1);
+      const par = Array.from({ length: n }, (_, i) => i);
+      const size = Array(n).fill(1);
       // First pass: build networks for allowed connections only
       const connections: number[][] = Array.from({ length: n }, () => []);
       for (let i = 0; i < n; i++) {
@@ -145,8 +145,8 @@ export default function BackgroundAnimation() {
         for (let k = 0; k < dists.length && count < 5; k++) {
           const j = dists[k].j;
           // Only connect if union would not exceed 5
-          let pi = find(par, i);
-          let pj = find(par, j);
+          const pi = find(par, i);
+          const pj = find(par, j);
           if (pi !== pj && size[pi] + size[pj] <= 5) {
             union(par, size, i, j);
             connections[i].push(j);
@@ -212,8 +212,8 @@ export default function BackgroundAnimation() {
       // --- Particle update and spring forces (limit to 5 connections, only valid ones) ---
       // Rebuild union-find and connections as in draw()
       const n = particles.length;
-      let par = Array.from({ length: n }, (_, i) => i);
-      let size = Array(n).fill(1);
+      const par = Array.from({ length: n }, (_, i) => i);
+      const size = Array(n).fill(1);
       const connections: number[][] = Array.from({ length: n }, () => []);
       for (let i = 0; i < n; i++) {
         const dists = [];
@@ -228,8 +228,8 @@ export default function BackgroundAnimation() {
         let count = 0;
         for (let k = 0; k < dists.length && count < 5; k++) {
           const j = dists[k].j;
-          let pi = find(par, i);
-          let pj = find(par, j);
+          const pi = find(par, i);
+          const pj = find(par, j);
           if (pi !== pj && size[pi] + size[pj] <= 5) {
             union(par, size, i, j);
             connections[i].push(j);
@@ -250,8 +250,8 @@ export default function BackgroundAnimation() {
           const a = particles[i];
           const b = particles[j];
           const dist = Math.hypot(a.x - b.x, a.y - b.y);
-          let pi = find(par, i);
-          let pj = find(par, j);
+          const pi = find(par, i);
+          const pj = find(par, j);
           if (dist < a.r + b.r && pi !== pj) {
             // Network sizes
             const sizeA = size[pi];
