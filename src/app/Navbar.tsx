@@ -39,7 +39,7 @@ export default function Navbar() {
           aria-hidden="true"
         />
       )}
-      <nav className="glass-darker backdrop-blur-md border-b border-zinc-300/30 relative">
+      <nav className="bg-[#e7dbc8]/30 backdrop-blur-md border-b border-zinc-300/30 relative shadow-lg shadow-zinc-800/5">
         <div className="max-w-7xl mx-auto px-4 py-2">
           <div className="flex items-center justify-between h-14">
             {/* Logo */}

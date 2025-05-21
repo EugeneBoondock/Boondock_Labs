@@ -97,16 +97,30 @@ html, body {
 }
 
 /* ----- Enhanced Glassmorphism classes ----- */
-.glass, .glass-darker, .glass-lighter {
-  background: rgba(215, 195, 161, 0.85) !important; /* woody cream glass */
-  box-shadow: 0 8px 32px 0 rgba(31, 28, 25, 0.08);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-radius: 1.25rem;
-  border: 1px solid rgba(140, 110, 74, 0.08);
-  position: relative;
+.glass {
+  background: rgba(231, 219, 200, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.glass-darker {
+  background: rgba(231, 219, 200, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.glass-lighter {
+  background: rgba(231, 219, 200, 0.4) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   overflow: hidden;
   color: #2a1d0c;
+  box-shadow: 0 4px 6px -1px rgba(31, 28, 25, 0.1), 0 2px 4px -1px rgba(31, 28, 25, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  position: relative;
 }
 
 .glass::before {
