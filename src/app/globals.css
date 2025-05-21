@@ -1,0 +1,329 @@
+/* ----- Base styles and resets ----- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes patternFloat {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  100% {
+    background-position: 300px 300px, 200px 200px, -200px 250px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtlePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(209, 121, 39, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(209, 121, 39, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(209, 121, 39, 0);
+  }
+}
+
+@keyframes ghostFade {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+html, body {
+  min-height: 100%;
+  background-color: #e7dbc8;
+  background-attachment: fixed;
+  animation: gradientShift 15s ease infinite, patternFloat 120s linear infinite;
+  color: #18181b;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.animate-in {
+  animation: fadeIn 0.7s ease-out forwards;
+}
+
+.animate-in-delay-1 {
+  animation: fadeIn 0.7s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-in-delay-2 {
+  animation: fadeIn 0.7s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-in-delay-3 {
+  animation: fadeIn 0.7s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: #f0ece4;
+}
+::-webkit-scrollbar-thumb {
+  background: #d17927; /* dark orange accent */
+  border-radius: 10px;
+}
+
+/* ----- Enhanced Glassmorphism classes ----- */
+.glass, .glass-darker, .glass-lighter {
+  background: rgba(215, 195, 161, 0.85) !important; /* woody cream glass */
+  box-shadow: 0 8px 32px 0 rgba(31, 28, 25, 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(140, 110, 74, 0.08);
+  position: relative;
+  overflow: hidden;
+  color: #2a1d0c;
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+.glass-darker {
+  background: rgba(215, 195, 161, 0.92) !important;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.glass-lighter {
+  background: rgba(215, 195, 161, 0.65) !important;
+  backdrop-filter: blur(18px) saturate(200%);
+  -webkit-backdrop-filter: blur(18px) saturate(200%);
+}
+
+.accent {
+  color: #d17927; /* dark orange */
+}
+.accent-bg {
+  background: linear-gradient(80deg, #d17927 60%, #e08a38 100%);
+}
+.cream {
+  color: #8c6e4a;
+}
+.cream-bg {
+  background-color: #ccad89;
+  color: #2a1d0c;
+}
+
+/* Micro-interactions for cards & buttons */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(.1,1,.5,1), box-shadow 0.3s;
+}
+.card-hover:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 20px 40px 0 rgba(10,10,10,0.1), 0 0 0 1px rgba(209,121,39,0.08);
+  z-index: 3;
+}
+
+.btn-primary {
+  @apply text-white font-bold py-2 px-6 rounded-xl shadow-lg;
+  position: relative;
+  transition: all 0.25s cubic-bezier(.6,.4,0,1.1);
+  background: linear-gradient(90deg, #d17927, #e08a38);
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #e08a38, #d17927);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 0 0 2px rgba(209,121,39,0.08);
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-primary span {
+  position: relative;
+  z-index: 1;
+}
+
+.pulse-animation {
+  animation: subtlePulse 2s infinite;
+}
+
+/* Enhanced link styling */
+a {
+  color: #b05a00;
+  text-decoration: underline 0.12em rgba(209,121,39,0.3);
+  text-underline-position: under;
+  transition: all 0.16s;
+  position: relative;
+}
+
+a:hover {
+  color: #d17927;
+  text-decoration-color: rgba(209,121,39,0.7);
+}
+
+/* Animated background pattern for sections */
+.pattern-dots {
+  position: relative;
+}
+
+.pattern-dots::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(209,121,39,0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+/* Grid pattern for background texture */
+.grid-pattern {
+  position: relative;
+}
+
+.grid-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(209,121,39,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(209,121,39,0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ----- Tailwind CSS custom properties for color system ----- */
+@layer base {
+  :root {
+    --background: 38 30% 96%; /* Cream background */
+    --foreground: 32 10% 22%; /* Dark text for contrast */
+    --card: 38 30% 97%;
+    --card-foreground: 32 10% 22%;
+    --popover: 38 30% 97%;
+    --popover-foreground: 32 10% 22%;
+    --primary: 32 60% 48%; /* dark orange */
+    --primary-foreground: 36 44% 95%;
+    --secondary: 32 13% 92%;
+    --secondary-foreground: 32 10% 22%;
+    --muted: 32 13% 94%;
+    --muted-foreground: 32 10% 40%;
+    --accent: 32 60% 48%; /* dark orange */
+    --accent-foreground: 36 44% 95%;
+    --destructive: 14 80% 45%;
+    --destructive-foreground: 36 44% 95%;
+    --border: 32 13% 88%;
+    --input: 32 13% 88%;
+    --ring: 32 60% 48%;
+    --radius: 0.5rem;
+    --chart-1: 32 60% 48%; /* dark orange */
+    --chart-2: 36 44% 80%; /* cream */
+    --chart-3: 32 13% 22%;
+    --chart-4: 36 44% 95%;
+    --chart-5: 14 80% 45%;
+  }
+
+  .dark {
+    --background: 38 30% 96%;
+    --foreground: 32 10% 22%;
+    --card: 38 30% 97%;
+    --card-foreground: 32 10% 22%;
+    --popover: 38 30% 97%;
+    --popover-foreground: 32 10% 22%;
+    --primary: 32 60% 48%;
+    --primary-foreground: 36 44% 95%;
+    --secondary: 32 13% 92%;
+    --secondary-foreground: 32 10% 22%;
+    --muted: 32 13% 94%;
+    --muted-foreground: 32 10% 40%;
+    --accent: 32 60% 48%;
+    --accent-foreground: 36 44% 95%;
+    --destructive: 14 80% 45%;
+    --destructive-foreground: 36 44% 95%;
+    --border: 32 13% 88%;
+    --input: 32 13% 88%;
+    --ring: 32 60% 48%;
+    --chart-1: 32 60% 48%;
+    --chart-2: 36 44% 80%;
+    --chart-3: 32 13% 22%;
+    --chart-4: 36 44% 95%;
+    --chart-5: 14 80% 45%;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #d17927;
+}
+
+.ghostly-text {
+  color: #b05a00;
+  opacity: 0.7;
+  animation: ghostFade 2.5s infinite;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+canvas {
+  pointer-events: none !important;
+}
+
+form, form * {
+  pointer-events: auto !important;
+}
