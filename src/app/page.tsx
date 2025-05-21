@@ -201,7 +201,7 @@ export default function Home() {
           />
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 accent tracking-wide animate-in-delay-1">Boondock Labs</h1>
-          <p className="text-lg mb-1 cream animate-in-delay-1">By Eugene Boondock</p>
+          <p className="text-xs mb-1 cream animate-in-delay-1">By Eugene Boondock</p>
           <p className="text-lg font-medium mb-3 text-black animate-in-delay-2">
             Boldly building webapps, games, digital worlds & the future of the web
           </p>
