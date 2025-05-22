@@ -320,9 +320,6 @@ export default function Home() {
               {mounted ? (
                 <>
                   {convert(3000)} – {convert(10000)}
-                  {currency !== 'ZAR' && (
-                    <span className="text-xs text-zinc-600 ml-2">({convert(3000, currency)} – {convert(10000, currency)})</span>
-                  )}
                 </>
               ) : (
                 <>R3,000 – R10,000</>
@@ -359,9 +356,6 @@ export default function Home() {
               {mounted ? (
                 <>
                   {convert(11000)} – {convert(15000)}
-                  {currency !== 'ZAR' && (
-                    <span className="text-xs text-zinc-600 ml-2">({convert(11000, currency)} – {convert(15000, currency)})</span>
-                  )}
                 </>
               ) : (
                 <>R11,000 – R15,000</>
@@ -398,9 +392,6 @@ export default function Home() {
               {mounted ? (
                 <>
                   {convert(15000)} – {convert(20000)}
-                  {currency !== 'ZAR' && (
-                    <span className="text-xs text-zinc-600 ml-2">({convert(15000, currency)} – {convert(20000, currency)})</span>
-                  )}
                 </>
               ) : (
                 <>R15,000 – R20,000</>
@@ -437,9 +428,6 @@ export default function Home() {
               {mounted ? (
                 <>
                   From {convert(30000)}+
-                  {currency !== 'ZAR' && (
-                    <span className="text-xs text-zinc-600 ml-2">(From {convert(30000, currency)}+)</span>
-                  )}
                 </>
               ) : (
                 <>From R30,000+</>
