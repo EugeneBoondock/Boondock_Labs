@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import CurrencyDropdown from './CurrencyDropdown';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,6 +68,7 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <CurrencyDropdown className="ml-4" />
             </div>
 
             {/* Mobile menu button */}
@@ -100,6 +102,9 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+            </div>
+            <div className="border-t border-zinc-300/40 px-4 py-3 flex justify-end">
+              <CurrencyDropdown />
             </div>
           </div>
         </div>

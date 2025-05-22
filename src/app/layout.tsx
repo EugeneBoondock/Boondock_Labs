@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from './Navbar';
 import BackgroundAnimation from './BackgroundAnimation';
+import { CurrencyProvider } from './CurrencyContext';
 
 const rubik = Rubik({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -73,10 +74,12 @@ export default function RootLayout({
         <meta name="twitter:image" content="/boondocklabs-logo.png" />
       </head>
       <body className={cn(rubik.className, "min-h-screen bg-transparent antialiased relative")}>
-        <BackgroundAnimation />
-        <Navbar />
-        <main className="pt-20 relative">{children}</main>
-        <Footer />
+        <CurrencyProvider>
+          <BackgroundAnimation />
+          <Navbar />
+          <main className="pt-20 relative">{children}</main>
+          <Footer />
+        </CurrencyProvider>
       </body>
     </html>
   );

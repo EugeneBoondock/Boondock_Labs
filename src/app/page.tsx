@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { sendToGemini } from './gemini';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useCurrency } from './CurrencyContext';
 
 // Make sure to set NEXT_PUBLIC_FORMSPREE_ENDPOINT in your .env.local file
 
@@ -38,6 +39,10 @@ export default function Home() {
   const [packageLoading, setPackageLoading] = useState(false);
   const [packageSent, setPackageSent] = useState(false);
   const [packageError, setPackageError] = useState<string|null>(null);
+  const { currency, convert } = useCurrency();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   // Handle scroll events
   useEffect(() => {
@@ -311,7 +316,18 @@ export default function Home() {
           {/* Basic Website */}
           <div className="glass shadow-md p-6 flex flex-col items-start">
             <h3 className="text-xl font-bold accent mb-1">Basic Website</h3>
-            <div className="text-2xl font-extrabold mb-2 text-black">R3,000 – R10,000</div>
+            <div className="text-2xl font-extrabold mb-2 text-black">
+              {mounted ? (
+                <>
+                  {convert(3000)} – {convert(10000)}
+                  {currency !== 'ZAR' && (
+                    <span className="text-xs text-zinc-600 ml-2">({convert(3000, currency)} – {convert(10000, currency)})</span>
+                  )}
+                </>
+              ) : (
+                <>R3,000 – R10,000</>
+              )}
+            </div>
             <p className="text-sm text-zinc-700 mb-2">Perfect for personal, portfolio, or informational sites. Includes up to 3 pages, mobile responsive, and basic SEO.</p>
             <button
               className="btn-primary mt-2 !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white"
@@ -339,7 +355,18 @@ export default function Home() {
           {/* Business Website */}
           <div className="glass shadow-md p-6 flex flex-col items-start">
             <h3 className="text-xl font-bold accent mb-1">Business Website</h3>
-            <div className="text-2xl font-extrabold mb-2 text-black">R11,000 – R15,000</div>
+            <div className="text-2xl font-extrabold mb-2 text-black">
+              {mounted ? (
+                <>
+                  {convert(11000)} – {convert(15000)}
+                  {currency !== 'ZAR' && (
+                    <span className="text-xs text-zinc-600 ml-2">({convert(11000, currency)} – {convert(15000, currency)})</span>
+                  )}
+                </>
+              ) : (
+                <>R11,000 – R15,000</>
+              )}
+            </div>
             <p className="text-sm text-zinc-700 mb-2">For small businesses or startups. Up to 8 pages, contact forms, Google Maps, blog, and enhanced SEO.</p>
             <button
               className="btn-primary mt-2 !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white"
@@ -367,7 +394,18 @@ export default function Home() {
           {/* E-commerce Website */}
           <div className="glass shadow-md p-6 flex flex-col items-start">
             <h3 className="text-xl font-bold accent mb-1">E-commerce Website</h3>
-            <div className="text-2xl font-extrabold mb-2 text-black">R15,000 – R20,000</div>
+            <div className="text-2xl font-extrabold mb-2 text-black">
+              {mounted ? (
+                <>
+                  {convert(15000)} – {convert(20000)}
+                  {currency !== 'ZAR' && (
+                    <span className="text-xs text-zinc-600 ml-2">({convert(15000, currency)} – {convert(20000, currency)})</span>
+                  )}
+                </>
+              ) : (
+                <>R15,000 – R20,000</>
+              )}
+            </div>
             <p className="text-sm text-zinc-700 mb-2">Online shop with product catalog, payment gateway, order management, and training. Scalable for growth.</p>
             <button
               className="btn-primary mt-2 !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white"
@@ -395,7 +433,18 @@ export default function Home() {
           {/* Custom/Advanced Website */}
           <div className="glass shadow-md p-6 flex flex-col items-start">
             <h3 className="text-xl font-bold accent mb-1">Custom / Advanced Website</h3>
-            <div className="text-2xl font-extrabold mb-2 text-black">From R30,000+</div>
+            <div className="text-2xl font-extrabold mb-2 text-black">
+              {mounted ? (
+                <>
+                  From {convert(30000)}+
+                  {currency !== 'ZAR' && (
+                    <span className="text-xs text-zinc-600 ml-2">(From {convert(30000, currency)}+)</span>
+                  )}
+                </>
+              ) : (
+                <>From R30,000+</>
+              )}
+            </div>
             <p className="text-sm text-zinc-700 mb-2">For complex needs: custom features, integrations, web apps, or large corporate sites. Tailored to your vision.</p>
             <button
               className="btn-primary mt-2 !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white"
