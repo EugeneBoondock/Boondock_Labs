@@ -102,6 +102,7 @@ html, body {
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 2rem !important;
 }
 
 .glass-darker {
@@ -109,6 +110,7 @@ html, body {
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 2rem !important;
 }
 
 .glass-lighter {
@@ -119,7 +121,7 @@ html, body {
   overflow: hidden;
   color: #2a1d0c;
   box-shadow: 0 4px 6px -1px rgba(31, 28, 25, 0.1), 0 2px 4px -1px rgba(31, 28, 25, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  border-radius: 1.25rem;
+  border-radius: 2rem !important;
   position: relative;
 }
 
@@ -349,4 +351,41 @@ form, form * {
 
 .logo-glow {
   animation: logoGlowPulse 2.2s infinite;
+}
+
+/* Chat button bounce animation */
+@keyframes chatBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.chat-button-bounce {
+  animation: chatBounce 2s ease-in-out infinite;
+}
+
+/* Slide up animation for chat widget */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+/* Anime.js background shapes */
+.anime-shape {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
 }

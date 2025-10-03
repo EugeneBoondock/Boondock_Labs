@@ -5,7 +5,9 @@ import { cn } from "@/lib/utils";
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from './Navbar';
-import BackgroundAnimation from './BackgroundAnimation';
+import AnimeBackground from './AnimeBackground';
+import ChatWidget from './ChatWidget';
+import LoadingScreen from './LoadingScreen';
 import { CurrencyProvider } from './CurrencyContext';
 
 const rubik = Rubik({ subsets: ["latin"], weight: ["400", "500", "700"] });
@@ -75,10 +77,12 @@ export default function RootLayout({
       </head>
       <body className={cn(rubik.className, "min-h-screen bg-transparent antialiased relative")}>
         <CurrencyProvider>
-          <BackgroundAnimation />
+          <LoadingScreen />
+          <AnimeBackground />
           <Navbar />
           <main className="pt-20 relative">{children}</main>
           <Footer />
+          <ChatWidget />
         </CurrencyProvider>
       </body>
     </html>

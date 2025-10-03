@@ -8,6 +8,31 @@ export default function Work() {
         <div className="pattern-dots max-w-4xl w-full glass border border-orange-900/20 py-8 px-6 sm:px-10 mb-16 shadow-lg">
           <h2 className="text-2xl font-bold mb-4 accent">My Digital Playground</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Morphed.io - MCP Server */}
+            <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+              <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
+                <Image
+                  src="/morphed.png"
+                  alt="Morphed.io"
+                  fill
+                  className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+                />
+              </div>
+              <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+                Morphed.io - MCP Server
+              </h3>
+              <p className="text-sm mb-3 text-black">Built a complete Model Context Protocol (MCP) server from scratch for Morphed.io. Created custom API endpoints and transformed them into powerful MCP tools for AI integration.</p>
+              <div className="flex items-center justify-between mt-auto pt-2">
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">API Development</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Node.js</span>
+                </div>
+                <a href="https://morphed.io" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+                  Visit <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
+              </div>
+            </div>
             {/* Showcase Item 1 */}
             <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
               <div className="h-40 relative mb-3 overflow-hidden rounded-lg">

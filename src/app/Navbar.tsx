@@ -14,10 +14,10 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
     { href: '/work', label: 'Work' },
     { href: '/services', label: 'Services' },
+    { href: '/mcp', label: 'MCP' },
     { href: '/contact', label: 'Contact' }
   ];
 
@@ -31,7 +31,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50">
+    <div className="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
       {/* Backdrop for mobile menu */}
       {isOpen && (
         <div
@@ -40,11 +40,49 @@ export default function Navbar() {
           aria-hidden="true"
         />
       )}
-      <nav className="bg-[#e7dbc8]/30 backdrop-blur-md border-b border-zinc-300/30 relative shadow-lg shadow-zinc-800/5">
-        <div className="max-w-7xl mx-auto px-4 py-2">
+
+      {/* Desktop Segmented Navigation */}
+      <div className="hidden md:flex items-center justify-between max-w-6xl mx-auto gap-4">
+        {/* Logo Section - Left Pill */}
+        <Link href="/" className="bg-[#e7dbc8]/40 backdrop-blur-md border border-zinc-300/30 shadow-xl shadow-zinc-800/10 rounded-full px-6 py-2 hover:bg-[#e7dbc8]/50 transition-all no-underline">
+          <div className="flex items-center h-14">
+            <Image
+              src="/Boondocklabs.png"
+              alt="Boondock Labs Logo"
+              width={56}
+              height={56}
+              className="mr-3"
+            />
+            <span className="font-bold text-lg text-[#d17927]">
+              Boondock Labs
+            </span>
+          </div>
+        </Link>
+
+        {/* Navigation Links - Right Pill */}
+        <div className="bg-[#e7dbc8]/40 backdrop-blur-md border border-zinc-300/30 shadow-xl shadow-zinc-800/10 rounded-full px-6 py-2">
+          <div className="flex items-center space-x-2 h-14">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-[#3a2c1a] hover:text-[#d17927] hover:bg-white/30 transition-all px-4 py-2 rounded-full"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="ml-2">
+              <CurrencyDropdown className="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation */}
+      <nav className="md:hidden bg-[#e7dbc8]/40 backdrop-blur-md border border-zinc-300/30 relative shadow-xl shadow-zinc-800/10 rounded-full max-w-6xl mx-auto">
+        <div className="px-6 py-2">
           <div className="flex items-center justify-between h-14">
-            {/* Logo */}
-            <div className="flex items-center">
+            <Link href="/" className="flex items-center no-underline">
               <Image
                 src="/Boondocklabs.png"
                 alt="Boondock Labs Logo"
@@ -55,25 +93,10 @@ export default function Navbar() {
               <span className="font-bold text-lg text-[#d17927]">
                 Boondock Labs
               </span>
-            </div>
+            </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-medium text-[#3a2c1a] hover:text-[#d17927] transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <CurrencyDropdown className="ml-4" />
-            </div>
-
-            {/* Mobile menu button */}
             <button
-              className="md:hidden p-2 text-[#3a2c1a] hover:text-[#d17927]"
+              className="p-2 text-[#3a2c1a] hover:text-[#d17927]"
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >
@@ -81,36 +104,30 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
-          <div
-            className={`
-              md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-[#e7dbc8] rounded-b-lg relative z-50
-              ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
-            `}
-          >
-            <div className="py-2 space-y-1">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => {
-                    setIsOpen(false);
-                    document.body.style.overflow = 'unset';
-                  }}
-                  className="block py-3 px-4 text-[#3a2c1a] hover:bg-[#d8ceb9]/50 rounded-lg text-base font-medium"
-                >
-                  {link.label}
-                </Link>
-              ))}
+          {isOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-[#e7dbc8]/95 backdrop-blur-md rounded-2xl shadow-xl border border-zinc-300/30 overflow-hidden z-50">
+              <div className="py-2 space-y-1 px-2">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => {
+                      setIsOpen(false);
+                      document.body.style.overflow = 'unset';
+                    }}
+                    className="block py-3 px-4 text-[#3a2c1a] hover:bg-white/40 rounded-xl text-base font-medium transition-all"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="border-t border-zinc-300/40 px-4 py-3 flex justify-end">
+                <CurrencyDropdown />
+              </div>
             </div>
-            <div className="border-t border-zinc-300/40 px-4 py-3 flex justify-end">
-              <CurrencyDropdown />
-            </div>
-          </div>
+          )}
         </div>
       </nav>
-
-
     </div>
   );
 }

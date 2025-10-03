@@ -65,8 +65,8 @@ export default function BackgroundAnimation() {
     const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: Math.cos(randomAngle()) * 0.2 * scale,
-      vy: Math.sin(randomAngle()) * 0.2 * scale,
+      vx: Math.cos(randomAngle()) * 0.05 * scale,
+      vy: Math.sin(randomAngle()) * 0.05 * scale,
       r: (6 + Math.random() * 8) * scale,
       color: Math.random() > 0.7 ? 'rgba(209,121,39,0.7)' : 'rgba(209,121,39,0.25)'
     }));
@@ -105,8 +105,8 @@ export default function BackgroundAnimation() {
       particles.push({
         x: 0,
         y: height,
-        vx: Math.cos(angle) * 4.5 * scale,
-        vy: -Math.abs(Math.sin(angle) * 4.5 * scale),
+        vx: Math.cos(angle) * 1.5 * scale,
+        vy: -Math.abs(Math.sin(angle) * 1.5 * scale),
         r: (10 + Math.random() * 4) * scale,
         color: 'rgba(209,121,39,0.7)'
       });
@@ -339,12 +339,12 @@ export default function BackgroundAnimation() {
           }
         }
         // Minimum velocity so they never stop (slower)
-        const minV = 0.03;
-        if (Math.abs(p.vx) < minV) p.vx += (Math.random() - 0.5) * 0.02;
-        if (Math.abs(p.vy) < minV) p.vy += (Math.random() - 0.5) * 0.02;
+        const minV = 0.02;
+        if (Math.abs(p.vx) < minV) p.vx += (Math.random() - 0.5) * 0.01;
+        if (Math.abs(p.vy) < minV) p.vy += (Math.random() - 0.5) * 0.01;
         // Slow down (friction)
-        p.vx *= 0.992;
-        p.vy *= 0.992;
+        p.vx *= 0.985;
+        p.vy *= 0.985;
         p.x += p.vx;
         p.y += p.vy;
         // Bounce off walls
