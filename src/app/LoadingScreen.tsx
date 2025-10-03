@@ -7,6 +7,7 @@ import Image from 'next/image';
 export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const [isPageReady, setIsPageReady] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -14,6 +15,21 @@ export default function LoadingScreen() {
 
   useEffect(() => {
     if (!isMounted) return;
+
+    // Check if page is fully loaded and ready
+    const checkPageReady = () => {
+      // Check if main content is loaded (fonts, images, etc.)
+      const hasContent = document.querySelector('main');
+      const hasNavbar = document.querySelector('nav') || document.querySelector('.navbar');
+
+      if (hasContent && hasNavbar) {
+        setIsPageReady(true);
+      }
+    };
+
+    // Check immediately and then periodically
+    checkPageReady();
+    const interval = setInterval(checkPageReady, 100);
 
     // Create loading animation
     const loader = document.querySelector('.loading-container');
@@ -52,19 +68,42 @@ export default function LoadingScreen() {
       });
     }, 1200);
 
-    // Hide loading screen after delay
-    setTimeout(() => {
-      animate(loader, {
-        opacity: [1, 0],
-        scale: [1, 1.1],
-        duration: 600,
-        ease: 'in(2)',
-        complete: () => {
-          setIsLoading(false);
-        }
-      });
-    }, 2500);
-  }, [isMounted]);
+    // Hide loading screen when page is ready (minimum 2 seconds for good UX)
+    const hideLoadingScreen = () => {
+      if (isPageReady) {
+        animate(loader, {
+          opacity: [1, 0],
+          scale: [1, 1.1],
+          duration: 600,
+          ease: 'in(2)',
+          complete: () => {
+            setIsLoading(false);
+            // Show main content
+            const mainContent = document.getElementById('main-content');
+            if (mainContent) {
+              mainContent.style.display = 'block';
+            }
+          }
+        });
+      }
+    };
+
+    // Set minimum loading time of 2 seconds for better UX
+    const minLoadingTime = setTimeout(hideLoadingScreen, 2000);
+
+    // Also hide when page is ready (whichever comes first after minimum time)
+    const readyTimer = setTimeout(() => {
+      if (isPageReady) {
+        hideLoadingScreen();
+      }
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(minLoadingTime);
+      clearTimeout(readyTimer);
+    };
+  }, [isMounted, isPageReady]);
 
   if (!isMounted || !isLoading) return null;
 

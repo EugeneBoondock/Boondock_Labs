@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 import Link from 'next/link';
-import { Menu, X, ChevronDown, User, Briefcase, Wrench, Network, MessageCircle, Info } from 'lucide-react';
+import { Menu, X, ChevronDown, User, Briefcase, Wrench, Network, MessageCircle, Info, Layers, BookOpen } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import CurrencyDropdown from './CurrencyDropdown';
 
@@ -16,7 +16,7 @@ export default function Navbar() {
     setMounted(true);
   }, []);
 
-  const links = [
+  const mainLinks = [
     {
       href: '/about',
       label: 'About',
@@ -40,6 +40,42 @@ export default function Navbar() {
       ]
     },
     {
+      href: '/case-studies',
+      label: 'Case Studies',
+      icon: Layers,
+      description: 'Detailed project breakdowns and technical deep-dives',
+      items: [
+        { label: 'Earthie Platform', href: '/case-studies/earthie-platform' },
+        { label: 'Morphed Platform', href: '/case-studies/morphed-platform' },
+        { label: 'Entropy Suite', href: '/case-studies/entropy-suite' }
+      ]
+    },
+    {
+      href: '/contact',
+      label: 'Contact',
+      icon: MessageCircle,
+      description: 'Get in touch for projects and collaborations',
+      items: [
+        { label: 'Send Message', href: '/contact#message' },
+        { label: 'Project Inquiry', href: '/contact#inquiry' },
+        { label: 'Social Links', href: '/contact#social' }
+      ]
+    }
+  ];
+
+  const moreLinks = [
+    {
+      href: '/blog',
+      label: 'Blog',
+      icon: BookOpen,
+      description: 'Technical articles on AI, web development, and platform building',
+      items: [
+        { label: 'AI Integration', href: '/blog?category=ai-integration' },
+        { label: 'Case Studies', href: '/blog?category=case-studies' },
+        { label: 'Development Tips', href: '/blog?category=development' }
+      ]
+    },
+    {
       href: '/services',
       label: 'Services',
       icon: Wrench,
@@ -60,19 +96,10 @@ export default function Navbar() {
         { label: 'Available Servers', href: '/mcp#servers' },
         { label: 'Getting Started', href: '/mcp#guide' }
       ]
-    },
-    {
-      href: '/contact',
-      label: 'Contact',
-      icon: MessageCircle,
-      description: 'Get in touch for projects and collaborations',
-      items: [
-        { label: 'Send Message', href: '/contact#message' },
-        { label: 'Project Inquiry', href: '/contact#inquiry' },
-        { label: 'Social Links', href: '/contact#social' }
-      ]
     }
   ];
+
+  const links = [...mainLinks, ...moreLinks];
 
   const handleMouseEnter = (label: string) => {
     if (timeoutRef.current) {
@@ -142,7 +169,7 @@ export default function Navbar() {
           {/* Navigation Links - Right Pill */}
           <div className="bg-[#e7dbc8]/40 backdrop-blur-md border border-zinc-300/30 shadow-xl shadow-zinc-800/10 rounded-full px-6 py-2">
             <div className="flex items-center space-x-1 h-14">
-              {links.map((link) => {
+              {mainLinks.map((link) => {
                 const IconComponent = link.icon;
                 return (
                   <div
@@ -165,6 +192,27 @@ export default function Navbar() {
                   </div>
                 );
               })}
+
+              {/* More Dropdown */}
+              {moreLinks.length > 0 && (
+                <div
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter('More')}
+                  onMouseLeave={handleMouseLeave}
+                  ref={(el) => {
+                    dropdownRefs.current['More'] = el;
+                  }}
+                >
+                  <button
+                    className="text-sm font-medium text-[#3a2c1a] hover:text-[#d17927] hover:bg-white/30 transition-all px-3 py-2 rounded-full flex items-center gap-1 group"
+                  >
+                    <Wrench className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                    More
+                    <ChevronDown className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-all group-hover:rotate-180" />
+                  </button>
+                </div>
+              )}
+
               <div className="ml-2">
                 <CurrencyDropdown className="" />
               </div>
@@ -174,69 +222,137 @@ export default function Navbar() {
           {/* Dropdown Menu - Positioned relative to navbar container */}
           {activeDropdown && (
             <div
-              className="absolute top-full left-0 mt-4 w-[600px] bg-[#e7dbc8]/95 backdrop-blur-md border border-zinc-300/30 rounded-2xl shadow-xl z-50 animate-in slide-in-from-top-2 duration-200"
+              className="absolute top-full left-0 mt-4 w-full max-w-6xl bg-[#e7dbc8]/95 backdrop-blur-md border border-zinc-300/30 rounded-2xl shadow-xl z-50 animate-in slide-in-from-top-2 duration-200"
               onMouseEnter={handleDropdownMouseEnter}
               onMouseLeave={handleDropdownMouseLeave}
             >
               <div className="p-6">
-                {links.map((link) => {
-                  if (link.label !== activeDropdown) return null;
-                  const IconComponent = link.icon;
-                  return (
-                    <div key={link.label} className="flex gap-6">
-                      {/* Main Section */}
-                      <div className="flex-shrink-0 w-56">
-                        <div className="flex items-start gap-3 mb-4">
-                          <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg">
-                            <IconComponent className="h-5 w-5 text-white" />
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-[#d17927] text-lg mb-1">{link.label}</h3>
-                            <p className="text-sm text-zinc-600 leading-relaxed">{link.description}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Navigation Items */}
-                      <div className="flex-1">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {link.items.map((item, index) => (
-                            <Link
-                              key={index}
-                              href={item.href}
-                              className="group p-3 rounded-lg border border-zinc-300/20 hover:border-orange-200/50 hover:bg-white/40 transition-all duration-200"
-                            >
-                              <div className="flex items-start justify-between h-full">
-                                <div className="flex-1">
-                                  <h4 className="font-medium text-[#3a2c1a] group-hover:text-[#d17927] transition-colors mb-2">
-                                    {item.label}
-                                  </h4>
-                                  <div className="w-8 h-0.5 bg-gradient-to-r from-[#d17927] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                {activeDropdown === 'More' ? (
+                  // Special layout for "More" dropdown showing multiple sections
+                  <div className="space-y-8">
+                    {moreLinks.map((link) => {
+                      const IconComponent = link.icon;
+                      return (
+                        <div key={link.label} className="border-b border-zinc-300/20 pb-6 last:border-b-0">
+                          <div className="flex gap-6">
+                            {/* Main Section */}
+                            <div className="flex-shrink-0 w-56">
+                              <div className="flex items-start gap-3 mb-4">
+                                <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg">
+                                  <IconComponent className="h-5 w-5 text-white" />
                                 </div>
-                                <svg className="h-4 w-4 text-zinc-400 group-hover:text-[#d17927] group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
+                                <div>
+                                  <h3 className="font-bold text-[#d17927] text-lg mb-1">{link.label}</h3>
+                                  <p className="text-sm text-zinc-600 leading-relaxed">{link.description}</p>
+                                </div>
                               </div>
-                            </Link>
-                          ))}
-                        </div>
+                            </div>
 
-                        {/* View All Link */}
-                        <div className="mt-4 pt-3 border-t border-zinc-300/20">
-                          <Link
-                            href={link.href}
-                            className="inline-flex items-center text-sm font-medium text-[#d17927] hover:text-orange-700 transition-colors group"
-                          >
-                            View all {link.label.toLowerCase()}
-                            <svg className="ml-1 h-3 w-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                          </Link>
+                            {/* Navigation Items */}
+                            <div className="flex-1">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                {link.items.map((item, index) => (
+                                  <Link
+                                    key={index}
+                                    href={item.href}
+                                    className="group p-3 rounded-lg border border-zinc-300/20 hover:border-orange-200/50 hover:bg-white/40 transition-all duration-200"
+                                  >
+                                    <div className="flex items-start justify-between h-full">
+                                      <div className="flex-1">
+                                        <h4 className="font-medium text-[#3a2c1a] group-hover:text-[#d17927] transition-colors mb-2">
+                                          {item.label}
+                                        </h4>
+                                        <div className="w-8 h-0.5 bg-gradient-to-r from-[#d17927] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                      </div>
+                                      <svg className="h-4 w-4 text-zinc-400 group-hover:text-[#d17927] group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                      </svg>
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+
+                              {/* View All Link */}
+                              <div className="mt-4 pt-3 border-t border-zinc-300/20">
+                                <Link
+                                  href={link.href}
+                                  className="inline-flex items-center text-sm font-medium text-[#d17927] hover:text-orange-700 transition-colors group"
+                                >
+                                  View all {link.label.toLowerCase()}
+                                  <svg className="ml-1 h-3 w-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                  </svg>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </div>
+                ) : (
+                  // Regular single dropdown layout for main links
+                  <>
+                    {mainLinks.map((link) => {
+                      if (link.label !== activeDropdown) return null;
+                      const IconComponent = link.icon;
+                      return (
+                        <div key={link.label} className="flex gap-6">
+                          {/* Main Section */}
+                          <div className="flex-shrink-0 w-56">
+                            <div className="flex items-start gap-3 mb-4">
+                              <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg">
+                                <IconComponent className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <h3 className="font-bold text-[#d17927] text-lg mb-1">{link.label}</h3>
+                                <p className="text-sm text-zinc-600 leading-relaxed">{link.description}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Navigation Items */}
+                          <div className="flex-1">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              {link.items.map((item, index) => (
+                                <Link
+                                  key={index}
+                                  href={item.href}
+                                  className="group p-3 rounded-lg border border-zinc-300/20 hover:border-orange-200/50 hover:bg-white/40 transition-all duration-200"
+                                >
+                                  <div className="flex items-start justify-between h-full">
+                                    <div className="flex-1">
+                                      <h4 className="font-medium text-[#3a2c1a] group-hover:text-[#d17927] transition-colors mb-2">
+                                        {item.label}
+                                      </h4>
+                                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d17927] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    </div>
+                                    <svg className="h-4 w-4 text-zinc-400 group-hover:text-[#d17927] group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+
+                            {/* View All Link */}
+                            <div className="mt-4 pt-3 border-t border-zinc-300/20">
+                              <Link
+                                href={link.href}
+                                className="inline-flex items-center text-sm font-medium text-[#d17927] hover:text-orange-700 transition-colors group"
+                              >
+                                View all {link.label.toLowerCase()}
+                                <svg className="ml-1 h-3 w-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
               </div>
             </div>
           )}

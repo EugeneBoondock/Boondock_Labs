@@ -73,7 +73,7 @@ export default function Work() {
                   </h3>
                 </div>
               </div>
-              <p className="text-sm mb-3 text-black">A Community platform for the Earth2 community. Interactive and user-friendly.</p>
+              <p className="text-sm mb-3 text-black">A comprehensive Earth2 metaverse community platform with 17+ API integrations, real-time market data, interactive mapping, community features, and advanced subscription management. Features multiple specialized hubs for market analysis, minerals tracking, logistics, leaderboards, and portfolio management.</p>
               <div className="flex items-center justify-between mt-auto pt-2">
                 <div className="flex gap-2">
                   <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">NextJS</span>

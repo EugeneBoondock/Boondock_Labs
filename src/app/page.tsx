@@ -88,7 +88,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="w-full pt-6 sm:pt-8 px-4 flex justify-center items-center min-h-0">
-        <div className="glass shadow-xl max-w-2xl w-full text-center py-8 sm:py-10 px-4 sm:px-12 flex flex-col items-center animate-in relative z-10">
+        <div className="glass shadow-xl max-w-2xl w-full text-center py-8 sm:py-10 px-4 sm:px-12 flex flex-col items-center fade-in-up relative z-10">
           <div className="relative flex items-center justify-center mb-3 sm:mb-4">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="rounded-full w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] bg-[#d17927] opacity-40 blur-2xl logo-glow"></div>
@@ -128,7 +128,7 @@ export default function Home() {
 
       {/* MCP Builder Section - Visual Showcase */}
       <section className="w-full flex justify-center items-center mb-6 sm:mb-8 mt-4 sm:mt-6 px-4">
-        <div className="glass shadow-lg max-w-4xl w-full py-6 sm:py-8 px-4 sm:px-6 lg:px-10 flex flex-col items-center relative z-10">
+        <div className="glass shadow-lg max-w-4xl w-full py-6 sm:py-8 px-4 sm:px-6 lg:px-10 flex flex-col items-center relative z-10 fade-in-up">
           <div className="text-center mb-4 sm:mb-6">
             <div className="flex items-center justify-center mb-2 sm:mb-3">
               <div className="p-2 sm:p-3 bg-gradient-to-br from-orange-600 to-orange-400 rounded-xl mr-2 sm:mr-3">
@@ -225,13 +225,13 @@ export default function Home() {
       {/* Packages & Pricing Section */}
       <section className="w-full flex justify-center items-center mb-12 sm:mb-16 mt-4 sm:mt-6 px-4">
         <div className="max-w-5xl w-full relative z-10">
-          <div className="text-center mb-8 sm:mb-12">
+          <div className="text-center mb-8 sm:mb-12 fade-in-up">
             <h2 className="text-3xl sm:text-4xl font-bold accent mb-2">My Repertoire</h2>
             <p className="text-base sm:text-lg text-black">Services and solutions tailored to bring your digital vision to life</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Basic Website */}
-          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start">
+          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.1s' }}>
             <div className="flex items-center mb-2">
               <div className="p-2 sm:p-3 bg-gradient-to-br from-orange-600 to-orange-400 rounded-xl mr-2 sm:mr-3">
                 <svg className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,7 +292,7 @@ export default function Home() {
             )}
           </div>
           {/* Business Website */}
-          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start">
+          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.2s' }}>
             <div className="flex items-center mb-2">
               <div className="p-2 sm:p-3 bg-gradient-to-br from-orange-600 to-orange-400 rounded-xl mr-2 sm:mr-3">
                 <svg className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -357,7 +357,7 @@ export default function Home() {
             )}
           </div>
           {/* E-commerce Website */}
-          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start">
+          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.3s' }}>
             <div className="flex items-center mb-2">
               <div className="p-2 sm:p-3 bg-gradient-to-br from-orange-600 to-orange-400 rounded-xl mr-2 sm:mr-3">
                 <svg className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -422,7 +422,7 @@ export default function Home() {
             )}
           </div>
           {/* Custom/Advanced Website */}
-          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start">
+          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.4s' }}>
             <div className="flex items-center mb-2">
               <div className="p-2 sm:p-3 bg-gradient-to-br from-orange-600 to-orange-400 rounded-xl mr-2 sm:mr-3">
                 <svg className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -489,7 +489,7 @@ export default function Home() {
           </div>
 
           {/* MCP Server Building */}
-          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start">
+          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.5s' }}>
             <div className="flex items-center mb-2">
               <Network className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600 mr-2" />
               <h3 className="text-lg sm:text-xl font-bold accent mb-0">MCP Server Building</h3>
@@ -547,7 +547,7 @@ export default function Home() {
           </div>
 
           {/* API Endpoint Building */}
-          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start">
+          <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.6s' }}>
             <div className="flex items-center mb-2">
               <Code className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600 mr-2" />
               <h3 className="text-lg sm:text-xl font-bold accent mb-0">API Endpoint Building</h3>

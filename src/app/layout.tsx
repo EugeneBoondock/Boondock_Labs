@@ -13,11 +13,11 @@ import { CurrencyProvider } from './CurrencyContext';
 const rubik = Rubik({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {
-  title: "Boondock Labs | Eugene Boondock's Portfolio & Tech Studio",
+  title: "Boondock Labs | AI-Powered Web Development & MCP Servers",
   description:
-    "Boondock Labs - Building web apps, games, and the future of the web. Portfolio and tech studio by Eugene Ncube (aka Eugene Boondock).",
+    "Expert web development, AI integration, and Model Context Protocol servers. Building the future of digital experiences with Eugene Boondock - full-stack developer specializing in Next.js, React, AI tools, and complex platform development.",
   keywords:
-    "Boondock Labs, Eugene Ncube, web development, game development, metaverse, JavaScript, Earth2, programming, tech studio, portfolio",
+    "Boondock Labs, Eugene Ncube, Eugene Boondock, web development, AI integration, MCP servers, Model Context Protocol, Next.js developer, React developer, full-stack developer, AI tools, Cursor, Windsurf, Claude Code, OpenAI Codex, metaverse development, Earth2, portfolio, tech studio, custom APIs, backend development, frontend development",
   authors: [
     {
       name: "Eugene Ncube",
@@ -25,14 +25,54 @@ export const metadata: Metadata = {
     },
   ],
   creator: "Eugene Ncube",
+  publisher: "Boondock Labs",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://boondocklabs.com'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: "Boondock Labs | Eugene Boondock's Portfolio & Tech Studio",
+    title: "Boondock Labs | AI-Powered Web Development & MCP Servers",
     description:
-      "Building web apps, games, and the future of digital experiences. Portfolio by Eugene Ncube (Eugene Boondock).",
+      "Expert web development, AI integration, and Model Context Protocol servers. Building the future of digital experiences with Eugene Boondock.",
     url: "https://boondocklabs.com",
     siteName: "Boondock Labs",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/Boondocklabs.png",
+        width: 1200,
+        height: 630,
+        alt: "Boondock Labs - AI-Powered Web Development",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Boondock Labs | AI-Powered Web Development & MCP Servers",
+    description:
+      "Expert web development, AI integration, and Model Context Protocol servers. Building the future of digital experiences.",
+    images: ["/Boondocklabs.png"],
+    creator: "@eugeneboondock",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: process.env.GOOGLE_VERIFICATION,
   },
 };
 
@@ -78,11 +118,13 @@ export default function RootLayout({
       <body className={cn(rubik.className, "min-h-screen bg-transparent antialiased relative")}>
         <CurrencyProvider>
           <LoadingScreen />
-          <AnimeBackground />
-          <Navbar />
-          <main className="pt-20 relative">{children}</main>
-          <Footer />
-          <ChatWidget />
+          <div style={{ display: 'none' }} id="main-content">
+            <AnimeBackground />
+            <Navbar />
+            <main className="pt-20 relative">{children}</main>
+            <Footer />
+            <ChatWidget />
+          </div>
         </CurrencyProvider>
       </body>
     </html>
