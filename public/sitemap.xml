@@ -58,27 +58,6 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Individual Case Studies -->
-  <url>
-    <loc>https://boondocklabs.com/case-studies/earthie-platform</loc>
-    <lastmod>2024-12-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://boondocklabs.com/case-studies/morphed-platform</loc>
-    <lastmod>2024-12-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://boondocklabs.com/case-studies/entropy-suite</loc>
-    <lastmod>2024-12-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
 
   <!-- Individual Blog Posts -->
   <url>

@@ -6,12 +6,14 @@ import { useEffect, useState } from 'react';
 import { ArrowRight, ChevronUp, Twitter, Linkedin, Facebook, Github, Package, Network, Code, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useCurrency } from './CurrencyContext';
+import ServiceModal from './components/ServiceModal';
 
 // Make sure to set NEXT_PUBLIC_FORMSPREE_ENDPOINT in your .env.local file
 
 export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<string|null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [packageForm, setPackageForm] = useState({
     name: '',
     email: '',
@@ -44,6 +46,25 @@ export default function Home() {
   // Replace with your Formspree endpoint
   const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
 
+  const openModal = (packageName: string) => {
+    setSelectedPackage(packageName);
+    setIsModalOpen(true);
+    // Reset form state when opening modal
+    setPackageSent(false);
+    setPackageError(null);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPackage(null);
+    setPackageSent(false);
+    setPackageError(null);
+  };
+
+  const handleFormChange = (field: string, value: string) => {
+    setPackageForm(prev => ({ ...prev, [field]: value }));
+  };
+
   async function handlePackageSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!FORMSPREE_ENDPOINT) {
@@ -66,6 +87,10 @@ export default function Home() {
       if (!res.ok) throw new Error('Failed to send form');
       setPackageSent(true);
       setPackageForm({ name: '', email: '', business: '', goals: '', features: '', design: '', budget: '', timeline: '', extra: '' });
+      // Close modal after successful submission
+      setTimeout(() => {
+        closeModal();
+      }, 2000);
     } catch (err: unknown) {
       setPackageError(err instanceof Error ? err.message : 'Error sending form');
     } finally {
@@ -270,26 +295,10 @@ export default function Home() {
             </ul>
             <button
               className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
-              onClick={() => setSelectedPackage(selectedPackage === 'Basic Website' ? null : 'Basic Website')}
+              onClick={() => openModal('Basic Website')}
             >
-              {selectedPackage === 'Basic Website' ? 'Unselect' : 'Select'}
+              Select
             </button>
-            {selectedPackage === 'Basic Website' && (
-              <form className="w-full mt-4 space-y-3" onSubmit={handlePackageSubmit}>
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Name" value={packageForm.name} onChange={e => setPackageForm(f => ({...f, name: e.target.value}))} required />
-                <input type="email" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Email" value={packageForm.email} onChange={e => setPackageForm(f => ({...f, email: e.target.value}))} required />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Business/Brand (if any)" value={packageForm.business} onChange={e => setPackageForm(f => ({...f, business: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Project Goals (what do you want to achieve?)" value={packageForm.goals} onChange={e => setPackageForm(f => ({...f, goals: e.target.value}))} required rows={3} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Required Features (e.g. blog, contact form, gallery, etc)" value={packageForm.features} onChange={e => setPackageForm(f => ({...f, features: e.target.value}))} rows={2} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Design Preferences (colors, style, inspiration)" value={packageForm.design} onChange={e => setPackageForm(f => ({...f, design: e.target.value}))} rows={2} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Budget Range (optional)" value={packageForm.budget} onChange={e => setPackageForm(f => ({...f, budget: e.target.value}))} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Timeline (when do you need it?)" value={packageForm.timeline} onChange={e => setPackageForm(f => ({...f, timeline: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Anything else you'd like to add?" value={packageForm.extra} onChange={e => setPackageForm(f => ({...f, extra: e.target.value}))} rows={2} />
-                <button type="submit" className="btn-primary w-full mt-3 min-h-[44px]" disabled={packageLoading}>{packageLoading ? 'Sending...' : 'Submit Inquiry'}</button>
-                {packageSent && <div className="text-green-600 text-xs mt-2">Inquiry sent! I'll get back to you soon.</div>}
-                {packageError && <div className="text-red-500 text-xs mt-2">{packageError}</div>}
-              </form>
-            )}
           </div>
           {/* Business Website */}
           <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.2s' }}>
@@ -335,26 +344,10 @@ export default function Home() {
             </ul>
             <button
               className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
-              onClick={() => setSelectedPackage(selectedPackage === 'Business Website' ? null : 'Business Website')}
+              onClick={() => openModal('Business Website')}
             >
-              {selectedPackage === 'Business Website' ? 'Unselect' : 'Select'}
+              Select
             </button>
-            {selectedPackage === 'Business Website' && (
-              <form className="w-full mt-4 space-y-3" onSubmit={handlePackageSubmit}>
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Name" value={packageForm.name} onChange={e => setPackageForm(f => ({...f, name: e.target.value}))} required />
-                <input type="email" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Email" value={packageForm.email} onChange={e => setPackageForm(f => ({...f, email: e.target.value}))} required />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Business/Brand (if any)" value={packageForm.business} onChange={e => setPackageForm(f => ({...f, business: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Project Goals (what do you want to achieve?)" value={packageForm.goals} onChange={e => setPackageForm(f => ({...f, goals: e.target.value}))} required rows={3} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Required Features (e.g. blog, contact form, gallery, etc)" value={packageForm.features} onChange={e => setPackageForm(f => ({...f, features: e.target.value}))} rows={2} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Design Preferences (colors, style, inspiration)" value={packageForm.design} onChange={e => setPackageForm(f => ({...f, design: e.target.value}))} rows={2} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Budget Range (optional)" value={packageForm.budget} onChange={e => setPackageForm(f => ({...f, budget: e.target.value}))} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Timeline (when do you need it?)" value={packageForm.timeline} onChange={e => setPackageForm(f => ({...f, timeline: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Anything else you'd like to add?" value={packageForm.extra} onChange={e => setPackageForm(f => ({...f, extra: e.target.value}))} rows={2} />
-                <button type="submit" className="btn-primary w-full mt-3 min-h-[44px]" disabled={packageLoading}>{packageLoading ? 'Sending...' : 'Submit Inquiry'}</button>
-                {packageSent && <div className="text-green-600 text-xs mt-2">Inquiry sent! I'll get back to you soon.</div>}
-                {packageError && <div className="text-red-500 text-xs mt-2">{packageError}</div>}
-              </form>
-            )}
           </div>
           {/* E-commerce Website */}
           <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.3s' }}>
@@ -400,26 +393,10 @@ export default function Home() {
             </ul>
             <button
               className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
-              onClick={() => setSelectedPackage(selectedPackage === 'E-commerce Website' ? null : 'E-commerce Website')}
+              onClick={() => openModal('E-commerce Website')}
             >
-              {selectedPackage === 'E-commerce Website' ? 'Unselect' : 'Select'}
-              </button>
-            {selectedPackage === 'E-commerce Website' && (
-              <form className="w-full mt-4 space-y-3" onSubmit={handlePackageSubmit}>
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Name" value={packageForm.name} onChange={e => setPackageForm(f => ({...f, name: e.target.value}))} required />
-                <input type="email" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Email" value={packageForm.email} onChange={e => setPackageForm(f => ({...f, email: e.target.value}))} required />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Business/Brand (if any)" value={packageForm.business} onChange={e => setPackageForm(f => ({...f, business: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Project Goals (what do you want to achieve?)" value={packageForm.goals} onChange={e => setPackageForm(f => ({...f, goals: e.target.value}))} required rows={3} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Required Features (e.g. blog, contact form, gallery, etc)" value={packageForm.features} onChange={e => setPackageForm(f => ({...f, features: e.target.value}))} rows={2} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Design Preferences (colors, style, inspiration)" value={packageForm.design} onChange={e => setPackageForm(f => ({...f, design: e.target.value}))} rows={2} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Budget Range (optional)" value={packageForm.budget} onChange={e => setPackageForm(f => ({...f, budget: e.target.value}))} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Timeline (when do you need it?)" value={packageForm.timeline} onChange={e => setPackageForm(f => ({...f, timeline: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Anything else you'd like to add?" value={packageForm.extra} onChange={e => setPackageForm(f => ({...f, extra: e.target.value}))} rows={2} />
-                <button type="submit" className="btn-primary w-full mt-3 min-h-[44px]" disabled={packageLoading}>{packageLoading ? 'Sending...' : 'Submit Inquiry'}</button>
-                {packageSent && <div className="text-green-600 text-xs mt-2">Inquiry sent! I'll get back to you soon.</div>}
-                {packageError && <div className="text-red-500 text-xs mt-2">{packageError}</div>}
-            </form>
-            )}
+              Select
+            </button>
           </div>
           {/* Custom/Advanced Website */}
           <div className="glass shadow-md p-4 sm:p-6 flex flex-col items-start scale-in" style={{ animationDelay: '0.4s' }}>
@@ -466,26 +443,10 @@ export default function Home() {
             </ul>
             <button
               className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
-              onClick={() => setSelectedPackage(selectedPackage === 'Custom / Advanced Website' ? null : 'Custom / Advanced Website')}
+              onClick={() => openModal('Custom / Advanced Website')}
             >
-              {selectedPackage === 'Custom / Advanced Website' ? 'Unselect' : 'Select'}
+              Select
             </button>
-            {selectedPackage === 'Custom / Advanced Website' && (
-              <form className="w-full mt-4 space-y-3" onSubmit={handlePackageSubmit}>
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Name" value={packageForm.name} onChange={e => setPackageForm(f => ({...f, name: e.target.value}))} required />
-                <input type="email" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Email" value={packageForm.email} onChange={e => setPackageForm(f => ({...f, email: e.target.value}))} required />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Business/Brand (if any)" value={packageForm.business} onChange={e => setPackageForm(f => ({...f, business: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Project Goals (what do you want to achieve?)" value={packageForm.goals} onChange={e => setPackageForm(f => ({...f, goals: e.target.value}))} required rows={3} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Required Features (e.g. blog, contact form, gallery, etc)" value={packageForm.features} onChange={e => setPackageForm(f => ({...f, features: e.target.value}))} rows={2} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Design Preferences (colors, style, inspiration)" value={packageForm.design} onChange={e => setPackageForm(f => ({...f, design: e.target.value}))} rows={2} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Budget Range (optional)" value={packageForm.budget} onChange={e => setPackageForm(f => ({...f, budget: e.target.value}))} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Timeline (when do you need it?)" value={packageForm.timeline} onChange={e => setPackageForm(f => ({...f, timeline: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Anything else you'd like to add?" value={packageForm.extra} onChange={e => setPackageForm(f => ({...f, extra: e.target.value}))} rows={2} />
-                <button type="submit" className="btn-primary w-full mt-3 min-h-[44px]" disabled={packageLoading}>{packageLoading ? 'Sending...' : 'Submit Inquiry'}</button>
-                {packageSent && <div className="text-green-600 text-xs mt-2">Inquiry sent! I'll get back to you soon.</div>}
-                {packageError && <div className="text-red-500 text-xs mt-2">{packageError}</div>}
-              </form>
-            )}
           </div>
 
           {/* MCP Server Building */}
@@ -524,26 +485,10 @@ export default function Home() {
             </ul>
             <button
               className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
-              onClick={() => setSelectedPackage(selectedPackage === 'MCP Server Building' ? null : 'MCP Server Building')}
+              onClick={() => openModal('MCP Server Building')}
             >
-              {selectedPackage === 'MCP Server Building' ? 'Unselect' : 'Select'}
+              Select
             </button>
-            {selectedPackage === 'MCP Server Building' && (
-              <form className="w-full mt-4 space-y-3" onSubmit={handlePackageSubmit}>
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Name" value={packageForm.name} onChange={e => setPackageForm(f => ({...f, name: e.target.value}))} required />
-                <input type="email" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Email" value={packageForm.email} onChange={e => setPackageForm(f => ({...f, email: e.target.value}))} required />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Business/Brand (if any)" value={packageForm.business} onChange={e => setPackageForm(f => ({...f, business: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Project Goals (what do you want to achieve?)" value={packageForm.goals} onChange={e => setPackageForm(f => ({...f, goals: e.target.value}))} required rows={3} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Required Features (e.g. blog, contact form, gallery, etc)" value={packageForm.features} onChange={e => setPackageForm(f => ({...f, features: e.target.value}))} rows={2} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Design Preferences (colors, style, inspiration)" value={packageForm.design} onChange={e => setPackageForm(f => ({...f, design: e.target.value}))} rows={2} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Budget Range (optional)" value={packageForm.budget} onChange={e => setPackageForm(f => ({...f, budget: e.target.value}))} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Timeline (when do you need it?)" value={packageForm.timeline} onChange={e => setPackageForm(f => ({...f, timeline: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Anything else you'd like to add?" value={packageForm.extra} onChange={e => setPackageForm(f => ({...f, extra: e.target.value}))} rows={2} />
-                <button type="submit" className="btn-primary w-full mt-3 min-h-[44px]" disabled={packageLoading}>{packageLoading ? 'Sending...' : 'Submit Inquiry'}</button>
-                {packageSent && <div className="text-green-600 text-xs mt-2">Inquiry sent! I'll get back to you soon.</div>}
-                {packageError && <div className="text-red-500 text-xs mt-2">{packageError}</div>}
-              </form>
-            )}
           </div>
 
           {/* API Endpoint Building */}
@@ -582,30 +527,98 @@ export default function Home() {
             </ul>
             <button
               className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
-              onClick={() => setSelectedPackage(selectedPackage === 'API Endpoint Building' ? null : 'API Endpoint Building')}
+              onClick={() => openModal('API Endpoint Building')}
             >
-              {selectedPackage === 'API Endpoint Building' ? 'Unselect' : 'Select'}
+              Select
             </button>
-            {selectedPackage === 'API Endpoint Building' && (
-              <form className="w-full mt-4 space-y-3" onSubmit={handlePackageSubmit}>
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Name" value={packageForm.name} onChange={e => setPackageForm(f => ({...f, name: e.target.value}))} required />
-                <input type="email" className="w-full rounded px-3 py-2 border text-sm" placeholder="Your Email" value={packageForm.email} onChange={e => setPackageForm(f => ({...f, email: e.target.value}))} required />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Business/Brand (if any)" value={packageForm.business} onChange={e => setPackageForm(f => ({...f, business: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Project Goals (what do you want to achieve?)" value={packageForm.goals} onChange={e => setPackageForm(f => ({...f, goals: e.target.value}))} required rows={3} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Required Features (e.g. blog, contact form, gallery, etc)" value={packageForm.features} onChange={e => setPackageForm(f => ({...f, features: e.target.value}))} rows={2} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Design Preferences (colors, style, inspiration)" value={packageForm.design} onChange={e => setPackageForm(f => ({...f, design: e.target.value}))} rows={2} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Budget Range (optional)" value={packageForm.budget} onChange={e => setPackageForm(f => ({...f, budget: e.target.value}))} />
-                <input type="text" className="w-full rounded px-3 py-2 border text-sm" placeholder="Timeline (when do you need it?)" value={packageForm.timeline} onChange={e => setPackageForm(f => ({...f, timeline: e.target.value}))} />
-                <textarea className="w-full rounded px-3 py-2 border text-sm" placeholder="Anything else you'd like to add?" value={packageForm.extra} onChange={e => setPackageForm(f => ({...f, extra: e.target.value}))} rows={2} />
-                <button type="submit" className="btn-primary w-full mt-3 min-h-[44px]" disabled={packageLoading}>{packageLoading ? 'Sending...' : 'Submit Inquiry'}</button>
-                {packageSent && <div className="text-green-600 text-xs mt-2">Inquiry sent! I'll get back to you soon.</div>}
-                {packageError && <div className="text-red-500 text-xs mt-2">{packageError}</div>}
-              </form>
-            )}
           </div>
         </div>
         </div>
       </section>
+
+      {/* Service Modal */}
+      <ServiceModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        serviceName={selectedPackage || ''}
+        serviceTitle={getServiceTitle(selectedPackage)}
+        servicePrice={getServicePrice(selectedPackage, mounted, convert)}
+        serviceDescription={getServiceDescription(selectedPackage)}
+        serviceFeatures={getServiceFeatures(selectedPackage)}
+        formFields={packageForm}
+        onFormChange={handleFormChange}
+        onSubmit={handlePackageSubmit}
+        loading={packageLoading}
+        sent={packageSent}
+        error={packageError}
+      />
     </main>
   );
+}
+
+// Helper functions for service data
+function getServiceTitle(serviceName: string | null): string {
+  switch (serviceName) {
+    case 'Basic Website': return 'Basic Website';
+    case 'Business Website': return 'Business Website';
+    case 'E-commerce Website': return 'E-commerce Website';
+    case 'Custom / Advanced Website': return 'Custom / Advanced Website';
+    case 'MCP Server Building': return 'MCP Server Building';
+    case 'API Endpoint Building': return 'API Endpoint Building';
+    default: return '';
+  }
+}
+
+function getServicePrice(serviceName: string | null, mounted?: boolean, convert?: (amount: number) => string): string {
+  if (!mounted || !convert) {
+    switch (serviceName) {
+      case 'Basic Website': return 'R3,000 – R10,000';
+      case 'Business Website': return 'R11,000 – R15,000';
+      case 'E-commerce Website': return 'R15,000 – R20,000';
+      case 'Custom / Advanced Website': return 'From R30,000+';
+      case 'MCP Server Building': return 'R20,000 – R50,000';
+      case 'API Endpoint Building': return 'R15,000 – R40,000';
+      default: return '';
+    }
+  }
+
+  switch (serviceName) {
+    case 'Basic Website': return `${convert(3000)} – ${convert(10000)}`;
+    case 'Business Website': return `${convert(11000)} – ${convert(15000)}`;
+    case 'E-commerce Website': return `${convert(15000)} – ${convert(20000)}`;
+    case 'Custom / Advanced Website': return `From ${convert(30000)}+`;
+    case 'MCP Server Building': return `${convert(20000)} – ${convert(50000)}`;
+    case 'API Endpoint Building': return `${convert(15000)} – ${convert(40000)}`;
+    default: return '';
+  }
+}
+
+function getServiceDescription(serviceName: string | null): string {
+  switch (serviceName) {
+    case 'Basic Website': return 'Perfect for personal, portfolio, or informational sites. Includes up to 3 pages, mobile responsive, and basic SEO.';
+    case 'Business Website': return 'For small businesses or startups. Up to 8 pages, contact forms, Google Maps, blog, and enhanced SEO.';
+    case 'E-commerce Website': return 'Online shop with product catalog, payment gateway, order management, and training. Scalable for growth.';
+    case 'Custom / Advanced Website': return 'For complex needs: custom features, integrations, web apps, or large corporate sites. Tailored to your vision.';
+    case 'MCP Server Building': return 'Custom Model Context Protocol (MCP) servers built from scratch. Transform your APIs into powerful AI-integrated tools for Claude and other LLMs.';
+    case 'API Endpoint Building': return 'Custom RESTful API endpoints tailored to your business needs. Scalable, secure, and well-documented APIs that power your applications.';
+    default: return '';
+  }
+}
+
+function getServiceFeatures(serviceName: string | null): string[] {
+  switch (serviceName) {
+    case 'Basic Website':
+      return ['Up to 3 pages', 'Mobile responsive design', 'Basic SEO optimization', 'Contact form integration'];
+    case 'Business Website':
+      return ['Up to 8 pages', 'Contact forms integration', 'Google Maps integration', 'Blog functionality', 'Enhanced SEO optimization'];
+    case 'E-commerce Website':
+      return ['Product catalog management', 'Payment gateway integration', 'Order management system', 'Inventory tracking', 'Staff training included'];
+    case 'Custom / Advanced Website':
+      return ['Custom feature development', 'Third-party integrations', 'Web application development', 'Advanced functionality', 'Enterprise-level solutions'];
+    case 'MCP Server Building':
+      return ['Complete MCP server architecture', 'Custom tool development', 'NPM package publishing', 'Documentation & testing'];
+    case 'API Endpoint Building':
+      return ['RESTful API architecture', 'Authentication & authorization', 'Database integration', 'API documentation & testing'];
+    default: return [];
+  }
 }

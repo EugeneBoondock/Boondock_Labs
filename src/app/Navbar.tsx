@@ -45,9 +45,9 @@ export default function Navbar() {
       icon: Layers,
       description: 'Detailed project breakdowns and technical deep-dives',
       items: [
-        { label: 'Earthie Platform', href: '/case-studies/earthie-platform' },
-        { label: 'Morphed Platform', href: '/case-studies/morphed-platform' },
-        { label: 'Entropy Suite', href: '/case-studies/entropy-suite' }
+        { label: 'Earthie Platform', href: '/case-studies?study=earthie-platform', modalId: 'earthie-platform' },
+        { label: 'Morphed Platform', href: '/case-studies?study=morphed-platform', modalId: 'morphed-platform' },
+        { label: 'Entropy Suite', href: '/case-studies?study=entropy-suite', modalId: 'entropy-suite' }
       ]
     },
     {

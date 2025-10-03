@@ -1,6 +1,6 @@
 'use client';
 
-import { X, Calendar, Clock, Users, TrendingUp, Code, ExternalLink, Layers, Database, Globe, Cpu } from 'lucide-react';
+import { X, Calendar, Clock, Users, TrendingUp, Code, ExternalLink, Layers, Database, Globe, Cpu, Network, Zap } from 'lucide-react';
 import Image from 'next/image';
 
 interface BaseContent {
@@ -1241,7 +1241,7 @@ function BlogContent({ content }: { content: BlogContent }) {
                 <li>Would a human teammate understand this in a code review?</li>
               </ul>
               <p className="text-zinc-700 leading-relaxed mb-6">
-                Readable > magical.
+                Readable &gt; magical.
               </p>
 
               <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">7. Keep Human Judgment at the Core</h2>
