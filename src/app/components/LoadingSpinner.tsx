@@ -16,3 +16,4 @@ export default function LoadingSpinner({ size = 'md', className = '' }: LoadingS
     <Loader2 className={`animate-spin text-orange-600 ${sizeClasses[size]} ${className}`} />
   );
 }
+

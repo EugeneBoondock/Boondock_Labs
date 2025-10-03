@@ -47,30 +47,40 @@ const caseStudies = [
   },
   {
     id: 'morphed-platform',
-    title: 'Morphed: Enterprise Business Intelligence Platform',
+    title: 'Morphed: Enterprise Business Intelligence & AI Integration Platform',
     category: 'Full-Stack Development',
     client: 'Morphed.io',
-    duration: '8 months',
+    duration: '12 months',
     team: 'Solo Developer',
-    technologies: ['Next.js', 'React', 'Node.js', 'PostgreSQL', 'OAuth 2.0', 'Multi-tenancy', 'MCP Servers', 'API Development'],
-    challenge: 'Build a comprehensive business intelligence platform with multi-tenancy, OAuth integration, audit systems, and AI-powered features for enterprise clients.',
-    solution: 'Developed a full-stack platform with advanced multi-tenancy architecture, OAuth 2.0 integration, comprehensive audit trails, and custom MCP servers for AI integration.',
+    technologies: ['Next.js 14', 'React 18', 'Node.js', 'PostgreSQL', 'TypeScript', 'Tailwind CSS', 'OAuth 2.0', 'Multi-tenancy', 'MCP Servers', 'AI Integration', 'HubSpot API', 'Pinecone Vector DB', 'WebSockets', 'JWT', 'Real-time APIs', 'File Processing', 'PWA'],
+    challenge: 'Build a comprehensive enterprise business intelligence platform with multi-tenancy, advanced AI integration, HubSpot CRM integration, MCP server architecture, real-time data processing, and sophisticated authentication systems for business automation and AI-assisted workflows.',
+    solution: 'Developed a full-stack platform with advanced multi-tenancy architecture, OAuth 2.0 integration, comprehensive audit trails, custom MCP servers for AI integration, HubSpot CRM operations, vector database embeddings, real-time notifications, and enterprise-grade security.',
     results: [
-      'Multi-tenant architecture supporting 100+ clients',
-      'OAuth 2.0 integration with HubSpot and other platforms',
-      'Custom MCP servers for AI-powered business intelligence',
-      'Advanced audit and compliance systems',
-      'Real-time data processing and analytics',
-      'Enterprise-grade security and performance'
+      'Multi-tenant architecture supporting 100+ enterprise clients with role-based access',
+      'Advanced OAuth 2.0 integration with HubSpot, Google, and custom providers',
+      'Custom MCP servers enabling seamless AI assistant integration with business data',
+      'Comprehensive HubSpot CRM integration for contact, company, and deal management',
+      'AI-powered business intelligence with OpenAI, Anthropic, and Google Gemini integration',
+      'Vector database with Pinecone for semantic search and content analysis',
+      'Advanced audit and compliance systems with real-time activity monitoring',
+      'Real-time data processing with WebSocket connections and token heartbeat',
+      'File processing capabilities for PDF, DOCX, and document analysis',
+      'Enterprise-grade security with encrypted token storage and rate limiting',
+      'Proactive monitoring system with automated alerts and notifications',
+      'Mobile-responsive PWA design with offline capabilities'
     ],
     metrics: {
       'Active Clients': '100+',
       'MCP Tools': '15+',
-      'API Endpoints': '50+',
-      'Security Score': 'A+'
+      'API Endpoints': '75+',
+      'AI Models': '3',
+      'Vector DB Entries': '115,000+',
+      'Security Score': 'A+',
+      'Uptime': '99.9%',
+      'Response Time': '<200ms'
     },
     featured: true,
-    image: '/morphed.png'
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center'
   },
   {
     id: 'entropy-suite',

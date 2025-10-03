@@ -195,39 +195,6 @@ function CaseStudyContent({ content }: { content: CaseStudyContent }) {
         </div>
       </div>
 
-      {/* Hub-Specific Features */}
-      <div>
-        <h3 className="text-xl font-bold text-zinc-900 mb-4 flex items-center">
-          <Globe className="h-5 w-5 mr-3 text-indigo-600" />
-          Specialized Hub Features
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="bg-gradient-to-br from-sky-50 to-blue-50 rounded-lg p-4 border border-sky-200">
-            <h4 className="font-semibold text-zinc-900 mb-2 text-sky-800">Portfolio Advisor</h4>
-            <p className="text-sm text-zinc-700">AI-powered analysis with smart buy/sell/hold recommendations</p>
-          </div>
-          <div className="bg-gradient-to-br from-emerald-50 to-cyan-50 rounded-lg p-4 border border-emerald-200">
-            <h4 className="font-semibold text-zinc-900 mb-2 text-emerald-800">Essence Tracker</h4>
-            <p className="text-sm text-zinc-700">Real-time price tracking, wallet analytics, and market insights</p>
-          </div>
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-4 border border-amber-200">
-            <h4 className="font-semibold text-zinc-900 mb-2 text-amber-800">Minerals Explorer</h4>
-            <p className="text-sm text-zinc-700">Geological data, mineral deposits, and prospecting tools</p>
-          </div>
-          <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
-            <h4 className="font-semibold text-zinc-900 mb-2 text-purple-800">Social Hub</h4>
-            <p className="text-sm text-zinc-700">Community features with posts, comments, and live chat</p>
-          </div>
-          <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-lg p-4 border border-teal-200">
-            <h4 className="font-semibold text-zinc-900 mb-2 text-teal-800">Leaderboards</h4>
-            <p className="text-sm text-zinc-700">Comprehensive rankings for players and countries</p>
-          </div>
-          <div className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-lg p-4 border border-gray-200">
-            <h4 className="font-semibold text-zinc-900 mb-2 text-gray-800">Logistics Planner</h4>
-            <p className="text-sm text-zinc-700">Visual property management and optimal route planning</p>
-          </div>
-        </div>
-      </div>
 
       {/* Metrics */}
       <div>
@@ -1304,8 +1271,430 @@ function BlogContent({ content }: { content: BlogContent }) {
           </div>
         )}
 
+        {/* Morphed Platform Case Study Content */}
+        {content.id === 'morphed-platform' && (
+          <div className="space-y-8">
+            <div className="prose prose-zinc max-w-none">
+              <p className="text-lg text-zinc-700 leading-relaxed mb-6">
+                The Morphed platform represents a comprehensive enterprise business intelligence solution that seamlessly integrates AI assistants, CRM systems, and advanced data processing capabilities. Built as a multi-tenant SaaS platform, it enables businesses to leverage AI-powered insights, automate workflows, and maintain secure, real-time access to their operational data.
+              </p>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Platform Architecture Overview</h2>
+              <p className="text-zinc-700 leading-relaxed mb-6">
+                Morphed is designed as a sophisticated multi-tenant platform that serves both partners (service providers) and customers (end users) with role-based access controls. The architecture supports complex business workflows while maintaining enterprise-grade security and performance standards.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-3 flex items-center">
+                    <Database className="h-5 w-5 mr-2 text-blue-600" />
+                    Multi-Tenant Architecture
+                  </h3>
+                  <ul className="space-y-2 text-zinc-700">
+                    <li>• Partner dashboard for managing multiple customers</li>
+                    <li>• Customer-specific portals with isolated data</li>
+                    <li>• Role-based access control (Admin, Partner, Customer)</li>
+                    <li>• Secure data separation with tenant-specific databases</li>
+                  </ul>
+                </div>
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-3 flex items-center">
+                    <Network className="h-5 w-5 mr-2 text-purple-600" />
+                    AI Integration Hub
+                  </h3>
+                  <ul className="space-y-2 text-zinc-700">
+                    <li>• Multiple AI providers (OpenAI, Anthropic, Google Gemini)</li>
+                    <li>• Custom MCP servers for seamless AI assistant integration</li>
+                    <li>• Vector database with 115,000+ embeddings</li>
+                    <li>• Real-time AI-powered insights and recommendations</li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Core Features & Capabilities</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-green-800">HubSpot CRM Integration</h4>
+                  <p className="text-sm text-zinc-700">Deep integration with HubSpot for contact, company, and deal management with real-time synchronization</p>
+                </div>
+                <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-4 border border-orange-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-orange-800">Advanced Authentication</h4>
+                  <p className="text-sm text-zinc-700">OAuth 2.0 flows with automatic token refresh, magic link access, and enterprise-grade security</p>
+                </div>
+                <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-lg p-4 border border-cyan-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-cyan-800">Real-time Monitoring</h4>
+                  <p className="text-sm text-zinc-700">Token heartbeat system, activity tracking, and proactive monitoring with automated alerts</p>
+                </div>
+                <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-lg p-4 border border-pink-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-pink-800">Business Intelligence</h4>
+                  <p className="text-sm text-zinc-700">Audit reports, blueprint generation, growth plans, and AI-powered business insights</p>
+                </div>
+                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg p-4 border border-indigo-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-indigo-800">File Processing</h4>
+                  <p className="text-sm text-zinc-700">PDF parsing, DOCX analysis, content extraction, and document intelligence</p>
+                </div>
+                <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-lg p-4 border border-slate-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-slate-800">Communication Hub</h4>
+                  <p className="text-sm text-zinc-700">Email templates, notifications, and automated communication workflows</p>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Advanced Technical Features</h2>
+
+              <div className="space-y-6 mb-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-2">MCP Server Architecture</h3>
+                  <p className="text-zinc-700 leading-relaxed mb-4">
+                    Custom Model Context Protocol servers enable seamless integration with AI assistants like Claude, allowing natural language interaction with business data and operations.
+                  </p>
+                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                    <h4 className="font-semibold text-zinc-900 mb-2">Available MCP Tools:</h4>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-zinc-700">
+                      <li>• Contact and company management</li>
+                      <li>• Activity history and engagement tracking</li>
+                      <li>• Business intelligence and reporting</li>
+                      <li>• Customer portal access and management</li>
+                      <li>• Automated workflow execution</li>
+                      <li>• Real-time data synchronization</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-2">Token Management & Security</h3>
+                  <p className="text-zinc-700 leading-relaxed mb-4">
+                    Sophisticated token heartbeat system ensures continuous access while maintaining security. Automatic token refresh, activity monitoring, and secure storage prevent authentication issues.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-green-50 rounded-lg p-4 text-center border border-green-200">
+                      <div className="text-2xl font-bold text-green-600 mb-1">30min</div>
+                      <div className="text-sm text-zinc-600">Token Lifetime</div>
+                    </div>
+                    <div className="bg-blue-50 rounded-lg p-4 text-center border border-blue-200">
+                      <div className="text-2xl font-bold text-blue-600 mb-1">10min</div>
+                      <div className="text-sm text-zinc-600">Auto Refresh</div>
+                    </div>
+                    <div className="bg-purple-50 rounded-lg p-4 text-center border border-purple-200">
+                      <div className="text-2xl font-bold text-purple-600 mb-1">5min</div>
+                      <div className="text-sm text-zinc-600">Activity Window</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-2">Vector Database Integration</h3>
+                  <p className="text-zinc-700 leading-relaxed mb-4">
+                    Pinecone vector database with 115,000+ embeddings enables semantic search, content analysis, and AI-powered insights across business documents and customer data.
+                  </p>
+                  <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-lg p-4 border border-emerald-200">
+                    <h4 className="font-semibold text-zinc-900 mb-2">AI-Powered Features:</h4>
+                    <ul className="space-y-1 text-sm text-zinc-700">
+                      <li>• Semantic search across business documents</li>
+                      <li>• Content summarization and analysis</li>
+                      <li>• Pattern recognition in customer data</li>
+                      <li>• Automated content categorization</li>
+                      <li>• Similarity matching for recommendations</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Business Impact & Scale</h2>
+              <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-6 border border-orange-200 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">100+</div>
+                    <div className="text-sm text-zinc-600">Enterprise Clients</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">75+</div>
+                    <div className="text-sm text-zinc-600">API Endpoints</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">115K+</div>
+                    <div className="text-sm text-zinc-600">Vector Embeddings</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">99.9%</div>
+                    <div className="text-sm text-zinc-600">Uptime</div>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Development Approach</h2>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">1</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Architecture Design</h4>
+                    <p className="text-zinc-700">Designed multi-tenant architecture with role-based access and secure data isolation</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">2</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">AI Integration</h4>
+                    <p className="text-zinc-700">Implemented multiple AI providers with custom MCP servers for seamless assistant integration</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">3</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">CRM Integration</h4>
+                    <p className="text-zinc-700">Built comprehensive HubSpot integration with real-time synchronization and audit trails</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">4</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Security Implementation</h4>
+                    <p className="text-zinc-700">Implemented enterprise-grade security with token management, rate limiting, and compliance</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">5</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Performance Optimization</h4>
+                    <p className="text-zinc-700">Optimized for scale with vector databases, caching, and real-time monitoring</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-lg p-6 border border-slate-200">
+                <h2 className="text-2xl font-bold text-zinc-900 mb-4">Technical Innovation</h2>
+                <p className="text-zinc-700 leading-relaxed mb-4">
+                  The Morphed platform represents a significant advancement in business intelligence platforms by combining:
+                </p>
+                <ul className="space-y-2 text-zinc-700 mb-4">
+                  <li>• <strong>AI-First Architecture:</strong> Built from the ground up for AI assistant integration</li>
+                  <li>• <strong>Real-time Operations:</strong> Live data processing with automatic token management</li>
+                  <li>• <strong>Enterprise Security:</strong> Multi-tenant isolation with compliance-grade audit trails</li>
+                  <li>• <strong>Scalable Infrastructure:</strong> Designed to handle enterprise workloads with 99.9% uptime</li>
+                </ul>
+                <p className="text-zinc-700 leading-relaxed">
+                  This combination of advanced AI integration, enterprise-grade security, and real-time capabilities makes Morphed a unique and powerful platform for modern business intelligence and automation.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Entropy Suite Case Study Content */}
+        {content.id === 'entropy-suite' && (
+          <div className="space-y-8">
+            <div className="prose prose-zinc max-w-none">
+              <p className="text-lg text-zinc-700 leading-relaxed mb-6">
+                Entropy Suite represents an innovative AI-powered productivity platform designed to streamline various aspects of modern work and education. Built as a comprehensive digital toolkit, it combines artificial intelligence capabilities with practical tools for document processing, development workflows, educational assistance, and modern payment solutions.
+              </p>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Platform Overview</h2>
+              <p className="text-zinc-700 leading-relaxed mb-6">
+                Entropy Suite is designed as a versatile productivity platform that caters to developers, students, and professionals who need AI-powered assistance across multiple domains. The platform integrates various AI services with practical tools to create a unified workspace for modern digital workflows.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-3 flex items-center">
+                    <Zap className="h-5 w-5 mr-2 text-blue-600" />
+                    AI Integration
+                  </h3>
+                  <ul className="space-y-2 text-zinc-700">
+                    <li>• Multiple AI providers for different use cases</li>
+                    <li>• Document processing and analysis</li>
+                    <li>• Content generation and summarization</li>
+                    <li>• Intelligent automation workflows</li>
+                  </ul>
+                </div>
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-3 flex items-center">
+                    <Code className="h-5 w-5 mr-2 text-green-600" />
+                    Development Tools
+                  </h3>
+                  <ul className="space-y-2 text-zinc-700">
+                    <li>• Real terminal functionality</li>
+                    <li>• Code execution environment</li>
+                    <li>• Development workflow automation</li>
+                    <li>• Testing and debugging tools</li>
+                  </ul>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Key Features & Capabilities</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-purple-800">Document Processing</h4>
+                  <p className="text-sm text-zinc-700">AI-powered document conversion, analysis, and content extraction from various file formats</p>
+                </div>
+                <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-4 border border-orange-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-orange-800">Educational Tools</h4>
+                  <p className="text-sm text-zinc-700">University application assistance and AI-powered guidance for academic processes</p>
+                </div>
+                <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-lg p-4 border border-cyan-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-cyan-800">Payment Integration</h4>
+                  <p className="text-sm text-zinc-700">Cryptocurrency payment processing with secure transaction handling</p>
+                </div>
+                <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-lg p-4 border border-pink-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-pink-800">Subscription Management</h4>
+                  <p className="text-sm text-zinc-700">Advanced user management with subscription tiers and access controls</p>
+                </div>
+                <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-lg p-4 border border-teal-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-teal-800">Real-time Collaboration</h4>
+                  <p className="text-sm text-zinc-700">Live collaboration features for team productivity and workflow management</p>
+                </div>
+                <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-lg p-4 border border-slate-200">
+                  <h4 className="font-semibold text-zinc-900 mb-2 text-slate-800">Knowledge Base</h4>
+                  <p className="text-sm text-zinc-700">Comprehensive knowledge base with South African university data and resources</p>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Technical Architecture</h2>
+
+              <div className="space-y-6 mb-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-2">AI Integration Framework</h3>
+                  <p className="text-zinc-700 leading-relaxed mb-4">
+                    Multiple AI providers integrated through a unified API layer, enabling different AI capabilities for various use cases including document processing, content generation, and educational assistance.
+                  </p>
+                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                    <h4 className="font-semibold text-zinc-900 mb-2">Supported AI Services:</h4>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-zinc-700">
+                      <li>• Document analysis and conversion</li>
+                      <li>• Content summarization and generation</li>
+                      <li>• Educational guidance and assistance</li>
+                      <li>• Workflow automation and optimization</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-2">Development Environment</h3>
+                  <p className="text-zinc-700 leading-relaxed mb-4">
+                    Integrated development tools including real terminal functionality, code execution environments, and collaborative workspaces for enhanced productivity.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-emerald-50 rounded-lg p-4 text-center border border-emerald-200">
+                      <div className="text-2xl font-bold text-emerald-600 mb-1">Terminal</div>
+                      <div className="text-sm text-zinc-600">Real-time execution</div>
+                    </div>
+                    <div className="bg-blue-50 rounded-lg p-4 text-center border border-blue-200">
+                      <div className="text-2xl font-bold text-blue-600 mb-1">Code</div>
+                      <div className="text-sm text-zinc-600">Live development</div>
+                    </div>
+                    <div className="bg-purple-50 rounded-lg p-4 text-center border border-purple-200">
+                      <div className="text-2xl font-bold text-purple-600 mb-1">Collab</div>
+                      <div className="text-sm text-zinc-600">Team workspaces</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-2">Payment & Subscription System</h3>
+                  <p className="text-zinc-700 leading-relaxed mb-4">
+                    Modern payment processing with cryptocurrency support and comprehensive subscription management for different user tiers and access levels.
+                  </p>
+                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-4 border border-amber-200">
+                    <h4 className="font-semibold text-zinc-900 mb-2">Payment Features:</h4>
+                    <ul className="space-y-1 text-sm text-zinc-700">
+                      <li>• Multiple cryptocurrency payment options</li>
+                      <li>• Secure transaction processing</li>
+                      <li>• Subscription tier management</li>
+                      <li>• Usage-based billing and access controls</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Business Impact & Scale</h2>
+              <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-6 border border-orange-200 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">5+</div>
+                    <div className="text-sm text-zinc-600">AI Tools</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">10+</div>
+                    <div className="text-sm text-zinc-600">Document Types</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">26</div>
+                    <div className="text-sm text-zinc-600">Universities</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-orange-600 mb-1">3</div>
+                    <div className="text-sm text-zinc-600">Payment Methods</div>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">Development Approach</h2>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">1</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Platform Architecture</h4>
+                    <p className="text-zinc-700">Designed modular architecture supporting multiple AI services and productivity tools</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">2</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">AI Integration</h4>
+                    <p className="text-zinc-700">Implemented multiple AI providers for document processing and content generation</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">3</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Development Tools</h4>
+                    <p className="text-zinc-700">Built real terminal functionality and collaborative development environments</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">4</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Payment Integration</h4>
+                    <p className="text-zinc-700">Implemented cryptocurrency payments and subscription management system</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">5</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Knowledge Base</h4>
+                    <p className="text-zinc-700">Integrated comprehensive South African university data and educational resources</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">6</div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900">Testing & Deployment</h4>
+                    <p className="text-zinc-700">Comprehensive testing across all integrated services and deployment optimization</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-lg p-6 border border-slate-200">
+                <h2 className="text-2xl font-bold text-zinc-900 mb-4">Innovation & Impact</h2>
+                <p className="text-zinc-700 leading-relaxed mb-4">
+                  Entropy Suite demonstrates the power of integrating AI capabilities with practical productivity tools, creating a comprehensive platform that serves multiple user needs:
+                </p>
+                <ul className="space-y-2 text-zinc-700 mb-4">
+                  <li>• <strong>AI-First Productivity:</strong> Leverages multiple AI services for enhanced user experience</li>
+                  <li>• <strong>Developer Experience:</strong> Real terminal and collaborative development environments</li>
+                  <li>• <strong>Educational Support:</strong> University application assistance and knowledge resources</li>
+                  <li>• <strong>Modern Payments:</strong> Cryptocurrency integration for global accessibility</li>
+                </ul>
+                <p className="text-zinc-700 leading-relaxed">
+                  This combination of AI-powered tools, development environments, educational resources, and modern payment systems makes Entropy Suite a versatile platform for the modern digital workspace.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Default blog content for other posts */}
-        {content.id !== 'earth2-platform-case-study' && content.id !== 'ai-accelerated-development' && content.id !== 'modern-backend-architecture' && content.id !== 'oauth-integration-patterns' && content.id !== 'debugging-complex-systems' && content.id !== 'debugging-ai-written-code' && (
+        {content.id !== 'earth2-platform-case-study' && content.id !== 'ai-accelerated-development' && content.id !== 'modern-backend-architecture' && content.id !== 'oauth-integration-patterns' && content.id !== 'debugging-complex-systems' && content.id !== 'debugging-ai-written-code' && content.id !== 'morphed-platform' && content.id !== 'entropy-suite' && (
           <div className="bg-zinc-50 rounded-lg p-6 text-center">
             <p className="text-zinc-600 mb-2">Full blog content would go here...</p>
             <p className="text-sm text-zinc-500">
