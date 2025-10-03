@@ -8,7 +8,31 @@ export default function Work() {
         <div className="pattern-dots max-w-4xl w-full glass border border-orange-900/20 py-8 px-6 sm:px-10 mb-16 shadow-lg">
           <h2 className="text-2xl font-bold mb-4 accent">My Digital Playground</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Morphed.io - MCP Server */}
+            {/* SavingWithDana.com - Backend Development */}
+            <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+              <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
+                <Image
+                  src="/dana.png"
+                  alt="SavingWithDana.com"
+                  fill
+                  className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+                />
+              </div>
+              <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+                SavingWithDana.com - Backend Development
+              </h3>
+              <p className="text-sm mb-3 text-black">Currently polishing robust backend infrastructure using AWS services and modern cloud architecture for a savings and deals platform.</p>
+              <div className="flex items-center justify-between mt-auto pt-2">
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">AWS</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Backend</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Cloud Architecture</span>
+                </div>
+                <span className="text-xs font-medium px-2 py-1 bg-green-100 text-green-800 rounded">In Progress</span>
+              </div>
+            </div>
+
+            {/* Morphed.io - Full Platform Development */}
             <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
               <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
                 <Image
@@ -19,14 +43,15 @@ export default function Work() {
                 />
               </div>
               <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
-                Morphed.io - MCP Server
+                Morphed.io - Full Platform Development
               </h3>
-              <p className="text-sm mb-3 text-black">Built a complete Model Context Protocol (MCP) server from scratch for Morphed.io. Created custom API endpoints and transformed them into powerful MCP tools for AI integration.</p>
+              <p className="text-sm mb-3 text-black">Designed and developed both backend infrastructure and frontend interface to bring the Morphed.io platform to life. Created custom API endpoints, built the complete Model Context Protocol (MCP) server, and developed the user-facing application.</p>
               <div className="flex items-center justify-between mt-auto pt-2">
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Full-Stack</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP Server</span>
                   <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">API Development</span>
-                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Node.js</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">UI/UX Design</span>
                 </div>
                 <a href="https://morphed.io" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
                   Visit <ExternalLink className="h-3 w-3 ml-1" />

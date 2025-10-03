@@ -271,6 +271,53 @@ a:hover {
   pointer-events: none;
 }
 
+/* Mobile-optimized utility classes */
+.mobile-touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.mobile-text {
+  @apply text-sm sm:text-base;
+}
+
+.mobile-heading {
+  @apply text-lg sm:text-xl md:text-2xl;
+}
+
+.mobile-subheading {
+  @apply text-base sm:text-lg md:text-xl;
+}
+
+.mobile-safe-area {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Improved mobile typography */
+@media (max-width: 640px) {
+  .mobile-optimized {
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+
+  .mobile-form-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Mobile-specific scrollbar improvements */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #d17927;
+    border-radius: 8px;
+  }
+}
+
 /* ----- Tailwind CSS custom properties for color system ----- */
 @layer base {
   :root {
@@ -381,6 +428,26 @@ form, form * {
 
 .animate-slide-up {
   animation: slideUp 0.3s ease-out forwards;
+}
+
+/* Navbar dropdown animations */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-in {
+  animation: slideInFromTop 0.2s ease-out forwards;
+}
+
+.slide-in-from-top-2 {
+  animation: slideInFromTop 0.2s ease-out forwards;
 }
 
 /* Anime.js background shapes */

@@ -64,7 +64,7 @@ export default function ChatWidget() {
           <div className="relative">
             {/* Bouncing Avatar with AI Avatar Image */}
             <div className="chat-button-bounce bg-gradient-to-br from-orange-500 to-orange-600 rounded-full p-1 shadow-2xl hover:shadow-orange-500/50 transition-all hover:scale-110 border-4 border-white">
-              <div className="relative w-16 h-16 rounded-full overflow-hidden">
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden">
                 <Image
                   src="/ai_avatar.jpg"
                   alt="AI Avatar"
@@ -73,7 +73,7 @@ export default function ChatWidget() {
                 />
                 {/* Sparkle overlay */}
                 <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-transparent via-transparent to-orange-400/30">
-                  <Sparkles className="h-6 w-6 text-white/90 drop-shadow-lg" />
+                  <Sparkles className="h-4 w-4 sm:h-6 sm:w-6 text-white/90 drop-shadow-lg" />
                 </div>
               </div>
             </div>

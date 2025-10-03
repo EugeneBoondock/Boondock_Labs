@@ -1,10 +1,13 @@
 'use client';
 
-import { Network, Code, Terminal, CheckCircle2, ArrowRight, ExternalLink, Zap, Shield, Layers, Package, FileCode, GitBranch, Server, Blocks, Cpu, Globe } from 'lucide-react';
+import { Network, Code, Terminal, CheckCircle2, ArrowRight, ExternalLink, Zap, Shield, Layers, Package, FileCode, GitBranch, Server, Blocks, Cpu, Globe, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function MCPPage() {
+  const [showPricingModal, setShowPricingModal] = useState(false);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-start pb-24">
       {/* Hero Section */}
@@ -414,12 +417,12 @@ export default function MCPPage() {
             Let's transform your APIs and data into powerful AI-integrated tools that work seamlessly with Claude, ChatGPT, and other AI platforms.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/#pricing"
+            <button
+              onClick={() => setShowPricingModal(true)}
               className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all inline-flex items-center justify-center"
             >
               View Pricing <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            </button>
             <Link
               href="/contact"
               className="btn-primary px-6 py-3 bg-white/60 hover:bg-white/80 border-2 border-orange-600 text-orange-600 transition-all inline-flex items-center justify-center"
@@ -429,6 +432,158 @@ export default function MCPPage() {
           </div>
         </div>
       </section>
+
+      {/* MCP Pricing Modal */}
+      {showPricingModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#e7dbc8]/95 backdrop-blur-md border border-zinc-300/30 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-8">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl">
+                    <Network className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-[#d17927]">MCP Server Development</h2>
+                    <p className="text-sm text-zinc-600">Custom Model Context Protocol servers for AI integration</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowPricingModal(false)}
+                  className="p-2 hover:bg-white/20 rounded-full transition-colors"
+                  aria-label="Close modal"
+                >
+                  <X className="h-5 w-5 text-zinc-600" />
+                </button>
+              </div>
+
+              {/* Pricing Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                {/* MCP Server Building */}
+                <div className="glass shadow-md p-6 flex flex-col items-start border border-orange-200/50">
+                  <div className="flex items-center mb-3">
+                    <Network className="h-6 w-6 text-orange-600 mr-2" />
+                    <h3 className="text-xl font-bold accent mb-0">MCP Server Building</h3>
+                  </div>
+                  <div className="text-2xl font-extrabold mb-3 text-black">
+                    R20,000 – R50,000
+                  </div>
+                  <p className="text-sm text-zinc-700 mb-4 leading-relaxed">
+                    Custom Model Context Protocol (MCP) servers built from scratch. Transform your APIs into powerful AI-integrated tools for Claude and other LLMs.
+                  </p>
+                  <ul className="text-xs text-black space-y-2 mb-4 flex-grow">
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      Complete MCP server architecture
+                    </li>
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      Custom tool development
+                    </li>
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      NPM package publishing
+                    </li>
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      Documentation & testing
+                    </li>
+                  </ul>
+                </div>
+
+                {/* API Endpoint Building */}
+                <div className="glass shadow-md p-6 flex flex-col items-start border border-orange-200/50">
+                  <div className="flex items-center mb-3">
+                    <Code className="h-6 w-6 text-orange-600 mr-2" />
+                    <h3 className="text-xl font-bold accent mb-0">API Endpoint Building</h3>
+                  </div>
+                  <div className="text-2xl font-extrabold mb-3 text-black">
+                    R15,000 – R40,000
+                  </div>
+                  <p className="text-sm text-zinc-700 mb-4 leading-relaxed">
+                    Custom RESTful API endpoints tailored to your business needs. Scalable, secure, and well-documented APIs that power your applications.
+                  </p>
+                  <ul className="text-xs text-black space-y-2 mb-4 flex-grow">
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      RESTful API architecture
+                    </li>
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      Authentication & authorization
+                    </li>
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      Database integration
+                    </li>
+                    <li className="flex items-center">
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      API documentation & testing
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* What's Included */}
+              <div className="bg-orange-50/50 rounded-lg p-6 mb-6 border border-orange-100">
+                <h3 className="font-bold text-lg accent mb-3">What's Included</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                  <div className="space-y-2">
+                    <p className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Complete project architecture and planning</span>
+                    </p>
+                    <p className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Database design and integration</span>
+                    </p>
+                    <p className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Comprehensive testing and validation</span>
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Security implementation and best practices</span>
+                    </p>
+                    <p className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Documentation and deployment support</span>
+                    </p>
+                    <p className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>Post-launch maintenance guidance</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Call to Action */}
+              <div className="text-center">
+                <p className="text-sm text-zinc-600 mb-4">
+                  Ready to transform your APIs into powerful AI-integrated tools?
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Link
+                    href="/contact"
+                    className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all inline-flex items-center justify-center"
+                  >
+                    Get Custom Quote <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                  <button
+                    onClick={() => setShowPricingModal(false)}
+                    className="px-6 py-3 bg-white/60 hover:bg-white/80 border-2 border-orange-600 text-orange-600 transition-all rounded-xl"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
