@@ -11,12 +11,10 @@ export default function BackgroundAnimation() {
   const [footerVisible, setFooterVisible] = useState(false);
   const [footerY, setFooterY] = useState<number|null>(null);
 
-  // Disable completely on mobile for performance
-  if (isMobileDevice()) {
-    return null;
-  }
-
   useEffect(() => {
+    // Disable completely on mobile for performance
+    if (isMobileDevice()) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');

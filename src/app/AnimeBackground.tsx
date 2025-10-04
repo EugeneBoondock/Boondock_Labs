@@ -14,9 +14,6 @@ export default function AnimeBackground() {
     setIsMobile(window.innerWidth <= 768);
   }, []);
 
-  // Disable on mobile for performance
-  if (isMobile) return null;
-
   useEffect(() => {
     if (!isMounted || !containerRef.current || isMobile) return;
 
@@ -176,9 +173,10 @@ export default function AnimeBackground() {
     return () => {
       container.innerHTML = '';
     };
-  }, [isMounted]);
+  }, [isMounted, isMobile]);
 
-  if (!isMounted) return null;
+  // Don't render on mobile or before mounting
+  if (!isMounted || isMobile) return null;
 
   return (
     <div
