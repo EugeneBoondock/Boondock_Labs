@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useEffect, useState } from 'react';
+import { isMobileDevice } from '@/lib/utils';
 
 function randomAngle() {
   return Math.random() * 2 * Math.PI;
@@ -9,6 +10,11 @@ export default function BackgroundAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [footerVisible, setFooterVisible] = useState(false);
   const [footerY, setFooterY] = useState<number|null>(null);
+
+  // Disable completely on mobile for performance
+  if (isMobileDevice()) {
+    return null;
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -59,25 +65,25 @@ export default function BackgroundAnimation() {
       setFooterVisible(rect.bottom > 0 && rect.top < window.innerHeight && (Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)) > 40);
     }
 
-    // Particle system
-    const PARTICLE_COUNT = 32;
-    const scale = isMobile ? 0.6 : 1;
+    // Particle system - significantly reduced for mobile
+    const PARTICLE_COUNT = isMobile ? 8 : 32;
+    const scale = isMobile ? 0.4 : 1;
     const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: Math.cos(randomAngle()) * 0.05 * scale,
-      vy: Math.sin(randomAngle()) * 0.05 * scale,
-      r: (6 + Math.random() * 8) * scale,
-      color: Math.random() > 0.7 ? 'rgba(209,121,39,0.7)' : 'rgba(209,121,39,0.25)'
+      vx: Math.cos(randomAngle()) * 0.03 * scale,
+      vy: Math.sin(randomAngle()) * 0.03 * scale,
+      r: (4 + Math.random() * 6) * scale,
+      color: Math.random() > 0.7 ? 'rgba(209,121,39,0.5)' : 'rgba(209,121,39,0.15)'
     }));
 
     // Bond tension matrix: tension[i][j] tracks how long i and j have been close
     let tension = Array.from({ length: PARTICLE_COUNT }, () => Array(PARTICLE_COUNT).fill(0));
     const TENSION_THRESHOLD = 120; // frames close before breaking apart
     const TENSION_DECAY = 0.96; // how quickly tension decays when not close
-    const BOND_DIST = 48; // distance considered 'stuck'
-    const REPULSE_STRENGTH = 2.2; // how hard to push apart
-    const REPULSION_BURST = 2.5;
+    const BOND_DIST = isMobile ? 32 : 48; // distance considered 'stuck' - smaller on mobile
+    const REPULSE_STRENGTH = isMobile ? 1.5 : 2.2; // how hard to push apart - reduced on mobile
+    const REPULSION_BURST = isMobile ? 1.8 : 2.5;
 
     // Restore globalAngle and union-find helpers
     let globalAngle = 0;
@@ -96,7 +102,7 @@ export default function BackgroundAnimation() {
     }
 
     // Instead of a cannon, periodically spawn a new ball from the bottom left corner
-    const SPAWN_INTERVAL = 90; // frames between spawns
+    const SPAWN_INTERVAL = isMobile ? 180 : 90; // frames between spawns - slower on mobile
     let spawnCooldown = 0;
 
     function spawnBallFromBottomLeft() {
@@ -131,18 +137,20 @@ export default function BackgroundAnimation() {
       // First pass: build networks for allowed connections only
       const connections: number[][] = Array.from({ length: n }, () => []);
       for (let i = 0; i < n; i++) {
-        // Find all other particles and their distances
+        // Find all other particles and their distances - optimized for mobile
+        const maxConnections = isMobile ? 3 : 5;
+        const maxDistance = isMobile ? 100 : 160;
         const dists = [];
         for (let j = 0; j < n; j++) {
           if (i === j) continue;
           const a = particles[i];
           const b = particles[j];
           const dist = Math.hypot(a.x - b.x, a.y - b.y);
-          if (dist < 160) dists.push({ j, dist });
+          if (dist < maxDistance) dists.push({ j, dist });
         }
         dists.sort((a, b) => a.dist - b.dist);
         let count = 0;
-        for (let k = 0; k < dists.length && count < 5; k++) {
+        for (let k = 0; k < dists.length && count < maxConnections; k++) {
           const j = dists[k].j;
           // Only connect if union would not exceed 5
           const pi = find(par, i);
@@ -216,17 +224,19 @@ export default function BackgroundAnimation() {
       const size = Array(n).fill(1);
       const connections: number[][] = Array.from({ length: n }, () => []);
       for (let i = 0; i < n; i++) {
+        const maxConnections = isMobile ? 3 : 5;
+        const maxDistance = isMobile ? 100 : 160;
         const dists = [];
         for (let j = 0; j < n; j++) {
           if (i === j) continue;
           const a = particles[i];
           const b = particles[j];
           const dist = Math.hypot(a.x - b.x, a.y - b.y);
-          if (dist < 160) dists.push({ j, dist });
+          if (dist < maxDistance) dists.push({ j, dist });
         }
         dists.sort((a, b) => a.dist - b.dist);
         let count = 0;
-        for (let k = 0; k < dists.length && count < 5; k++) {
+        for (let k = 0; k < dists.length && count < maxConnections; k++) {
           const j = dists[k].j;
           const pi = find(par, i);
           const pj = find(par, j);
@@ -325,10 +335,11 @@ export default function BackgroundAnimation() {
                 tension[j][i] = (tension[j][i] || 0) * TENSION_DECAY;
               }
             }
-            if (dist < 160 && dist > 0.1) {
-              // Oscillating spring force (slower)
-              const osc = Math.sin(globalAngle * 2 + i + j);
-              const force = (dist - 80 + osc * 10) * 0.00025;
+            const maxSpringDistance = isMobile ? 100 : 160;
+            if (dist < maxSpringDistance && dist > 0.1) {
+              // Oscillating spring force (slower on mobile)
+              const osc = Math.sin(globalAngle * (isMobile ? 1 : 2) + i + j);
+              const force = (dist - (isMobile ? 60 : 80) + osc * (isMobile ? 5 : 10)) * (isMobile ? 0.00015 : 0.00025);
               const fx = force * dx;
               const fy = force * dy;
               p.vx += fx / p.r;

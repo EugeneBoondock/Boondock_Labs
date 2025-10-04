@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { cn, isMobileDevice } from "@/lib/utils";
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from './Navbar';
@@ -119,7 +119,7 @@ export default function RootLayout({
         <CurrencyProvider>
           <LoadingScreen />
           <div style={{ display: 'none' }} id="main-content">
-            <AnimeBackground />
+            {!isMobileDevice() && <AnimeBackground />}
             <Navbar />
             <main className="pt-20 relative">{children}</main>
             <Footer />

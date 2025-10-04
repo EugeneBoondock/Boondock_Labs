@@ -51,13 +51,13 @@ export default function CurrencyDropdown({ className = "" }: { className?: strin
         style={{ maxHeight: 36, minWidth: 70 }}
       >
         {CURRENCIES.map(c => (
-          <option key={c.code} value={c.code} className="bg-white text-[#3a2c1a]">
+          <option key={c.code} value={c.code} className="bg-[#e7dbc8] text-[#3a2c1a]">
             {c.code} {c.symbol}
           </option>
         ))}
       </select>
       {/* Custom dropdown arrow */}
-      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#d17927] text-lg">
+      <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[#d17927] text-sm">
         ▼
       </span>
       {/* Scrollable dropdown for long lists (native select will show scroll) */}

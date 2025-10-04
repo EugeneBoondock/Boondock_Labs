@@ -62,10 +62,16 @@ html, body {
   min-height: 100%;
   background-color: #e7dbc8;
   background-attachment: fixed;
-  animation: gradientShift 15s ease infinite, patternFloat 120s linear infinite;
   color: #18181b;
   /* font-family: 'Inter', 'Segoe UI', Arial, sans-serif; */
   letter-spacing: 0.01em;
+}
+
+/* Desktop only animations */
+@media (min-width: 769px) {
+  html, body {
+    animation: gradientShift 15s ease infinite, patternFloat 120s linear infinite;
+  }
 }
 
 .animate-in {
@@ -97,32 +103,60 @@ html, body {
 }
 
 /* ----- Enhanced Glassmorphism classes ----- */
-.glass {
-  background: rgba(231, 219, 200, 0.6) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 2rem !important;
+/* Mobile - no blur for performance */
+@media (max-width: 768px) {
+  .glass {
+    background: rgba(231, 219, 200, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 2rem !important;
+  }
+
+  .glass-darker {
+    background: rgba(231, 219, 200, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 2rem !important;
+  }
+
+  .glass-lighter {
+    background: rgba(231, 219, 200, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    overflow: hidden;
+    color: #2a1d0c;
+    box-shadow: 0 4px 6px -1px rgba(31, 28, 25, 0.1), 0 2px 4px -1px rgba(31, 28, 25, 0.06);
+    border-radius: 2rem !important;
+    position: relative;
+  }
 }
 
-.glass-darker {
-  background: rgba(231, 219, 200, 0.5) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 2rem !important;
-}
+/* Desktop - with blur effects */
+@media (min-width: 769px) {
+  .glass {
+    background: rgba(231, 219, 200, 0.6) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 2rem !important;
+  }
 
-.glass-lighter {
-  background: rgba(231, 219, 200, 0.4) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  overflow: hidden;
-  color: #2a1d0c;
-  box-shadow: 0 4px 6px -1px rgba(31, 28, 25, 0.1), 0 2px 4px -1px rgba(31, 28, 25, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  border-radius: 2rem !important;
-  position: relative;
+  .glass-darker {
+    background: rgba(231, 219, 200, 0.5) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 2rem !important;
+  }
+
+  .glass-lighter {
+    background: rgba(231, 219, 200, 0.4) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    overflow: hidden;
+    color: #2a1d0c;
+    box-shadow: 0 4px 6px -1px rgba(31, 28, 25, 0.1), 0 2px 4px -1px rgba(31, 28, 25, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    border-radius: 2rem !important;
+    position: relative;
+  }
 }
 
 .glass::before {
@@ -139,16 +173,29 @@ html, body {
   pointer-events: none;
 }
 
-.glass-darker {
-  background: rgba(215, 195, 161, 0.92) !important;
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
+/* Additional glass variants - desktop only */
+@media (min-width: 769px) {
+  .glass-darker {
+    background: rgba(215, 195, 161, 0.92) !important;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+
+  .glass-lighter {
+    background: rgba(215, 195, 161, 0.65) !important;
+    backdrop-filter: blur(18px) saturate(200%);
+    -webkit-backdrop-filter: blur(18px) saturate(200%);
+  }
 }
 
-.glass-lighter {
-  background: rgba(215, 195, 161, 0.65) !important;
-  backdrop-filter: blur(18px) saturate(200%);
-  -webkit-backdrop-filter: blur(18px) saturate(200%);
+@media (max-width: 768px) {
+  .glass-darker {
+    background: rgba(215, 195, 161, 0.92) !important;
+  }
+
+  .glass-lighter {
+    background: rgba(215, 195, 161, 0.85) !important;
+  }
 }
 
 .accent {
@@ -520,4 +567,41 @@ form, form * {
   position: absolute;
   pointer-events: none;
   will-change: transform, opacity;
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Hardware acceleration for smooth transforms */
+  .will-change-transform,
+  [class*="transform"],
+  [class*="translate"] {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  /* Optimize scrolling */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Reduce heavy animations on mobile */
+  .card-hover:hover {
+    transform: translateY(-3px) scale(1.015);
+  }
+  
+  /* Faster transitions on mobile for better responsiveness */
+  button, a {
+    transition-duration: 0.15s;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

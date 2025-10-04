@@ -137,10 +137,10 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 pt-3 sm:pt-4">
-      {/* Backdrop for mobile menu */}
+      {/* Backdrop for mobile menu - optimized for performance */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 md:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-black/40 md:hidden"
           onClick={toggleMenu}
           aria-hidden="true"
         />
@@ -149,7 +149,7 @@ export default function Navbar() {
       {/* Desktop Segmented Navigation */}
       <div className="hidden md:flex items-center justify-between max-w-6xl mx-auto gap-4">
         {/* Logo Section - Left Pill */}
-        <Link href="/" className="bg-[#e7dbc8]/40 backdrop-blur-md border border-zinc-300/30 shadow-xl shadow-zinc-800/10 rounded-full px-6 py-2 hover:bg-[#e7dbc8]/50 transition-all no-underline">
+        <Link href="/" className="bg-[#e7dbc8]/60 border border-zinc-300/40 shadow-lg rounded-full px-6 py-2 hover:bg-[#e7dbc8]/70 transition-all no-underline">
           <div className="flex items-center h-14">
             <Image
               src="/Boondocklabs.png"
@@ -167,7 +167,7 @@ export default function Navbar() {
         {/* Navigation Links Container */}
         <div className="relative">
           {/* Navigation Links - Right Pill */}
-          <div className="bg-[#e7dbc8]/40 backdrop-blur-md border border-zinc-300/30 shadow-xl shadow-zinc-800/10 rounded-full px-6 py-2">
+          <div className="bg-[#e7dbc8]/60 border border-zinc-300/40 shadow-lg rounded-full px-6 py-2">
             <div className="flex items-center space-x-1 h-14">
               {mainLinks.map((link) => {
                 const IconComponent = link.icon;
@@ -222,7 +222,7 @@ export default function Navbar() {
           {/* Dropdown Menu - Positioned relative to navbar container */}
           {activeDropdown && (
             <div
-              className="absolute top-full left-0 mt-4 w-full max-w-6xl bg-[#e7dbc8]/95 backdrop-blur-md border border-zinc-300/30 rounded-2xl shadow-xl z-50 animate-in slide-in-from-top-2 duration-200"
+              className="absolute top-full left-0 mt-4 w-full max-w-6xl bg-[#e7dbc8]/95 border border-zinc-300/40 rounded-2xl shadow-lg z-50 animate-in slide-in-from-top-2 duration-200"
               onMouseEnter={handleDropdownMouseEnter}
               onMouseLeave={handleDropdownMouseLeave}
             >
@@ -359,8 +359,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      <nav className="md:hidden bg-[#e7dbc8]/40 backdrop-blur-md border border-zinc-300/30 relative shadow-xl shadow-zinc-800/10 rounded-full max-w-6xl mx-auto">
+      {/* Mobile Navigation - optimized for performance */}
+      <nav className="md:hidden bg-[#e7dbc8]/90 border border-zinc-300/40 relative shadow-lg rounded-full max-w-6xl mx-auto">
         <div className="px-4 sm:px-6 py-2">
           <div className="flex items-center justify-between h-16 sm:h-14">
             <Link href="/" className="flex items-center no-underline">
@@ -370,6 +370,7 @@ export default function Navbar() {
                 width={48}
                 height={48}
                 className="mr-2 sm:mr-3"
+                priority
               />
               <span className="font-bold text-base sm:text-lg text-[#d17927]">
                 Boondock Labs
@@ -386,8 +387,11 @@ export default function Navbar() {
           </div>
 
           {isOpen && (
-            <div className="absolute top-full left-0 right-0 mt-3 bg-[#e7dbc8]/95 backdrop-blur-md rounded-2xl shadow-xl border border-zinc-300/30 overflow-hidden z-50">
-              <div className="py-3 space-y-2 px-3">
+            <div className="absolute top-full left-0 right-0 mt-3 bg-[#e7dbc8]/95 rounded-2xl shadow-lg border border-zinc-300/40 overflow-hidden z-50 will-change-transform">
+              <div className="px-4 pt-3 pb-2">
+                <CurrencyDropdown />
+              </div>
+              <div className="border-t border-zinc-300/40 py-2 space-y-1 px-3">
                 {links.map((link) => (
                   <Link
                     key={link.href}
@@ -396,14 +400,11 @@ export default function Navbar() {
                       setIsOpen(false);
                       document.body.style.overflow = 'unset';
                     }}
-                    className="block py-4 px-4 text-[#3a2c1a] hover:bg-white/40 rounded-xl text-base font-medium transition-all min-h-[48px] flex items-center"
+                    className="flex items-center py-3 px-4 text-[#3a2c1a] hover:bg-white/30 active:bg-white/40 rounded-xl text-base font-medium min-h-[48px]"
                   >
                     {link.label}
                   </Link>
                 ))}
-              </div>
-              <div className="border-t border-zinc-300/40 px-4 py-4 flex justify-center sm:justify-end">
-                <CurrencyDropdown />
               </div>
             </div>
           )}

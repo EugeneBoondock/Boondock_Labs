@@ -7,16 +7,21 @@ export default function AnimeBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    setIsMobile(window.innerWidth <= 768);
   }, []);
 
+  // Disable on mobile for performance
+  if (isMobile) return null;
+
   useEffect(() => {
-    if (!isMounted || !containerRef.current) return;
+    if (!isMounted || !containerRef.current || isMobile) return;
 
     const container = containerRef.current;
-    const numElements = 50; // Reduced particles for cleaner look
+    const numElements = 50;
 
     // Create floating geometric shapes
     for (let i = 0; i < numElements; i++) {
@@ -105,8 +110,8 @@ export default function AnimeBackground() {
       shapes.forEach((shape, i) => {
         const element = shape as HTMLElement;
         const shapeSize = parseFloat(element.style.width);
-        
-        // More dramatic movements for larger shapes
+
+        // Movement range based on shape size
         const movementRange = shapeSize > 50 ? 200 : shapeSize > 30 ? 150 : 100;
         
         // Main movement animation - more dynamic
@@ -120,7 +125,7 @@ export default function AnimeBackground() {
           loop: true
         });
 
-        // Enhanced pulsing animation with more variation
+        // Pulsing animation
         setTimeout(() => {
           animate(shape, {
             opacity: [0.1, utils.random(0.25, 0.5), utils.random(0.15, 0.35), 0.1],
@@ -130,7 +135,7 @@ export default function AnimeBackground() {
           });
         }, i * 40);
 
-        // Multi-directional floating animation
+        // Floating animation
         setTimeout(() => {
           animate(shape, {
             translateY: [0, utils.random(-120, 120), utils.random(-60, 60), 0],
