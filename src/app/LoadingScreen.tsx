@@ -18,11 +18,11 @@ export default function LoadingScreen() {
 
     // Check if page is fully loaded and ready
     const checkPageReady = () => {
-      // Check if main content is loaded (fonts, images, etc.)
-      const hasContent = document.querySelector('main');
-      const hasNavbar = document.querySelector('nav') || document.querySelector('.navbar');
+      // Check if main content is loaded - look for main-content div
+      const mainContentDiv = document.getElementById('main-content');
+      const hasContent = mainContentDiv && document.querySelector('main');
 
-      if (hasContent && hasNavbar) {
+      if (hasContent) {
         setIsPageReady(true);
       }
     };
@@ -70,30 +70,38 @@ export default function LoadingScreen() {
 
     // Hide loading screen when page is ready (minimum 2 seconds for good UX)
     const hideLoadingScreen = () => {
-      if (isPageReady) {
-        animate(loader, {
-          opacity: [1, 0],
-          scale: [1, 1.1],
-          duration: 600,
-          ease: 'in(2)',
-          complete: () => {
-            setIsLoading(false);
-            // Show main content
-            const mainContent = document.getElementById('main-content');
-            if (mainContent) {
-              mainContent.style.display = 'block';
-            }
+      animate(loader, {
+        opacity: [1, 0],
+        scale: [1, 1.1],
+        duration: 600,
+        ease: 'in(2)',
+        complete: () => {
+          setIsLoading(false);
+          // Show main content
+          const mainContent = document.getElementById('main-content');
+          if (mainContent) {
+            mainContent.style.display = 'block';
           }
-        });
-      }
+        }
+      });
     };
 
     // Set minimum loading time of 2 seconds for better UX
-    const minLoadingTime = setTimeout(hideLoadingScreen, 2000);
-
-    // Also hide when page is ready (whichever comes first after minimum time)
-    const readyTimer = setTimeout(() => {
+    const minLoadingTime = setTimeout(() => {
       if (isPageReady) {
+        hideLoadingScreen();
+      }
+    }, 2000);
+
+    // Keep checking and hide when ready (after minimum time has passed)
+    let hasMinTimePassed = false;
+    setTimeout(() => {
+      hasMinTimePassed = true;
+    }, 2000);
+
+    const readyCheckInterval = setInterval(() => {
+      if (isPageReady && hasMinTimePassed) {
+        clearInterval(readyCheckInterval);
         hideLoadingScreen();
       }
     }, 100);
@@ -101,7 +109,7 @@ export default function LoadingScreen() {
     return () => {
       clearInterval(interval);
       clearTimeout(minLoadingTime);
-      clearTimeout(readyTimer);
+      clearInterval(readyCheckInterval);
     };
   }, [isMounted, isPageReady]);
 
