@@ -32,6 +32,29 @@ export default function Work() {
               </div>
             </div>
 
+            {/* Earth2 MCP Server */}
+            <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+              <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
+                <div className="text-center">
+                  <Code className="h-16 w-16 text-orange-600 mx-auto mb-2" />
+                  <p className="text-sm font-bold text-orange-800">Earth2 MCP Server</p>
+                </div>
+              </div>
+              <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+                Earth2 MCP Server - Claude Integration
+              </h3>
+              <p className="text-sm mb-3 text-black">Built a complete MCP server enabling Claude to access Earth2 account data, properties, wallet information, transactions, and marketplace listings. Features dual credential support and full Claude Desktop integration.</p>
+              <div className="flex items-center justify-between mt-auto pt-2">
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP Server</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Earth2 API</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">NPM Package</span>
+                </div>
+                <a href="https://www.npmjs.com/package/earth2-mcp-server" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+                  View NPM <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
+              </div>
+            </div>
             {/* Morphed.io - Full Platform Development */}
             <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
               <div className="h-40 relative mb-3 overflow-hidden rounded-lg">

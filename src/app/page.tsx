@@ -184,6 +184,23 @@ export default function Home() {
               </div>
             </a>
 
+            {/* Earth2 MCP Server */}
+            <a
+              href="https://www.npmjs.com/package/earth2-mcp-server"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 sm:p-4 bg-white/60 hover:bg-white/80 rounded-lg border border-orange-200 transition-all hover:shadow-md group min-h-[120px] flex flex-col"
+            >
+              <div className="flex items-center mb-2">
+                <Network className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600 mr-2 flex-shrink-0" />
+                <h3 className="font-bold text-sm accent">earth2-mcp-server</h3>
+              </div>
+              <p className="text-xs text-zinc-700 mb-2 flex-grow">MCP server for Earth2 - Access Earth2 account data through Claude</p>
+              <div className="flex items-center text-xs text-orange-600 group-hover:underline mt-auto">
+                View on NPM <ExternalLink className="h-3 w-3 ml-1" />
+              </div>
+            </a>
+
             {/* Morphed MCP Server */}
             <a
               href="https://www.npmjs.com/package/morphed-mcp-server"
@@ -206,7 +223,7 @@ export default function Home() {
               href="https://www.npmjs.com/package/hubspot-mcp-server"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 sm:p-4 bg-white/60 hover:bg-white/80 rounded-lg border border-orange-200 transition-all hover:shadow-md group min-h-[120px] flex flex-col sm:col-span-2 lg:col-span-1"
+              className="p-3 sm:p-4 bg-white/60 hover:bg-white/80 rounded-lg border border-orange-200 transition-all hover:shadow-md group min-h-[120px] flex flex-col"
             >
               <div className="flex items-center mb-2">
                 <Network className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600 mr-2 flex-shrink-0" />
