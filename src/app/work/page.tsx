@@ -21,14 +21,38 @@ export default function Work() {
               <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
                 SavingWithDana.com - Backend Development
               </h3>
-              <p className="text-sm mb-3 text-black">Currently polishing robust backend infrastructure using AWS services and modern cloud architecture for a savings and deals platform.</p>
+              <p className="text-sm mb-3 text-black">Built robust backend infrastructure using AWS services and modern cloud architecture for a savings and deals platform.</p>
               <div className="flex items-center justify-between mt-auto pt-2">
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">AWS</span>
                   <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Backend</span>
                   <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Cloud Architecture</span>
                 </div>
-                <span className="text-xs font-medium px-2 py-1 bg-green-100 text-green-800 rounded">In Progress</span>
+                <span className="text-xs font-medium px-2 py-1 bg-blue-100 text-blue-800 rounded">Done</span>
+              </div>
+            </div>
+
+            {/* Platedom.com - AI Restaurant Platform */}
+            <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+              <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
+                <div className="text-center">
+                  <Code className="h-16 w-16 text-orange-600 mx-auto mb-2" />
+                  <p className="text-sm font-bold text-orange-800">Platedom</p>
+                </div>
+              </div>
+              <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+                Platedom.com - AI Restaurant Platform
+              </h3>
+              <p className="text-sm mb-3 text-black">Generative AI platform for restaurants that transforms menus into visual feasts. Creates Michelin-star quality food photography and recipes in seconds. Built with Firebase for database and authentication, featuring real-time data sync and secure user management.</p>
+              <div className="flex items-center justify-between mt-auto pt-2">
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Firebase</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Generative AI</span>
+                  <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">React</span>
+                </div>
+                <a href="https://platedom.com" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+                  Visit <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
               </div>
             </div>
 
