@@ -106,7 +106,7 @@ export default function MCPPage() {
       </section>
 
       {/* What is MCP Section */}
-      <section className="w-full px-4 flex justify-center mb-16">
+      <section id="overview" className="w-full px-4 flex justify-center mb-16 scroll-mt-24">
         <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Explanation */}
           <div className="glass shadow-lg p-8 border border-orange-900/20">
@@ -176,7 +176,7 @@ export default function MCPPage() {
       </section>
 
       {/* My MCP Work */}
-      <section className="w-full px-4 flex justify-center mb-16">
+      <section id="servers" className="w-full px-4 flex justify-center mb-16 scroll-mt-24">
         <div className="max-w-5xl w-full glass shadow-xl py-8 px-6 sm:px-10 border border-orange-900/20">
           <h2 className="text-2xl font-bold accent mb-6 flex items-center justify-center">
             <Package className="h-6 w-6 mr-3" />
@@ -410,7 +410,7 @@ export default function MCPPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="w-full px-4 flex justify-center">
+      <section id="guide" className="w-full px-4 flex justify-center scroll-mt-24">
         <div className="max-w-3xl w-full glass shadow-xl py-10 px-8 text-center border border-orange-900/20">
           <h2 className="text-2xl font-bold accent mb-4">Ready to Build Your MCP Server?</h2>
           <p className="text-base text-black mb-6">

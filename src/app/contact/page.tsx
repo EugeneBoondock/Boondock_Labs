@@ -88,8 +88,8 @@ export default function Contact() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-start pb-24">
       <section className="w-full pt-24 sm:pt-32 px-4 flex justify-center">
-        <div className="max-w-4xl w-full glass grid-pattern border border-orange-900/20 py-8 px-6 sm:px-12 mb-16 shadow-lg relative z-10" style={{ pointerEvents: 'auto' }}>
-          <h2 className="text-2xl font-bold mb-6 accent text-center">Let's Build Something Amazing Together</h2>
+        <div id="message" className="max-w-4xl w-full glass grid-pattern border border-orange-900/20 py-8 px-6 sm:px-12 mb-16 shadow-lg relative z-10 scroll-mt-24" style={{ pointerEvents: 'auto' }}>
+          <h2 id="inquiry" className="text-2xl font-bold mb-6 accent text-center scroll-mt-24">Let's Build Something Amazing Together</h2>
 
           {/* Progress Indicator */}
           <div className="flex items-center justify-center mb-8">
@@ -368,10 +368,21 @@ export default function Contact() {
             </form>
           </div>
 
-          <div className="mt-8 text-center">
-            <p className="text-sm text-black">
+          <div id="social" className="mt-8 text-center scroll-mt-24">
+            <p className="text-sm text-black mb-4">
               Prefer direct contact? <a href="mailto:philosncube@gmail.com" className="cream hover:[color:#d17927] font-medium">philosncube@gmail.com</a>
             </p>
+            <div className="flex justify-center gap-4 mt-4">
+              <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors text-sm">
+                GitHub
+              </a>
+              <a href="https://twitter.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                Twitter
+              </a>
+              <a href="https://linkedin.com/in/eugene-ncube" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors text-sm">
+                LinkedIn
+              </a>
+            </div>
           </div>
         </div>
       </section>

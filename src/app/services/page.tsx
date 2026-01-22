@@ -9,7 +9,7 @@ export default function Services() {
           <h2 className="text-2xl font-bold mb-5 accent">What I Can Build For You</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Website Development */}
-            <div className="p-5 card-hover overflow-hidden rounded-xl">
+            <div id="websites" className="p-5 card-hover overflow-hidden rounded-xl scroll-mt-24">
               <div className="flex items-center mb-3">
                 <div className="p-2.5 bg-gradient-to-br from-orange-600 to-orange-400 rounded-lg mr-4">
                   <Monitor className="h-6 w-6 text-black" />
@@ -129,7 +129,7 @@ export default function Services() {
             </div>
 
             {/* MCP Server Development */}
-            <div className="p-5 card-hover overflow-hidden rounded-xl">
+            <div id="mcp" className="p-5 card-hover overflow-hidden rounded-xl scroll-mt-24">
               <div className="flex items-center mb-3">
                 <div className="p-2.5 bg-gradient-to-br from-orange-600 to-orange-400 rounded-lg mr-4">
                   <Network className="h-6 w-6 text-black" />
@@ -160,7 +160,7 @@ export default function Services() {
             </div>
 
             {/* API Development & Integration */}
-            <div className="p-5 card-hover overflow-hidden rounded-xl">
+            <div id="apis" className="p-5 card-hover overflow-hidden rounded-xl scroll-mt-24">
               <div className="flex items-center mb-3">
                 <div className="p-2.5 bg-gradient-to-br from-orange-600 to-orange-400 rounded-lg mr-4">
                   <Database className="h-6 w-6 text-black" />
