@@ -1086,6 +1086,257 @@ const SolitaireContent = () => {
 // CV / Resume - PDF Viewer (rendered via PDF.js, no browser print dialog)
 const CVContent = () => <Win7CVViewer />;
 
+// ── Blog Reader ──────────────────────────────────────────────────────────────
+const blogPosts = [
+  {
+    id: 'mcp-server-guide',
+    title: 'Building Production-Ready MCP Servers: A Complete Guide',
+    excerpt: 'Learn how to create robust Model Context Protocol servers that integrate seamlessly with AI platforms like Claude and ChatGPT.',
+    date: '2025-01-15', readTime: '8 min read', category: 'AI Integration',
+    body: `Model Context Protocol (MCP) is Anthropic's open standard for giving AI assistants access to external tools and data. In this guide I walk through building a production-grade MCP server from scratch — covering authentication, rate limiting, error handling, and deployment on AWS Lambda.\n\nKey topics:\n• Structuring tools and resources correctly\n• Handling streaming vs. request/response patterns\n• Token management and security hardening\n• Testing your server against Claude in a local environment\n• Publishing to the MCP registry`,
+  },
+  {
+    id: 'ai-accelerated-development',
+    title: 'How AI Tools Are Revolutionizing Web Development Speed',
+    excerpt: 'Discover how modern AI tools can reduce development time from months to weeks while maintaining code quality and scalability.',
+    date: '2025-01-10', readTime: '6 min read', category: 'AI & Development',
+    body: `After shipping Earthie.world, EntropySuite and Morphed.io in rapid succession, I can say with confidence that AI-assisted development is a genuine force multiplier — not just hype.\n\nIn this post I break down the specific tools and workflows that cut my delivery time by roughly 60%, how I avoid the classic pitfalls of AI-generated code (hallucinated APIs, stale patterns), and what human review checkpoints I keep in every sprint.\n\nKey takeaways:\n• Using Claude for architecture discussions before writing a single line\n• Keeping context windows focused on one feature at a time\n• Automated testing as the safety net for AI suggestions\n• When NOT to accept the suggestion`,
+  },
+  {
+    id: 'earth2-platform-case-study',
+    title: 'Building Earthie: A Comprehensive Earth2 Metaverse Analytics Platform',
+    excerpt: 'Deep dive into creating a comprehensive Earth2 community platform with 13 specialized hubs, 17+ API integrations, AI-powered analytics, and advanced mapping features.',
+    date: '2025-01-05', readTime: '15 min read', category: 'Case Studies',
+    body: `Earthie started as a personal tool to track my Earth2 land portfolio. Eight months later it became a full community platform with 13 specialized hubs, 20+ API integrations, a real-time market terminal, an AI advisor powered by Google Gemini, a 3D globe explorer, and mineral prospecting tools backed by USGS geological data.\n\nIn this case study I document the major architectural decisions:\n• Multi-tenant Supabase schema design for 1 000+ users\n• Orchestrating 20+ third-party APIs without hitting rate limits\n• Building a trading-style market terminal with WebSockets and Chart.js\n• Progressive Web App offline strategy\n• Cost optimisation when free tiers run out`,
+  },
+  {
+    id: 'modern-backend-architecture',
+    title: 'Modern Backend Architecture for Scalable Applications',
+    excerpt: 'Best practices for building backend systems that can handle growth, using AWS services, database optimisation, and microservices patterns.',
+    date: '2025-01-01', readTime: '10 min read', category: 'Backend Development',
+    body: `Scaling a side project to real users forces hard conversations about architecture that tutorials skip. This post synthesises lessons from building the backends for Morphed.io and Earthie.world.\n\nTopics covered:\n• When to move from a monolith to services (and when not to)\n• PostgreSQL indexing strategies that actually matter at scale\n• AWS Lambda + API Gateway vs. long-running Node.js servers\n• Caching layers: Redis, CDN edge, and in-memory — picking the right tool\n• Observability: structured logging, tracing, and alerting without drowning in noise`,
+  },
+  {
+    id: 'oauth-integration-patterns',
+    title: 'OAuth 2.0 Integration Patterns for Multi-Platform Apps',
+    excerpt: 'Comprehensive guide to implementing secure OAuth flows across different platforms and handling token management at scale.',
+    date: '2024-12-28', readTime: '7 min read', category: 'Authentication',
+    body: `OAuth 2.0 looks straightforward until you need to support five providers, refresh tokens across serverless functions, and handle revocation gracefully. This guide comes from integrating HubSpot, Google, GitHub, and custom OAuth providers into Morphed.io.\n\nWhat I cover:\n• PKCE flow for SPAs vs. server-side confidential clients\n• Secure token storage — httpOnly cookies, encrypted DB columns, KMS\n• Refresh token rotation and race conditions\n• Scope negotiation and incremental authorisation\n• Testing OAuth flows without mocking everything away`,
+  },
+  {
+    id: 'debugging-complex-systems',
+    title: "Debugging Complex Distributed Systems: A Developer's Toolkit",
+    excerpt: 'Essential techniques and tools for debugging microservices, API integrations, and distributed systems effectively.',
+    date: '2024-12-25', readTime: '9 min read', category: 'Development',
+    body: `Distributed systems fail in ways that unit tests will never catch. After chasing bugs across WebSocket connections, third-party API callbacks, and async queues, I built a personal toolkit that I reach for every time something goes wrong in production.\n\nTools and techniques:\n• Structured JSON logging with correlation IDs across services\n• OpenTelemetry tracing on a shoestring budget\n• Reproducing flaky race conditions locally with artificial delays\n• Network interception with mitmproxy for third-party API debugging\n• Postmortem templates that actually get used`,
+  },
+  {
+    id: 'debugging-ai-written-code',
+    title: 'Debugging AI-Written Code',
+    excerpt: 'Learn how to effectively debug code generated by AI tools, ensuring reliability and maintaining code quality in AI-assisted development.',
+    date: '2024-12-20', readTime: '8 min read', category: 'AI & Development',
+    body: `AI code generation is fast — but the bugs it introduces are often subtle and confidence-inspiring, which makes them extra dangerous. This post is a field guide to the most common failure modes I have encountered and how to catch them before they reach production.\n\nPatterns to watch for:\n• Hallucinated library APIs that look plausible but don't exist\n• Correct logic, wrong types — TypeScript will catch some, not all\n• Race conditions hidden inside async/await chains\n• Security anti-patterns (SQL string interpolation, missing input sanitisation)\n• How to write targeted tests that break AI-generated code early`,
+  },
+];
+
+const Win7BlogContent = () => {
+  const [selected, setSelected] = React.useState(blogPosts[0]);
+  const [filter, setFilter] = React.useState('All');
+  const categories = ['All', 'AI Integration', 'AI & Development', 'Case Studies', 'Backend Development', 'Authentication', 'Development'];
+  const visible = filter === 'All' ? blogPosts : blogPosts.filter(p => p.category === filter);
+
+  return (
+    <div className="app-content blog-app">
+      <div className="explorer-toolbar">
+        <button className="toolbar-btn" disabled>← Back</button>
+        <button className="toolbar-btn" disabled>→ Forward</button>
+        <div className="address-bar">
+          <span className="address-icon">📝</span>
+          <span>C:\Users\Eugene\Documents\Blog</span>
+        </div>
+        <a href="/blog" target="_blank" rel="noopener noreferrer" className="toolbar-btn" style={{ textDecoration: 'none', color: 'inherit' }}>
+          🌐 Open in Browser
+        </a>
+      </div>
+
+      <div className="blog-filter-bar">
+        {categories.map(c => (
+          <button key={c} className={`blog-cat-btn${filter === c ? ' active' : ''}`} onClick={() => setFilter(c)}>{c}</button>
+        ))}
+      </div>
+
+      <div className="blog-layout">
+        {/* Left — post list */}
+        <div className="blog-list">
+          {visible.map(p => (
+            <div
+              key={p.id}
+              className={`blog-list-item${selected.id === p.id ? ' active' : ''}`}
+              onClick={() => setSelected(p)}
+            >
+              <span className="blog-list-cat">{p.category}</span>
+              <strong className="blog-list-title">{p.title}</strong>
+              <span className="blog-list-meta">{p.date} · {p.readTime}</span>
+            </div>
+          ))}
+          {visible.length === 0 && <p style={{ padding: '16px', color: '#888' }}>No posts in this category.</p>}
+        </div>
+
+        {/* Right — reading pane */}
+        <div className="blog-reader">
+          <div className="blog-reader-header">
+            <span className="blog-reader-cat">{selected.category}</span>
+            <h2 className="blog-reader-title">{selected.title}</h2>
+            <p className="blog-reader-meta">{selected.date} · {selected.readTime} · Eugene Boondock</p>
+          </div>
+          <p className="blog-reader-excerpt">{selected.excerpt}</p>
+          <hr className="blog-divider" />
+          <div className="blog-reader-body">
+            {selected.body.split('\n').map((line, i) =>
+              line.startsWith('•') ? (
+                <p key={i} className="blog-bullet">{line}</p>
+              ) : line.trim() === '' ? (
+                <br key={i} />
+              ) : (
+                <p key={i}>{line}</p>
+              )
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── Case Studies Viewer ──────────────────────────────────────────────────────
+const caseStudies = [
+  {
+    id: 'earthie-platform',
+    title: 'Earthie: Earth2 Metaverse Analytics & Community Platform',
+    client: 'Earth2 Community', duration: '8 months', team: 'Solo Developer',
+    category: 'Full-Stack Development',
+    image: '/earthie-world.png',
+    technologies: ['Next.js 14', 'React 18', 'Supabase', 'PostgreSQL', 'TypeScript', 'Tailwind CSS', 'PWA', 'Chart.js', 'Leaflet Maps', 'WebSockets', 'OAuth 2.0', 'Google Gemini AI', 'Moralis API', 'USGS API', 'Three.js'],
+    challenge: 'The Earth2 community needed a comprehensive platform to manage land data, track Essence prices, analyse market trends, and connect users across 13 specialised hubs with real-time data and AI-powered insights.',
+    solution: 'Built a full-featured platform with 20+ API integrations, real-time data processing, AI-powered analytics, advanced mapping, and a multi-hub architecture supporting 1 000+ users.',
+    metrics: { 'Specialised Hubs': '13', 'API Integrations': '20+', 'Active Users': '1 000+', 'Countries': '195+', 'Uptime': '99.9%', 'AI Models': '2' },
+    results: ['13 specialised hubs for different Earth2 activities', 'Real-time Essence price tracking with historical analytics', 'AI-powered portfolio advisor via Google Gemini', 'Interactive mapping with Leaflet & Three.js globe', 'Mineral prospecting with USGS geological data', 'Community social hub with posts, reactions, and live streaming', 'Leaderboards for 195+ countries', 'Multi-tenant PWA supporting 1 000+ users'],
+  },
+  {
+    id: 'morphed-platform',
+    title: 'Morphed: Enterprise Business Intelligence & AI Integration Platform',
+    client: 'Morphed.io', duration: '12 months', team: 'Solo Developer',
+    category: 'Full-Stack Development',
+    image: null,
+    technologies: ['Next.js 14', 'React 18', 'Node.js', 'PostgreSQL', 'TypeScript', 'OAuth 2.0', 'MCP Servers', 'HubSpot API', 'Pinecone Vector DB', 'WebSockets', 'JWT', 'PWA'],
+    challenge: 'Build a comprehensive enterprise BI platform with multi-tenancy, advanced AI integration, HubSpot CRM integration, MCP server architecture, real-time data processing, and sophisticated authentication.',
+    solution: 'Developed a full-stack platform with OAuth 2.0 integration, comprehensive audit trails, custom MCP servers, HubSpot CRM operations, vector database embeddings, and enterprise-grade security.',
+    metrics: { 'Enterprise Clients': '100+', 'MCP Tools': '15+', 'API Endpoints': '75+', 'Vector DB Entries': '115 000+', 'Security Score': 'A+', 'Response Time': '<200ms' },
+    results: ['Multi-tenant architecture with role-based access for 100+ enterprise clients', 'Advanced OAuth 2.0 with HubSpot, Google, and custom providers', 'Custom MCP servers enabling Claude to access business data in real-time', 'Pinecone vector DB for semantic search across 115 000+ entries', 'Enterprise-grade security — encrypted token storage, rate limiting, A+ score', 'Real-time WebSocket connections with token heartbeat', 'File processing for PDF & DOCX with AI summarisation'],
+  },
+  {
+    id: 'entropy-suite',
+    title: 'Entropy Suite: AI-Powered Productivity Platform',
+    client: 'Internal Project', duration: '4 months', team: 'Solo Developer',
+    category: 'Full-Stack Development',
+    image: '/entropysuite.png',
+    technologies: ['React', 'Node.js', 'Supabase', 'Gemini AI', 'Document Processing', 'Crypto Payments'],
+    challenge: 'Create a comprehensive productivity suite with AI-powered document processing, real terminal functionality, university application assistance, and cryptocurrency payments.',
+    solution: 'Built an integrated platform featuring AI document conversion, real terminal capabilities, university application tools, and crypto payment processing with subscription management.',
+    metrics: { 'AI Tools': '30+', 'Document Types': '10+', 'Universities': '26', 'Payment Methods': '3' },
+    results: ['30+ AI-powered productivity and creativity tools', 'AI document conversion, summarisation, and analysis', 'Real terminal for development workflows', 'University application assistant with SA institution data', 'Cryptocurrency payment integration with subscription tiers', 'Python terminal, image editing, and text-to-speech tools'],
+  },
+];
+
+const Win7CaseStudiesContent = () => {
+  const [selected, setSelected] = React.useState(caseStudies[0]);
+
+  return (
+    <div className="app-content cs-app">
+      <div className="explorer-toolbar">
+        <button className="toolbar-btn" disabled>← Back</button>
+        <button className="toolbar-btn" disabled>→ Forward</button>
+        <div className="address-bar">
+          <span className="address-icon">📊</span>
+          <span>C:\Users\Eugene\Documents\Case Studies</span>
+        </div>
+        <a href="/case-studies" target="_blank" rel="noopener noreferrer" className="toolbar-btn" style={{ textDecoration: 'none', color: 'inherit' }}>
+          🌐 Open in Browser
+        </a>
+      </div>
+
+      <div className="cs-layout">
+        {/* Left sidebar — case study selector */}
+        <div className="cs-sidebar">
+          {caseStudies.map(cs => (
+            <div
+              key={cs.id}
+              className={`cs-sidebar-item${selected.id === cs.id ? ' active' : ''}`}
+              onClick={() => setSelected(cs)}
+            >
+              <span className="cs-sidebar-cat">{cs.category}</span>
+              <strong className="cs-sidebar-title">{cs.title}</strong>
+              <span className="cs-sidebar-meta">{cs.client} · {cs.duration}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Right — case study detail */}
+        <div className="cs-detail">
+          {selected.image && (
+            <img src={selected.image} alt={selected.title} className="cs-hero-img" />
+          )}
+          <div className="cs-detail-header">
+            <span className="cs-detail-cat">{selected.category}</span>
+            <h2 className="cs-detail-title">{selected.title}</h2>
+            <div className="cs-detail-meta">
+              <span>👤 {selected.team}</span>
+              <span>🏢 {selected.client}</span>
+              <span>⏱ {selected.duration}</span>
+            </div>
+          </div>
+
+          {/* Metrics */}
+          <div className="cs-metrics">
+            {Object.entries(selected.metrics).map(([k, v]) => (
+              <div key={k} className="cs-metric">
+                <span className="cs-metric-val">{v}</span>
+                <span className="cs-metric-key">{k}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Tech stack */}
+          <div className="cs-section">
+            <h3>Tech Stack</h3>
+            <div className="cs-tags">
+              {selected.technologies.map(t => <span key={t} className="cs-tag">{t}</span>)}
+            </div>
+          </div>
+
+          {/* Challenge & Solution */}
+          <div className="cs-section">
+            <h3>Challenge</h3>
+            <p>{selected.challenge}</p>
+          </div>
+          <div className="cs-section">
+            <h3>Solution</h3>
+            <p>{selected.solution}</p>
+          </div>
+
+          {/* Results */}
+          <div className="cs-section">
+            <h3>Results</h3>
+            <ul className="cs-results">
+              {selected.results.map((r, i) => <li key={i}>✅ {r}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const desktopApps: DesktopApp[] = [
   {
     id: 'computer',
@@ -1143,6 +1394,26 @@ export const desktopApps: DesktopApp[] = [
     icon: '/win7/icons/authentic/wine-notepad.png',
     content: <CVContent />,
     width: 900,
+    height: 700,
+    showOnDesktop: true,
+    pinToStart: true,
+  },
+  {
+    id: 'blog',
+    name: 'Blog',
+    icon: '/win7/icons/authentic/gnome-help.png',
+    content: <Win7BlogContent />,
+    width: 1000,
+    height: 680,
+    showOnDesktop: true,
+    pinToStart: true,
+  },
+  {
+    id: 'case-studies',
+    name: 'Case Studies',
+    icon: '/win7/icons/authentic/applications-development.png',
+    content: <Win7CaseStudiesContent />,
+    width: 1000,
     height: 700,
     showOnDesktop: true,
     pinToStart: true,

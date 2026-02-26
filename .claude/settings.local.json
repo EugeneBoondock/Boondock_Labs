@@ -30,7 +30,9 @@
       "Bash(node -e \":*)",
       "Bash(npm run build)",
       "Bash(npm install react-pdf)",
-      "Bash(node -e \"const p = require\\(''./node_modules/react-pdf/package.json''\\); console.log\\(''react-pdf version:'', p.version\\); const pdfjs = require\\(''./node_modules/pdfjs-dist/package.json''\\); console.log\\(''pdfjs-dist version:'', pdfjs.version\\);\")"
+      "Bash(node -e \"const p = require\\(''./node_modules/react-pdf/package.json''\\); console.log\\(''react-pdf version:'', p.version\\); const pdfjs = require\\(''./node_modules/pdfjs-dist/package.json''\\); console.log\\(''pdfjs-dist version:'', pdfjs.version\\);\")",
+      "Bash(ls -la /c/Users/USER/Projects/Boondock-Labs-Portfolio/Boondock_Labs/*.md)",
+      "Bash(xargs grep -l \"blogPosts\\\\|caseStudies\")"
     ]
   }
 }
