@@ -393,55 +393,175 @@ const ComputerContent = () => (
   </div>
 );
 
-// Internet Explorer - Portfolio Browser
-const InternetExplorerContent = () => (
-  <div className="app-content ie-app">
-    <div className="ie-toolbar">
-      <button className="toolbar-btn">← Back</button>
-      <button className="toolbar-btn">→ Forward</button>
-      <button className="toolbar-btn">🔄</button>
-      <button className="toolbar-btn">🏠</button>
-      <div className="address-bar">
-        <span className="address-icon">🌐</span>
-        <input type="text" value="https://boondocklabs.com" readOnly />
-        <button className="go-btn">→</button>
+// Internet Explorer - Portfolio home page
+const IE_LINKS = {
+  projects: [
+    {
+      icon: '🌍',
+      name: 'Earthie.world',
+      desc: 'Earth2 metaverse platform — 17+ API integrations, real-time market data & interactive mapping.',
+      url: 'https://earthie.world',
+      tags: ['Next.js', 'React', 'Earth2 API'],
+    },
+    {
+      icon: '🔮',
+      name: 'Morphed.io',
+      desc: 'Full platform dev — backend infrastructure, frontend, custom API endpoints & MCP server.',
+      url: 'https://morphed.io',
+      tags: ['Full-Stack', 'MCP Server', 'API'],
+    },
+    {
+      icon: '🍽️',
+      name: 'Platedom.com',
+      desc: 'AI restaurant platform — generative AI transforms menus into visual feasts.',
+      url: 'https://platedom.com',
+      tags: ['Firebase', 'Generative AI', 'React'],
+    },
+    {
+      icon: '💊',
+      name: 'SavingWithDana',
+      desc: 'Coupon & savings platform powered by an AWS backend.',
+      url: 'https://savingwithdana.com',
+      tags: ['AWS', 'Next.js'],
+    },
+    {
+      icon: '🧬',
+      name: 'KinSpace (WIP)',
+      desc: 'Safe community space for people with chronic & mental illness.',
+      url: 'https://github.com/EugeneBoondock',
+      tags: ['React', 'Community'],
+    },
+    {
+      icon: '🌐',
+      name: '3rdIslandTours',
+      desc: 'Tourism & virtual tour booking platform designed for performance.',
+      url: 'https://3rdislandtours.com',
+      tags: ['Web', 'Tours'],
+    },
+  ],
+  social: [
+    { icon: '💼', name: 'LinkedIn',       url: 'https://linkedin.com/in/eugeneboondock',   desc: 'Professional profile' },
+    { icon: '🐙', name: 'GitHub',         url: 'https://github.com/EugeneBoondock',         desc: 'Open source & projects' },
+    { icon: '📦', name: 'NPM Packages',   url: 'https://www.npmjs.com/~eugeneboondock',     desc: 'Published NPM packages' },
+    { icon: '✍️', name: 'Poetry / FB',   url: 'https://facebook.com/Philosophistication',  desc: 'Thousands of poems' },
+  ],
+};
+
+const InternetExplorerContent = () => {
+  const [inputValue, setInputValue] = React.useState('https://boondocklabs.com');
+
+  const openUrl = (raw: string) => {
+    let dest = raw.trim();
+    if (dest && !/^https?:\/\//i.test(dest)) dest = 'https://' + dest;
+    if (dest) window.open(dest, '_blank', 'noopener,noreferrer');
+  };
+
+  return (
+    <div className="app-content ie-app">
+      {/* Toolbar */}
+      <div className="ie-toolbar">
+        <button className="toolbar-btn" disabled>← Back</button>
+        <button className="toolbar-btn" disabled>→ Forward</button>
+        <button className="toolbar-btn" title="Refresh">🔄</button>
+        <button className="toolbar-btn" title="Home">🏠</button>
+        <div className="address-bar ie-address-bar">
+          <span className="address-icon">🌐</span>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && openUrl(inputValue)}
+            spellCheck={false}
+          />
+          <button className="go-btn" onClick={() => openUrl(inputValue)}>Go</button>
+        </div>
       </div>
-    </div>
-    <div className="ie-content">
-      <div className="welcome-page">
-        <h1>🌐 Welcome to Boondock Labs</h1>
-        <p className="tagline">AI-Powered Web Development & MCP Servers</p>
-        
-        <div className="quick-links">
-          <h2>Quick Links</h2>
-          <div className="links-grid">
-            <a href="https://earthie.world" target="_blank" rel="noopener noreferrer" className="quick-link">
-              <span>🌍</span>
-              <span>Earthie.world</span>
-            </a>
-            <a href="https://morphed.io" target="_blank" rel="noopener noreferrer" className="quick-link">
-              <span>🔮</span>
-              <span>Morphed.io</span>
-            </a>
-            <a href="https://platedom.com" target="_blank" rel="noopener noreferrer" className="quick-link">
-              <span>🍽️</span>
-              <span>Platedom.com</span>
-            </a>
-            <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="quick-link">
-              <span>💻</span>
-              <span>GitHub</span>
-            </a>
+
+      {/* Favorites bar */}
+      <div className="ie-favorites-bar">
+        {IE_LINKS.social.map(s => (
+          <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer" className="ie-fav-btn">
+            {s.icon} {s.name}
+          </a>
+        ))}
+        <a href="https://boondocklabs.com" target="_blank" rel="noopener noreferrer" className="ie-fav-btn">
+          🏠 Boondock Labs
+        </a>
+      </div>
+
+      {/* Home page content */}
+      <div className="ie-content ie-homepage">
+        {/* Hero */}
+        <div className="ie-hero">
+          <img src="/win7/icons/authentic/web-browser.png" alt="" className="ie-hero-icon" />
+          <div>
+            <h1 className="ie-hero-title">Eugene Boondock — Portfolio</h1>
+            <p className="ie-hero-sub">AI-Powered Web Development · MCP Servers · Full-Stack Engineering</p>
           </div>
         </div>
 
-        <div className="featured-text">
-          <p>Expert web development, AI integration, and Model Context Protocol servers.</p>
-          <p>Building the future of digital experiences.</p>
+        {/* Projects */}
+        <div className="ie-section">
+          <div className="ie-section-header">
+            <span className="ie-section-icon">📁</span>
+            <h2>Projects</h2>
+          </div>
+          <div className="ie-tiles">
+            {IE_LINKS.projects.map(p => (
+              <a
+                key={p.url}
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ie-tile"
+              >
+                <span className="ie-tile-icon">{p.icon}</span>
+                <div className="ie-tile-body">
+                  <strong className="ie-tile-name">{p.name}</strong>
+                  <p className="ie-tile-desc">{p.desc}</p>
+                  <div className="ie-tile-tags">
+                    {p.tags.map(t => <span key={t} className="ie-tag">{t}</span>)}
+                  </div>
+                </div>
+                <span className="ie-tile-arrow">↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Social / Connect */}
+        <div className="ie-section">
+          <div className="ie-section-header">
+            <span className="ie-section-icon">🔗</span>
+            <h2>Connect</h2>
+          </div>
+          <div className="ie-social-grid">
+            {IE_LINKS.social.map(s => (
+              <a
+                key={s.url}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ie-social-card"
+              >
+                <span className="ie-social-icon">{s.icon}</span>
+                <div>
+                  <strong>{s.name}</strong>
+                  <p>{s.desc}</p>
+                </div>
+                <span className="ie-tile-arrow">↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="ie-footer">
+          © {new Date().getFullYear()} Boondock Labs · Edenvale, South Africa
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Notepad - README
 const NotepadContent = () => (
@@ -495,43 +615,96 @@ Let's build something amazing together.
   </div>
 );
 
-// Media Player Content (YouTube)
-const MediaPlayerContent = () => (
-  <div className="app-content media-player-app">
-    <div className="media-menubar">
-      <span>File</span>
-      <span>View</span>
-      <span>Play</span>
-      <span>Tools</span>
-      <span>Help</span>
-    </div>
-    <div className="media-content">
-      <div className="media-video-area">
-        <iframe 
-          width="100%" 
-          height="100%" 
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0" 
-          title="Media Player"
-          frameBorder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-        ></iframe>
+// Media Player Content (YouTube playlist)
+const PLAYLIST = [
+  { id: 'dQw4w9WgXcQ', title: 'Never Gonna Give You Up',           artist: 'Rick Astley' },
+  { id: 'jfKfPfyJRdk', title: 'Lofi Hip Hop Radio – Beats to Code', artist: 'Lofi Girl' },
+  { id: '9bZkp7q19f0', title: 'GANGNAM STYLE',                      artist: 'PSY' },
+  { id: 'kJQP7kiw5Fk', title: 'Despacito',                          artist: 'Luis Fonsi ft. Daddy Yankee' },
+  { id: 'OPf0YbXqDm0', title: 'Uptown Funk',                        artist: 'Mark Ronson ft. Bruno Mars' },
+  { id: 'hT_nvWreIhg', title: 'Counting Stars',                     artist: 'OneRepublic' },
+  { id: 'ru0K8uYEZWw', title: 'Can\'t Stop the Feeling!',           artist: 'Justin Timberlake' },
+];
+
+const MediaPlayerContent = () => {
+  const [idx,     setIdx]     = React.useState(0);
+  const [playing, setPlaying] = React.useState(false);
+
+  const track = PLAYLIST[idx];
+  const prev  = () => setIdx(i => (i - 1 + PLAYLIST.length) % PLAYLIST.length);
+  const next  = () => setIdx(i => (i + 1) % PLAYLIST.length);
+
+  // autoplay=1 when user explicitly presses play
+  const src = `https://www.youtube.com/embed/${track.id}?autoplay=${playing ? 1 : 0}&rel=0`;
+
+  return (
+    <div className="app-content media-player-app">
+      <div className="media-menubar">
+        <span>File</span>
+        <span>View</span>
+        <span>Play</span>
+        <span>Tools</span>
+        <span>Help</span>
+      </div>
+
+      {/* Now-playing banner */}
+      <div className="media-nowplaying">
+        <span className="media-track-title">{track.title}</span>
+        <span className="media-track-artist">{track.artist}</span>
+        <span className="media-track-count">{idx + 1} / {PLAYLIST.length}</span>
+      </div>
+
+      <div className="media-content">
+        <div className="media-video-area">
+          <iframe
+            key={`${track.id}-${playing}`}
+            width="100%"
+            height="100%"
+            src={src}
+            title={track.title}
+            style={{ border: 'none' }}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </div>
+
+      {/* Playlist sidebar */}
+      <div className="media-playlist">
+        {PLAYLIST.map((t, i) => (
+          <button
+            key={t.id}
+            className={`media-playlist-item${i === idx ? ' active' : ''}`}
+            onClick={() => { setIdx(i); setPlaying(true); }}
+          >
+            <span className="pl-num">{i + 1}</span>
+            <span className="pl-title">{t.title}</span>
+            <span className="pl-artist">{t.artist}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="media-controls">
+        <div className="media-progress">
+          <div className="progress-bar" />
+        </div>
+        <div className="media-buttons">
+          <button className="media-btn" onClick={prev} title="Previous">⏮</button>
+          <button
+            className="media-btn play-btn"
+            onClick={() => setPlaying(p => !p)}
+            title={playing ? 'Pause' : 'Play'}
+          >
+            {playing ? '⏸' : '▶'}
+          </button>
+          <button className="media-btn" onClick={next} title="Next">⏭</button>
+          <button className="media-btn" title="Volume">🔊</button>
+          <div className="volume-slider" />
+        </div>
       </div>
     </div>
-    <div className="media-controls">
-      <div className="media-progress">
-        <div className="progress-bar"></div>
-      </div>
-      <div className="media-buttons">
-        <button className="media-btn">⏮</button>
-        <button className="media-btn play-btn">▶</button>
-        <button className="media-btn">⏭</button>
-        <button className="media-btn">🔊</button>
-        <div className="volume-slider"></div>
-      </div>
-    </div>
-  </div>
-);
+  );
+};
 
 // Minesweeper Content
 const MinesweeperContent = () => {
