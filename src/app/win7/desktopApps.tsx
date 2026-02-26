@@ -1,7 +1,6 @@
 "use client";
 
-import React, { ReactNode, useState } from 'react';
-import { useClippy, CLIPPY_LINES } from './Win7Clippy';
+import React, { ReactNode } from 'react';
 
 export interface DesktopApp {
   id: string;
@@ -496,94 +495,6 @@ Let's build something amazing together.
   </div>
 );
 
-// AI Assistant Content (Clippy-style) — interactive with real Clippy context
-const AIAssistantContent = () => {
-  const { speak, play, isReady } = useClippy();
-  const [messages, setMessages] = useState([
-    { role: 'clippy', text: "Welcome! I noticed you opened my assistant. Feel free to explore the portfolio or click any suggestion below!" },
-  ]);
-  const [input, setInput] = useState('');
-
-  const addMessage = (role: 'user' | 'clippy', text: string) => {
-    setMessages(prev => [...prev, { role, text }]);
-  };
-
-  const triggerClippy = (animation: string, text: string) => {
-    play(animation);
-    setTimeout(() => speak(text), 600);
-    addMessage('clippy', text);
-  };
-
-  const SUGGESTIONS = [
-    { label: '📂 View my projects',    anim: 'Searching',    line: CLIPPY_LINES.projects },
-    { label: '💼 Learn about services', anim: 'Explain',      line: CLIPPY_LINES.services },
-    { label: '📧 Contact Eugene',       anim: 'Writing',      line: CLIPPY_LINES.contact  },
-    { label: '👤 About Boondock Labs',  anim: 'Congratulate', line: CLIPPY_LINES.about    },
-  ];
-
-  const handleSend = () => {
-    const trimmed = input.trim();
-    if (!trimmed) return;
-    addMessage('user', trimmed);
-    setInput('');
-    // Simple keyword-based response
-    const lower = trimmed.toLowerCase();
-    let anim = 'Thinking';
-    let response = "It looks like you have a question! Try one of the suggestion buttons for quick answers.";
-    if (lower.includes('project') || lower.includes('work')) { anim = 'Searching'; response = CLIPPY_LINES.projects; }
-    else if (lower.includes('service') || lower.includes('build')) { anim = 'Explain'; response = CLIPPY_LINES.services; }
-    else if (lower.includes('contact') || lower.includes('email')) { anim = 'Writing'; response = CLIPPY_LINES.contact; }
-    else if (lower.includes('about') || lower.includes('who')) { anim = 'Congratulate'; response = CLIPPY_LINES.about; }
-    else if (lower.includes('hello') || lower.includes('hi')) { anim = 'Wave'; response = "Hello there! I'm Clippy, your portfolio guide!"; }
-    else if (lower.includes('bye') || lower.includes('goodbye')) { anim = 'GoodBye'; response = "Goodbye! Come back anytime!"; }
-    setTimeout(() => triggerClippy(anim, response), 300);
-  };
-
-  return (
-    <div className="app-content ai-assistant-app">
-      <div className="ai-header">
-        <img src="/win7/icons/authentic/stock_help-agent.png" alt="Clippy" className="ai-avatar clippy-icon" />
-        <div className="ai-title">
-          <h3>Clippy - Boondock Assistant</h3>
-          <p>{isReady ? "It looks like you're visiting a portfolio! Would you like help?" : "Loading Clippy…"}</p>
-        </div>
-      </div>
-      <div className="ai-suggestions">
-        <h4>💡 It looks like you&apos;re exploring my portfolio!</h4>
-        <p>Would you like help with:</p>
-        <div className="suggestion-buttons">
-          {SUGGESTIONS.map(s => (
-            <button key={s.label} className="suggestion-btn" onClick={() => triggerClippy(s.anim, s.line)}>
-              {s.label}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="ai-chat-area">
-        <div className="chat-messages">
-          {messages.map((m, i) => (
-            <div key={i} className={`chat-message ${m.role === 'clippy' ? 'assistant' : 'user'}`}>
-              <span className="message-icon">{m.role === 'clippy' ? '📎' : '👤'}</span>
-              <span>{m.text}</span>
-            </div>
-          ))}
-        </div>
-        <div className="chat-input-area">
-          <input
-            type="text"
-            placeholder="Ask Clippy something…"
-            className="chat-input"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleSend()}
-          />
-          <button className="chat-send-btn" onClick={handleSend}>Send</button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 // Media Player Content (YouTube)
 const MediaPlayerContent = () => (
   <div className="app-content media-player-app">
@@ -907,16 +818,6 @@ export const desktopApps: DesktopApp[] = [
     height: 400,
     showOnDesktop: true,
     pinToStart: false,
-  },
-  {
-    id: 'ai-assistant',
-    name: 'Clippy Assistant',
-    icon: '/win7/icons/authentic/stock_help-agent.png',
-    content: <AIAssistantContent />,
-    width: 500,
-    height: 550,
-    showOnDesktop: true,
-    pinToStart: true,
   },
   {
     id: 'media-player',

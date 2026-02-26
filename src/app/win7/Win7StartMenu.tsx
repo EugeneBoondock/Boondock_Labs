@@ -167,7 +167,7 @@ export default function Win7StartMenu({ onOpenApp }: StartMenuProps) {
           </button>
           <div className="start-menu-separator" />
           <button className="start-menu-item system" onClick={() => {
-            const app = desktopApps.find(a => a.id === 'ai-assistant');
+            const app = desktopApps.find(a => a.id === 'notepad');
             if (app) openApp(app);
           }}>
             <img src="/win7/icons/authentic/stock_help-agent.png" alt="" className="start-menu-item-icon" />

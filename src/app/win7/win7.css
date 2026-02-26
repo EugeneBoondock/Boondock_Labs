@@ -2429,6 +2429,201 @@
   font-size: 13px;
 }
 
+/* ===== Clippy Chat Panel ===== */
+/* Classic Office Assistant / Clippy floating dialog */
+
+.clippy-chat-panel {
+  position: fixed;
+  z-index: 999998;
+  display: flex;
+  flex-direction: column;
+  background: #fffde7;
+  border: 2px solid #000;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #808080,
+    3px 3px 6px rgba(0,0,0,0.4);
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  font-size: 12px;
+  border-radius: 2px;
+  animation: clippy-appear 0.12s ease-out;
+}
+
+@keyframes clippy-appear {
+  from { opacity: 0; transform: scale(0.9) translateY(6px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+/* Classic Win98/XP blue title bar */
+.clippy-chat-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px;
+  background: linear-gradient(180deg, #0a246a 0%, #3a6ea5 100%);
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.clippy-chat-titleicon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.clippy-chat-titlebar span {
+  flex: 1;
+}
+
+.clippy-chat-close {
+  width: 16px;
+  height: 14px;
+  background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
+  border: 1px solid;
+  border-color: #fff #808080 #808080 #fff;
+  color: #000;
+  font-size: 9px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.clippy-chat-close:active {
+  border-color: #808080 #fff #fff #808080;
+}
+
+/* Message scroll area */
+.clippy-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 200px;
+  min-height: 80px;
+  background: #fffde7;
+}
+
+.clippy-msg {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.clippy-msg-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.clippy-msg-clippy .clippy-msg-bubble {
+  background: #fff;
+  border: 1px solid #c0c0c0;
+  border-radius: 0 8px 8px 8px;
+  padding: 5px 8px;
+  color: #000;
+  max-width: 220px;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.clippy-msg-user {
+  flex-direction: row-reverse;
+}
+
+.clippy-msg-user .clippy-msg-bubble {
+  background: linear-gradient(180deg, #3a6ea5 0%, #0a246a 100%);
+  border-radius: 8px 0 8px 8px;
+  padding: 5px 8px;
+  color: #fff;
+  max-width: 220px;
+}
+
+/* Suggestion buttons — classic Windows XP style */
+.clippy-chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 8px;
+  border-top: 1px solid #c0c0c0;
+  background: #f0f0f0;
+}
+
+.clippy-suggestion-btn {
+  padding: 3px 8px;
+  background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+  border: 1px solid;
+  border-color: #fff #808080 #808080 #fff;
+  font-size: 11px;
+  font-family: 'Tahoma', sans-serif;
+  cursor: pointer;
+  color: #000;
+  white-space: nowrap;
+}
+
+.clippy-suggestion-btn:hover {
+  background: linear-gradient(180deg, #dce8fc 0%, #c0d8f8 100%);
+  border-color: #3a6ea5;
+}
+
+.clippy-suggestion-btn:active {
+  border-color: #808080 #fff #fff #808080;
+  background: linear-gradient(180deg, #c0d8f8 0%, #dce8fc 100%);
+}
+
+/* Input row */
+.clippy-chat-input-row {
+  display: flex;
+  gap: 4px;
+  padding: 6px 8px;
+  border-top: 1px solid #c0c0c0;
+  background: #f5f5f5;
+}
+
+.clippy-chat-input {
+  flex: 1;
+  padding: 3px 5px;
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  font-size: 12px;
+  font-family: 'Tahoma', sans-serif;
+  background: #fff;
+  outline: none;
+}
+
+.clippy-chat-input:focus {
+  border-color: #3a6ea5 #fff #fff #3a6ea5;
+}
+
+.clippy-chat-send {
+  padding: 3px 10px;
+  background: linear-gradient(180deg, #f5f5f5 0%, #dcdcdc 100%);
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  font-size: 11px;
+  font-family: 'Tahoma', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.clippy-chat-send:hover {
+  background: linear-gradient(180deg, #dce8fc 0%, #b8d4f8 100%);
+}
+
+.clippy-chat-send:active {
+  border-color: #808080 #fff #fff #808080;
+}
+
 /* ===== Print Styles ===== */
 @media print {
   .win7-desktop {
