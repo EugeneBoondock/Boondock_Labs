@@ -369,7 +369,7 @@ const ContactContent = () => (
       <form className="contact-form">
         <div className="form-row">
           <label>To:</label>
-          <input type="text" value="eugene@boondocklabs.com" readOnly />
+          <input type="text" value="philosncube@gmail.com" readOnly />
         </div>
         <div className="form-row">
           <label>From:</label>
@@ -754,7 +754,7 @@ I build digital experiences that matter.
 
 ================== CONTACT ==================
 
-Email: eugene@boondocklabs.com
+Email: philosncube@gmail.com
 GitHub: @EugeneBoondock
 Website: https://boondocklabs.com
 
