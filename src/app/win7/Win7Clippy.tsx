@@ -10,6 +10,8 @@ import React, {
 } from 'react';
 import type { initAgent as InitAgentType } from 'clippyjs';
 
+// ─── Clippy agent DOM interface ──────────────────────────────────────────────
+
 interface ClippyAgent {
   speak: (text: string, hold?: boolean) => void;
   play: (animation: string, timeout?: number, cb?: () => void) => boolean;
@@ -22,6 +24,8 @@ interface ClippyAgent {
   _el: HTMLElement;
 }
 
+// ─── Context ─────────────────────────────────────────────────────────────────
+
 interface ClippyContextType {
   isReady: boolean;
   speak: (text: string, hold?: boolean) => void;
@@ -33,156 +37,181 @@ interface ClippyContextType {
 
 const ClippyCtx = createContext<ClippyContextType>({
   isReady: false,
-  speak: () => {},
-  play: () => {},
+  speak:   () => {},
+  play:    () => {},
   animate: () => {},
-  show: () => {},
-  hide: () => {},
+  show:    () => {},
+  hide:    () => {},
 });
 
 export const useClippy = () => useContext(ClippyCtx);
 
+// ─── Static fallback lines (used for idle quips & greeting only) ─────────────
+
 export const CLIPPY_LINES = {
-  greeting:    "It looks like you're browsing a portfolio! Would you like help with something?",
-  projects:    "It looks like you want to see projects! I found Earthie.world, Morphed.io, and Platedom.com in Eugene's portfolio!",
-  services:    "It looks like you need development help! Eugene offers web apps, AI integration, MCP servers, and game development!",
-  contact:     "It looks like you want to get in touch! Eugene's email is eugene@boondocklabs.com — he'd love to hear from you!",
-  about:       "It looks like you want to know more about Boondock Labs — Eugene Ncube's personal tech studio. He builds digital experiences that matter!",
-  minesweeper: "Careful with those mines! Right-click to flag them.",
-  solitaire:   "It looks like you want to play Solitaire! Try to build stacks from King down to Ace.",
-  media:       "It looks like you want to listen to music! Enjoy the show!",
+  greeting: "It looks like you're visiting a portfolio! Click me anytime to chat.",
   idle: [
     "Did you know? You can drag windows around by their title bar!",
-    "Try double-clicking a window's title bar to maximize it!",
+    "Try double-clicking a window's title bar to maximise it!",
     "It looks like you're looking at a really cool portfolio!",
     "Click the Start button to explore all the apps!",
     "Right-click the Minesweeper grid to place flags!",
   ],
 };
 
-// ─── Chat Message Types ──────────────────────────────────────────────────────
+// ─── Message type ─────────────────────────────────────────────────────────────
 
 interface Message {
   role: 'clippy' | 'user';
   text: string;
+  loading?: boolean;
 }
 
-// ─── Suggestion config ───────────────────────────────────────────────────────
+// ─── Suggestion prompts sent directly to Gemini ───────────────────────────────
 
 const SUGGESTIONS = [
-  { label: '📂 Projects',  anim: 'Searching',    line: CLIPPY_LINES.projects },
-  { label: '💼 Services',  anim: 'Explain',       line: CLIPPY_LINES.services },
-  { label: '📧 Contact',   anim: 'Writing',       line: CLIPPY_LINES.contact  },
-  { label: '👤 About',     anim: 'Congratulate',  line: CLIPPY_LINES.about    },
+  { label: '📂 Projects',  anim: 'Searching',   prompt: "Tell me briefly about Eugene's main projects." },
+  { label: '💼 Services',  anim: 'Explain',      prompt: "What services does Eugene offer and what are his prices?" },
+  { label: '📧 Contact',   anim: 'Writing',      prompt: "How can I contact Eugene Boondock?" },
+  { label: '👤 About',     anim: 'Congratulate', prompt: "Tell me about Eugene Boondock and Boondock Labs." },
 ];
 
-// ─── Classic Clippy chat panel ───────────────────────────────────────────────
+// ─── Helper — build Gemini history from messages ─────────────────────────────
 
-interface ChatPanelProps {
-  pos: { x: number; y: number };
-  messages: Message[];
-  onSend: (text: string) => void;
-  onSuggestion: (anim: string, text: string) => void;
-  onClose: () => void;
-  onWave: () => void;
+function buildHistory(msgs: Message[]): { role: 'user' | 'model'; content: string }[] {
+  return msgs
+    .filter(m => !m.loading)
+    .map(m => ({ role: m.role === 'user' ? 'user' : 'model', content: m.text }));
 }
 
-function ClippyChatPanel({ pos, messages, onSend, onSuggestion, onClose, onWave }: ChatPanelProps) {
-  const [input, setInput] = useState('');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+// ─── Clip long text for the speech bubble ────────────────────────────────────
 
-  // auto-scroll
+function clamp(text: string, max = 160): string {
+  return text.length > max ? text.slice(0, max).trimEnd() + '…' : text;
+}
+
+// ─── Chat panel component ─────────────────────────────────────────────────────
+
+interface ChatPanelProps {
+  pos:          { x: number; y: number };
+  messages:     Message[];
+  isThinking:   boolean;
+  onSend:       (text: string) => void;
+  onSuggestion: (prompt: string, anim: string) => void;
+  onClose:      () => void;
+  onWave:       () => void;
+}
+
+function ClippyChatPanel({
+  pos, messages, isThinking, onSend, onSuggestion, onClose, onWave,
+}: ChatPanelProps) {
+  const [input, setInput] = useState('');
+  const endRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   const submit = () => {
-    const trimmed = input.trim();
-    if (!trimmed) return;
-    onSend(trimmed);
+    const t = input.trim();
+    if (!t || isThinking) return;
+    onSend(t);
     setInput('');
   };
 
-  // Position the panel above/left of Clippy so it stays on screen
-  const panelW = 300;
-  const panelH = 420;
-  const margin = 12;
-  let left = pos.x - panelW - margin;
-  let top  = pos.y - panelH + 60;
-  if (left < 8)  left = pos.x + 80 + margin;
-  if (top  < 8)  top  = 8;
-  if (top + panelH > window.innerHeight - 50) top = window.innerHeight - panelH - 50;
+  // Smart positioning — stay on screen
+  const W = 310, H = 440, margin = 12;
+  let left = pos.x - W - margin;
+  let top  = pos.y - H + 60;
+  if (left < 8)                          left = pos.x + 80 + margin;
+  if (top  < 8)                          top  = 8;
+  if (top + H > window.innerHeight - 52) top  = window.innerHeight - H - 52;
 
   return (
     <div
       className="clippy-chat-panel"
-      style={{ left, top, width: panelW }}
+      style={{ left, top, width: W }}
       onClick={e => e.stopPropagation()}
     >
-      {/* Title bar — classic Win98/XP blue */}
+      {/* Classic Win98/XP blue title bar */}
       <div className="clippy-chat-titlebar">
         <img src="/win7/icons/authentic/stock_help-agent.png" alt="" className="clippy-chat-titleicon" />
-        <span>Clippy</span>
+        <span>Clippy — Eugene&apos;s Assistant</span>
         <button className="clippy-chat-close" onClick={onClose} title="Close">✕</button>
       </div>
 
-      {/* Message area */}
+      {/* Message history */}
       <div className="clippy-chat-messages">
         {messages.map((m, i) => (
           <div key={i} className={`clippy-msg clippy-msg-${m.role}`}>
             {m.role === 'clippy' && <span className="clippy-msg-icon">📎</span>}
-            <span className="clippy-msg-bubble">{m.text}</span>
+            <span className={`clippy-msg-bubble ${m.loading ? 'clippy-loading' : ''}`}>
+              {m.loading ? <span className="clippy-dots"><span /><span /><span /></span> : m.text}
+            </span>
           </div>
         ))}
-        <div ref={messagesEndRef} />
+        <div ref={endRef} />
       </div>
 
-      {/* Quick-action buttons */}
+      {/* Quick suggestion buttons */}
       <div className="clippy-chat-suggestions">
         {SUGGESTIONS.map(s => (
           <button
             key={s.label}
             className="clippy-suggestion-btn"
-            onClick={() => onSuggestion(s.anim, s.line)}
+            onClick={() => onSuggestion(s.prompt, s.anim)}
+            disabled={isThinking}
           >
             {s.label}
           </button>
         ))}
-        <button className="clippy-suggestion-btn" onClick={onWave}>👋 Wave</button>
+        <button className="clippy-suggestion-btn" onClick={onWave} disabled={isThinking}>
+          👋 Wave
+        </button>
       </div>
 
-      {/* Input row */}
+      {/* Gemini-powered input */}
       <div className="clippy-chat-input-row">
         <input
           type="text"
           className="clippy-chat-input"
-          placeholder="Ask Clippy…"
+          placeholder={isThinking ? 'Clippy is thinking…' : 'Ask Clippy (powered by Gemini)…'}
           value={input}
+          disabled={isThinking}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && submit()}
           autoFocus
         />
-        <button className="clippy-chat-send" onClick={submit}>Ask</button>
+        <button className="clippy-chat-send" onClick={submit} disabled={isThinking}>
+          Ask
+        </button>
       </div>
+
+      {/* Gemini attribution */}
+      <div className="clippy-gemini-badge">✨ Powered by Gemini AI</div>
     </div>
   );
 }
 
-// ─── Provider ────────────────────────────────────────────────────────────────
+// ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function ClippyProvider({ children }: { children: React.ReactNode }) {
-  const agentRef    = useRef<ClippyAgent | null>(null);
-  const [isReady, setIsReady]       = useState(false);
-  const [chatOpen, setChatOpen]     = useState(false);
-  const [clippyPos, setClippyPos]   = useState({ x: 0, y: 0 });
-  const [messages, setMessages]     = useState<Message[]>([
+  const agentRef      = useRef<ClippyAgent | null>(null);
+  const messagesRef   = useRef<Message[]>([]);          // always-fresh mirror of messages state
+  const idleTimerRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const [isReady,     setIsReady]     = useState(false);
+  const [chatOpen,    setChatOpen]    = useState(false);
+  const [clippyPos,   setClippyPos]   = useState({ x: 0, y: 0 });
+  const [isThinking,  setIsThinking]  = useState(false);
+  const [messages,    setMessages]    = useState<Message[]>([
     { role: 'clippy', text: "It looks like you're visiting a portfolio! Click a suggestion or ask me anything." },
   ]);
-  const idleTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const addMsg = useCallback((role: Message['role'], text: string) => {
-    setMessages(prev => [...prev, { role, text }]);
-  }, []);
+  // Keep ref in sync with state
+  useEffect(() => { messagesRef.current = messages; }, [messages]);
+
+  // ── Low-level agent helpers ───────────────────────────────────────────────
 
   const speakAgent = useCallback((text: string, hold?: boolean) => {
     agentRef.current?.speak(text, hold);
@@ -192,27 +221,51 @@ export function ClippyProvider({ children }: { children: React.ReactNode }) {
     agentRef.current?.play(animation);
   }, []);
 
-  const triggerClippy = useCallback((animation: string, text: string) => {
-    playAgent(animation);
-    setTimeout(() => speakAgent(text), 500);
-    addMsg('clippy', text);
-  }, [playAgent, speakAgent, addMsg]);
+  // ── Gemini API call ───────────────────────────────────────────────────────
 
-  const handleUserSend = useCallback((text: string) => {
-    addMsg('user', text);
-    const lower = text.toLowerCase();
-    let anim = 'Thinking';
-    let response = "It looks like you have a question! Try one of the suggestion buttons for quick answers.";
-    if (lower.includes('project') || lower.includes('work'))          { anim = 'Searching';    response = CLIPPY_LINES.projects; }
-    else if (lower.includes('service') || lower.includes('build'))    { anim = 'Explain';       response = CLIPPY_LINES.services; }
-    else if (lower.includes('contact') || lower.includes('email'))    { anim = 'Writing';       response = CLIPPY_LINES.contact; }
-    else if (lower.includes('about') || lower.includes('who'))        { anim = 'Congratulate';  response = CLIPPY_LINES.about; }
-    else if (lower.includes('hello') || lower.includes('hi'))         { anim = 'Wave';          response = "Hello there! I'm Clippy, your portfolio guide!"; }
-    else if (lower.includes('bye') || lower.includes('goodbye'))      { anim = 'GoodBye';       response = "Goodbye! Thanks for visiting Boondock Labs!"; }
-    else if (lower.includes('game') || lower.includes('mines'))       { anim = 'GetTechy';      response = CLIPPY_LINES.minesweeper; }
-    else if (lower.includes('music') || lower.includes('media'))      { anim = 'Processing';    response = CLIPPY_LINES.media; }
-    setTimeout(() => triggerClippy(anim, response), 300);
-  }, [addMsg, triggerClippy]);
+  const sendToGemini = useCallback(async (userText: string, anim = 'Explain') => {
+    // 1. Add user message & loading indicator
+    const withUser: Message[] = [
+      ...messagesRef.current,
+      { role: 'user', text: userText },
+    ];
+    setMessages([...withUser, { role: 'clippy', text: '', loading: true }]);
+    setIsThinking(true);
+
+    // 2. Thinking animation
+    playAgent('Thinking');
+
+    // 3. Build history (exclude the loading placeholder)
+    const history = buildHistory(withUser);
+
+    try {
+      const res  = await fetch('/api/gemini', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ message: userText, history }),
+      });
+
+      const data  = await res.json();
+      const reply = (data.reply as string | undefined) ??
+        "It looks like I'm having trouble connecting. Try again in a moment!";
+
+      // 4. Replace loading message with real reply
+      setMessages([...withUser, { role: 'clippy', text: reply }]);
+
+      // 5. Animate + speak (clamped for the speech bubble)
+      playAgent(anim);
+      setTimeout(() => speakAgent(clamp(reply)), 500);
+    } catch {
+      const fallback = "It looks like I lost my connection! Please try again.";
+      setMessages([...withUser, { role: 'clippy', text: fallback }]);
+      playAgent('Alert');
+      setTimeout(() => speakAgent(fallback), 500);
+    } finally {
+      setIsThinking(false);
+    }
+  }, [playAgent, speakAgent]);
+
+  // ── Clippy init ──────────────────────────────────────────────────────────
 
   useEffect(() => {
     let mounted = true;
@@ -220,17 +273,16 @@ export function ClippyProvider({ children }: { children: React.ReactNode }) {
     const init = async () => {
       try {
         const { initAgent } = await import('clippyjs');
-        const agentsModule  = await import('clippyjs/agents');
-        const ClippyLoader  = agentsModule.Clippy;
+        const { Clippy }    = await import('clippyjs/agents');
 
-        const agent = await (initAgent as typeof InitAgentType)(ClippyLoader);
+        const agent = await (initAgent as typeof InitAgentType)(Clippy);
         if (!mounted) { agent.dispose(); return; }
 
         agentRef.current = agent as unknown as ClippyAgent;
         setIsReady(true);
         agent.show(true);
 
-        // Place bottom-right, above taskbar
+        // Bottom-right, above taskbar
         const x = Math.max(window.innerWidth  - 210, 100);
         const y = Math.max(window.innerHeight - 260, 100);
         (agent as unknown as ClippyAgent).moveTo(x, y, 0);
@@ -245,7 +297,7 @@ export function ClippyProvider({ children }: { children: React.ReactNode }) {
           }, 1200);
         }, 800);
 
-        // Click → open/close chat & capture position
+        // Click → toggle chat
         const el = (agent as unknown as ClippyAgent)._el;
         const handleClick = (e: MouseEvent) => {
           e.stopPropagation();
@@ -296,8 +348,9 @@ export function ClippyProvider({ children }: { children: React.ReactNode }) {
         <ClippyChatPanel
           pos={clippyPos}
           messages={messages}
-          onSend={handleUserSend}
-          onSuggestion={(anim, text) => triggerClippy(anim, text)}
+          isThinking={isThinking}
+          onSend={text => sendToGemini(text)}
+          onSuggestion={(prompt, anim) => sendToGemini(prompt, anim)}
           onClose={() => setChatOpen(false)}
           onWave={() => { playAgent('Wave'); speakAgent("Hi there! 👋"); }}
         />
