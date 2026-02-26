@@ -1467,6 +1467,19 @@
   text-decoration: underline;
 }
 
+.wip-badge {
+  display: inline-block;
+  padding: 1px 5px;
+  background: linear-gradient(180deg, #ff9800 0%, #e65100 100%);
+  color: white;
+  font-size: 9px;
+  font-weight: bold;
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: 0.3px;
+}
+
 /* Contact App - Email Client */
 .email-client {
   display: flex;

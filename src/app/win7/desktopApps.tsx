@@ -191,12 +191,9 @@ const WorkContent = () => (
             <h3>🌍 Earthie.world</h3>
             <p>Comprehensive Earth2 metaverse community platform with 17+ API integrations, real-time market data, interactive mapping.</p>
             <div className="project-tags">
-              <span>NextJS</span>
-              <span>React</span>
+              <span>Next.js</span><span>React</span><span>Earth2 API</span>
             </div>
-            <a href="https://earthie.world" target="_blank" rel="noopener noreferrer" className="project-link">
-              Visit Site →
-            </a>
+            <a href="https://earthie.world" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
           </div>
         </div>
 
@@ -206,51 +203,107 @@ const WorkContent = () => (
           </div>
           <div className="project-info">
             <h3>🔮 Morphed.io</h3>
-            <p>Full Platform Development - Backend infrastructure, frontend interface, custom API endpoints, MCP server.</p>
+            <p>Full platform development — backend infrastructure, frontend, custom API endpoints and MCP server from scratch.</p>
             <div className="project-tags">
-              <span>Full-Stack</span>
-              <span>MCP Server</span>
-              <span>API</span>
+              <span>Full-Stack</span><span>MCP Server</span><span>API</span>
             </div>
-            <a href="https://morphed.io" target="_blank" rel="noopener noreferrer" className="project-link">
-              Visit Site →
-            </a>
+            <a href="https://morphed.io" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
           </div>
         </div>
 
         <div className="project-card">
-          <div className="project-image placeholder">
-            <span>🍽️</span>
-          </div>
+          <div className="project-image placeholder"><span>⚡</span></div>
           <div className="project-info">
-            <h3>Platedom.com</h3>
-            <p>AI Restaurant Platform - Generative AI that transforms menus into visual feasts. Michelin-star quality food photography.</p>
+            <h3>⚡ EntropySuite.co.za</h3>
+            <p>30+ AI-powered productivity & creativity tools — text summarisation, document conversion, image/video editing, Python terminal, data analysis and more. Powered by Gemini AI.</p>
             <div className="project-tags">
-              <span>Firebase</span>
-              <span>Generative AI</span>
-              <span>React</span>
+              <span>React</span><span>Gemini AI</span><span>Supabase</span><span>FFmpeg</span>
             </div>
-            <a href="https://platedom.com" target="_blank" rel="noopener noreferrer" className="project-link">
-              Visit Site →
-            </a>
+            <a href="https://entropysuite.co.za" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
           </div>
         </div>
 
         <div className="project-card">
-          <div className="project-image placeholder">
-            <span>🔧</span>
-          </div>
+          <div className="project-image placeholder"><span>✍️</span></div>
           <div className="project-info">
-            <h3>Earth2 MCP Server</h3>
-            <p>Complete MCP server enabling Claude to access Earth2 account data, properties, wallet information, and marketplace.</p>
+            <h3>✍️ Philosophistication.co.za</h3>
+            <p>PWA showcasing 11 years (2014–2025) of poetry and philosophy — 1 027 poems with an AI poetry assistant powered by Gemini that discusses themes and context.</p>
             <div className="project-tags">
-              <span>MCP Server</span>
-              <span>Earth2 API</span>
-              <span>Claude</span>
+              <span>React PWA</span><span>Gemini AI</span><span>Framer Motion</span>
             </div>
-            <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="project-link">
-              View on GitHub →
-            </a>
+            <a href="https://philosophistication.co.za" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div className="project-card">
+          <div className="project-image placeholder"><span>💬</span></div>
+          <div className="project-info">
+            <h3>💬 MessageCFO.com <span className="wip-badge">WIP</span></h3>
+            <p>WhatsApp-native financial management — create invoices, log expenses, check cash balances and manage customers entirely through WhatsApp messages, backed by an Express + PostgreSQL server.</p>
+            <div className="project-tags">
+              <span>React</span><span>Express</span><span>WhatsApp API</span><span>Gemini AI</span>
+            </div>
+            <a href="https://messagecfo.com" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div className="project-card">
+          <div className="project-image placeholder"><span>🍽️</span></div>
+          <div className="project-info">
+            <h3>🍽️ Platedom.com</h3>
+            <p>AI restaurant platform — generative AI transforms menus into Michelin-star quality visual food photography in seconds.</p>
+            <div className="project-tags">
+              <span>Firebase</span><span>Generative AI</span><span>React</span>
+            </div>
+            <a href="https://platedom.com" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div className="project-card">
+          <div className="project-image placeholder"><span>🏃</span></div>
+          <div className="project-info">
+            <h3>🏃 Nkechi Biokinetics</h3>
+            <p>Professional portfolio for a Biokineticist — showcasing expertise in health, wellness, movement science and rehabilitation services.</p>
+            <div className="project-tags">
+              <span>Next.js</span><span>Vercel</span>
+            </div>
+            <a href="https://nkechi-biokinetics.vercel.app/" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div className="project-card">
+          <div className="project-image placeholder"><span>📝</span></div>
+          <div className="project-info">
+            <h3>📝 Bikode IDE <span className="wip-badge">WIP</span></h3>
+            <p>Lightweight Windows text editor and IDE — built on Notepad2e with Scintilla syntax highlighting, regex grep, math evaluation in selections and multi-selection editing.</p>
+            <div className="project-tags">
+              <span>C++</span><span>Scintilla</span><span>Windows</span>
+            </div>
+            <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="project-link">View on GitHub →</a>
+          </div>
+        </div>
+
+        <div className="project-card">
+          <div className="project-image placeholder"><span>🌐</span></div>
+          <div className="project-info">
+            <h3>🌐 Earth2 API Wrapper</h3>
+            <p>Published NPM package providing a clean, typed wrapper around the Earth2 platform API — used by developers building tools for the Earth2 metaverse ecosystem.</p>
+            <div className="project-tags">
+              <span>NPM Package</span><span>TypeScript</span><span>Earth2 API</span>
+            </div>
+            <a href="https://github.com/EugeneBoondock/earth2_api_wrapper" target="_blank" rel="noopener noreferrer" className="project-link">View on GitHub →</a>
+          </div>
+        </div>
+
+        <div className="project-card">
+          <div className="project-image placeholder"><span>🔧</span></div>
+          <div className="project-info">
+            <h3>🔧 Earth2 MCP Server</h3>
+            <p>Complete MCP server enabling Claude to access Earth2 account data, properties, wallet information and marketplace in real-time.</p>
+            <div className="project-tags">
+              <span>MCP Server</span><span>Earth2 API</span><span>Claude</span>
+            </div>
+            <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="project-link">View on GitHub →</a>
           </div>
         </div>
       </div>
@@ -406,35 +459,77 @@ const IE_LINKS = {
     {
       icon: '🔮',
       name: 'Morphed.io',
-      desc: 'Full platform dev — backend infrastructure, frontend, custom API endpoints & MCP server.',
+      desc: 'Full platform dev — backend infrastructure, frontend, custom API endpoints & MCP server from scratch.',
       url: 'https://morphed.io',
       tags: ['Full-Stack', 'MCP Server', 'API'],
     },
     {
+      icon: '⚡',
+      name: 'EntropySuite.co.za',
+      desc: '30+ AI-powered productivity & creativity tools — text summarisation, document conversion, Python terminal, image editing and more.',
+      url: 'https://entropysuite.co.za',
+      tags: ['React', 'Gemini AI', 'Supabase'],
+    },
+    {
+      icon: '✍️',
+      name: 'Philosophistication.co.za',
+      desc: 'PWA with 11 years of poetry & philosophy (1 027 poems) plus an AI poetry assistant powered by Gemini.',
+      url: 'https://philosophistication.co.za',
+      tags: ['React PWA', 'Gemini AI'],
+    },
+    {
+      icon: '💬',
+      name: 'MessageCFO.com (WIP)',
+      desc: 'WhatsApp-native financial management — invoices, expenses & customers managed entirely through WhatsApp messages.',
+      url: 'https://messagecfo.com',
+      tags: ['Express', 'WhatsApp API', 'Gemini AI'],
+    },
+    {
       icon: '🍽️',
       name: 'Platedom.com',
-      desc: 'AI restaurant platform — generative AI transforms menus into visual feasts.',
+      desc: 'AI restaurant platform — generative AI transforms menus into Michelin-star quality visual food photography.',
       url: 'https://platedom.com',
       tags: ['Firebase', 'Generative AI', 'React'],
     },
     {
+      icon: '🏃',
+      name: 'Nkechi Biokinetics',
+      desc: 'Professional Biokineticist portfolio — health, wellness, movement science & rehabilitation services.',
+      url: 'https://nkechi-biokinetics.vercel.app/',
+      tags: ['Next.js', 'Vercel'],
+    },
+    {
+      icon: '📝',
+      name: 'Bikode IDE (WIP)',
+      desc: 'Lightweight Windows text editor/IDE built on Scintilla — syntax highlighting, regex grep, math evaluation & multi-selection.',
+      url: 'https://github.com/EugeneBoondock',
+      tags: ['C++', 'Scintilla', 'Windows'],
+    },
+    {
+      icon: '📦',
+      name: 'Earth2 API Wrapper',
+      desc: 'Published NPM package — clean TypeScript wrapper around the Earth2 platform API for developers building metaverse tools.',
+      url: 'https://github.com/EugeneBoondock/earth2_api_wrapper',
+      tags: ['NPM Package', 'TypeScript', 'Earth2'],
+    },
+    {
       icon: '💊',
       name: 'SavingWithDana',
-      desc: 'Coupon & savings platform powered by an AWS backend.',
+      desc: 'Coupon & savings platform with AWS backend infrastructure.',
       url: 'https://savingwithdana.com',
       tags: ['AWS', 'Next.js'],
     },
     {
       icon: '🧬',
       name: 'KinSpace (WIP)',
-      desc: 'Safe community space for people with chronic & mental illness.',
+      desc: 'Safe community space for people with chronic & mental illness — support, resources and connection.',
       url: 'https://github.com/EugeneBoondock',
       tags: ['React', 'Community'],
     },
     {
       icon: '🌐',
       name: '3rdIslandTours',
-      desc: 'Tourism & virtual tour booking platform designed for performance.',
+      desc: 'Tourism & virtual tour booking platform designed for performance and user flow clarity.',
       url: 'https://3rdislandtours.com',
       tags: ['Web', 'Tours'],
     },

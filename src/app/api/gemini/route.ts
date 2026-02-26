@@ -25,19 +25,27 @@ Languages & Tools:
 - Hosting with GitHub Pages and other services
 
 Projects Eugene Has Worked On:
-1. Morphed.io - MCP Server: Built a complete Model Context Protocol (MCP) server from scratch for Morphed.io. Created custom API endpoints and transformed them into powerful MCP tools for AI integration. This demonstrates Eugene's expertise in cutting-edge AI integration technology.
+1. Morphed.io — Full platform development: backend infrastructure, frontend, custom API endpoints, and a complete MCP server built from scratch. Demonstrates expertise in cutting-edge AI integration.
 
-2. Earthie.World: Built and contributed to the chatbot experience for Earth2 players—a digital AI companion trained on Earth2 mechanics. Integrates user dashboards and gamified guidance.
+2. Earthie.World — Comprehensive Earth2 metaverse platform with 17+ API integrations, real-time market data, interactive mapping, and an AI companion (Earthie) trained on Earth2 mechanics.
 
-3. 3rdIslandTours.com: A tourism-oriented site for exotic experiences and bookable virtual tours. Designed for performance and user flow clarity.
+3. EntropySuite.co.za — 30+ AI-powered productivity and creativity tools including text summarisation, document conversion, image/video editing, a Python terminal (Pyodide), data analysis, and more. Built with React, Gemini AI, and Supabase.
 
-4. EntropySuite.co.za: Platform for random tools, including AI tools. A digital suite for experimentation and productivity.
+4. Philosophistication.co.za — A Progressive Web App (PWA) showcasing 11 years of poetry and philosophy (2014–2025), featuring 1,027 poems/thoughts with an AI poetry assistant powered by Gemini that discusses themes and context.
 
-5. Nkechi Biokinetics: A Biokineticist portfolio showcasing expertise in health, wellness, and movement science.
+5. MessageCFO.com (WIP) — WhatsApp-native financial management app. Users create invoices, log expenses, check cash balances, and manage customers entirely through WhatsApp messages. Stack: React, Express, PostgreSQL, WhatsApp Cloud API, Gemini AI.
 
-6. KinSpace (WIP): A platform for individuals with chronic and mental illnesses. Community, support, and resources in a safe space.
+6. Platedom.com — AI restaurant platform where generative AI transforms menus into Michelin-star quality visual food photography. Built with Firebase, Generative AI, and React.
 
-7. savingwithdana.com: a coupon platform, you are focusing on the aws backend.
+7. Nkechi Biokinetics (nkechi-biokinetics.vercel.app) — Professional portfolio for a Biokineticist showcasing health, wellness, movement science, and rehabilitation services.
+
+8. Bikode IDE (WIP) — Lightweight Windows text editor/IDE built on Notepad2e and the Scintilla engine. Features syntax highlighting, regex-based find/grep, math expression evaluation, and multi-selection editing. Written in C++.
+
+9. SavingWithDana.com — A coupon and savings platform; Eugene is building the AWS backend infrastructure.
+
+10. KinSpace (WIP) — A safe community space for people with chronic and mental illnesses — support, resources, and connection. Built with React.
+
+11. 3rdIslandTours.com — Tourism and virtual tour booking platform designed for performance and clear user flow.
 
 NPM Packages Eugene Created:
 1. earth2-api-wrapper (npmjs.com/package/earth2-api-wrapper): API wrapper for Earth2 platform
