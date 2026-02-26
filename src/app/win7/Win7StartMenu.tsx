@@ -57,7 +57,7 @@ export default function Win7StartMenu({ onOpenApp }: StartMenuProps) {
       {/* User Section */}
       <div className="start-menu-header">
         <div className="user-avatar">
-          <img src="/win7/icons/repo/user-profile.ico" alt="User" />
+          <img src="/win7/user-avatar.png" alt="User" />
         </div>
         <div className="user-name">Eugene Boondock</div>
       </div>

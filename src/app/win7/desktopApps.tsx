@@ -27,7 +27,7 @@ const AboutContent = () => (
     <div className="explorer-content">
       <div className="about-hero">
         <div className="about-avatar">
-          <img src="/win7/user-avatar.svg" alt="Eugene Boondock" />
+          <img src="/win7/user-avatar.png" alt="Eugene Boondock" />
         </div>
         <div className="about-info">
           <h1>Eugene Ncube</h1>

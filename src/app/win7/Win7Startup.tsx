@@ -7,7 +7,7 @@ import { playWin7Sound } from "./win7Sounds";
 type StartupPhase = "boot" | "signin" | "welcome";
 
 const USER_NAME = "Eugene Boondock";
-const USER_ICON = "/win7/icons/repo/user-profile.ico";
+const USER_ICON = "/win7/user-avatar.png";
 const STARTUP_SOUND_URL =
   "https://raw.githubusercontent.com/bartekl1/windows-ui-assets/main/Sounds/Windows%207/Windows%20Startup.wav";
 
