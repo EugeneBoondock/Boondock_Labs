@@ -170,7 +170,7 @@ export default function Win7StartMenu({ onOpenApp }: StartMenuProps) {
             const app = desktopApps.find(a => a.id === 'notepad');
             if (app) openApp(app);
           }}>
-            <img src="/win7/icons/authentic/stock_help-agent.png" alt="" className="start-menu-item-icon" />
+            <img src="/win7/icons/authentic/gnome-help.png" alt="" className="start-menu-item-icon" />
             <span>Help and Support</span>
           </button>
         </div>

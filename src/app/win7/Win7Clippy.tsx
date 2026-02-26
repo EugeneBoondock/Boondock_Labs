@@ -135,7 +135,7 @@ function ClippyChatPanel({
     >
       {/* Classic Win98/XP blue title bar */}
       <div className="clippy-chat-titlebar">
-        <img src="/win7/icons/authentic/stock_help-agent.png" alt="" className="clippy-chat-titleicon" />
+        <img src="/win7/icons/authentic/gnome-help.png" alt="" className="clippy-chat-titleicon" />
         <span>Clippy — Eugene&apos;s Assistant</span>
         <button className="clippy-chat-close" onClick={onClose} title="Close">✕</button>
       </div>
