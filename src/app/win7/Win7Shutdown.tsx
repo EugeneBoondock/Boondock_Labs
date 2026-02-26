@@ -2,12 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import { useWin7 } from './Win7Context';
+import { playWin7Sound } from './win7Sounds';
 
 export default function Win7Shutdown() {
   const { setShuttingDown, setStartupComplete } = useWin7();
   const [phase, setPhase] = useState<'shutdown' | 'black'>('shutdown');
 
   useEffect(() => {
+    playWin7Sound('shutdown');
+
     // Show shutdown message
     const blackTimer = setTimeout(() => setPhase('black'), 3000);
     

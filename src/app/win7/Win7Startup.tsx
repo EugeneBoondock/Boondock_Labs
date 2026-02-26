@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useWin7 } from './Win7Context';
+import { playWin7Sound } from './win7Sounds';
 
 export default function Win7Startup() {
   const { setStartupComplete } = useWin7();
@@ -15,8 +16,11 @@ export default function Win7Startup() {
     const logoTimer = setTimeout(() => setPhase('loading'), 1500);
     
     // Welcome screen
-    const loadingTimer = setTimeout(() => setPhase('welcome'), 3500);
-    
+    const loadingTimer = setTimeout(() => {
+      setPhase('welcome');
+      playWin7Sound('logon');
+    }, 3500);
+
     // Complete
     const completeTimer = setTimeout(() => setStartupComplete(true), 5000);
 

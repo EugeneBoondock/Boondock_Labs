@@ -14,7 +14,9 @@
     "7.css": "^0.21.1",
     "animejs": "^4.2.0",
     "class-variance-authority": "^0.7.1",
+    "clippyjs": "^0.1.0",
     "clsx": "^2.1.1",
+    "howler": "^2.2.4",
     "lucide-react": "^0.475.0",
     "next": "15.2.6",
     "nodemailer": "^7.0.3",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@eslint/eslintrc": "^3",
+    "@types/howler": "^2.2.12",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^18.3.18",

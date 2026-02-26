@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { playWin7Sound } from './win7Sounds';
 
 export interface Win7Window {
   id: string;
@@ -49,15 +50,12 @@ export function Win7Provider({ children }: { children: ReactNode }) {
     setWindows(prev => {
       const existingWindow = prev.find(w => w.id === windowData.id);
       if (existingWindow) {
-        // If window exists, just focus it
-        return prev.map(w => 
-          w.id === windowData.id 
+        return prev.map(w =>
+          w.id === windowData.id
             ? { ...w, isMinimized: false, zIndex: highestZIndex + 1 }
             : w
         );
       }
-      
-      // Create new window with slight offset based on number of windows
       const offset = (prev.length % 5) * 30;
       const newWindow: Win7Window = {
         ...windowData,
@@ -74,34 +72,39 @@ export function Win7Provider({ children }: { children: ReactNode }) {
     setHighestZIndex(prev => prev + 1);
     setActiveWindowId(windowData.id);
     setStartMenuOpen(false);
+    playWin7Sound('ding');
   }, [highestZIndex]);
 
   const closeWindow = useCallback((id: string) => {
     setWindows(prev => prev.filter(w => w.id !== id));
     setActiveWindowId(prev => prev === id ? null : prev);
+    playWin7Sound('click');
   }, []);
 
   const minimizeWindow = useCallback((id: string) => {
-    setWindows(prev => prev.map(w => 
+    setWindows(prev => prev.map(w =>
       w.id === id ? { ...w, isMinimized: true } : w
     ));
     setActiveWindowId(prev => prev === id ? null : prev);
+    playWin7Sound('minimize');
   }, []);
 
   const maximizeWindow = useCallback((id: string) => {
-    setWindows(prev => prev.map(w => 
+    setWindows(prev => prev.map(w =>
       w.id === id ? { ...w, isMaximized: true, zIndex: highestZIndex + 1 } : w
     ));
     setHighestZIndex(prev => prev + 1);
     setActiveWindowId(id);
+    playWin7Sound('restore');
   }, [highestZIndex]);
 
   const restoreWindow = useCallback((id: string) => {
-    setWindows(prev => prev.map(w => 
+    setWindows(prev => prev.map(w =>
       w.id === id ? { ...w, isMaximized: false, isMinimized: false, zIndex: highestZIndex + 1 } : w
     ));
     setHighestZIndex(prev => prev + 1);
     setActiveWindowId(id);
+    playWin7Sound('restore');
   }, [highestZIndex]);
 
   const focusWindow = useCallback((id: string) => {
