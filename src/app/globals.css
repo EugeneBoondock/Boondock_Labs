@@ -3,6 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Windows 7 Desktop Override */
+.win7-desktop,
+.win7-desktop * {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+.startup-screen,
+.shutdown-screen {
+  font-family: 'Segoe UI Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
 @keyframes gradientShift {
   0% {
     background-position: 0% 50%;
