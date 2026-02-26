@@ -629,13 +629,30 @@ const PLAYLIST = [
 const MediaPlayerContent = () => {
   const [idx,     setIdx]     = React.useState(0);
   const [playing, setPlaying] = React.useState(false);
+  const [iframeLoaded, setIframeLoaded] = React.useState(false);
+  const [showEmbedFallback, setShowEmbedFallback] = React.useState(false);
 
   const track = PLAYLIST[idx];
   const prev  = () => setIdx(i => (i - 1 + PLAYLIST.length) % PLAYLIST.length);
   const next  = () => setIdx(i => (i + 1) % PLAYLIST.length);
 
   // autoplay=1 when user explicitly presses play
-  const src = `https://www.youtube.com/embed/${track.id}?autoplay=${playing ? 1 : 0}&rel=0`;
+  const src = `https://www.youtube-nocookie.com/embed/${track.id}?autoplay=${playing ? 1 : 0}&rel=0&modestbranding=1&playsinline=1`;
+
+  React.useEffect(() => {
+    setIframeLoaded(false);
+    setShowEmbedFallback(false);
+  }, [src]);
+
+  React.useEffect(() => {
+    if (iframeLoaded) return;
+    const timer = window.setTimeout(() => setShowEmbedFallback(true), 3500);
+    return () => window.clearTimeout(timer);
+  }, [iframeLoaded, src]);
+
+  const openInYouTube = () => {
+    window.open(`https://www.youtube.com/watch?v=${track.id}`, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="app-content media-player-app">
@@ -655,7 +672,29 @@ const MediaPlayerContent = () => {
       </div>
 
       <div className="media-content">
+        <div className="media-playlist">
+          {PLAYLIST.map((t, i) => (
+            <button
+              key={t.id}
+              className={`media-playlist-item${i === idx ? ' active' : ''}`}
+              onClick={() => { setIdx(i); setPlaying(true); }}
+            >
+              <span className="pl-num">{i + 1}</span>
+              <span className="pl-title">{t.title}</span>
+              <span className="pl-artist">{t.artist}</span>
+            </button>
+          ))}
+        </div>
+
         <div className="media-video-area">
+          {showEmbedFallback && !iframeLoaded && (
+            <div className="media-embed-fallback">
+              <p>This track could not be embedded in the player.</p>
+              <button type="button" className="toolbar-btn" onClick={openInYouTube}>
+                Open in YouTube
+              </button>
+            </div>
+          )}
           <iframe
             key={`${track.id}-${playing}`}
             width="100%"
@@ -665,23 +704,9 @@ const MediaPlayerContent = () => {
             style={{ border: 'none' }}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            onLoad={() => setIframeLoaded(true)}
           />
         </div>
-      </div>
-
-      {/* Playlist sidebar */}
-      <div className="media-playlist">
-        {PLAYLIST.map((t, i) => (
-          <button
-            key={t.id}
-            className={`media-playlist-item${i === idx ? ' active' : ''}`}
-            onClick={() => { setIdx(i); setPlaying(true); }}
-          >
-            <span className="pl-num">{i + 1}</span>
-            <span className="pl-title">{t.title}</span>
-            <span className="pl-artist">{t.artist}</span>
-          </button>
-        ))}
       </div>
 
       <div className="media-controls">
