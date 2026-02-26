@@ -25,7 +25,12 @@
       "Bash(npm install clippyjs howler)",
       "Bash(npm install --save-dev @types/howler)",
       "Bash(npx tsc --noEmit)",
-      "Bash(grep -l \"proxy\\\\|iframe\\\\|fetch\" \"C:\\\\Users\\\\USER\\\\Projects\\\\Morphed_Magic_Cards_Links_V2\"/src/api/*)"
+      "Bash(grep -l \"proxy\\\\|iframe\\\\|fetch\" \"C:\\\\Users\\\\USER\\\\Projects\\\\Morphed_Magic_Cards_Links_V2\"/src/api/*)",
+      "Bash(python3 -c \":*)",
+      "Bash(node -e \":*)",
+      "Bash(npm run build)",
+      "Bash(npm install react-pdf)",
+      "Bash(node -e \"const p = require\\(''./node_modules/react-pdf/package.json''\\); console.log\\(''react-pdf version:'', p.version\\); const pdfjs = require\\(''./node_modules/pdfjs-dist/package.json''\\); console.log\\(''pdfjs-dist version:'', pdfjs.version\\);\")"
     ]
   }
 }

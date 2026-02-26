@@ -2436,6 +2436,78 @@
   margin-left: 8px;
 }
 
+/* ===== CV Viewer ===== */
+.cv-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cv-viewer {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #525659;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+.cv-viewer .react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cv-viewer .react-pdf__Page {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  margin-bottom: 12px;
+}
+
+.cv-page-indicator {
+  font-size: 11px;
+  color: #555;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.cv-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: #f0f0f0;
+  border-top: 1px solid #ccc;
+  font-size: 12px;
+}
+
+.cv-nav-bar button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.cv-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #ccc;
+  font-size: 13px;
+  padding: 40px;
+}
+
+.cv-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
 /* ===== Minesweeper ===== */
 .minesweeper-app {
   display: flex;

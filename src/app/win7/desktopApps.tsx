@@ -1,6 +1,21 @@
 "use client";
 
 import React, { ReactNode } from 'react';
+import dynamic from 'next/dynamic';
+
+const Win7CVViewer = dynamic(() => import('./Win7CVViewer'), {
+  ssr: false,
+  loading: () => (
+    <div className="app-content cv-app">
+      <div className="cv-viewer" style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <div className="cv-loading">
+          <div className="cv-spinner" />
+          <span>Loading CV…</span>
+        </div>
+      </div>
+    </div>
+  ),
+});
 
 export interface DesktopApp {
   id: string;
@@ -163,153 +178,180 @@ const ServicesContent = () => (
 );
 
 // Work/Projects Content - File Explorer Style
-const WorkContent = () => (
+type ProjFilter = 'all' | 'client' | 'opensource' | 'packages';
+
+const ALL_PROJECTS = [
+  {
+    cat: 'client' as ProjFilter,
+    icon: '🌍', name: 'Earthie.world',
+    desc: 'Comprehensive Earth2 metaverse platform — 17+ API integrations, real-time market data, interactive mapping and AI companion.',
+    tags: ['Next.js', 'React', 'Earth2 API'],
+    img: '/earthie-world.png', url: 'https://earthie.world', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '🔮', name: 'Morphed.io',
+    desc: 'Full platform development — backend infrastructure, frontend, custom API endpoints and MCP server from scratch.',
+    tags: ['Full-Stack', 'MCP Server', 'API'],
+    img: '/morphed.png', url: 'https://morphed.io', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '⚡', name: 'EntropySuite.co.za',
+    desc: '30+ AI-powered productivity & creativity tools — text summarisation, document conversion, image/video editing, Python terminal, data analysis and more.',
+    tags: ['React', 'Gemini AI', 'Supabase', 'FFmpeg'],
+    img: null, url: 'https://entropysuite.co.za', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '✍️', name: 'Philosophistication.co.za',
+    desc: 'PWA showcasing 11 years (2014–2025) of poetry & philosophy — 1 027 poems with an AI poetry assistant powered by Gemini.',
+    tags: ['React PWA', 'Gemini AI', 'Framer Motion'],
+    img: null, url: 'https://philosophistication.co.za', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '💬', name: 'MessageCFO.com',
+    desc: 'WhatsApp-native financial management — create invoices, log expenses, check balances and manage customers entirely through WhatsApp messages.',
+    tags: ['React', 'Express', 'WhatsApp API', 'Gemini AI'],
+    img: null, url: 'https://messagecfo.com', linkLabel: 'Visit Site →', wip: true,
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '🍽️', name: 'Platedom.com',
+    desc: 'AI restaurant platform — generative AI transforms menus into Michelin-star quality visual food photography in seconds.',
+    tags: ['Firebase', 'Generative AI', 'React'],
+    img: null, url: 'https://platedom.com', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '🏃', name: 'Nkechi Biokinetics',
+    desc: 'Professional portfolio for a Biokineticist — expertise in health, wellness, movement science and rehabilitation services.',
+    tags: ['Next.js', 'Vercel'],
+    img: null, url: 'https://nkechi-biokinetics.vercel.app/', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '💊', name: 'SavingWithDana',
+    desc: 'Coupon & savings platform — Eugene built the AWS backend infrastructure powering the platform.',
+    tags: ['AWS', 'Next.js'],
+    img: null, url: 'https://savingwithdana.com', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '🌐', name: '3rdIslandTours',
+    desc: 'Tourism and virtual tour booking platform designed for performance and clear user flow.',
+    tags: ['Web', 'Tours'],
+    img: null, url: 'https://3rdislandtours.com', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'opensource' as ProjFilter,
+    icon: '🔧', name: 'Earth2 MCP Server',
+    desc: 'Complete MCP server enabling Claude to access Earth2 account data, properties, wallet information and marketplace in real-time.',
+    tags: ['MCP Server', 'Earth2 API', 'Claude'],
+    img: null, url: 'https://github.com/EugeneBoondock', linkLabel: 'View on GitHub →',
+  },
+  {
+    cat: 'opensource' as ProjFilter,
+    icon: '🧬', name: 'KinSpace',
+    desc: 'Safe community space for people with chronic & mental illness — support, resources and connection.',
+    tags: ['React', 'Community'],
+    img: null, url: 'https://www.kinspace.co.za/', linkLabel: 'Visit Site →', wip: true,
+  },
+  {
+    cat: 'opensource' as ProjFilter,
+    icon: '📝', name: 'Bikode IDE',
+    desc: 'Lightweight Windows text editor/IDE — Scintilla syntax highlighting, regex grep, math evaluation in selections and multi-selection editing.',
+    tags: ['C++', 'Scintilla', 'Windows'],
+    img: null, url: 'https://github.com/EugeneBoondock', linkLabel: 'View on GitHub →', wip: true,
+  },
+  {
+    cat: 'packages' as ProjFilter,
+    icon: '📦', name: 'earth2-api-wrapper',
+    desc: 'Published NPM package — clean TypeScript wrapper around the Earth2 platform API for developers building metaverse tools.',
+    tags: ['NPM', 'TypeScript', 'Earth2 API'],
+    img: null, url: 'https://github.com/EugeneBoondock/earth2_api_wrapper', linkLabel: 'View on GitHub →',
+  },
+  {
+    cat: 'packages' as ProjFilter,
+    icon: '📦', name: 'morphed-mcp-server',
+    desc: 'NPM package — complete MCP server built from scratch for Morphed.io. Transforms Morphed APIs into powerful AI-integrated tools for Claude and other LLMs.',
+    tags: ['NPM', 'MCP Server', 'AI'],
+    img: null, url: 'https://www.npmjs.com/package/morphed-mcp-server', linkLabel: 'View on NPM →',
+  },
+  {
+    cat: 'packages' as ProjFilter,
+    icon: '📦', name: '@eugeneboondock/hubspot-mcp-server',
+    desc: 'NPM package — enhanced MCP server for HubSpot with OAuth 2.0 authentication, PostgreSQL integration and extended CRM tools for Claude.',
+    tags: ['NPM', 'MCP Server', 'HubSpot', 'OAuth 2.0'],
+    img: null, url: 'https://www.npmjs.com/package/@eugeneboondock/hubspot-mcp-server', linkLabel: 'View on NPM →',
+  },
+] as const;
+
+type Project = typeof ALL_PROJECTS[number] & { wip?: boolean };
+
+const WorkContent = () => {
+  const [filter, setFilter] = React.useState<ProjFilter>('all');
+
+  const shown = filter === 'all'
+    ? ALL_PROJECTS
+    : ALL_PROJECTS.filter(p => p.cat === filter);
+
+  const folders: { key: ProjFilter; label: string; icon: string }[] = [
+    { key: 'all',         label: 'Featured',    icon: '📁' },
+    { key: 'client',      label: 'Client Work',  icon: '📁' },
+    { key: 'opensource',  label: 'Open Source',  icon: '📁' },
+    { key: 'packages',    label: 'NPM Packages', icon: '📦' },
+  ];
+
+  return (
   <div className="app-content work-app explorer">
     <div className="explorer-toolbar">
       <button className="toolbar-btn">← Back</button>
       <button className="toolbar-btn">→ Forward</button>
       <div className="address-bar">
         <span className="address-icon">📁</span>
-        <span>C:\Users\Eugene\Projects</span>
+        <span>C:\Users\Eugene\Projects\{filter === 'all' ? 'Featured' : filter === 'client' ? 'Client Work' : filter === 'opensource' ? 'Open Source' : 'NPM Packages'}</span>
       </div>
     </div>
     <div className="explorer-sidebar">
       <div className="sidebar-section">
         <h4>Favorites</h4>
-        <div className="sidebar-item active">📁 Featured</div>
-        <div className="sidebar-item">📁 Client Work</div>
-        <div className="sidebar-item">📁 Open Source</div>
+        {folders.map(f => (
+          <div
+            key={f.key}
+            className={`sidebar-item${filter === f.key ? ' active' : ''}`}
+            onClick={() => setFilter(f.key)}
+          >
+            {f.icon} {f.label}
+          </div>
+        ))}
       </div>
     </div>
     <div className="explorer-main">
       <div className="project-cards">
-        <div className="project-card">
-          <div className="project-image">
-            <img src="/earthie-world.png" alt="Earthie World" />
-          </div>
-          <div className="project-info">
-            <h3>🌍 Earthie.world</h3>
-            <p>Comprehensive Earth2 metaverse community platform with 17+ API integrations, real-time market data, interactive mapping.</p>
-            <div className="project-tags">
-              <span>Next.js</span><span>React</span><span>Earth2 API</span>
+        {shown.map(p => (
+          <div key={p.name} className="project-card">
+            {p.img
+              ? <div className="project-image"><img src={p.img} alt={p.name} /></div>
+              : <div className="project-image placeholder"><span>{p.icon}</span></div>
+            }
+            <div className="project-info">
+              <h3>{p.icon} {p.name} {'wip' in p && p.wip && <span className="wip-badge">WIP</span>}</h3>
+              <p>{p.desc}</p>
+              <div className="project-tags">
+                {p.tags.map(t => <span key={t}>{t}</span>)}
+              </div>
+              <a href={p.url} target="_blank" rel="noopener noreferrer" className="project-link">{p.linkLabel}</a>
             </div>
-            <a href="https://earthie.world" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
           </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image">
-            <img src="/morphed.png" alt="Morphed.io" />
-          </div>
-          <div className="project-info">
-            <h3>🔮 Morphed.io</h3>
-            <p>Full platform development — backend infrastructure, frontend, custom API endpoints and MCP server from scratch.</p>
-            <div className="project-tags">
-              <span>Full-Stack</span><span>MCP Server</span><span>API</span>
-            </div>
-            <a href="https://morphed.io" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>⚡</span></div>
-          <div className="project-info">
-            <h3>⚡ EntropySuite.co.za</h3>
-            <p>30+ AI-powered productivity & creativity tools — text summarisation, document conversion, image/video editing, Python terminal, data analysis and more. Powered by Gemini AI.</p>
-            <div className="project-tags">
-              <span>React</span><span>Gemini AI</span><span>Supabase</span><span>FFmpeg</span>
-            </div>
-            <a href="https://entropysuite.co.za" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>✍️</span></div>
-          <div className="project-info">
-            <h3>✍️ Philosophistication.co.za</h3>
-            <p>PWA showcasing 11 years (2014–2025) of poetry and philosophy — 1 027 poems with an AI poetry assistant powered by Gemini that discusses themes and context.</p>
-            <div className="project-tags">
-              <span>React PWA</span><span>Gemini AI</span><span>Framer Motion</span>
-            </div>
-            <a href="https://philosophistication.co.za" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>💬</span></div>
-          <div className="project-info">
-            <h3>💬 MessageCFO.com <span className="wip-badge">WIP</span></h3>
-            <p>WhatsApp-native financial management — create invoices, log expenses, check cash balances and manage customers entirely through WhatsApp messages, backed by an Express + PostgreSQL server.</p>
-            <div className="project-tags">
-              <span>React</span><span>Express</span><span>WhatsApp API</span><span>Gemini AI</span>
-            </div>
-            <a href="https://messagecfo.com" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>🍽️</span></div>
-          <div className="project-info">
-            <h3>🍽️ Platedom.com</h3>
-            <p>AI restaurant platform — generative AI transforms menus into Michelin-star quality visual food photography in seconds.</p>
-            <div className="project-tags">
-              <span>Firebase</span><span>Generative AI</span><span>React</span>
-            </div>
-            <a href="https://platedom.com" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>🏃</span></div>
-          <div className="project-info">
-            <h3>🏃 Nkechi Biokinetics</h3>
-            <p>Professional portfolio for a Biokineticist — showcasing expertise in health, wellness, movement science and rehabilitation services.</p>
-            <div className="project-tags">
-              <span>Next.js</span><span>Vercel</span>
-            </div>
-            <a href="https://nkechi-biokinetics.vercel.app/" target="_blank" rel="noopener noreferrer" className="project-link">Visit Site →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>📝</span></div>
-          <div className="project-info">
-            <h3>📝 Bikode IDE <span className="wip-badge">WIP</span></h3>
-            <p>Lightweight Windows text editor and IDE — built on Notepad2e with Scintilla syntax highlighting, regex grep, math evaluation in selections and multi-selection editing.</p>
-            <div className="project-tags">
-              <span>C++</span><span>Scintilla</span><span>Windows</span>
-            </div>
-            <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="project-link">View on GitHub →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>🌐</span></div>
-          <div className="project-info">
-            <h3>🌐 Earth2 API Wrapper</h3>
-            <p>Published NPM package providing a clean, typed wrapper around the Earth2 platform API — used by developers building tools for the Earth2 metaverse ecosystem.</p>
-            <div className="project-tags">
-              <span>NPM Package</span><span>TypeScript</span><span>Earth2 API</span>
-            </div>
-            <a href="https://github.com/EugeneBoondock/earth2_api_wrapper" target="_blank" rel="noopener noreferrer" className="project-link">View on GitHub →</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <div className="project-image placeholder"><span>🔧</span></div>
-          <div className="project-info">
-            <h3>🔧 Earth2 MCP Server</h3>
-            <p>Complete MCP server enabling Claude to access Earth2 account data, properties, wallet information and marketplace in real-time.</p>
-            <div className="project-tags">
-              <span>MCP Server</span><span>Earth2 API</span><span>Claude</span>
-            </div>
-            <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="project-link">View on GitHub →</a>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </div>
-);
+  );
+};
+
 
 // Contact - Email App Style
 const ContactContent = () => (
@@ -523,7 +565,7 @@ const IE_LINKS = {
       icon: '🧬',
       name: 'KinSpace (WIP)',
       desc: 'Safe community space for people with chronic & mental illness — support, resources and connection.',
-      url: 'https://github.com/EugeneBoondock',
+      url: 'https://www.kinspace.co.za/',
       tags: ['React', 'Community'],
     },
     {
@@ -532,6 +574,27 @@ const IE_LINKS = {
       desc: 'Tourism & virtual tour booking platform designed for performance and user flow clarity.',
       url: 'https://3rdislandtours.com',
       tags: ['Web', 'Tours'],
+    },
+    {
+      icon: '🔧',
+      name: 'Earth2 MCP Server',
+      desc: 'Complete MCP server enabling Claude to access Earth2 account data, properties, wallet & marketplace in real-time.',
+      url: 'https://github.com/EugeneBoondock',
+      tags: ['MCP Server', 'Earth2 API', 'Claude'],
+    },
+    {
+      icon: '📦',
+      name: 'morphed-mcp-server',
+      desc: 'NPM package — complete MCP server for Morphed.io. Transforms Morphed APIs into AI-integrated tools for Claude.',
+      url: 'https://www.npmjs.com/package/morphed-mcp-server',
+      tags: ['NPM', 'MCP Server', 'AI'],
+    },
+    {
+      icon: '📦',
+      name: '@eugeneboondock/hubspot-mcp-server',
+      desc: 'NPM package — enhanced MCP server for HubSpot with OAuth 2.0, PostgreSQL integration and extended CRM tools for Claude.',
+      url: 'https://www.npmjs.com/package/@eugeneboondock/hubspot-mcp-server',
+      tags: ['NPM', 'MCP Server', 'HubSpot'],
     },
   ],
   social: [
@@ -604,7 +667,7 @@ const InternetExplorerContent = () => {
           <div className="ie-tiles">
             {IE_LINKS.projects.map(p => (
               <a
-                key={p.url}
+                key={p.name}
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -1020,6 +1083,9 @@ const SolitaireContent = () => {
   );
 };
 
+// CV / Resume - PDF Viewer (rendered via PDF.js, no browser print dialog)
+const CVContent = () => <Win7CVViewer />;
+
 export const desktopApps: DesktopApp[] = [
   {
     id: 'computer',
@@ -1068,6 +1134,16 @@ export const desktopApps: DesktopApp[] = [
     content: <ContactContent />,
     width: 750,
     height: 600,
+    showOnDesktop: true,
+    pinToStart: true,
+  },
+  {
+    id: 'cv',
+    name: 'My CV / Resume',
+    icon: '/win7/icons/authentic/wine-notepad.png',
+    content: <CVContent />,
+    width: 900,
+    height: 700,
     showOnDesktop: true,
     pinToStart: true,
   },
