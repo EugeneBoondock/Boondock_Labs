@@ -1,0 +1,4 @@
+User icon source:
+- Repository: https://github.com/FadeMind/W-ICO
+- File: ICO/Folder (Windows 7)/User Profile.ico
+- Raw URL: https://raw.githubusercontent.com/FadeMind/W-ICO/master/ICO/Folder%20(Windows%207)/User%20Profile.ico

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useWin7 } from './Win7Context';
-import { desktopApps, DesktopApp } from './desktopApps';
+import { type DesktopApp, desktopApps } from './desktopApps';
 
 interface StartMenuProps {
   onOpenApp: (app: DesktopApp) => void;
@@ -57,7 +57,7 @@ export default function Win7StartMenu({ onOpenApp }: StartMenuProps) {
       {/* User Section */}
       <div className="start-menu-header">
         <div className="user-avatar">
-          <img src="/win7/user-avatar.svg" alt="User" />
+          <img src="/win7/icons/repo/user-profile.ico" alt="User" />
         </div>
         <div className="user-name">Eugene Boondock</div>
       </div>
