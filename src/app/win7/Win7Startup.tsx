@@ -35,6 +35,10 @@ export default function Win7Startup() {
       img.src = src;
     });
 
+    // Preload the logon background so it's ready for the signin phase
+    const bg = new Image();
+    bg.src = "/win7/logon-bg.jpg";
+
     // Prime the audio element early so the browser doesn't block it later
     const audio = new Audio("/windows7_startup.mp3");
     audio.preload = "auto";
