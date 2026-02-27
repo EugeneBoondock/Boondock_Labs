@@ -45,8 +45,6 @@ export default function Win7StartMenu({ onOpenApp }: StartMenuProps) {
     }
   }, [isStartMenuOpen]);
 
-  if (!isStartMenuOpen) return null;
-
   const pinnedApps = desktopApps.filter(app => app.pinToStart);
   const searchKey = searchTerm.trim().toLowerCase();
 
@@ -87,6 +85,8 @@ export default function Win7StartMenu({ onOpenApp }: StartMenuProps) {
     ...CATEGORY_ORDER,
     ...Object.keys(groupedPrograms).filter(cat => !CATEGORY_ORDER.includes(cat)),
   ].filter(cat => groupedPrograms[cat]?.length);
+
+  if (!isStartMenuOpen) return null;
 
   const findApp = (id: string) => desktopApps.find(app => app.id === id);
 
