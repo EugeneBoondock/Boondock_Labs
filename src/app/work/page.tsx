@@ -299,6 +299,35 @@ export default function Work() {
       )
     },
     {
+      id: 'pathnote',
+      categories: ['featured', 'client'],
+      component: (
+        <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+          <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-cyan-100 to-blue-200 flex items-center justify-center">
+            <div className="text-center">
+              <Globe className="h-16 w-16 text-cyan-700 mx-auto mb-2" />
+              <p className="text-sm font-bold text-cyan-900">PathNote</p>
+            </div>
+          </div>
+          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+            pathnote.co.za - Audible Location Explorer
+          </h3>
+          <p className="text-sm mb-3 text-black">Location-based audio storytelling platform with OpenStreetMap, real-time location tracking, community-submitted points of interest, and AI narration that turns walks into guided audio experiences.</p>
+          <div className="flex items-center justify-between mt-auto pt-2">
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">React</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Supabase</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">OpenStreetMap</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Audio UX</span>
+            </div>
+            <a href="https://www.pathnote.co.za/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+              Visit <ExternalLink className="h-3 w-3 ml-1" />
+            </a>
+          </div>
+        </div>
+      )
+    },
+    {
       id: 'nkechi',
       categories: ['client'],
       component: (

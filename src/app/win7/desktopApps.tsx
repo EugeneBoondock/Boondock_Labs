@@ -204,6 +204,13 @@ const ALL_PROJECTS = [
   },
   {
     cat: 'client' as ProjFilter,
+    icon: '🎧', name: 'PathNote.co.za',
+    desc: 'Audible location explorer with OpenStreetMap, real-time location tracking, community points of interest, and AI-powered storytelling while users walk.',
+    tags: ['React', 'Supabase', 'OpenStreetMap', 'Audio UX'],
+    img: null, url: 'https://www.pathnote.co.za/', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
     icon: '✍️', name: 'Philosophistication.co.za',
     desc: 'PWA showcasing 11 years (2014–2025) of poetry & philosophy — 1 027 poems with an AI poetry assistant powered by Gemini.',
     tags: ['React PWA', 'Gemini AI', 'Framer Motion'],
@@ -511,6 +518,13 @@ const IE_LINKS = {
       desc: '30+ AI-powered productivity & creativity tools — text summarisation, document conversion, Python terminal, image editing and more.',
       url: 'https://entropysuite.co.za',
       tags: ['React', 'Gemini AI', 'Supabase'],
+    },
+    {
+      icon: '🎧',
+      name: 'PathNote.co.za',
+      desc: 'Audible location explorer with OpenStreetMap, real-time location tracking, community points of interest, and AI-powered storytelling while users walk.',
+      url: 'https://www.pathnote.co.za/',
+      tags: ['React', 'Supabase', 'OpenStreetMap'],
     },
     {
       icon: '✍️',

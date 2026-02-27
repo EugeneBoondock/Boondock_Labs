@@ -39,6 +39,7 @@ export default function Win7Startup() {
     const audio = new Audio("/windows7_startup.mp3");
     audio.preload = "auto";
     audio.volume = 0.7;
+    audio.load();
     startupAudioRef.current = audio;
   }, []);
 
@@ -77,12 +78,6 @@ export default function Win7Startup() {
       return "welcome";
     });
   }, []);
-
-  useEffect(() => {
-    if (phase !== "signin") return;
-    const signinTimer = setTimeout(moveToWelcome, 1800);
-    return () => clearTimeout(signinTimer);
-  }, [phase, moveToWelcome]);
 
   // ===== WELCOME PHASE =====
   useEffect(() => {

@@ -33,19 +33,21 @@ Projects Eugene Has Worked On:
 
 4. Philosophistication.co.za — A Progressive Web App (PWA) showcasing 11 years of poetry and philosophy (2014–2025), featuring 1,027 poems/thoughts with an AI poetry assistant powered by Gemini that discusses themes and context.
 
-5. MessageCFO.com (WIP) — WhatsApp-native financial management app. Users create invoices, log expenses, check cash balances, and manage customers entirely through WhatsApp messages. Stack: React, Express, PostgreSQL, WhatsApp Cloud API, Gemini AI.
+5. PathNote.co.za — Audible location explorer that turns walks into interactive audio experiences. Features OpenStreetMap, real-time location tracking, community points of interest, and AI-powered storytelling.
 
-6. Platedom.com — AI restaurant platform where generative AI transforms menus into Michelin-star quality visual food photography. Built with Firebase, Generative AI, and React.
+6. MessageCFO.com (WIP) — WhatsApp-native financial management app. Users create invoices, log expenses, check cash balances, and manage customers entirely through WhatsApp messages. Stack: React, Express, PostgreSQL, WhatsApp Cloud API, Gemini AI.
 
-7. Nkechi Biokinetics (nkechi-biokinetics.vercel.app) — Professional portfolio for a Biokineticist showcasing health, wellness, movement science, and rehabilitation services.
+7. Platedom.com — AI restaurant platform where generative AI transforms menus into Michelin-star quality visual food photography. Built with Firebase, Generative AI, and React.
 
-8. Bikode IDE (WIP) — Lightweight Windows text editor/IDE built on Notepad2e and the Scintilla engine. Features syntax highlighting, regex-based find/grep, math expression evaluation, and multi-selection editing. Written in C++.
+8. Nkechi Biokinetics (nkechi-biokinetics.vercel.app) — Professional portfolio for a Biokineticist showcasing health, wellness, movement science, and rehabilitation services.
 
-9. SavingWithDana.com — A coupon and savings platform; Eugene is building the AWS backend infrastructure.
+9. Bikode IDE (WIP) — Lightweight Windows text editor/IDE built on Notepad2e and the Scintilla engine. Features syntax highlighting, regex-based find/grep, math expression evaluation, and multi-selection editing. Written in C++.
 
-10. KinSpace (WIP) — A safe community space for people with chronic and mental illnesses — support, resources, and connection. Built with React.
+10. SavingWithDana.com — A coupon and savings platform; Eugene is building the AWS backend infrastructure.
 
-11. 3rdIslandTours.com — Tourism and virtual tour booking platform designed for performance and clear user flow.
+11. KinSpace (WIP) — A safe community space for people with chronic and mental illnesses — support, resources, and connection. Built with React.
+
+12. 3rdIslandTours.com — Tourism and virtual tour booking platform designed for performance and clear user flow.
 
 NPM Packages Eugene Created:
 1. earth2-api-wrapper (npmjs.com/package/earth2-api-wrapper): API wrapper for Earth2 platform
