@@ -2,6 +2,7 @@
 
 import React, { ReactNode } from 'react';
 import dynamic from 'next/dynamic';
+import { useWin7 } from './Win7Context';
 
 const Win7CVViewer = dynamic(() => import('./Win7CVViewer'), {
   ssr: false,
@@ -26,6 +27,8 @@ export interface DesktopApp {
   height?: number;
   showOnDesktop?: boolean;
   pinToStart?: boolean;
+  category?: string;
+  keywords?: string[];
 }
 
 // About Me Content
@@ -1097,6 +1100,674 @@ const SolitaireContent = () => {
   );
 };
 
+// Calculator
+type CalcOperator = '+' | '-' | '*' | '/';
+
+const CalculatorContent = () => {
+  const [display, setDisplay] = React.useState('0');
+  const [storedValue, setStoredValue] = React.useState<number | null>(null);
+  const [operator, setOperator] = React.useState<CalcOperator | null>(null);
+  const [overwrite, setOverwrite] = React.useState(true);
+
+  const getCurrentValue = () => Number.parseFloat(display);
+
+  const applyOperator = (left: number, right: number, op: CalcOperator): number => {
+    if (op === '+') return left + right;
+    if (op === '-') return left - right;
+    if (op === '*') return left * right;
+    if (right === 0) return Number.NaN;
+    return left / right;
+  };
+
+  const setSafeDisplay = (value: number) => {
+    if (!Number.isFinite(value)) {
+      setDisplay('Error');
+      setStoredValue(null);
+      setOperator(null);
+      setOverwrite(true);
+      return;
+    }
+    setDisplay(String(Number(value.toFixed(10))));
+  };
+
+  const inputDigit = (digit: string) => {
+    if (display === 'Error') {
+      setDisplay(digit);
+      setOverwrite(false);
+      return;
+    }
+    if (overwrite) {
+      setDisplay(digit);
+      setOverwrite(false);
+      return;
+    }
+    setDisplay(current => (current === '0' ? digit : `${current}${digit}`));
+  };
+
+  const inputDecimal = () => {
+    if (display === 'Error') {
+      setDisplay('0.');
+      setOverwrite(false);
+      return;
+    }
+    if (overwrite) {
+      setDisplay('0.');
+      setOverwrite(false);
+      return;
+    }
+    if (!display.includes('.')) {
+      setDisplay(current => `${current}.`);
+    }
+  };
+
+  const clearAll = () => {
+    setDisplay('0');
+    setStoredValue(null);
+    setOperator(null);
+    setOverwrite(true);
+  };
+
+  const clearEntry = () => {
+    setDisplay('0');
+    setOverwrite(true);
+  };
+
+  const backspace = () => {
+    if (overwrite || display === 'Error') return;
+    setDisplay(current => (current.length <= 1 ? '0' : current.slice(0, -1)));
+  };
+
+  const chooseOperator = (nextOperator: CalcOperator) => {
+    const currentValue = getCurrentValue();
+    if (storedValue === null || operator === null) {
+      setStoredValue(currentValue);
+      setOperator(nextOperator);
+      setOverwrite(true);
+      return;
+    }
+
+    const result = applyOperator(storedValue, currentValue, operator);
+    setSafeDisplay(result);
+    setStoredValue(result);
+    setOperator(nextOperator);
+    setOverwrite(true);
+  };
+
+  const calculateResult = () => {
+    if (storedValue === null || operator === null) return;
+    const currentValue = getCurrentValue();
+    const result = applyOperator(storedValue, currentValue, operator);
+    setSafeDisplay(result);
+    setStoredValue(null);
+    setOperator(null);
+    setOverwrite(true);
+  };
+
+  const applyUnary = (action: 'sign' | 'sqrt' | 'percent') => {
+    const currentValue = getCurrentValue();
+    if (display === 'Error') return;
+
+    if (action === 'sign') {
+      setSafeDisplay(currentValue * -1);
+      setOverwrite(true);
+      return;
+    }
+    if (action === 'sqrt') {
+      setSafeDisplay(Math.sqrt(currentValue));
+      setOverwrite(true);
+      return;
+    }
+    setSafeDisplay(currentValue / 100);
+    setOverwrite(true);
+  };
+
+  return (
+    <div className="app-content calculator-app">
+      <div className="calculator-header">
+        <span>Standard</span>
+        <span>{operator ?? 'Ready'}</span>
+      </div>
+      <div className="calculator-display">{display}</div>
+      <div className="calculator-grid">
+        <button onClick={clearAll}>C</button>
+        <button onClick={clearEntry}>CE</button>
+        <button onClick={backspace}>⌫</button>
+        <button onClick={() => chooseOperator('/')}>÷</button>
+
+        <button onClick={() => inputDigit('7')}>7</button>
+        <button onClick={() => inputDigit('8')}>8</button>
+        <button onClick={() => inputDigit('9')}>9</button>
+        <button onClick={() => chooseOperator('*')}>×</button>
+
+        <button onClick={() => inputDigit('4')}>4</button>
+        <button onClick={() => inputDigit('5')}>5</button>
+        <button onClick={() => inputDigit('6')}>6</button>
+        <button onClick={() => chooseOperator('-')}>−</button>
+
+        <button onClick={() => inputDigit('1')}>1</button>
+        <button onClick={() => inputDigit('2')}>2</button>
+        <button onClick={() => inputDigit('3')}>3</button>
+        <button onClick={() => chooseOperator('+')}>+</button>
+
+        <button onClick={() => applyUnary('sign')}>±</button>
+        <button onClick={() => inputDigit('0')}>0</button>
+        <button onClick={inputDecimal}>.</button>
+        <button className="equals-btn" onClick={calculateResult}>=</button>
+
+        <button onClick={() => applyUnary('sqrt')}>√</button>
+        <button onClick={() => applyUnary('percent')}>%</button>
+      </div>
+    </div>
+  );
+};
+
+// Paint
+const PaintContent = () => {
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const [isDrawing, setIsDrawing] = React.useState(false);
+  const [brushColor, setBrushColor] = React.useState('#1b4ea8');
+  const [brushSize, setBrushSize] = React.useState(4);
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  }, []);
+
+  const getPoint = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+  };
+
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const ctx = canvasRef.current?.getContext('2d');
+    const point = getPoint(e);
+    if (!ctx || !point) return;
+
+    ctx.strokeStyle = brushColor;
+    ctx.lineWidth = brushSize;
+    ctx.beginPath();
+    ctx.moveTo(point.x, point.y);
+    setIsDrawing(true);
+  };
+
+  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
+    const ctx = canvasRef.current?.getContext('2d');
+    const point = getPoint(e);
+    if (!ctx || !point) return;
+
+    ctx.lineTo(point.x, point.y);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => {
+    if (!isDrawing) return;
+    const ctx = canvasRef.current?.getContext('2d');
+    ctx?.closePath();
+    setIsDrawing(false);
+  };
+
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  };
+
+  const saveImage = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const link = document.createElement('a');
+    link.download = `paint-${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  return (
+    <div className="app-content paint-app">
+      <div className="paint-toolbar">
+        <label>
+          Brush
+          <input
+            type="range"
+            min={1}
+            max={24}
+            value={brushSize}
+            onChange={e => setBrushSize(Number(e.target.value))}
+          />
+        </label>
+        <label>
+          Color
+          <input
+            type="color"
+            value={brushColor}
+            onChange={e => setBrushColor(e.target.value)}
+          />
+        </label>
+        <button onClick={clearCanvas}>Clear</button>
+        <button onClick={saveImage}>Save</button>
+      </div>
+      <div className="paint-canvas-wrap">
+        <canvas
+          ref={canvasRef}
+          width={920}
+          height={560}
+          className="paint-canvas"
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseLeave={stopDrawing}
+        />
+      </div>
+    </div>
+  );
+};
+
+// Sticky Notes
+interface StickyNote {
+  id: number;
+  title: string;
+  content: string;
+  color: string;
+}
+
+const STICKY_COLORS = ['#fff7a8', '#ffdfc4', '#d8f7c3', '#d7ecff', '#f0d8ff'];
+
+const StickyNotesContent = () => {
+  const [notes, setNotes] = React.useState<StickyNote[]>([
+    { id: 1, title: 'Today', content: 'Ship more Windows features.', color: STICKY_COLORS[0] },
+    { id: 2, title: 'Ideas', content: 'Launch Task Manager and check memory.', color: STICKY_COLORS[3] },
+  ]);
+  const [selectedId, setSelectedId] = React.useState(1);
+
+  const selectedNote = notes.find(note => note.id === selectedId) ?? notes[0];
+
+  const createNote = () => {
+    const id = Date.now();
+    const color = STICKY_COLORS[id % STICKY_COLORS.length];
+    const newNote: StickyNote = {
+      id,
+      title: `Note ${notes.length + 1}`,
+      content: '',
+      color,
+    };
+    setNotes(prev => [newNote, ...prev]);
+    setSelectedId(id);
+  };
+
+  const removeSelected = () => {
+    if (!selectedNote) return;
+    setNotes(prev => prev.filter(note => note.id !== selectedNote.id));
+    const fallback = notes.find(note => note.id !== selectedNote.id);
+    if (fallback) setSelectedId(fallback.id);
+  };
+
+  const updateSelected = (patch: Partial<StickyNote>) => {
+    if (!selectedNote) return;
+    setNotes(prev =>
+      prev.map(note => (note.id === selectedNote.id ? { ...note, ...patch } : note))
+    );
+  };
+
+  return (
+    <div className="app-content sticky-notes-app">
+      <div className="sticky-sidebar">
+        <div className="sticky-actions">
+          <button onClick={createNote}>+ New</button>
+          <button onClick={removeSelected} disabled={!selectedNote}>Delete</button>
+        </div>
+        <div className="sticky-note-list">
+          {notes.map(note => (
+            <button
+              key={note.id}
+              className={`sticky-note-item${selectedId === note.id ? ' active' : ''}`}
+              style={{ background: note.color }}
+              onClick={() => setSelectedId(note.id)}
+            >
+              <strong>{note.title || 'Untitled'}</strong>
+              <span>{note.content || 'Empty note'}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {selectedNote ? (
+        <div className="sticky-editor" style={{ background: selectedNote.color }}>
+          <input
+            value={selectedNote.title}
+            onChange={e => updateSelected({ title: e.target.value })}
+            placeholder="Title"
+          />
+          <textarea
+            value={selectedNote.content}
+            onChange={e => updateSelected({ content: e.target.value })}
+            placeholder="Write your note..."
+          />
+        </div>
+      ) : (
+        <div className="sticky-editor empty">Create a note to get started.</div>
+      )}
+    </div>
+  );
+};
+
+// Command Prompt
+type CmdLineType = 'output' | 'command' | 'error';
+interface CmdLine {
+  id: number;
+  type: CmdLineType;
+  text: string;
+}
+
+const CommandPromptContent = () => {
+  const { openWindow } = useWin7();
+  const [lines, setLines] = React.useState<CmdLine[]>([
+    { id: 1, type: 'output', text: 'Microsoft Windows [Version 6.1.7601]' },
+    { id: 2, type: 'output', text: '(c) 2009 Microsoft Corporation. All rights reserved.' },
+    { id: 3, type: 'output', text: '' },
+    { id: 4, type: 'output', text: 'Type HELP for available commands.' },
+  ]);
+  const [input, setInput] = React.useState('');
+  const lineId = React.useRef(5);
+  const outputRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    outputRef.current?.scrollTo({ top: outputRef.current.scrollHeight });
+  }, [lines]);
+
+  const pushLines = (newLines: Omit<CmdLine, 'id'>[]) => {
+    setLines(prev => [...prev, ...newLines.map(line => ({ ...line, id: lineId.current++ }))]);
+  };
+
+  const openApp = (appIdOrName: string): boolean => {
+    const key = appIdOrName.toLowerCase();
+    const aliases: Record<string, string> = {
+      cmd: 'command-prompt',
+      calc: 'calculator',
+      mspaint: 'paint',
+      notepad: 'notepad',
+      iexplore: 'ie',
+      taskmgr: 'task-manager',
+      control: 'services',
+      explorer: 'computer',
+      run: 'run',
+    };
+    const resolved = aliases[key] ?? key;
+    const app = desktopApps.find(candidate =>
+      candidate.id === resolved ||
+      candidate.name.toLowerCase().includes(resolved) ||
+      candidate.keywords?.some(keyword => keyword.toLowerCase() === resolved)
+    );
+
+    if (!app) return false;
+
+    openWindow({
+      id: app.id,
+      title: app.name,
+      icon: app.icon,
+      content: app.content,
+      width: app.width,
+      height: app.height,
+    });
+    return true;
+  };
+
+  const runCommand = (rawInput: string) => {
+    const trimmed = rawInput.trim();
+    pushLines([{ type: 'command', text: `C:\\Users\\Eugene>${trimmed}` }]);
+
+    if (!trimmed) return;
+
+    const [base, ...rest] = trimmed.split(/\s+/);
+    const cmd = base.toLowerCase();
+    const argText = rest.join(' ');
+
+    if (cmd === 'cls') {
+      setLines([]);
+      return;
+    }
+
+    if (cmd === 'help') {
+      pushLines([
+        { type: 'output', text: 'Available commands:' },
+        { type: 'output', text: 'HELP, DIR, DATE, TIME, VER, WHOAMI, CLS, ECHO, START <APP>' },
+      ]);
+      return;
+    }
+
+    if (cmd === 'dir') {
+      const names = desktopApps.map(app => app.name).sort();
+      pushLines([
+        { type: 'output', text: ' Directory of C:\\Users\\Eugene\\Desktop' },
+        ...names.map(name => ({ type: 'output' as const, text: `  <APP>  ${name}` })),
+      ]);
+      return;
+    }
+
+    if (cmd === 'date') {
+      pushLines([{ type: 'output', text: `The current date is: ${new Date().toLocaleDateString('en-US')}` }]);
+      return;
+    }
+
+    if (cmd === 'time') {
+      pushLines([{ type: 'output', text: `The current time is: ${new Date().toLocaleTimeString('en-US')}` }]);
+      return;
+    }
+
+    if (cmd === 'ver') {
+      pushLines([{ type: 'output', text: 'Microsoft Windows [Version 6.1.7601]' }]);
+      return;
+    }
+
+    if (cmd === 'whoami') {
+      pushLines([{ type: 'output', text: 'boondocklabs\\eugene' }]);
+      return;
+    }
+
+    if (cmd === 'echo') {
+      pushLines([{ type: 'output', text: argText }]);
+      return;
+    }
+
+    if (cmd === 'start') {
+      if (!argText) {
+        pushLines([{ type: 'error', text: 'Usage: START <program>' }]);
+        return;
+      }
+      const launched = openApp(argText);
+      pushLines([
+        launched
+          ? { type: 'output', text: `Started ${argText}` }
+          : { type: 'error', text: `Program not found: ${argText}` },
+      ]);
+      return;
+    }
+
+    pushLines([{ type: 'error', text: `'${cmd}' is not recognized as an internal or external command.` }]);
+  };
+
+  return (
+    <div className="app-content cmd-app">
+      <div className="cmd-output" ref={outputRef}>
+        {lines.map(line => (
+          <div key={line.id} className={`cmd-line ${line.type}`}>
+            {line.text || '\u00A0'}
+          </div>
+        ))}
+        <form
+          className="cmd-input-row"
+          onSubmit={e => {
+            e.preventDefault();
+            const raw = input;
+            setInput('');
+            runCommand(raw);
+          }}
+        >
+          <span className="cmd-prompt">C:\Users\Eugene&gt;</span>
+          <input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            autoFocus
+            spellCheck={false}
+          />
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// Task Manager
+const TaskManagerContent = () => {
+  const { windows, focusWindow, closeWindow } = useWin7();
+  const cpuUsage = Math.min(92, 14 + windows.length * 9);
+  const memoryUsage = Math.min(94, 26 + windows.length * 7);
+  const processes = [
+    { name: 'System Idle Process', status: 'Running', cpu: '00', memory: '24 K', canClose: false },
+    { name: 'explorer.exe', status: 'Running', cpu: '01', memory: '23 588 K', canClose: false },
+    ...windows.map(win => ({
+      id: win.id,
+      name: `${win.title}.exe`,
+      status: win.isMinimized ? 'Background' : 'Running',
+      cpu: win.isMinimized ? '00' : String(2 + Math.min(8, win.title.length % 7)).padStart(2, '0'),
+      memory: `${42 + win.title.length * 2} 000 K`,
+      canClose: true,
+    })),
+  ];
+
+  return (
+    <div className="app-content task-manager-app">
+      <div className="tm-header">
+        <div className="tm-usage">
+          <span>CPU Usage</span>
+          <div className="tm-meter"><div style={{ width: `${cpuUsage}%` }} /></div>
+          <strong>{cpuUsage}%</strong>
+        </div>
+        <div className="tm-usage">
+          <span>Memory</span>
+          <div className="tm-meter"><div style={{ width: `${memoryUsage}%` }} /></div>
+          <strong>{memoryUsage}%</strong>
+        </div>
+      </div>
+      <div className="tm-table">
+        <div className="tm-row head">
+          <span>Image Name</span>
+          <span>Status</span>
+          <span>CPU</span>
+          <span>Memory</span>
+          <span>Action</span>
+        </div>
+        {processes.map(process => (
+          <div key={process.name + process.memory} className="tm-row">
+            <span>{process.name}</span>
+            <span>{process.status}</span>
+            <span>{process.cpu}%</span>
+            <span>{process.memory}</span>
+            <span className="tm-actions">
+              {'id' in process && process.id && (
+                <button onClick={() => focusWindow(process.id)}>Switch</button>
+              )}
+              {process.canClose && 'id' in process && process.id && (
+                <button className="danger" onClick={() => closeWindow(process.id)}>End Task</button>
+              )}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Run dialog
+const RunContent = () => {
+  const { openWindow } = useWin7();
+  const [command, setCommand] = React.useState('');
+  const [status, setStatus] = React.useState('Type the name of a program, folder, document, or Internet resource.');
+
+  const resolveAndOpen = (raw: string) => {
+    const lookup = raw.trim().toLowerCase();
+    if (!lookup) return;
+
+    const aliases: Record<string, string> = {
+      cmd: 'command-prompt',
+      calc: 'calculator',
+      mspaint: 'paint',
+      notepad: 'notepad',
+      iexplore: 'ie',
+      taskmgr: 'task-manager',
+      control: 'services',
+      explorer: 'computer',
+      write: 'sticky-notes',
+    };
+
+    const query = aliases[lookup] ?? lookup;
+    const app = desktopApps.find(candidate =>
+      candidate.id === query ||
+      candidate.name.toLowerCase().includes(query) ||
+      candidate.keywords?.some(keyword => keyword.toLowerCase() === query)
+    );
+
+    if (!app) {
+      setStatus(`Windows cannot find '${raw}'. Check the spelling and try again.`);
+      return;
+    }
+
+    openWindow({
+      id: app.id,
+      title: app.name,
+      icon: app.icon,
+      content: app.content,
+      width: app.width,
+      height: app.height,
+    });
+    setStatus(`Opening ${app.name}...`);
+  };
+
+  return (
+    <div className="app-content run-app">
+      <div className="run-shell">
+        <img src="/win7/icons/authentic/applications-development.png" alt="" />
+        <div className="run-copy">
+          <h3>Run</h3>
+          <p>{status}</p>
+          <label>
+            Open:
+            <input
+              type="text"
+              value={command}
+              onChange={e => setCommand(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') resolveAndOpen(command);
+              }}
+            />
+          </label>
+          <div className="run-shortcuts">
+            {['calc', 'cmd', 'mspaint', 'taskmgr', 'iexplore'].map(shortcut => (
+              <button key={shortcut} onClick={() => {
+                setCommand(shortcut);
+                resolveAndOpen(shortcut);
+              }}>
+                {shortcut}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // CV / Resume - PDF Viewer (rendered via PDF.js, no browser print dialog)
 const CVContent = () => <Win7CVViewer />;
 
@@ -1361,6 +2032,8 @@ export const desktopApps: DesktopApp[] = [
     height: 600,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['this pc', 'explorer', 'files'],
   },
   {
     id: 'about',
@@ -1371,6 +2044,8 @@ export const desktopApps: DesktopApp[] = [
     height: 650,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['profile', 'bio', 'eugene'],
   },
   {
     id: 'work',
@@ -1381,6 +2056,8 @@ export const desktopApps: DesktopApp[] = [
     height: 700,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['documents', 'projects', 'portfolio'],
   },
   {
     id: 'services',
@@ -1391,6 +2068,8 @@ export const desktopApps: DesktopApp[] = [
     height: 650,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['control panel', 'services', 'settings'],
   },
   {
     id: 'contact',
@@ -1401,6 +2080,8 @@ export const desktopApps: DesktopApp[] = [
     height: 600,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['mail', 'email', 'message'],
   },
   {
     id: 'cv',
@@ -1411,6 +2092,8 @@ export const desktopApps: DesktopApp[] = [
     height: 700,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['resume', 'curriculum vitae', 'pdf'],
   },
   {
     id: 'blog',
@@ -1421,6 +2104,8 @@ export const desktopApps: DesktopApp[] = [
     height: 680,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['posts', 'articles', 'reading'],
   },
   {
     id: 'case-studies',
@@ -1431,6 +2116,8 @@ export const desktopApps: DesktopApp[] = [
     height: 700,
     showOnDesktop: true,
     pinToStart: true,
+    category: 'Portfolio',
+    keywords: ['case studies', 'metrics', 'projects'],
   },
   {
     id: 'ie',
@@ -1441,6 +2128,8 @@ export const desktopApps: DesktopApp[] = [
     height: 700,
     showOnDesktop: true,
     pinToStart: false,
+    category: 'Portfolio',
+    keywords: ['browser', 'internet', 'iexplore'],
   },
   {
     id: 'notepad',
@@ -1451,6 +2140,80 @@ export const desktopApps: DesktopApp[] = [
     height: 500,
     showOnDesktop: true,
     pinToStart: false,
+    category: 'Accessories',
+    keywords: ['text', 'editor', 'notes'],
+  },
+  {
+    id: 'run',
+    name: 'Run...',
+    icon: '/win7/icons/authentic/applications-development.png',
+    content: <RunContent />,
+    width: 520,
+    height: 250,
+    showOnDesktop: false,
+    pinToStart: true,
+    category: 'System Tools',
+    keywords: ['run', 'open', 'command'],
+  },
+  {
+    id: 'calculator',
+    name: 'Calculator',
+    icon: '/win7/icons/authentic/cpu.png',
+    content: <CalculatorContent />,
+    width: 360,
+    height: 500,
+    showOnDesktop: true,
+    pinToStart: true,
+    category: 'Accessories',
+    keywords: ['calc', 'math', 'numbers'],
+  },
+  {
+    id: 'paint',
+    name: 'Paint',
+    icon: '/win7/icons/authentic/folder-pictures.png',
+    content: <PaintContent />,
+    width: 980,
+    height: 680,
+    showOnDesktop: true,
+    pinToStart: true,
+    category: 'Accessories',
+    keywords: ['mspaint', 'drawing', 'canvas'],
+  },
+  {
+    id: 'sticky-notes',
+    name: 'Sticky Notes',
+    icon: '/win7/icons/authentic/wine-notepad.png',
+    content: <StickyNotesContent />,
+    width: 760,
+    height: 520,
+    showOnDesktop: true,
+    pinToStart: false,
+    category: 'Accessories',
+    keywords: ['notes', 'memo', 'write'],
+  },
+  {
+    id: 'command-prompt',
+    name: 'Command Prompt',
+    icon: '/win7/icons/authentic/gnome-dev-harddisk.png',
+    content: <CommandPromptContent />,
+    width: 760,
+    height: 500,
+    showOnDesktop: true,
+    pinToStart: false,
+    category: 'System Tools',
+    keywords: ['cmd', 'terminal', 'shell'],
+  },
+  {
+    id: 'task-manager',
+    name: 'Task Manager',
+    icon: '/win7/icons/authentic/network-config.png',
+    content: <TaskManagerContent />,
+    width: 860,
+    height: 560,
+    showOnDesktop: false,
+    pinToStart: false,
+    category: 'System Tools',
+    keywords: ['taskmgr', 'processes', 'performance'],
   },
   {
     id: 'recycle',
@@ -1472,6 +2235,8 @@ export const desktopApps: DesktopApp[] = [
     height: 400,
     showOnDesktop: true,
     pinToStart: false,
+    category: 'System Tools',
+    keywords: ['trash', 'delete', 'bin'],
   },
   {
     id: 'media-player',
@@ -1482,6 +2247,8 @@ export const desktopApps: DesktopApp[] = [
     height: 560,
     showOnDesktop: true,
     pinToStart: false,
+    category: 'Media',
+    keywords: ['music', 'video', 'player'],
   },
   {
     id: 'minesweeper',
@@ -1492,6 +2259,8 @@ export const desktopApps: DesktopApp[] = [
     height: 420,
     showOnDesktop: false,
     pinToStart: false,
+    category: 'Games',
+    keywords: ['game', 'mine', 'classic'],
   },
   {
     id: 'solitaire',
@@ -1502,5 +2271,7 @@ export const desktopApps: DesktopApp[] = [
     height: 580,
     showOnDesktop: false,
     pinToStart: false,
+    category: 'Games',
+    keywords: ['cards', 'game', 'patience'],
   },
 ];
