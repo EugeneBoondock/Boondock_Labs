@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useWin7 } from './Win7Context';
 import Win7Taskbar from './Win7Taskbar';
 import Win7StartMenu from './Win7StartMenu';
@@ -16,11 +16,21 @@ import { ClippyProvider } from './Win7Clippy';
 interface CtxPos { x: number; y: number }
 
 function Win7ContextMenu({
-  pos, onClose, onOpenApp,
-}: { pos: CtxPos; onClose: () => void; onOpenApp: (app: DesktopApp) => void }) {
+  pos,
+  onClose,
+  onOpenApp,
+  showGadgets,
+  onToggleGadgets,
+}: {
+  pos: CtxPos;
+  onClose: () => void;
+  onOpenApp: (app: DesktopApp) => void;
+  showGadgets: boolean;
+  onToggleGadgets: () => void;
+}) {
   const [sub, setSub] = useState<string | null>(null);
 
-  const W = 200, H_EST = 270, margin = 4;
+  const W = 220, H_EST = 360, margin = 4;
   let left = pos.x;
   let top  = pos.y;
   if (left + W > window.innerWidth  - margin) left = window.innerWidth  - W - margin;
@@ -55,6 +65,15 @@ function Win7ContextMenu({
             <div className="ctx-item" onClick={onClose}>Align icons to grid</div>
             <div className="ctx-separator" />
             <div className="ctx-item ctx-checked" onClick={onClose}>Show desktop icons</div>
+            <div
+              className={`ctx-item ${showGadgets ? 'ctx-checked' : ''}`}
+              onClick={() => {
+                onToggleGadgets();
+                onClose();
+              }}
+            >
+              Show desktop gadgets
+            </div>
           </div>
         )}
       </div>
@@ -95,6 +114,14 @@ function Win7ContextMenu({
               <img src="/win7/icons/authentic/wine-notepad.png" className="ctx-item-icon" alt="" />
               Text Document
             </div>
+            <div className="ctx-item" onClick={() => open('sticky-notes')}>
+              <img src="/win7/icons/authentic/wine-notepad.png" className="ctx-item-icon" alt="" />
+              Sticky Note
+            </div>
+            <div className="ctx-item" onClick={() => open('paint')}>
+              <img src="/win7/icons/authentic/folder-pictures.png" className="ctx-item-icon" alt="" />
+              Bitmap Image
+            </div>
           </div>
         )}
       </div>
@@ -109,7 +136,58 @@ function Win7ContextMenu({
         <img src="/win7/icons/authentic/gnome-fs-desktop.png" className="ctx-item-icon" alt="" />
         Personalize
       </div>
+      <div className="ctx-item" onClick={() => open('task-manager')}>
+        <img src="/win7/icons/authentic/network-config.png" className="ctx-item-icon" alt="" />
+        Task Manager
+      </div>
     </div>
+  );
+}
+
+function Win7SidebarGadgets({ onOpenApp }: { onOpenApp: (app: DesktopApp) => void }) {
+  const [now, setNow] = useState(new Date());
+  const [cpu, setCpu] = useState(35);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setNow(new Date());
+      setCpu(20 + Math.floor(Math.random() * 60));
+    }, 4000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const quickApps = ['calculator', 'sticky-notes', 'command-prompt', 'task-manager']
+    .map(id => desktopApps.find(app => app.id === id))
+    .filter((app): app is DesktopApp => Boolean(app));
+
+  return (
+    <aside className="win7-gadgets">
+      <div className="gadget-card">
+        <h4>Clock</h4>
+        <div className="gadget-clock">{now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
+        <div className="gadget-sub">{now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</div>
+      </div>
+
+      <div className="gadget-card">
+        <h4>CPU Meter</h4>
+        <div className="gadget-meter">
+          <div style={{ width: `${cpu}%` }} />
+        </div>
+        <div className="gadget-sub">{cpu}% in use</div>
+      </div>
+
+      <div className="gadget-card">
+        <h4>Quick Launch</h4>
+        <div className="gadget-launch-list">
+          {quickApps.map(app => (
+            <button key={app.id} onClick={() => onOpenApp(app)}>
+              <img src={app.icon} alt="" />
+              <span>{app.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </aside>
   );
 }
 
@@ -118,6 +196,7 @@ function Win7ContextMenu({
 function Win7DesktopInner() {
   const { windows, openWindow, setStartMenuOpen, startupComplete, isShuttingDown } = useWin7();
   const [ctxMenu, setCtxMenu] = useState<CtxPos | null>(null);
+  const [showGadgets, setShowGadgets] = useState(true);
 
   const handleOpenApp = useCallback((app: DesktopApp) => {
     openWindow({
@@ -137,7 +216,7 @@ function Win7DesktopInner() {
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     // Only trigger on the desktop background itself, not on windows
-    if ((e.target as HTMLElement).closest('.win7-window, .win7-taskbar, .start-menu, .clippy-chat-panel')) return;
+    if ((e.target as HTMLElement).closest('.win7-window, .win7-taskbar, .start-menu, .clippy-chat-panel, .win7-gadgets')) return;
     e.preventDefault();
     setStartMenuOpen(false);
     setCtxMenu({ x: e.clientX, y: e.clientY });
@@ -167,6 +246,8 @@ function Win7DesktopInner() {
         ))}
       </div>
 
+      {showGadgets && <Win7SidebarGadgets onOpenApp={handleOpenApp} />}
+
       {windows.map(win => (
         <Win7Window key={win.id} window={win} />
       ))}
@@ -176,6 +257,8 @@ function Win7DesktopInner() {
           pos={ctxMenu}
           onClose={() => setCtxMenu(null)}
           onOpenApp={handleOpenApp}
+          showGadgets={showGadgets}
+          onToggleGadgets={() => setShowGadgets(prev => !prev)}
         />
       )}
 
