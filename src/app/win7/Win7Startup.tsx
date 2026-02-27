@@ -2,22 +2,18 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useWin7 } from "./Win7Context";
-import { playWin7Sound } from "./win7Sounds";
 
 type StartupPhase = "boot" | "signin" | "welcome";
 
 const USER_NAME = "Eugene Boondock";
 const USER_ICON = "/win7/user-avatar.png";
-const STARTUP_SOUND_URL =
-  "https://raw.githubusercontent.com/bartekl1/windows-ui-assets/main/Sounds/Windows%207/Windows%20Startup.wav";
 
 // 105 frames at 15 FPS — frames 60-104 loop after intro
 const TOTAL_FRAMES = 105;
 const LOOP_START_FRAME = 60;
 const FRAME_MS = Math.round(1000 / 15); // ~67 ms per frame
-const BOOT_DURATION_MS = 7000; // show full intro (4 s) + one loop cycle (3 s)
+const BOOT_DURATION_MS = 7000;
 
-// Build src list once at module level — no repeated allocations
 const FRAME_SRCS = Array.from(
   { length: TOTAL_FRAMES },
   (_, i) => `/win7/boot/flag${i}.png`
@@ -28,7 +24,9 @@ export default function Win7Startup() {
   const [phase, setPhase] = useState<StartupPhase>("boot");
   const [currentFrame, setCurrentFrame] = useState(0);
   const frameRef = useRef(0);
-  const startupSoundPlayed = useRef(false);
+
+  // Pre-built Audio object — ready to fire the instant the user clicks
+  const startupAudioRef = useRef<HTMLAudioElement | null>(null);
 
   // Eagerly preload every frame image so the animation is stutter-free
   useEffect(() => {
@@ -36,35 +34,16 @@ export default function Win7Startup() {
       const img = new Image();
       img.src = src;
     });
+
+    // Prime the audio element early so the browser doesn't block it later
+    const audio = new Audio("/windows7_startup.mp3");
+    audio.preload = "auto";
+    audio.volume = 0.7;
+    startupAudioRef.current = audio;
   }, []);
 
-  // ===== BOOT PHASE =====
+  // ===== BOOT PHASE — silent, just frame animation =====
   useEffect(() => {
-    const audio = new Audio(STARTUP_SOUND_URL);
-    audio.preload = "auto";
-    audio.volume = 0.45;
-
-    const retryPlay = () => {
-      if (startupSoundPlayed.current) return;
-      void audio
-        .play()
-        .then(() => { startupSoundPlayed.current = true; })
-        .catch(() => {});
-    };
-
-    const retryOnInteraction = () => {
-      retryPlay();
-      if (startupSoundPlayed.current) {
-        document.removeEventListener("pointerdown", retryOnInteraction);
-        document.removeEventListener("keydown", retryOnInteraction);
-      }
-    };
-
-    retryPlay();
-    document.addEventListener("pointerdown", retryOnInteraction);
-    document.addEventListener("keydown", retryOnInteraction);
-
-    // Advance through frames; loop frames 60-104 after the intro
     const frameTimer = setInterval(() => {
       const next =
         frameRef.current < TOTAL_FRAMES - 1
@@ -79,15 +58,24 @@ export default function Win7Startup() {
     return () => {
       clearInterval(frameTimer);
       clearTimeout(bootTimer);
-      document.removeEventListener("pointerdown", retryOnInteraction);
-      document.removeEventListener("keydown", retryOnInteraction);
-      audio.pause();
     };
   }, []);
 
   // ===== SIGNIN PHASE =====
+  // On real Win7, the startup melody fires the moment the user clicks their
+  // login tile — right as "Welcome" appears. We mirror that here.
   const moveToWelcome = useCallback(() => {
-    setPhase((current) => (current === "signin" ? "welcome" : current));
+    setPhase((current) => {
+      if (current !== "signin") return current;
+
+      // Play the startup sound exactly at this transition point
+      if (startupAudioRef.current) {
+        startupAudioRef.current.currentTime = 0;
+        void startupAudioRef.current.play().catch(() => {});
+      }
+
+      return "welcome";
+    });
   }, []);
 
   useEffect(() => {
@@ -99,8 +87,8 @@ export default function Win7Startup() {
   // ===== WELCOME PHASE =====
   useEffect(() => {
     if (phase !== "welcome") return;
-    void playWin7Sound("logon");
-    const completeTimer = setTimeout(() => setStartupComplete(true), 2200);
+    // Give the melody time to play, then hand off to the desktop
+    const completeTimer = setTimeout(() => setStartupComplete(true), 3500);
     return () => clearTimeout(completeTimer);
   }, [phase, setStartupComplete]);
 
@@ -108,17 +96,14 @@ export default function Win7Startup() {
   if (phase === "boot") {
     return (
       <div className="startup-screen win7-boot-screen">
-        {/* Orb / flag animation — actual frames from PlymouthVista */}
         <div className="win7-boot-anim-wrap" aria-hidden="true">
           <img
-            key={currentFrame}
             src={FRAME_SRCS[currentFrame]}
             alt=""
             className="win7-boot-frame"
           />
         </div>
 
-        {/* "Starting Windows" branding image */}
         <img
           src="/win7/boot/branding_7.png"
           alt="Starting Windows"
@@ -126,7 +111,7 @@ export default function Win7Startup() {
           draggable={false}
         />
 
-        <div className="copyright-text">© Microsoft Corporation</div>
+        <div className="copyright-text">Boondock Labs</div>
       </div>
     );
   }
