@@ -743,73 +743,38 @@
   z-index: 99999;
 }
 
+/* Boot screen — black bg, real orb frames from PlymouthVista */
 .startup-screen.logo,
 .win7-boot-screen {
   background: #000;
-}
-
-.windows-logo-container {
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  gap: 0;
 }
 
-.windows-logo-animated {
-  width: 220px;
-  height: 140px;
+/* Wrapper that centres the 200×200 orb frame and scales it up */
+.win7-boot-anim-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* nudge upward slightly, like the real Windows 7 boot screen */
+  margin-top: -40px;
 }
 
-.win7-flag-logo {
-  width: 170px;
-  height: 120px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 7px;
-  transform: perspective(260px) rotateY(-15deg);
-  filter:
-    drop-shadow(0 0 30px rgba(255, 255, 255, 0.2))
-    drop-shadow(0 0 12px rgba(140, 210, 255, 0.22));
+.win7-boot-frame {
+  width: 250px;
+  height: 250px;
+  image-rendering: auto;
+  /* no border/bg — frame PNGs have transparent backgrounds */
+  display: block;
 }
 
-.win7-logo-pane {
-  border-radius: 5px;
-  opacity: 0.9;
-  animation: win7FlagWave 4s ease-in-out infinite;
-}
-
-.pane-red {
-  background: linear-gradient(145deg, #ff826f 0%, #e63f26 100%);
-  animation-delay: 0s;
-}
-
-.pane-green {
-  background: linear-gradient(145deg, #9edb59 0%, #65b21f 100%);
-  animation-delay: 0.15s;
-}
-
-.pane-blue {
-  background: linear-gradient(145deg, #56cbff 0%, #1d89db 100%);
-  animation-delay: 0.3s;
-}
-
-.pane-yellow {
-  background: linear-gradient(145deg, #ffe27a 0%, #f0b224 100%);
-  animation-delay: 0.45s;
-}
-
-@keyframes win7FlagWave {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    filter: brightness(1);
-  }
-  50% {
-    transform: translateY(-2px) scale(1.02);
-    filter: brightness(1.08);
-  }
+/* "Starting Windows" image from PlymouthVista branding_7.png */
+.win7-boot-branding {
+  width: 280px;
+  margin-top: 24px;
+  opacity: 0.92;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .startup-text {

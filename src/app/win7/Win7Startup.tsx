@@ -11,11 +11,34 @@ const USER_ICON = "/win7/user-avatar.png";
 const STARTUP_SOUND_URL =
   "https://raw.githubusercontent.com/bartekl1/windows-ui-assets/main/Sounds/Windows%207/Windows%20Startup.wav";
 
+// 105 frames at 15 FPS — frames 60-104 loop after intro
+const TOTAL_FRAMES = 105;
+const LOOP_START_FRAME = 60;
+const FRAME_MS = Math.round(1000 / 15); // ~67 ms per frame
+const BOOT_DURATION_MS = 7000; // show full intro (4 s) + one loop cycle (3 s)
+
+// Build src list once at module level — no repeated allocations
+const FRAME_SRCS = Array.from(
+  { length: TOTAL_FRAMES },
+  (_, i) => `/win7/boot/flag${i}.png`
+);
+
 export default function Win7Startup() {
   const { setStartupComplete } = useWin7();
   const [phase, setPhase] = useState<StartupPhase>("boot");
+  const [currentFrame, setCurrentFrame] = useState(0);
+  const frameRef = useRef(0);
   const startupSoundPlayed = useRef(false);
 
+  // Eagerly preload every frame image so the animation is stutter-free
+  useEffect(() => {
+    FRAME_SRCS.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  // ===== BOOT PHASE =====
   useEffect(() => {
     const audio = new Audio(STARTUP_SOUND_URL);
     audio.preload = "auto";
@@ -25,12 +48,8 @@ export default function Win7Startup() {
       if (startupSoundPlayed.current) return;
       void audio
         .play()
-        .then(() => {
-          startupSoundPlayed.current = true;
-        })
-        .catch(() => {
-          // Browser autoplay blocked; we'll retry on user interaction.
-        });
+        .then(() => { startupSoundPlayed.current = true; })
+        .catch(() => {});
     };
 
     const retryOnInteraction = () => {
@@ -45,8 +64,20 @@ export default function Win7Startup() {
     document.addEventListener("pointerdown", retryOnInteraction);
     document.addEventListener("keydown", retryOnInteraction);
 
-    const bootTimer = setTimeout(() => setPhase("signin"), 4200);
+    // Advance through frames; loop frames 60-104 after the intro
+    const frameTimer = setInterval(() => {
+      const next =
+        frameRef.current < TOTAL_FRAMES - 1
+          ? frameRef.current + 1
+          : LOOP_START_FRAME;
+      frameRef.current = next;
+      setCurrentFrame(next);
+    }, FRAME_MS);
+
+    const bootTimer = setTimeout(() => setPhase("signin"), BOOT_DURATION_MS);
+
     return () => {
+      clearInterval(frameTimer);
       clearTimeout(bootTimer);
       document.removeEventListener("pointerdown", retryOnInteraction);
       document.removeEventListener("keydown", retryOnInteraction);
@@ -54,6 +85,7 @@ export default function Win7Startup() {
     };
   }, []);
 
+  // ===== SIGNIN PHASE =====
   const moveToWelcome = useCallback(() => {
     setPhase((current) => (current === "signin" ? "welcome" : current));
   }, []);
@@ -64,6 +96,7 @@ export default function Win7Startup() {
     return () => clearTimeout(signinTimer);
   }, [phase, moveToWelcome]);
 
+  // ===== WELCOME PHASE =====
   useEffect(() => {
     if (phase !== "welcome") return;
     void playWin7Sound("logon");
@@ -71,35 +104,34 @@ export default function Win7Startup() {
     return () => clearTimeout(completeTimer);
   }, [phase, setStartupComplete]);
 
+  // ── Boot screen ──────────────────────────────────────────────────────────
   if (phase === "boot") {
     return (
-      <div className="startup-screen logo win7-boot-screen">
-        <div className="windows-logo-container">
-          <div className="windows-logo-animated" aria-hidden="true">
-            <div className="win7-flag-logo">
-              <div className="win7-logo-pane pane-red" />
-              <div className="win7-logo-pane pane-green" />
-              <div className="win7-logo-pane pane-blue" />
-              <div className="win7-logo-pane pane-yellow" />
-            </div>
-          </div>
-          <div className="startup-text">Starting Windows</div>
-          <div
-            className="loading-dots win7-loader win7-loader-boot"
-            aria-hidden="true"
-          >
-            <span className="dot" />
-            <span className="dot" />
-            <span className="dot" />
-            <span className="dot" />
-            <span className="dot" />
-          </div>
+      <div className="startup-screen win7-boot-screen">
+        {/* Orb / flag animation — actual frames from PlymouthVista */}
+        <div className="win7-boot-anim-wrap" aria-hidden="true">
+          <img
+            key={currentFrame}
+            src={FRAME_SRCS[currentFrame]}
+            alt=""
+            className="win7-boot-frame"
+          />
         </div>
-        <div className="copyright-text">Microsoft Corporation</div>
+
+        {/* "Starting Windows" branding image */}
+        <img
+          src="/win7/boot/branding_7.png"
+          alt="Starting Windows"
+          className="win7-boot-branding"
+          draggable={false}
+        />
+
+        <div className="copyright-text">© Microsoft Corporation</div>
       </div>
     );
   }
 
+  // ── Sign-in screen ───────────────────────────────────────────────────────
   if (phase === "signin") {
     return (
       <div className="startup-screen win7-login-screen">
@@ -124,6 +156,7 @@ export default function Win7Startup() {
     );
   }
 
+  // ── Welcome screen ───────────────────────────────────────────────────────
   return (
     <div className="startup-screen welcome win7-welcome-screen">
       <div className="welcome-content">

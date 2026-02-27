@@ -32,7 +32,15 @@
       "Bash(npm install react-pdf)",
       "Bash(node -e \"const p = require\\(''./node_modules/react-pdf/package.json''\\); console.log\\(''react-pdf version:'', p.version\\); const pdfjs = require\\(''./node_modules/pdfjs-dist/package.json''\\); console.log\\(''pdfjs-dist version:'', pdfjs.version\\);\")",
       "Bash(ls -la /c/Users/USER/Projects/Boondock-Labs-Portfolio/Boondock_Labs/*.md)",
-      "Bash(xargs grep -l \"blogPosts\\\\|caseStudies\")"
+      "Bash(xargs grep -l \"blogPosts\\\\|caseStudies\")",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl -sI \"https://raw.githubusercontent.com/furkrn/PlymouthVista/main/images/flag0.png\")",
+      "Bash(curl -sI \"https://raw.githubusercontent.com/furkrn/PlymouthVista/main/images/flag52.png\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/furkrn/PlymouthVista/main/images/flag60.png\" -o \"/tmp/flag60_check.png\")",
+      "Bash(python3 -c \"from PIL import Image; img=Image.open\\(''/tmp/flag60_check.png''\\); print\\(img.size, img.mode\\)\")",
+      "Bash(python3 -c \"import struct,zlib; data=open\\(''/tmp/flag60_check.png'',''rb''\\).read\\(\\); print\\(''W:'',struct.unpack\\(''>I'',data[16:20]\\)[0],''H:'',struct.unpack\\(''>I'',data[20:24]\\)[0]\\)\")",
+      "Bash(DEST=\"c:/Users/USER/Projects/Boondock-Labs-Portfolio/Boondock_Labs/public/win7/boot\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/furkrn/PlymouthVista/main/images/flag60.png\" -o \"$DEST/flag60.png\")"
     ]
   }
 }
