@@ -35,6 +35,10 @@ export default function Win7Startup() {
       img.src = src;
     });
 
+    // Preload the logon background so it's ready for the signin phase
+    const bg = new Image();
+    bg.src = "/win7/logon-bg.jpg";
+
     // Prime the audio element early so the browser doesn't block it later
     const audio = new Audio("/windows7_startup.mp3");
     audio.preload = "auto";
@@ -115,22 +119,30 @@ export default function Win7Startup() {
   if (phase === "signin") {
     return (
       <div className="startup-screen win7-login-screen">
-        <div className="win7-login-content">
-          <button
-            className="win7-user-tile"
-            type="button"
-            onClick={moveToWelcome}
-          >
-            <div className="welcome-avatar win7-login-avatar">
-              <img src={USER_ICON} alt={`${USER_NAME} account picture`} />
-            </div>
-            <div className="win7-user-name">{USER_NAME}</div>
-          </button>
-          <div className="win7-login-hint">Click your user name to log on</div>
+        {/* Horizontal band across the center of the screen */}
+        <div className="win7-logon-strip">
+          <div className="win7-logon-center">
+            <button
+              className="win7-user-tile"
+              type="button"
+              onClick={moveToWelcome}
+            >
+              <div className="win7-avatar-frame">
+                <img src={USER_ICON} alt={`${USER_NAME} account picture`} />
+              </div>
+              <span className="win7-tile-name">{USER_NAME}</span>
+            </button>
+          </div>
         </div>
-        <div className="win7-login-footer">
-          <span>Switch User</span>
-          <span className="win7-power-button" aria-hidden="true" />
+
+        {/* Bottom bar — Ease of access + Shut down */}
+        <div className="win7-logon-bar">
+          <span className="win7-eoa-label">Ease of access</span>
+          <button className="win7-power-pill" type="button">
+            <span className="win7-power-icon" aria-hidden="true" />
+            Shut down
+            <span className="win7-power-caret" aria-hidden="true">&#9656;</span>
+          </button>
         </div>
       </div>
     );
@@ -138,19 +150,21 @@ export default function Win7Startup() {
 
   // ── Welcome screen ───────────────────────────────────────────────────────
   return (
-    <div className="startup-screen welcome win7-welcome-screen">
-      <div className="welcome-content">
-        <div className="welcome-avatar win7-welcome-avatar">
+    <div className="startup-screen win7-welcome-screen">
+      <div className="win7-welcome-center">
+        <div className="win7-avatar-frame win7-avatar-sm">
           <img src={USER_ICON} alt={`${USER_NAME} account picture`} />
         </div>
-        <div className="welcome-user">{USER_NAME}</div>
-        <div className="welcome-text">Welcome</div>
-        <div className="loading-dots win7-loader" aria-hidden="true">
-          <span className="dot" />
-          <span className="dot" />
-          <span className="dot" />
-          <span className="dot" />
-          <span className="dot" />
+        <div className="win7-welcome-text">Welcome</div>
+        <div className="win7-circle-loader" aria-hidden="true">
+          <span className="win7-cl-dot" />
+          <span className="win7-cl-dot" />
+          <span className="win7-cl-dot" />
+          <span className="win7-cl-dot" />
+          <span className="win7-cl-dot" />
+          <span className="win7-cl-dot" />
+          <span className="win7-cl-dot" />
+          <span className="win7-cl-dot" />
         </div>
       </div>
     </div>

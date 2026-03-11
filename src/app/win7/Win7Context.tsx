@@ -28,6 +28,8 @@ interface Win7ContextType {
   focusWindow: (id: string) => void;
   updateWindowPosition: (id: string, x: number, y: number) => void;
   updateWindowSize: (id: string, width: number, height: number) => void;
+  minimizeAllWindows: () => void;
+  restoreAllWindows: () => void;
   isStartMenuOpen: boolean;
   setStartMenuOpen: (open: boolean) => void;
   startupComplete: boolean;
@@ -128,6 +130,18 @@ export function Win7Provider({ children }: { children: ReactNode }) {
     ));
   }, []);
 
+  const minimizeAllWindows = useCallback(() => {
+    setWindows(prev => prev.map(w => ({ ...w, isMinimized: true })));
+    setActiveWindowId(null);
+    playWin7Sound('minimize');
+  }, []);
+
+  const restoreAllWindows = useCallback(() => {
+    setWindows(prev => prev.map(w => ({ ...w, isMinimized: false })));
+    setActiveWindowId(null);
+    playWin7Sound('restore');
+  }, []);
+
   return (
     <Win7Context.Provider value={{
       windows,
@@ -140,6 +154,8 @@ export function Win7Provider({ children }: { children: ReactNode }) {
       focusWindow,
       updateWindowPosition,
       updateWindowSize,
+      minimizeAllWindows,
+      restoreAllWindows,
       isStartMenuOpen,
       setStartMenuOpen,
       startupComplete,
