@@ -40,6 +40,38 @@ export default function Work() {
 
   const projects: Project[] = [
     {
+      id: 'bikode',
+      categories: ['featured'],
+      component: (
+        <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+          <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
+            <Image
+              src="/bikode.png"
+              alt="Bikode Editor"
+              fill
+              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
+              <h3 className="font-semibold flex items-center" style={{ color: '#d17927' }}>
+                Bikode <Code className="ml-2 h-4 w-4 text-cyan-400" />
+              </h3>
+            </div>
+          </div>
+          <p className="text-sm mb-3 text-black">AI-first native Windows code editor built on Notepad2e. Combines lightning-fast Win32 editing with multi-provider AI assistance (OpenAI, Anthropic, local models), integrated terminal, Git UI, chat panel, inline diff preview, and a plugin system — all in a lightweight, zero-telemetry package.</p>
+          <div className="flex items-center justify-between mt-auto pt-2">
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">C / Win32</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Scintilla</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">AI Integration</span>
+            </div>
+            <a href="https://bikode.co.za" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+              Visit <ExternalLink className="h-3 w-3 ml-1" />
+            </a>
+          </div>
+        </div>
+      )
+    },
+    {
       id: 'earthie',
       categories: ['featured'],
       component: (

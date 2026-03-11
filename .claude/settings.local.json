@@ -40,7 +40,9 @@
       "Bash(python3 -c \"from PIL import Image; img=Image.open\\(''/tmp/flag60_check.png''\\); print\\(img.size, img.mode\\)\")",
       "Bash(python3 -c \"import struct,zlib; data=open\\(''/tmp/flag60_check.png'',''rb''\\).read\\(\\); print\\(''W:'',struct.unpack\\(''>I'',data[16:20]\\)[0],''H:'',struct.unpack\\(''>I'',data[20:24]\\)[0]\\)\")",
       "Bash(DEST=\"c:/Users/USER/Projects/Boondock-Labs-Portfolio/Boondock_Labs/public/win7/boot\")",
-      "Bash(curl -s \"https://raw.githubusercontent.com/furkrn/PlymouthVista/main/images/flag60.png\" -o \"$DEST/flag60.png\")"
+      "Bash(curl -s \"https://raw.githubusercontent.com/furkrn/PlymouthVista/main/images/flag60.png\" -o \"$DEST/flag60.png\")",
+      "Bash(dir:*)",
+      "Bash(copy:*)"
     ]
   }
 }
