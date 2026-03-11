@@ -270,10 +270,10 @@ const ALL_PROJECTS = [
   },
   {
     cat: 'opensource' as ProjFilter,
-    icon: '📝', name: 'Bikode IDE',
-    desc: 'Lightweight Windows text editor/IDE — Scintilla syntax highlighting, regex grep, math evaluation in selections and multi-selection editing.',
-    tags: ['C++', 'Scintilla', 'Windows'],
-    img: null, url: 'https://github.com/EugeneBoondock', linkLabel: 'View on GitHub →', wip: true,
+    icon: '📝', name: 'Bikode',
+    desc: 'AI-first native Windows code editor — multi-provider AI assistance, integrated terminal, Git UI, chat panel, inline diff preview & plugin system.',
+    tags: ['C / Win32', 'Scintilla', 'AI Integration'],
+    img: null, url: 'https://bikode.co.za', linkLabel: 'Visit Site →',
   },
   {
     cat: 'packages' as ProjFilter,
@@ -559,10 +559,10 @@ const IE_LINKS = {
     },
     {
       icon: '📝',
-      name: 'Bikode IDE (WIP)',
-      desc: 'Lightweight Windows text editor/IDE built on Scintilla — syntax highlighting, regex grep, math evaluation & multi-selection.',
-      url: 'https://github.com/EugeneBoondock',
-      tags: ['C++', 'Scintilla', 'Windows'],
+      name: 'Bikode',
+      desc: 'AI-first native Windows code editor — multi-provider AI assistance, integrated terminal, Git UI, chat panel & plugin system.',
+      url: 'https://bikode.co.za',
+      tags: ['C / Win32', 'Scintilla', 'AI Integration'],
     },
     {
       icon: '📦',

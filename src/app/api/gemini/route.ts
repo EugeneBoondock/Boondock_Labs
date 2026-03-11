@@ -41,7 +41,7 @@ Projects Eugene Has Worked On:
 
 8. Nkechi Biokinetics (nkechi-biokinetics.vercel.app) — Professional portfolio for a Biokineticist showcasing health, wellness, movement science, and rehabilitation services.
 
-9. Bikode IDE (WIP) — Lightweight Windows text editor/IDE built on Notepad2e and the Scintilla engine. Features syntax highlighting, regex-based find/grep, math expression evaluation, and multi-selection editing. Written in C++.
+9. Bikode (bikode.co.za) — AI-first native Windows code editor built on Notepad2e and Scintilla. Combines lightning-fast Win32 editing with multi-provider AI assistance (OpenAI, Anthropic, local models), integrated terminal, Git UI, chat panel, inline diff preview, and a plugin system. Written in C with a two-process architecture (editor + AI engine).
 
 10. SavingWithDana.com — A coupon and savings platform; Eugene is building the AWS backend infrastructure.
 
