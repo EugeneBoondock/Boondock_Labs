@@ -2,17 +2,26 @@
 
 import Image from "next/image";
 import {
+  AudioLines,
   ArrowUpRight,
+  Database,
   Braces,
   BrainCircuit,
+  BriefcaseBusiness,
   FileDown,
   Github,
+  HeartPulse,
   Layers3,
   Linkedin,
   Mail,
   MapPin,
+  MessageSquareText,
+  Network,
+  Package,
   Rocket,
+  ShoppingBag,
   Twitter,
+  UtensilsCrossed,
   Workflow,
 } from "lucide-react";
 import ClippyAssistant from "./ClippyAssistant";
@@ -21,6 +30,7 @@ import HeroSection from "./HeroSection";
 const navLinks = [
   { label: "Work", href: "#work" },
   { label: "Capabilities", href: "#capabilities" },
+  { label: "Pricing", href: "#pricing" },
   { label: "Process", href: "#process" },
   { label: "Contact", href: "#contact" },
 ] as const;
@@ -69,6 +79,100 @@ const featuredProjects = [
     href: "https://bikode.co.za",
     tags: ["C / Win32", "Editor engineering", "AI integration"],
     layout: "standard",
+  },
+] as const;
+
+const additionalProjects = [
+  {
+    title: "KinSpace",
+    domain: "kinspace.co.za",
+    description:
+      "A support-focused community product for people living with chronic and mental illness, built around safety, connection, and useful resources.",
+    href: "https://www.kinspace.co.za/",
+    tags: ["Community platform", "Support UX", "React"],
+    icon: HeartPulse,
+    image: "/kinspace.png",
+    surface:
+      "linear-gradient(145deg, rgba(37, 93, 95, 0.96) 0%, rgba(18, 19, 15, 0.92) 100%)",
+  },
+  {
+    title: "PathNote",
+    domain: "pathnote.co.za",
+    description:
+      "An audible location explorer that turns walks into interactive audio journeys using live location, mapping data, and AI-assisted storytelling.",
+    href: "https://www.pathnote.co.za/",
+    tags: ["Geolocation", "Audio UX", "AI storytelling"],
+    icon: AudioLines,
+    image: null,
+    surface:
+      "linear-gradient(145deg, rgba(29, 82, 99, 0.96) 0%, rgba(12, 28, 35, 0.92) 100%)",
+  },
+  {
+    title: "MessageCFO",
+    domain: "messagecfo.com",
+    description:
+      "A WhatsApp-native finance workflow for invoices, expenses, balances, and customer management handled directly through conversation.",
+    href: "https://messagecfo.com",
+    tags: ["WhatsApp workflows", "Fintech ops", "PostgreSQL"],
+    icon: MessageSquareText,
+    image: null,
+    surface:
+      "linear-gradient(145deg, rgba(26, 74, 55, 0.96) 0%, rgba(16, 24, 20, 0.92) 100%)",
+  },
+  {
+    title: "Platedom",
+    domain: "platedom.com",
+    description:
+      "An AI restaurant platform that turns menus into high-end visual presentation and stronger digital merchandising for food brands.",
+    href: "https://platedom.com",
+    tags: ["Hospitality tech", "Generative media", "Firebase"],
+    icon: UtensilsCrossed,
+    image: null,
+    surface:
+      "linear-gradient(145deg, rgba(108, 61, 34, 0.96) 0%, rgba(27, 17, 12, 0.92) 100%)",
+  },
+] as const;
+
+const toolingProjects = [
+  {
+    title: "earth2-api-wrapper",
+    label: "Published package",
+    description:
+      "A clean TypeScript wrapper around the Earth2 API that makes properties, accounts, transactions, and marketplace data easier to build on top of.",
+    href: "https://www.npmjs.com/package/earth2-api-wrapper",
+    cta: "View on npm",
+    icon: Database,
+    tags: ["TypeScript", "API wrapper", "Earth2"],
+  },
+  {
+    title: "earth2-mcp-server",
+    label: "Protocol tooling",
+    description:
+      "A complete MCP server that lets AI clients access Earth2 account data, wallet activity, properties, and marketplace actions through tools instead of manual clicks.",
+    href: "https://www.npmjs.com/package/earth2-mcp-server",
+    cta: "View on npm",
+    icon: Network,
+    tags: ["MCP server", "Claude tools", "Earth2"],
+  },
+  {
+    title: "morphed-mcp-server",
+    label: "Protocol tooling",
+    description:
+      "Built from scratch for Morphed.io, turning platform APIs into usable AI tools with authentication, data access, and production-facing architecture.",
+    href: "https://www.npmjs.com/package/morphed-mcp-server",
+    cta: "View on npm",
+    icon: Rocket,
+    tags: ["MCP server", "Custom tools", "Platform APIs"],
+  },
+  {
+    title: "hubspot-mcp-server",
+    label: "Protocol tooling",
+    description:
+      "An extended HubSpot MCP implementation with deeper CRM operations, stronger integration ergonomics, and a more serious backend shape than a basic demo server.",
+    href: "https://www.npmjs.com/package/hubspot-mcp-server",
+    cta: "View on npm",
+    icon: Package,
+    tags: ["HubSpot", "MCP server", "CRM integration"],
   },
 ] as const;
 
@@ -185,6 +289,57 @@ const processSteps = [
   },
 ] as const;
 
+const pricingTiers = [
+  {
+    icon: Layers3,
+    title: "Starter Website",
+    price: "R3,000 - R10,000",
+    summary:
+      "For lean portfolio sites, landing pages, and compact business websites that need to look sharp and launch cleanly.",
+    details: ["Up to 3 pages", "Responsive build", "Basic SEO setup"],
+  },
+  {
+    icon: BriefcaseBusiness,
+    title: "Business Website",
+    price: "R11,000 - R15,000",
+    summary:
+      "For more complete company sites that need stronger structure, more content, and proper lead capture.",
+    details: ["Up to 8 pages", "Forms and maps", "Blog and enhanced SEO"],
+  },
+  {
+    icon: ShoppingBag,
+    title: "E-commerce Build",
+    price: "R15,000 - R20,000",
+    summary:
+      "For online stores that need product structure, payment flow, and enough polish to feel trustworthy from day one.",
+    details: ["Catalog and checkout", "Order flow", "Admin handover basics"],
+  },
+  {
+    icon: Rocket,
+    title: "Custom Product Build",
+    price: "From R30,000+",
+    summary:
+      "For platforms, dashboards, AI-heavy products, and custom systems with deeper engineering and more moving parts.",
+    details: ["Custom features", "Data systems", "Advanced UX and integrations"],
+  },
+  {
+    icon: Network,
+    title: "MCP Server Engineering",
+    price: "R20,000 - R50,000",
+    summary:
+      "For teams that need APIs turned into usable model tools with proper architecture, testing, and publishable packaging.",
+    details: ["Custom MCP tools", "NPM packaging", "Docs and testing"],
+  },
+  {
+    icon: Database,
+    title: "API and Integration Work",
+    price: "R15,000 - R40,000",
+    summary:
+      "For backend systems, auth flows, endpoint design, and platform integration work that powers the product behind the scenes.",
+    details: ["REST architecture", "Auth and database work", "Documentation and security"],
+  },
+] as const;
+
 function SectionIntro({
   eyebrow,
   title,
@@ -283,7 +438,7 @@ export default function Home() {
             <SectionIntro
               eyebrow="Selected work"
               title="Built for range, not just screenshots."
-              description="These are the projects that best show how I think: full-stack ownership, difficult integrations, memorable interfaces, and a willingness to take on work that is slightly more ambitious than comfortable."
+              description="These projects show the mix I want employers to notice: strong frontends, difficult integrations, product judgement, and the willingness to ship both polished experiences and the harder infrastructure underneath them."
             />
 
             <div className="grid gap-5 lg:grid-cols-12">
@@ -349,6 +504,150 @@ export default function Home() {
                 </article>
               ))}
             </div>
+
+            <div className="grid gap-5 lg:grid-cols-2">
+              {additionalProjects.map((project, index) => {
+                const Icon = project.icon;
+
+                return (
+                  <article
+                    key={project.title}
+                    className={`portfolio-card soft-rise ${staggerClasses[index % staggerClasses.length]}`}
+                  >
+                    <div className="project-media">
+                      {project.image ? (
+                        <Image
+                          src={project.image}
+                          alt={`${project.title} project preview`}
+                          fill
+                          className="object-cover"
+                          sizes="(min-width: 1024px) 45vw, 100vw"
+                        />
+                      ) : (
+                        <div
+                          className="relative flex h-full min-h-[260px] flex-col justify-between overflow-hidden p-6 text-white"
+                          style={{ background: project.surface }}
+                        >
+                          <div className="absolute inset-0 opacity-40">
+                            <div className="absolute inset-x-[-12%] top-[16%] h-px rotate-[-12deg] bg-white/30" />
+                            <div className="absolute inset-x-[-8%] top-[44%] h-px rotate-[8deg] bg-white/20" />
+                            <div className="absolute inset-x-[-10%] bottom-[18%] h-px rotate-[-7deg] bg-white/25" />
+                          </div>
+                          <div className="relative z-10 flex items-center justify-between gap-4">
+                            <div className="icon-badge border-white/15 bg-white/10 text-white">
+                              <Icon className="h-5 w-5" />
+                            </div>
+                            <p className="mono-label !mb-0 !text-white/62">{project.domain}</p>
+                          </div>
+                          <div className="relative z-10 max-w-md space-y-2">
+                            <p className="mono-label !mb-0 !text-white/58">Additional build</p>
+                            <h3 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">
+                              {project.title}
+                            </h3>
+                            <p className="text-sm leading-7 text-white/78">
+                              Product work with a more specific operating mode than a generic brochure build.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-4 p-6 sm:p-7">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                          <p className="mono-label">{project.domain}</p>
+                          <h3 className="text-2xl font-semibold text-[var(--ink)]">
+                            {project.title}
+                          </h3>
+                        </div>
+                        <a
+                          href={project.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="project-link"
+                        >
+                          Visit
+                          <ArrowUpRight className="h-4 w-4" />
+                        </a>
+                      </div>
+
+                      <p className="text-base leading-7 text-[var(--muted)]">
+                        {project.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.map((tag) => (
+                          <span key={tag} className="stack-chip">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <SectionIntro
+              eyebrow="Published tooling"
+              title="The product work is backed by packages and protocol engineering."
+              description="The portfolio should not read like design-only output. These projects show the lower-level side too: wrappers, MCP servers, and tooling built for real data access and AI-native workflows."
+            />
+
+            <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
+              {toolingProjects.map((project, index) => {
+                const Icon = project.icon;
+
+                return (
+                  <article
+                    key={project.title}
+                    className={`pricing-card soft-rise ${staggerClasses[index % staggerClasses.length]}`}
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="icon-badge">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div className="pricing-pill">{project.label}</div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <p className="mono-label">Package / protocol</p>
+                        <h3 className="text-2xl font-semibold text-[var(--ink)]">
+                          {project.title}
+                        </h3>
+                      </div>
+
+                      <p className="text-sm leading-7 text-[var(--muted)]">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.map((tag) => (
+                          <span key={tag} className="stack-chip">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <a
+                        href={project.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="project-link w-fit"
+                      >
+                        {project.cta}
+                        <ArrowUpRight className="h-4 w-4" />
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </section>
 
           <section id="capabilities" className="space-y-8">
@@ -411,6 +710,71 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="pricing" className="space-y-8">
+            <SectionIntro
+              eyebrow="Pricing"
+              title="Typical project ranges, priced by scope not fluff."
+              description="These are directional ranges for the kinds of work I usually take on. Final pricing depends on complexity, integrations, urgency, and how much of the system I am owning end to end."
+            />
+
+            <div className="grid gap-5 lg:grid-cols-3">
+              {pricingTiers.map((tier, index) => {
+                const Icon = tier.icon;
+
+                return (
+                  <article
+                    key={tier.title}
+                    className={`pricing-card soft-rise ${staggerClasses[index % staggerClasses.length]}`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="space-y-3">
+                        <div className="icon-badge">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="mono-label">Engagement</p>
+                          <h3 className="text-2xl font-semibold text-[var(--ink)]">
+                            {tier.title}
+                          </h3>
+                        </div>
+                      </div>
+                      <div className="pricing-pill">{tier.price}</div>
+                    </div>
+
+                    <p className="text-sm leading-7 text-[var(--muted)]">
+                      {tier.summary}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {tier.details.map((detail) => (
+                        <span key={detail} className="stack-chip">
+                          {detail}
+                        </span>
+                      ))}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            <article className="section-wrap p-6 sm:p-8">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="space-y-2">
+                  <p className="mono-label">Pricing note</p>
+                  <p className="max-w-3xl text-sm leading-7 text-[var(--muted)]">
+                    If a project mixes product strategy, interface design, backend
+                    architecture, AI workflows, and custom integrations, it lands in
+                    the custom range. If you want a sharper quote quickly, Clippy can
+                    help qualify scope before you reach out.
+                  </p>
+                </div>
+                <a href="#contact" className="btn-solid self-start lg:self-auto">
+                  Ask for a quote
+                </a>
               </div>
             </article>
           </section>

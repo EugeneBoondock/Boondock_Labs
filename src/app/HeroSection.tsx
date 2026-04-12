@@ -15,7 +15,7 @@ const signalStats = [
     label: "AI tools shaped into one coherent product suite",
   },
   {
-    value: "3",
+    value: "4+",
     label: "Published packages spanning wrappers and MCP servers",
   },
   {
@@ -192,14 +192,14 @@ export default function HeroSection() {
         <div className="hero-heading-wrap">
           <p className="mono-label">Portfolio / engineered with intent</p>
           <h1 className="hero-title" data-hero-title>
-            Anime energy, product discipline, and code that actually holds up.
+            Interfaces with rhythm, systems with teeth, and code that holds up.
           </h1>
         </div>
 
         <p className="hero-body" data-hero-body>
-          I build web products and AI systems with a storyboard mindset: strong
-          pacing, sharp composition, and enough engineering underneath the style
-          to survive real use. The goal is not gimmick. The goal is impact.
+          I build web products and AI systems with stronger pacing, contrast,
+          and visual tension than the usual template stack, while keeping the
+          engineering underneath solid enough for real use.
         </p>
 
         <div className="hero-action-row">
@@ -286,7 +286,7 @@ export default function HeroSection() {
 
           <div className="hero-stage-caption">
             <Sparkles className="h-4 w-4" />
-            storyboarding the portfolio instead of stacking generic sections
+            motion, contrast, and signal instead of generic stacked blocks
           </div>
         </div>
       </div>
