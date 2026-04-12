@@ -3,7 +3,6 @@
 import Image from "next/image";
 import {
   ArrowUpRight,
-  Bot,
   Braces,
   BrainCircuit,
   FileDown,
@@ -17,31 +16,13 @@ import {
   Workflow,
 } from "lucide-react";
 import ClippyAssistant from "./ClippyAssistant";
+import HeroSection from "./HeroSection";
 
 const navLinks = [
   { label: "Work", href: "#work" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Process", href: "#process" },
   { label: "Contact", href: "#contact" },
-] as const;
-
-const signalStats = [
-  {
-    value: "17+",
-    label: "API integrations brought into one live platform",
-  },
-  {
-    value: "30+",
-    label: "AI tools shipped inside a single productivity suite",
-  },
-  {
-    value: "1,027",
-    label: "Poems and reflections shaped into a searchable PWA archive",
-  },
-  {
-    value: "3",
-    label: "Published NPM packages spanning wrappers and MCP servers",
-  },
 ] as const;
 
 const featuredProjects = [
@@ -248,7 +229,7 @@ export default function Home() {
               <div>
                 <p className="mono-label !mb-1">Boondock Labs</p>
                 <p className="text-sm font-medium text-[var(--muted)]">
-                  Eugene Ncube portfolio
+                  Eugene Loyiso Boondock portfolio
                 </p>
               </div>
             </a>
@@ -270,85 +251,7 @@ export default function Home() {
           id="top"
           className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-4 pb-20 pt-28 sm:px-6 lg:px-8 lg:gap-32 lg:pt-32"
         >
-          <section className="grid items-start gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
-            <div className="space-y-8 soft-rise stagger-1">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--line-strong)] bg-white/60 px-4 py-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[var(--accent-teal)]" />
-                <p className="text-sm text-[var(--muted)]">
-                  Available for product engineering, AI integrations, and ambitious builds
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <p className="mono-label">Portfolio / selected systems / 2026</p>
-                <h1 className="display-title max-w-5xl">
-                  I build internet products that feel sharper than the brief they started with.
-                </h1>
-                <p className="max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
-                  I am Eugene Ncube, a self-taught full-stack developer from Edenvale,
-                  South Africa. I build AI-native tools, custom platform systems, MCP
-                  servers, and interfaces that look intentional because the thinking
-                  behind them is intentional.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <a href="#work" className="btn-solid">
-                  View selected work
-                </a>
-                <a href="/Eugene_CV_Fullstack.pdf" className="btn-ghost" target="_blank" rel="noreferrer">
-                  <FileDown className="h-4 w-4" />
-                  Download CV
-                </a>
-              </div>
-
-              <div className="live-pill">
-                <Bot className="h-4 w-4 text-[var(--accent-teal)]" />
-                <p className="text-sm text-[var(--muted)]">
-                  Clippy is live in the corner. Ask about project fit, stack depth,
-                  pricing, or which build best shows range.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid gap-4 soft-rise stagger-2">
-              <article className="section-wrap overflow-hidden p-4 sm:p-5">
-                <div className="project-preview-card">
-                  <div className="relative min-h-[360px] overflow-hidden rounded-[28px] border border-white/50 bg-[var(--panel-dark)] sm:min-h-[440px]">
-                    <Image
-                      src="/morphed.png"
-                      alt="Morphed.io interface preview"
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 1024px) 40vw, 100vw"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0.05)_0%,rgba(10,10,10,0.68)_100%)]" />
-                    <div className="absolute inset-x-0 bottom-0 space-y-3 p-6 text-white">
-                      <p className="mono-label !text-white/70">Featured proof</p>
-                      <h2 className="text-3xl font-semibold sm:text-4xl">Morphed.io</h2>
-                      <p className="max-w-md text-sm leading-6 text-white/80">
-                        Platform engineering, API design, and protocol-level tooling in
-                        one product story.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {signalStats.map((stat, index) => (
-                  <article
-                    key={stat.label}
-                    className={`metric-card soft-rise ${index > 1 ? "stagger-4" : "stagger-3"}`}
-                  >
-                    <p className="metric-value">{stat.value}</p>
-                    <p className="text-sm leading-6 text-[var(--muted)]">{stat.label}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
+          <HeroSection />
 
           <section className="section-wrap soft-rise stagger-3 p-6 sm:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">

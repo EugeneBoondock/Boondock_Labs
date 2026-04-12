@@ -9,7 +9,7 @@ export default function About() {
           <div id="story" className="glass text-left py-8 px-6 sm:px-12 mb-12 card-hover shadow-md border border-orange-900/20 scroll-mt-24">
             <h2 className="text-2xl font-bold accent mb-3">A Lab for Boundless Creation</h2>
             <p className="text-base sm:text-lg mb-3 text-black leading-relaxed">
-              Hi, I'm Eugene Ncube <span className="cream">(Eugene Boondock)</span> - founder of Boondock Labs. I don't just code; I build digital playgrounds, spark new experiences, and turn ambitious ideas into reality.
+              Hi, I'm Eugene Loyiso Boondock <span className="cream">(Eugene Boondock)</span> - founder of Boondock Labs. I don't just code; I build digital playgrounds, spark new experiences, and turn ambitious ideas into reality.
             </p>
             <p className="mb-6 text-black leading-relaxed">
               Boondock Labs is my personal tech studio. Here I explore, experiment, and craft projects that matter, blending web technology, game design, and even forays into AI and digital worlds. It's more than a portfolio: it's a launchpad for unconventional thinking and digital artistry.

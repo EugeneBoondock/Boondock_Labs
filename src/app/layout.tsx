@@ -26,12 +26,13 @@ const monoFont = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Boondock Labs | Eugene Ncube",
+    default: "Boondock Labs | Eugene Loyiso Boondock",
     template: "%s | Boondock Labs",
   },
   description:
-    "Portfolio of Eugene Ncube, a full-stack developer building AI-native products, MCP servers, platform tooling, and high-intent web experiences through Boondock Labs.",
+    "Portfolio of Eugene Loyiso Boondock, a full-stack developer building AI-native products, MCP servers, platform tooling, and high-intent web experiences through Boondock Labs.",
   keywords: [
+    "Eugene Loyiso Boondock",
     "Eugene Ncube",
     "Eugene Boondock",
     "Boondock Labs",
@@ -45,20 +46,20 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Eugene Ncube",
+      name: "Eugene Loyiso Boondock",
       url: "https://boondocklabs.com",
     },
   ],
-  creator: "Eugene Ncube",
+  creator: "Eugene Loyiso Boondock",
   publisher: "Boondock Labs",
   metadataBase: new URL("https://boondocklabs.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Boondock Labs | Eugene Ncube",
+    title: "Boondock Labs | Eugene Loyiso Boondock",
     description:
-      "AI-native products, platform systems, MCP servers, and portfolio work by Eugene Ncube.",
+      "AI-native products, platform systems, MCP servers, and portfolio work by Eugene Loyiso Boondock.",
     url: "https://boondocklabs.com",
     siteName: "Boondock Labs",
     locale: "en_US",
@@ -74,7 +75,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Boondock Labs | Eugene Ncube",
+    title: "Boondock Labs | Eugene Loyiso Boondock",
     description:
       "Portfolio work spanning product engineering, AI systems, MCP tooling, and ambitious web builds.",
     images: ["/Boondocklabs.png"],
