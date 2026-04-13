@@ -426,8 +426,11 @@ export default function ClippyAssistant({
         const moveToDefaultPosition = () => {
           const width = agent._el.offsetWidth || 84;
           const height = agent._el.offsetHeight || 63;
-          const x = Math.max(window.innerWidth - width - 24, 60);
-          const y = Math.max(window.innerHeight - height - 22, 60);
+          const isMobile = window.innerWidth < 768;
+          const rightMargin = isMobile ? 16 : 48;
+          const bottomMargin = isMobile ? 80 : 64;
+          const x = Math.max(window.innerWidth - width - rightMargin, 16);
+          const y = Math.max(window.innerHeight - height - bottomMargin, 60);
           agent.moveTo(x, y, 0);
         };
 
