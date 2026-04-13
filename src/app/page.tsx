@@ -1,13 +1,15 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
-  AudioLines,
   ArrowUpRight,
-  Database,
+  AudioLines,
+  Bot,
   Braces,
   BrainCircuit,
   BriefcaseBusiness,
+  Database,
   FileDown,
   Github,
   HeartPulse,
@@ -25,14 +27,17 @@ import {
   Workflow,
 } from "lucide-react";
 import ClippyAssistant from "./ClippyAssistant";
-import HeroSection from "./HeroSection";
+import OpeningGate from "./OpeningGate";
 
-const navLinks = [
-  { label: "Work", href: "#work" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Process", href: "#process" },
-  { label: "Contact", href: "#contact" },
+/* ═══════════════════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════════════════ */
+
+const signalStats = [
+  { value: "17+", label: "Live APIs orchestrated inside one platform" },
+  { value: "30+", label: "AI tools unified into a single product surface" },
+  { value: "4+", label: "Published packages — wrappers and MCP servers" },
+  { value: "1,027", label: "Poems archived into a searchable, discussable PWA" },
 ] as const;
 
 const featuredProjects = [
@@ -45,7 +50,6 @@ const featuredProjects = [
     image: "/morphed.png",
     href: "https://morphed.io",
     tags: ["Full-stack architecture", "Custom APIs", "MCP tooling"],
-    layout: "wide",
   },
   {
     title: "Earthie.world",
@@ -56,7 +60,6 @@ const featuredProjects = [
     image: "/earthie-world.png",
     href: "https://earthie.world",
     tags: ["17+ integrations", "Realtime data", "Interactive maps"],
-    layout: "tall",
   },
   {
     title: "EntropySuite.co.za",
@@ -67,7 +70,6 @@ const featuredProjects = [
     image: "/entropysuite.png",
     href: "https://entropysuite.co.za",
     tags: ["AI product design", "Tool ecosystems", "React"],
-    layout: "standard",
   },
   {
     title: "Bikode",
@@ -78,7 +80,6 @@ const featuredProjects = [
     image: "/bikode.png",
     href: "https://bikode.co.za",
     tags: ["C / Win32", "Editor engineering", "AI integration"],
-    layout: "standard",
   },
 ] as const;
 
@@ -93,7 +94,7 @@ const additionalProjects = [
     icon: HeartPulse,
     image: "/kinspace.png",
     surface:
-      "linear-gradient(145deg, rgba(74, 154, 156, 0.85) 0%, rgba(10, 10, 12, 0.92) 100%)",
+      "linear-gradient(145deg, rgba(74, 154, 156, 0.8) 0%, rgba(8, 8, 10, 0.92) 100%)",
   },
   {
     title: "PathNote",
@@ -105,7 +106,7 @@ const additionalProjects = [
     icon: AudioLines,
     image: null,
     surface:
-      "linear-gradient(145deg, rgba(29, 82, 99, 0.85) 0%, rgba(8, 8, 10, 0.92) 100%)",
+      "linear-gradient(145deg, rgba(29, 82, 99, 0.8) 0%, rgba(6, 6, 8, 0.92) 100%)",
   },
   {
     title: "MessageCFO",
@@ -117,7 +118,7 @@ const additionalProjects = [
     icon: MessageSquareText,
     image: null,
     surface:
-      "linear-gradient(145deg, rgba(26, 74, 55, 0.85) 0%, rgba(8, 10, 9, 0.92) 100%)",
+      "linear-gradient(145deg, rgba(26, 74, 55, 0.8) 0%, rgba(6, 8, 7, 0.92) 100%)",
   },
   {
     title: "Platedom",
@@ -129,7 +130,7 @@ const additionalProjects = [
     icon: UtensilsCrossed,
     image: null,
     surface:
-      "linear-gradient(145deg, rgba(108, 61, 34, 0.85) 0%, rgba(12, 10, 8, 0.92) 100%)",
+      "linear-gradient(145deg, rgba(108, 61, 34, 0.8) 0%, rgba(10, 8, 6, 0.92) 100%)",
   },
 ] as const;
 
@@ -180,112 +181,72 @@ const capabilities = [
   {
     icon: Layers3,
     title: "Product Engineering",
-    body:
-      "Interfaces built with structure, conviction, and taste. Translating unclear requirements into products that feel composed from first impression to final interaction.",
+    body: "Interfaces built with structure, conviction, and taste. Translating unclear requirements into products that feel composed from first impression to final interaction.",
     details: ["Next.js and React", "Responsive systems", "UX polish with intent"],
   },
   {
     icon: BrainCircuit,
     title: "AI-Native Systems",
-    body:
-      "AI is not decoration here. It is part of the product architecture — assistants, structured workflows, model orchestration, and protocol tooling designed as first-class features.",
+    body: "AI is not decoration here. It is part of the product architecture — assistants, structured workflows, model orchestration, and protocol tooling designed as first-class features.",
     details: ["Gemini and LLM workflows", "MCP servers", "Prompt and tool design"],
   },
   {
     icon: Braces,
     title: "Backend and Integrations",
-    body:
-      "The invisible engineering most portfolios omit: authentication, API architecture, database design, third-party integration complexity, edge cases, and the structural work that makes products hold.",
+    body: "The invisible engineering most portfolios omit: authentication, API architecture, database design, third-party integration complexity, edge cases, and the structural work that makes products hold.",
     details: ["Custom APIs", "OAuth flows", "Databases and automation"],
   },
 ] as const;
 
-const operatingPrinciples = [
+const principles = [
   {
     number: "01",
     title: "Full surface ownership.",
-    description:
-      "Frontend, backend, AI systems, integrations, and design intent — connected, not siloed. One person, one coherent vision.",
+    body: "Frontend, backend, AI systems, integrations, and design intent — connected, not siloed. One person, one coherent vision.",
   },
   {
     number: "02",
     title: "Speed without compromise.",
-    description:
-      "AI accelerates the workflow. Judgement stays human. Velocity is for going deeper, not cutting corners.",
+    body: "AI accelerates the workflow. Judgement stays human. Velocity is for going deeper, not cutting corners.",
   },
   {
     number: "03",
     title: "Complexity made legible.",
-    description:
-      "Ambitious products still need elegance. Flow, hierarchy, language, and the feel of a system in the hand — these are engineering decisions.",
+    body: "Ambitious products still need elegance. Flow, hierarchy, language, and the feel of a system in the hand — these are engineering decisions.",
   },
   {
     number: "04",
     title: "Drawn to hard problems.",
-    description:
-      "Protocol design, unusual integrations, unconventional product ideas, architecture from nothing. The difficult edge is where the best work lives.",
+    body: "Protocol design, unusual integrations, unconventional product ideas, architecture from nothing. The difficult edge is where the best work lives.",
   },
 ] as const;
 
 const toolStack = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "Node.js",
-  "Python",
-  "PostgreSQL",
-  "Supabase",
-  "MCP",
-  "Gemini",
-  "OpenAI",
-  "Claude",
-  "Tailwind CSS",
+  "Next.js", "React", "TypeScript", "Node.js", "Python",
+  "PostgreSQL", "Supabase", "MCP", "Gemini", "OpenAI",
+  "Claude", "Tailwind CSS",
 ] as const;
-
-const socialLinks = [
-  {
-    label: "GitHub",
-    href: "https://github.com/EugeneBoondock",
-    icon: Github,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/eboondock/",
-    icon: Linkedin,
-  },
-  {
-    label: "Twitter",
-    href: "https://twitter.com/eugeneboondock",
-    icon: Twitter,
-  },
-] as const;
-
-const staggerClasses = ["stagger-1", "stagger-2", "stagger-3", "stagger-4"] as const;
 
 const processSteps = [
   {
     icon: Workflow,
     title: "Find the real brief",
-    body:
-      "Most projects hide their actual problem behind the initial ask. Better scope and better decisions begin with finding it.",
+    body: "Most projects hide their actual problem behind the initial ask. Better scope and better decisions begin with finding it.",
   },
   {
     icon: Rocket,
     title: "Design for leverage",
-    body:
-      "Architecture that survives growth: clean data flow, honest abstractions, and integration points established before they become painful.",
+    body: "Architecture that survives growth: clean data flow, honest abstractions, and integration points established before they become painful.",
   },
   {
     icon: BrainCircuit,
     title: "Apply AI with intent",
-    body:
-      "Automation, assistants, and model capabilities added with purpose. Stronger products, not trend compliance.",
+    body: "Automation, assistants, and model capabilities added with purpose. Stronger products, not trend compliance.",
   },
   {
     icon: Mail,
     title: "Refine until it reads",
-    body:
-      "Good software communicates. Copy, motion, layout, and interaction quality are not cosmetic — they are structural credibility.",
+    body: "Good software communicates. Copy, motion, layout, and interaction quality are not cosmetic — they are structural credibility.",
   },
 ] as const;
 
@@ -294,186 +255,307 @@ const pricingTiers = [
     icon: Layers3,
     title: "Starter Website",
     price: "R3,000 - R10,000",
-    summary:
-      "Portfolio sites, landing pages, and compact business websites that need to look sharp and ship cleanly.",
+    summary: "Portfolio sites, landing pages, and compact business websites that need to look sharp and ship cleanly.",
     details: ["Up to 3 pages", "Responsive build", "Basic SEO setup"],
   },
   {
     icon: BriefcaseBusiness,
     title: "Business Website",
     price: "R11,000 - R15,000",
-    summary:
-      "Fuller company sites with stronger structure, more content depth, and proper lead capture.",
+    summary: "Fuller company sites with stronger structure, more content depth, and proper lead capture.",
     details: ["Up to 8 pages", "Forms and maps", "Blog and enhanced SEO"],
   },
   {
     icon: ShoppingBag,
     title: "E-commerce Build",
     price: "R15,000 - R20,000",
-    summary:
-      "Online stores with product structure, payment flow, and enough polish to feel trustworthy from day one.",
+    summary: "Online stores with product structure, payment flow, and enough polish to feel trustworthy from day one.",
     details: ["Catalog and checkout", "Order flow", "Admin handover basics"],
   },
   {
     icon: Rocket,
     title: "Custom Product Build",
     price: "From R30,000+",
-    summary:
-      "Platforms, dashboards, AI-heavy products, and custom systems with deeper engineering and more moving parts.",
+    summary: "Platforms, dashboards, AI-heavy products, and custom systems with deeper engineering and more moving parts.",
     details: ["Custom features", "Data systems", "Advanced UX and integrations"],
   },
   {
     icon: Network,
     title: "MCP Server Engineering",
     price: "R20,000 - R50,000",
-    summary:
-      "APIs turned into usable model tools with proper architecture, testing, and publishable packaging.",
+    summary: "APIs turned into usable model tools with proper architecture, testing, and publishable packaging.",
     details: ["Custom MCP tools", "NPM packaging", "Docs and testing"],
   },
   {
     icon: Database,
     title: "API and Integration Work",
     price: "R15,000 - R40,000",
-    summary:
-      "Backend systems, auth flows, endpoint design, and platform integration work that powers the product behind the curtain.",
+    summary: "Backend systems, auth flows, endpoint design, and platform integration work that powers the product behind the curtain.",
     details: ["REST architecture", "Auth and database work", "Documentation and security"],
   },
 ] as const;
 
-function SectionIntro({
-  eyebrow,
-  title,
-  description,
-}: {
-  eyebrow: string;
-  title: string;
-  description: string;
-}) {
+const socialLinks = [
+  { label: "GitHub", href: "https://github.com/EugeneBoondock", icon: Github },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/eboondock/", icon: Linkedin },
+  { label: "Twitter", href: "https://twitter.com/eugeneboondock", icon: Twitter },
+] as const;
+
+/* ═══════════════════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════════════════ */
+
+function SceneBreak() {
   return (
-    <div className="max-w-3xl space-y-4">
-      <p className="mono-label">{eyebrow}</p>
-      <h2 className="text-4xl font-semibold leading-tight text-[var(--ink-strong)] sm:text-5xl">
-        {title}
-      </h2>
-      <p className="max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">
-        {description}
-      </p>
+    <div className="scene-break" aria-hidden="true">
+      <div className="scene-break-line" />
     </div>
   );
 }
 
+/* ═══════════════════════════════════════════════════
+   PAGE
+   ═══════════════════════════════════════════════════ */
+
 export default function Home() {
+  const gateRef = useRef<HTMLDivElement>(null);
+  const [navVisible, setNavVisible] = useState(false);
+
+  /* Nav visibility — appears when gate exits viewport */
+  useEffect(() => {
+    if (!gateRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setNavVisible(!entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(gateRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  /* Scroll reveal system */
+  useEffect(() => {
+    const elements = document.querySelectorAll("[data-reveal]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    for (const el of elements) observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <ClippyAssistant>
-      <main className="page-shell">
-        <div className="page-grid" aria-hidden="true" />
+      {/* Atmospheric fixed overlay */}
+      <div className="page-atmosphere" aria-hidden="true" />
 
-        <header className="nav-shell">
-          <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4">
-            <a href="#top" className="flex items-center gap-3 text-[var(--ink)]">
-              <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[rgba(255,255,255,0.04)]">
-                <Image
-                  src="/Boondocklabs.png"
-                  alt="Boondock Labs logo"
-                  fill
-                  className="object-cover"
-                  sizes="48px"
-                  priority
-                />
-              </div>
-              <div>
-                <p className="mono-label !mb-1">Boondock Labs</p>
-                <p className="text-sm font-medium text-[var(--muted)]">
-                  Eugene Loyiso Boondock
-                </p>
-              </div>
+      {/* ── Gate ── */}
+      <div ref={gateRef}>
+        <OpeningGate />
+      </div>
+
+      {/* ── Fixed nav ── */}
+      <header className={`fixed-nav ${navVisible ? "fixed-nav-visible" : ""}`}>
+        <div className="fixed-nav-inner">
+          <a href="#top" className="fixed-nav-mark">BL</a>
+          <nav className="fixed-nav-links">
+            <a href="#work">Work</a>
+            <a href="#capabilities">Capabilities</a>
+            <a href="#investment">Investment</a>
+            <a href="#contact">Contact</a>
+            <a href="#contact" className="fixed-nav-cta">
+              Start a conversation
             </a>
+          </nav>
+        </div>
+      </header>
 
-            <nav className="flex flex-wrap items-center justify-end gap-2 text-sm text-[var(--muted)]">
-              {navLinks.map((link) => (
-                <a key={link.href} href={link.href} className="nav-link">
-                  {link.label}
-                </a>
-              ))}
-              <a href="#contact" className="btn-solid">
-                Start a conversation
-              </a>
-            </nav>
+      {/* ── Main flow ── */}
+      <div className="main-flow">
+
+        {/* ─────────── STATEMENT ─────────── */}
+        <section className="statement">
+          <h2 className="statement-declaration" data-reveal>
+            I build software that holds up.
+          </h2>
+          <p className="statement-body" data-reveal data-reveal-delay="1">
+            Full-stack products, AI-native systems, and protocol tooling —
+            shaped with architectural depth, visual conviction, and the kind
+            of care that makes complex things feel inevitable.
+          </p>
+
+          <div className="statement-actions" data-reveal data-reveal-delay="2">
+            <a href="#work" className="btn-solid">
+              View the work
+            </a>
+            <a
+              href="/Eugene_CV_Fullstack.pdf"
+              className="btn-ghost"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FileDown className="h-4 w-4" />
+              Download CV
+            </a>
           </div>
-        </header>
 
-        <div
-          id="top"
-          className="mx-auto flex w-full max-w-7xl flex-col gap-28 px-4 pb-20 pt-28 sm:px-6 lg:px-8 lg:gap-36 lg:pt-32"
-        >
-          <HeroSection />
+          <div className="statement-callout" data-reveal data-reveal-delay="3">
+            <Bot className="h-4 w-4 shrink-0 text-[var(--accent-teal)]" />
+            <p>
+              Clippy is active. Ask about project depth, stack details,
+              rates, or the short version.
+            </p>
+          </div>
 
-          <section className="section-wrap soft-rise stagger-3 p-6 sm:p-8 lg:p-10">
+          <div className="statement-stats" data-reveal data-reveal-delay="4">
+            {signalStats.map((stat) => (
+              <div key={stat.label} className="stat-block">
+                <p className="stat-value">{stat.value}</p>
+                <p className="stat-label">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <SceneBreak />
+
+        {/* ─────────── CONVICTIONS ─────────── */}
+        <section data-reveal>
+          <div className="section-wrap p-6 sm:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
               <div className="space-y-4">
                 <p className="mono-label">Why this studio</p>
-                <h2 className="text-3xl font-semibold leading-tight text-[var(--ink-strong)] sm:text-4xl">
-                  Bridging concept, interface, architecture, and execution — without
-                  flattening the work.
+                <h2 className="section-heading">
+                  Bridging concept, interface, architecture, and execution —
+                  without flattening the work.
                 </h2>
               </div>
-
               <div className="grid gap-4 md:grid-cols-2">
-                {operatingPrinciples.map((principle) => (
-                  <article key={principle.number} className="principle-card">
-                    <p className="mono-label">{principle.number}</p>
-                    <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
-                      {principle.title}
+                {principles.map((p) => (
+                  <article key={p.number} className="principle-card">
+                    <p className="mono-label">{p.number}</p>
+                    <h3 className="text-lg font-semibold text-[var(--ink-strong)]">
+                      {p.title}
                     </h3>
                     <p className="text-sm leading-7 text-[var(--muted)]">
-                      {principle.description}
+                      {p.body}
                     </p>
                   </article>
                 ))}
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <div className="section-divider" />
+        <SceneBreak />
 
-          <section id="work" className="space-y-8">
-            <SectionIntro
-              eyebrow="Selected work"
-              title="Built across the full surface. Judged by what holds."
-              description="Each project demanded a different shape of thinking. The portfolio reads as range because the work required it — not because diversity was the goal."
-            />
+        {/* ─────────── SELECTED WORK ─────────── */}
+        <section id="work">
+          <div className="max-w-3xl space-y-4 mb-12" data-reveal>
+            <p className="mono-label">Selected work</p>
+            <h2 className="section-heading">
+              Built across the full surface. Judged by what holds.
+            </h2>
+            <p className="section-body">
+              Each project demanded a different shape of thinking. The portfolio
+              reads as range because the work required it — not because diversity
+              was the goal.
+            </p>
+          </div>
 
-            <div className="grid gap-5 lg:grid-cols-12">
-              {featuredProjects.map((project, index) => (
-                <article
-                  key={project.title}
-                  className={`portfolio-card soft-rise ${
-                    project.layout === "wide"
-                      ? "lg:col-span-7"
-                      : project.layout === "tall"
-                        ? "lg:col-span-5"
-                        : "lg:col-span-6"
-                  } ${index % 2 === 0 ? "stagger-2" : "stagger-3"}`}
-                >
-                  <div className="project-media">
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} project preview`}
-                      fill
-                      className="object-cover"
-                      sizes={
-                        project.layout === "wide"
-                          ? "(min-width: 1024px) 55vw, 100vw"
-                          : "(min-width: 1024px) 40vw, 100vw"
-                      }
-                    />
+          {/* Featured project scenes */}
+          <div className="space-y-8">
+            {featuredProjects.map((project, index) => (
+              <div
+                key={project.title}
+                className={`scene ${index % 2 === 1 ? "scene-alt" : ""}`}
+                data-reveal
+              >
+                <div className="scene-content">
+                  <p className="scene-number">
+                    {String(index + 1).padStart(2, "0")} / Case study
+                  </p>
+                  <h3 className="scene-title">{project.title}</h3>
+                  <p className="scene-description">{project.description}</p>
+                  <p className="scene-impact">{project.impact}</p>
+                  <div className="scene-tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="stack-chip">{tag}</span>
+                    ))}
                   </div>
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="scene-link"
+                  >
+                    Visit project
+                    <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                </div>
+                <div className="scene-media">
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} project preview`}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
 
-                  <div className="space-y-4 p-6 sm:p-7">
+          {/* Additional projects */}
+          <div className="grid gap-5 lg:grid-cols-2 mt-12">
+            {additionalProjects.map((project) => {
+              const Icon = project.icon;
+              return (
+                <article key={project.title} className="portfolio-card" data-reveal>
+                  <div className="project-media">
+                    {project.image ? (
+                      <Image
+                        src={project.image}
+                        alt={`${project.title} preview`}
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1024px) 45vw, 100vw"
+                      />
+                    ) : (
+                      <div
+                        className="relative flex h-full min-h-[240px] flex-col justify-between overflow-hidden p-6 text-white"
+                        style={{ background: project.surface }}
+                      >
+                        <div className="absolute inset-0 opacity-25">
+                          <div className="absolute inset-x-[-12%] top-[18%] h-px rotate-[-12deg] bg-white/15" />
+                          <div className="absolute inset-x-[-8%] top-[46%] h-px rotate-[8deg] bg-white/10" />
+                          <div className="absolute inset-x-[-10%] bottom-[20%] h-px rotate-[-7deg] bg-white/12" />
+                        </div>
+                        <div className="relative z-10 flex items-center justify-between gap-4">
+                          <div className="icon-badge border-white/8 bg-white/6 text-white">
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <p className="mono-label !mb-0 !text-white/40">{project.domain}</p>
+                        </div>
+                        <div className="relative z-10 max-w-md space-y-2">
+                          <h3 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">
+                            {project.title}
+                          </h3>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-4 p-6">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
-                        <p className="mono-label">Case study</p>
-                        <h3 className="text-2xl font-semibold text-[var(--ink-strong)]">
+                        <p className="mono-label">{project.domain}</p>
+                        <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
                           {project.title}
                         </h3>
                       </div>
@@ -483,349 +565,279 @@ export default function Home() {
                         rel="noreferrer"
                         className="project-link"
                       >
-                        Visit
-                        <ArrowUpRight className="h-4 w-4" />
+                        Visit <ArrowUpRight className="h-4 w-4" />
                       </a>
                     </div>
-
-                    <p className="text-base leading-7 text-[var(--muted)]">
+                    <p className="text-sm leading-7 text-[var(--muted)]">
                       {project.description}
                     </p>
-                    <p className="rounded-[22px] border border-[var(--line)] bg-[rgba(255,255,255,0.02)] px-4 py-4 text-sm leading-7 text-[var(--ink)]">
-                      {project.impact}
-                    </p>
-
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="stack-chip">
-                          {tag}
-                        </span>
+                        <span key={tag} className="stack-chip">{tag}</span>
                       ))}
                     </div>
                   </div>
                 </article>
-              ))}
-            </div>
+              );
+            })}
+          </div>
+        </section>
 
-            <div className="grid gap-5 lg:grid-cols-2">
-              {additionalProjects.map((project, index) => {
-                const Icon = project.icon;
+        <SceneBreak />
 
-                return (
-                  <article
-                    key={project.title}
-                    className={`portfolio-card soft-rise ${staggerClasses[index % staggerClasses.length]}`}
-                  >
-                    <div className="project-media">
-                      {project.image ? (
-                        <Image
-                          src={project.image}
-                          alt={`${project.title} project preview`}
-                          fill
-                          className="object-cover"
-                          sizes="(min-width: 1024px) 45vw, 100vw"
-                        />
-                      ) : (
-                        <div
-                          className="relative flex h-full min-h-[260px] flex-col justify-between overflow-hidden p-6 text-white"
-                          style={{ background: project.surface }}
-                        >
-                          <div className="absolute inset-0 opacity-30">
-                            <div className="absolute inset-x-[-12%] top-[16%] h-px rotate-[-12deg] bg-white/20" />
-                            <div className="absolute inset-x-[-8%] top-[44%] h-px rotate-[8deg] bg-white/15" />
-                            <div className="absolute inset-x-[-10%] bottom-[18%] h-px rotate-[-7deg] bg-white/18" />
-                          </div>
-                          <div className="relative z-10 flex items-center justify-between gap-4">
-                            <div className="icon-badge border-white/10 bg-white/6 text-white">
-                              <Icon className="h-5 w-5" />
-                            </div>
-                            <p className="mono-label !mb-0 !text-white/50">{project.domain}</p>
-                          </div>
-                          <div className="relative z-10 max-w-md space-y-2">
-                            <p className="mono-label !mb-0 !text-white/40">Additional build</p>
-                            <h3 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">
-                              {project.title}
-                            </h3>
-                            <p className="text-sm leading-7 text-white/60">
-                              Product work with a sharper operating mode than a generic brochure build.
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+        {/* ─────────── INFRASTRUCTURE ─────────── */}
+        <section>
+          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
+            <p className="mono-label">Open source & protocol engineering</p>
+            <h2 className="section-heading">
+              The infrastructure underneath the interfaces.
+            </h2>
+            <p className="section-body">
+              Wrappers, MCP servers, and developer tooling built for real
+              integration depth and AI-native workflows. Published, documented,
+              production-facing.
+            </p>
+          </div>
 
-                    <div className="space-y-4 p-6 sm:p-7">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                          <p className="mono-label">{project.domain}</p>
-                          <h3 className="text-2xl font-semibold text-[var(--ink-strong)]">
-                            {project.title}
-                          </h3>
-                        </div>
-                        <a
-                          href={project.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="project-link"
-                        >
-                          Visit
-                          <ArrowUpRight className="h-4 w-4" />
-                        </a>
-                      </div>
-
-                      <p className="text-base leading-7 text-[var(--muted)]">
-                        {project.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
-                          <span key={tag} className="stack-chip">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </section>
-
-          <div className="section-divider" />
-
-          <section className="space-y-8">
-            <SectionIntro
-              eyebrow="Open source & protocol engineering"
-              title="The infrastructure underneath the interfaces."
-              description="Wrappers, MCP servers, and developer tooling built for real integration depth and AI-native workflows. Published, documented, production-facing."
-            />
-
-            <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
-              {toolingProjects.map((project, index) => {
-                const Icon = project.icon;
-
-                return (
-                  <article
-                    key={project.title}
-                    className={`pricing-card soft-rise ${staggerClasses[index % staggerClasses.length]}`}
-                  >
-                    <div className="space-y-4">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="icon-badge">
-                          <Icon className="h-5 w-5" />
-                        </div>
-                        <div className="pricing-pill">{project.label}</div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <p className="mono-label">Package / protocol</p>
-                        <h3 className="text-2xl font-semibold text-[var(--ink-strong)]">
-                          {project.title}
-                        </h3>
-                      </div>
-
-                      <p className="text-sm leading-7 text-[var(--muted)]">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
-                          <span key={tag} className="stack-chip">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <a
-                        href={project.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="project-link w-fit"
-                      >
-                        {project.cta}
-                        <ArrowUpRight className="h-4 w-4" />
-                      </a>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </section>
-
-          <div className="section-divider" />
-
-          <section id="capabilities" className="space-y-8">
-            <SectionIntro
-              eyebrow="Capabilities"
-              title="Deep stack. Sharper taste."
-              description="Most developers can wire frameworks together. The difference is knowing what to build, what to leave out, and how to make complex systems feel simple."
-            />
-
-            <div className="grid gap-5 lg:grid-cols-3">
-              {capabilities.map((capability, index) => {
-                const Icon = capability.icon;
-
-                return (
-                  <article
-                    key={capability.title}
-                    className={`capability-card soft-rise ${staggerClasses[index]}`}
-                  >
-                    <div className="flex items-center gap-3">
+          <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
+            {toolingProjects.map((project, index) => {
+              const Icon = project.icon;
+              return (
+                <article
+                  key={project.title}
+                  className="pricing-card"
+                  data-reveal
+                  data-reveal-delay={String(index + 1)}
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-start justify-between gap-4">
                       <div className="icon-badge">
                         <Icon className="h-5 w-5" />
                       </div>
-                      <h3 className="text-2xl font-semibold text-[var(--ink-strong)]">
-                        {capability.title}
+                      <div className="pricing-pill">{project.label}</div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="mono-label">Package / protocol</p>
+                      <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
+                        {project.title}
                       </h3>
                     </div>
                     <p className="text-sm leading-7 text-[var(--muted)]">
-                      {capability.body}
+                      {project.description}
                     </p>
+                  </div>
+                  <div className="space-y-4">
                     <div className="flex flex-wrap gap-2">
-                      {capability.details.map((detail) => (
-                        <span key={detail} className="stack-chip">
-                          {detail}
-                        </span>
+                      {project.tags.map((tag) => (
+                        <span key={tag} className="stack-chip">{tag}</span>
                       ))}
                     </div>
-                  </article>
-                );
-              })}
-            </div>
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="project-link w-fit"
+                    >
+                      {project.cta} <ArrowUpRight className="h-4 w-4" />
+                    </a>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
 
-            <article className="section-wrap soft-rise stagger-4 p-6 sm:p-8">
-              <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-                <div className="space-y-4">
-                  <p className="mono-label">Current toolkit</p>
-                  <h3 className="text-3xl font-semibold text-[var(--ink-strong)]">
-                    Working across modern web, AI infrastructure, and custom integration layers.
-                  </h3>
-                  <p className="text-sm leading-7 text-[var(--muted)]">
-                    Equally at home shipping clean frontends, backend systems,
-                    data pipelines, and AI-enhanced workflows. The range produces
-                    coherent systems rather than disconnected pieces.
-                  </p>
-                </div>
+        <SceneBreak />
 
-                <div className="flex flex-wrap gap-3">
-                  {toolStack.map((tool) => (
-                    <span key={tool} className="tool-chip">
-                      {tool}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </article>
-          </section>
+        {/* ─────────── CAPABILITIES ─────────── */}
+        <section id="capabilities">
+          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
+            <p className="mono-label">Capabilities</p>
+            <h2 className="section-heading">
+              Deep stack. Sharper taste.
+            </h2>
+            <p className="section-body">
+              Most developers can wire frameworks together. The difference is
+              knowing what to build, what to leave out, and how to make complex
+              systems feel simple.
+            </p>
+          </div>
 
-          <div className="section-divider" />
-
-          <section id="pricing" className="space-y-8">
-            <SectionIntro
-              eyebrow="Investment"
-              title="Scope-honest. No filler."
-              description="Ranges for the work I usually take on. Final pricing follows complexity, integration depth, urgency, and how much of the system falls under my ownership."
-            />
-
-            <div className="grid gap-5 lg:grid-cols-3">
-              {pricingTiers.map((tier, index) => {
-                const Icon = tier.icon;
-
-                return (
-                  <article
-                    key={tier.title}
-                    className={`pricing-card soft-rise ${staggerClasses[index % staggerClasses.length]}`}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="space-y-3">
-                        <div className="icon-badge">
-                          <Icon className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <p className="mono-label">Engagement</p>
-                          <h3 className="text-2xl font-semibold text-[var(--ink-strong)]">
-                            {tier.title}
-                          </h3>
-                        </div>
-                      </div>
-                      <div className="pricing-pill">{tier.price}</div>
-                    </div>
-
-                    <p className="text-sm leading-7 text-[var(--muted)]">
-                      {tier.summary}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {tier.details.map((detail) => (
-                        <span key={detail} className="stack-chip">
-                          {detail}
-                        </span>
-                      ))}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-
-            <article className="section-wrap p-6 sm:p-8">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="space-y-2">
-                  <p className="mono-label">Pricing note</p>
-                  <p className="max-w-3xl text-sm leading-7 text-[var(--muted)]">
-                    When a project spans product strategy, interface design, backend
-                    architecture, AI workflows, and custom integrations — it enters
-                    the custom range. For a faster estimate, Clippy can qualify scope
-                    before you reach out.
-                  </p>
-                </div>
-                <a href="#contact" className="btn-solid self-start lg:self-auto">
-                  Ask for a quote
-                </a>
-              </div>
-            </article>
-          </section>
-
-          <div className="section-divider" />
-
-          <section id="process" className="space-y-8">
-            <SectionIntro
-              eyebrow="Process"
-              title="From ambiguity to architecture to artifact."
-              description="The projects change shape. The rhythm stays: find the real problem, design the structure, build with precision, refine until it reads."
-            />
-
-            <div className="grid gap-5 lg:grid-cols-4">
-              {processSteps.map((step, index) => {
-                const Icon = step.icon;
-
-                return (
-                  <article
-                    key={step.title}
-                    className={`process-card soft-rise ${staggerClasses[index]}`}
-                  >
+          <div className="grid gap-5 lg:grid-cols-3">
+            {capabilities.map((cap, index) => {
+              const Icon = cap.icon;
+              return (
+                <article
+                  key={cap.title}
+                  className="capability-card"
+                  data-reveal
+                  data-reveal-delay={String(index + 1)}
+                >
+                  <div className="flex items-center gap-3">
                     <div className="icon-badge">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <p className="mono-label">Step {index + 1}</p>
                     <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
-                      {step.title}
+                      {cap.title}
                     </h3>
-                    <p className="text-sm leading-7 text-[var(--muted)]">{step.body}</p>
-                  </article>
-                );
-              })}
+                  </div>
+                  <p className="text-sm leading-7 text-[var(--muted)]">
+                    {cap.body}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {cap.details.map((d) => (
+                      <span key={d} className="stack-chip">{d}</span>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal>
+            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div className="space-y-4">
+                <p className="mono-label">Current toolkit</p>
+                <h3 className="text-2xl font-semibold text-[var(--ink-strong)] lg:text-3xl">
+                  Working across modern web, AI infrastructure, and custom
+                  integration layers.
+                </h3>
+                <p className="text-sm leading-7 text-[var(--muted)]">
+                  Equally at home shipping clean frontends, backend systems,
+                  data pipelines, and AI-enhanced workflows. The range produces
+                  coherent systems rather than disconnected pieces.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {toolStack.map((t) => (
+                  <span key={t} className="tool-chip">{t}</span>
+                ))}
+              </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <div className="section-divider" />
+        <SceneBreak />
 
-          <section id="contact" className="section-wrap contact-panel soft-rise stagger-4 p-6 sm:p-8 lg:p-10">
+        {/* ─────────── INVESTMENT ─────────── */}
+        <section id="investment">
+          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
+            <p className="mono-label">Investment</p>
+            <h2 className="section-heading">
+              Scope-honest. No filler.
+            </h2>
+            <p className="section-body">
+              Ranges for the work I usually take on. Final pricing follows
+              complexity, integration depth, urgency, and how much of the
+              system falls under my ownership.
+            </p>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {pricingTiers.map((tier, index) => {
+              const Icon = tier.icon;
+              return (
+                <article
+                  key={tier.title}
+                  className="pricing-card"
+                  data-reveal
+                  data-reveal-delay={String((index % 3) + 1)}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-3">
+                      <div className="icon-badge">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="mono-label">Engagement</p>
+                        <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
+                          {tier.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <div className="pricing-pill">{tier.price}</div>
+                  </div>
+                  <p className="text-sm leading-7 text-[var(--muted)]">
+                    {tier.summary}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {tier.details.map((d) => (
+                      <span key={d} className="stack-chip">{d}</span>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal>
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div className="space-y-2">
+                <p className="mono-label">Pricing note</p>
+                <p className="max-w-3xl text-sm leading-7 text-[var(--muted)]">
+                  When a project spans product strategy, interface design, backend
+                  architecture, AI workflows, and custom integrations — it enters
+                  the custom range. For a faster estimate, Clippy can qualify scope
+                  before you reach out.
+                </p>
+              </div>
+              <a href="#contact" className="btn-solid self-start lg:self-auto">
+                Ask for a quote
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <SceneBreak />
+
+        {/* ─────────── PROCESS ─────────── */}
+        <section>
+          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
+            <p className="mono-label">Process</p>
+            <h2 className="section-heading">
+              From ambiguity to architecture to artifact.
+            </h2>
+            <p className="section-body">
+              The projects change shape. The rhythm stays: find the real problem,
+              design the structure, build with precision, refine until it reads.
+            </p>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-4">
+            {processSteps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <article
+                  key={step.title}
+                  className="process-card"
+                  data-reveal
+                  data-reveal-delay={String(index + 1)}
+                >
+                  <div className="icon-badge">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <p className="mono-label">Step {index + 1}</p>
+                  <h3 className="text-lg font-semibold text-[var(--ink-strong)]">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-7 text-[var(--muted)]">
+                    {step.body}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <SceneBreak />
+
+        {/* ─────────── CONTACT ─────────── */}
+        <section id="contact" data-reveal>
+          <div className="section-wrap contact-panel p-6 sm:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:gap-12">
               <div className="space-y-5">
                 <p className="mono-label">Contact</p>
-                <h2 className="text-4xl font-semibold leading-tight text-[var(--ink-strong)] sm:text-5xl">
+                <h2 className="section-heading !text-[clamp(2rem,4vw,3rem)]">
                   If the work is serious, the door is open.
                 </h2>
                 <p className="max-w-xl text-base leading-8 text-[var(--muted)] sm:text-lg">
@@ -833,13 +845,17 @@ export default function Home() {
                   a developer with real ownership range. Serious briefs. Real
                   ambition. That is the filter.
                 </p>
-
                 <div className="flex flex-wrap gap-3">
                   <a href="mailto:philosncube@gmail.com" className="btn-solid">
                     <Mail className="h-4 w-4" />
                     philosncube@gmail.com
                   </a>
-                  <a href="/Eugene_CV_Fullstack.pdf" className="btn-ghost" target="_blank" rel="noreferrer">
+                  <a
+                    href="/Eugene_CV_Fullstack.pdf"
+                    className="btn-ghost"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <FileDown className="h-4 w-4" />
                     View CV
                   </a>
@@ -866,7 +882,6 @@ export default function Home() {
                   <div className="grid gap-3 sm:grid-cols-3">
                     {socialLinks.map((link) => {
                       const Icon = link.icon;
-
                       return (
                         <a
                           key={link.label}
@@ -894,9 +909,18 @@ export default function Home() {
                 </article>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
+      </div>
+
+      {/* ── Footer ── */}
+      <footer className="site-footer">
+        <div className="site-footer-rule" />
+        <div className="site-footer-text">
+          <span>Boondock Labs</span>
+          <span>Edenvale, South Africa</span>
         </div>
-      </main>
+      </footer>
     </ClippyAssistant>
   );
 }
