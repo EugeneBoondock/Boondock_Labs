@@ -150,33 +150,136 @@
   overflow: hidden;
 }
 
+/* Parallax: --gp is set by JS (0 at top, 1 at 1 viewport scrolled) */
+
 .gate-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.5) 100%);
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.55) 100%);
   pointer-events: none;
+  opacity: calc(1 - var(--gp, 0) * 0.6);
 }
 
 .gate-atmosphere {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 30%, rgba(193, 122, 62, 0.035), transparent 55%),
-    radial-gradient(ellipse at 75% 65%, rgba(74, 154, 156, 0.025), transparent 50%);
+    radial-gradient(ellipse at 20% 30%, rgba(193, 122, 62, 0.04), transparent 55%),
+    radial-gradient(ellipse at 75% 65%, rgba(74, 154, 156, 0.03), transparent 50%);
   pointer-events: none;
+  transform: scale(calc(1 + var(--gp, 0) * 0.15));
+  transition: transform 50ms linear;
 }
 
+/* Ambient breathing orb */
+.gate-orb {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(193, 122, 62, 0.045) 0%, transparent 68%);
+  transform: translate(-50%, -50%) scale(calc(1 + var(--gp, 0) * 0.3));
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Floating motes — dust in a darkened theater */
+.gate-mote {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: mote-drift linear infinite;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(calc(var(--gp, 0) * -40px));
+}
+
+@keyframes mote-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(25px, -55px) scale(0.4);
+    opacity: 0;
+  }
+}
+
+/* Crosshair — horizontal rule */
 .gate-rule {
   position: absolute;
   top: 50%;
-  left: 12%;
-  right: 12%;
+  left: 10%;
+  right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.1) 70%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.09) 25%, rgba(255, 255, 255, 0.09) 75%, transparent 100%);
   transform-origin: center;
   transform: scaleX(0);
 }
 
+/* Crosshair — vertical rule */
+.gate-rule-v {
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  bottom: 14%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.06) 75%, transparent 100%);
+  transform-origin: center top;
+  transform: scaleY(0);
+}
+
+/* Viewfinder corner brackets */
+.gate-corner {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.gate-corner-tl {
+  top: 1.8rem;
+  left: 1.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.gate-corner-tr {
+  top: 1.8rem;
+  right: 1.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.gate-corner-bl {
+  bottom: 1.8rem;
+  left: 1.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.gate-corner-br {
+  bottom: 1.8rem;
+  right: 1.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Gate content — parallax float-away */
 .gate-content {
   position: relative;
   z-index: 2;
@@ -185,6 +288,9 @@
   align-items: center;
   gap: 1.8rem;
   text-align: center;
+  transform: translateY(calc(var(--gp, 0) * 90px));
+  opacity: calc(1 - var(--gp, 0) * 1.6);
+  will-change: transform, opacity;
 }
 
 .gate-name {
@@ -208,6 +314,7 @@
   opacity: 0;
 }
 
+/* Scroll cue — parallax anchored to bottom */
 .gate-scroll {
   position: absolute;
   bottom: 2.5rem;
@@ -216,6 +323,7 @@
   align-items: center;
   gap: 0.6rem;
   opacity: 0;
+  transform: translateY(calc(var(--gp, 0) * 40px));
 }
 
 .gate-scroll-label {
@@ -232,6 +340,22 @@
   height: 28px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent);
   transform-origin: top center;
+}
+
+/* ─── Scroll progress bar ─── */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-teal));
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 60;
+  pointer-events: none;
+  transition: transform 60ms linear;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -272,19 +396,21 @@
 }
 
 .fixed-nav-mark {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink);
-  padding: 0.4rem 0.6rem;
-  border-radius: 999px;
-  transition: color 200ms ease;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 8px;
+  transition: opacity 200ms ease;
 }
 
 .fixed-nav-mark:hover {
-  color: var(--accent);
+  opacity: 0.8;
+}
+
+.nav-logo {
+  background: #fff;
+  border-radius: 6px;
+  padding: 2px;
 }
 
 .fixed-nav-links {
@@ -378,6 +504,38 @@
 [data-reveal-delay="3"] { transition-delay: 240ms; }
 [data-reveal-delay="4"] { transition-delay: 320ms; }
 [data-reveal-delay="5"] { transition-delay: 400ms; }
+
+/* Varied reveal directions */
+[data-reveal="fade-left"] {
+  opacity: 0;
+  transform: translateX(-36px);
+}
+
+[data-reveal="fade-right"] {
+  opacity: 0;
+  transform: translateX(36px);
+}
+
+[data-reveal="scale"] {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+[data-reveal="fade-left"].revealed,
+[data-reveal="fade-right"].revealed,
+[data-reveal="scale"].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Ken Burns zoom for scene images */
+.scene-media img {
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].revealed .scene-media img {
+  transform: scale(1.0);
+}
 
 /* ═══════════════════════════════════════════════════
    MAIN FLOW — Content container
@@ -1000,14 +1158,14 @@
 .clippy-agent-shell::after {
   content: "";
   position: absolute;
-  inset: -14px -12px -10px -16px;
+  inset: -8px -6px -6px -8px;
   z-index: -1;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 38% 34%, rgba(255, 255, 255, 0.12), transparent 42%),
-    radial-gradient(circle at 66% 72%, rgba(193, 122, 62, 0.1), transparent 55%);
-  opacity: 0.5;
-  filter: blur(12px);
+    radial-gradient(circle at 40% 36%, rgba(255, 255, 255, 0.06), transparent 45%),
+    radial-gradient(circle at 64% 70%, rgba(193, 122, 62, 0.06), transparent 55%);
+  opacity: 0.4;
+  filter: blur(8px);
   pointer-events: none;
 }
 

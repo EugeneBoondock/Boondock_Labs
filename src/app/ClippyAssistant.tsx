@@ -70,7 +70,7 @@ const QUICK_PROMPTS = [
   },
 ] as const;
 
-const CLIPPY_SCALE = 1.28;
+const CLIPPY_SCALE = 0.68;
 
 function muteAgentSounds(agent: ClippyAgent | null) {
   const sounds = agent?._animator?._sounds;
@@ -96,10 +96,10 @@ function enhanceClippyPresentation(agent: ClippyAgent | null) {
   Object.assign(agent._el.style, {
     transform: `translateZ(0) scale(${CLIPPY_SCALE})`,
     transformOrigin: "bottom right",
-    filter:
-      "drop-shadow(0 28px 42px rgba(15, 16, 12, 0.22)) saturate(1.08) contrast(1.05)",
+    imageRendering: "auto",
+    filter: "drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35))",
     backfaceVisibility: "hidden",
-    willChange: "transform, filter",
+    willChange: "transform",
   });
 
   const balloon = agent._balloon?._balloon;
@@ -109,29 +109,29 @@ function enhanceClippyPresentation(agent: ClippyAgent | null) {
   if (balloon) {
     balloon.classList.add("clippy-agent-bubble");
     Object.assign(balloon.style, {
-      background: "rgba(255, 252, 247, 0.97)",
-      color: "#141510",
-      border: "1px solid rgba(18, 19, 15, 0.1)",
-      borderRadius: "18px",
-      padding: "12px 14px",
-      boxShadow: "0 22px 55px rgba(20, 20, 16, 0.16)",
-      backdropFilter: "blur(14px)",
+      background: "rgba(18, 18, 22, 0.95)",
+      color: "#ddd9d3",
+      border: "1px solid rgba(255, 255, 255, 0.08)",
+      borderRadius: "14px",
+      padding: "10px 12px",
+      boxShadow: "0 14px 36px rgba(0, 0, 0, 0.4)",
+      backdropFilter: "blur(16px)",
     });
   }
 
   if (content) {
     Object.assign(content.style, {
-      maxWidth: "260px",
-      minWidth: "160px",
+      maxWidth: "220px",
+      minWidth: "140px",
       fontFamily: "var(--font-main), sans-serif",
-      fontSize: "0.95rem",
-      lineHeight: "1.65",
-      color: "#141510",
+      fontSize: "0.82rem",
+      lineHeight: "1.55",
+      color: "#ddd9d3",
     });
   }
 
   if (tip) {
-    tip.style.filter = "drop-shadow(0 8px 16px rgba(20, 20, 16, 0.1))";
+    tip.style.filter = "drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3))";
   }
 }
 
@@ -424,10 +424,10 @@ export default function ClippyAssistant({
         enhanceClippyPresentation(agent);
 
         const moveToDefaultPosition = () => {
-          const width = agent._el.offsetWidth || 124;
-          const height = agent._el.offsetHeight || 93;
-          const x = Math.max(window.innerWidth - width - 44, 84);
-          const y = Math.max(window.innerHeight - height - 38, 96);
+          const width = agent._el.offsetWidth || 84;
+          const height = agent._el.offsetHeight || 63;
+          const x = Math.max(window.innerWidth - width - 24, 60);
+          const y = Math.max(window.innerHeight - height - 22, 60);
           agent.moveTo(x, y, 0);
         };
 

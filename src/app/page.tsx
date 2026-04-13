@@ -36,7 +36,7 @@ import OpeningGate from "./OpeningGate";
 const signalStats = [
   { value: "17+", label: "Live APIs orchestrated inside one platform" },
   { value: "30+", label: "AI tools unified into a single product surface" },
-  { value: "4+", label: "Published packages — wrappers and MCP servers" },
+  { value: "4+", label: "Published packages, wrappers, and MCP servers" },
   { value: "1,027", label: "Poems archived into a searchable, discussable PWA" },
 ] as const;
 
@@ -44,7 +44,7 @@ const featuredProjects = [
   {
     title: "Morphed.io",
     description:
-      "End-to-end platform architecture — frontend systems, backend infrastructure, custom API design, and a complete MCP server engineered from the ground up.",
+      "End-to-end platform architecture: frontend systems, backend infrastructure, custom API design, and a complete MCP server engineered from the ground up.",
     impact:
       "The kind of build that reveals range: product instinct, systems thinking, implementation depth, and protocol fluency in a single engagement.",
     image: "/morphed.png",
@@ -54,7 +54,7 @@ const featuredProjects = [
   {
     title: "Earthie.world",
     description:
-      "A living Earth2 intelligence layer — real-time market telemetry, interactive cartography, and an AI companion hardened against platform complexity.",
+      "A living Earth2 intelligence layer with real-time market telemetry, interactive cartography, and an AI companion hardened against platform complexity.",
     impact:
       "Seventeen APIs integrated without losing clarity. Complex integrations are where the work gets interesting.",
     image: "/earthie-world.png",
@@ -64,7 +64,7 @@ const featuredProjects = [
   {
     title: "EntropySuite.co.za",
     description:
-      "Thirty-plus AI instruments for analysis, conversion, and experimentation — unified into one product surface that stays fast and navigable.",
+      "Thirty-plus AI instruments for analysis, conversion, and experimentation, unified into one product surface that stays fast and navigable.",
     impact:
       "The challenge was not the tools themselves. It was making a broad feature surface feel coherent and effortless.",
     image: "/entropysuite.png",
@@ -74,7 +74,7 @@ const featuredProjects = [
   {
     title: "Bikode",
     description:
-      "A native Windows code editor built in C and Win32 — AI-assisted, Git-integrated, plugin-ready. Close to the metal by choice.",
+      "A native Windows code editor built in C and Win32. AI-assisted, Git-integrated, plugin-ready. Close to the metal by choice.",
     impact:
       "Evidence that the work here is not limited to the web stack. Hard problems. Low-level engineering. By preference.",
     image: "/bikode.png",
@@ -88,7 +88,7 @@ const additionalProjects = [
     title: "KinSpace",
     domain: "kinspace.co.za",
     description:
-      "A community architecture for people living with chronic and mental health challenges — built around safety, meaningful connection, and clinical resource access.",
+      "A community architecture for people living with chronic and mental health challenges, built around safety, meaningful connection, and clinical resource access.",
     href: "https://www.kinspace.co.za/",
     tags: ["Community platform", "Support UX", "React"],
     icon: HeartPulse,
@@ -100,7 +100,7 @@ const additionalProjects = [
     title: "PathNote",
     domain: "pathnote.co.za",
     description:
-      "An audible location engine that transforms walks into narrative audio journeys — using live geolocation, mapping intelligence, and AI-directed storytelling.",
+      "An audible location engine that transforms walks into narrative audio journeys using live geolocation, mapping intelligence, and AI-directed storytelling.",
     href: "https://www.pathnote.co.za/",
     tags: ["Geolocation", "Audio UX", "AI storytelling"],
     icon: AudioLines,
@@ -112,7 +112,7 @@ const additionalProjects = [
     title: "MessageCFO",
     domain: "messagecfo.com",
     description:
-      "WhatsApp-native financial operations — invoicing, expense tracking, balance sheets, and client management through conversational interface.",
+      "WhatsApp-native financial operations: invoicing, expense tracking, balance sheets, and client management through conversational interface.",
     href: "https://messagecfo.com",
     tags: ["WhatsApp workflows", "Fintech ops", "PostgreSQL"],
     icon: MessageSquareText,
@@ -124,7 +124,7 @@ const additionalProjects = [
     title: "Platedom",
     domain: "platedom.com",
     description:
-      "AI-powered restaurant merchandising — transforming menus into high-fidelity visual experiences and stronger digital presence for food brands.",
+      "AI-powered restaurant merchandising that transforms menus into high-fidelity visual experiences and stronger digital presence for food brands.",
     href: "https://platedom.com",
     tags: ["Hospitality tech", "Generative media", "Firebase"],
     icon: UtensilsCrossed,
@@ -139,7 +139,7 @@ const toolingProjects = [
     title: "earth2-api-wrapper",
     label: "Published package",
     description:
-      "A clean TypeScript wrapper around the Earth2 API — properties, accounts, transactions, and marketplace data made composable for downstream builds.",
+      "A clean TypeScript wrapper around the Earth2 API. Properties, accounts, transactions, and marketplace data made composable for downstream builds.",
     href: "https://www.npmjs.com/package/earth2-api-wrapper",
     cta: "View on npm",
     icon: Database,
@@ -159,7 +159,7 @@ const toolingProjects = [
     title: "morphed-mcp-server",
     label: "Protocol tooling",
     description:
-      "Built from scratch for Morphed.io — platform APIs turned into usable AI tools with authentication, data access, and production-grade architecture.",
+      "Built from scratch for Morphed.io. Platform APIs turned into usable AI tools with authentication, data access, and production-grade architecture.",
     href: "https://www.npmjs.com/package/morphed-mcp-server",
     cta: "View on npm",
     icon: Rocket,
@@ -187,7 +187,7 @@ const capabilities = [
   {
     icon: BrainCircuit,
     title: "AI-Native Systems",
-    body: "AI is not decoration here. It is part of the product architecture — assistants, structured workflows, model orchestration, and protocol tooling designed as first-class features.",
+    body: "AI is not decoration here. It is part of the product architecture: assistants, structured workflows, model orchestration, and protocol tooling designed as first-class features.",
     details: ["Gemini and LLM workflows", "MCP servers", "Prompt and tool design"],
   },
   {
@@ -202,7 +202,7 @@ const principles = [
   {
     number: "01",
     title: "Full surface ownership.",
-    body: "Frontend, backend, AI systems, integrations, and design intent — connected, not siloed. One person, one coherent vision.",
+    body: "Frontend, backend, AI systems, integrations, and design intent. Connected, not siloed. One person, one coherent vision.",
   },
   {
     number: "02",
@@ -212,7 +212,7 @@ const principles = [
   {
     number: "03",
     title: "Complexity made legible.",
-    body: "Ambitious products still need elegance. Flow, hierarchy, language, and the feel of a system in the hand — these are engineering decisions.",
+    body: "Ambitious products still need elegance. Flow, hierarchy, language, and the feel of a system in the hand. These are engineering decisions.",
   },
   {
     number: "04",
@@ -246,7 +246,7 @@ const processSteps = [
   {
     icon: Mail,
     title: "Refine until it reads",
-    body: "Good software communicates. Copy, motion, layout, and interaction quality are not cosmetic — they are structural credibility.",
+    body: "Good software communicates. Copy, motion, layout, and interaction quality are not cosmetic. They are structural credibility.",
   },
 ] as const;
 
@@ -320,6 +320,18 @@ function SceneBreak() {
 export default function Home() {
   const gateRef = useRef<HTMLDivElement>(null);
   const [navVisible, setNavVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  /* Scroll progress bar */
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   /* Nav visibility — appears when gate exits viewport */
   useEffect(() => {
@@ -352,6 +364,13 @@ export default function Home() {
 
   return (
     <ClippyAssistant>
+      {/* Scroll progress bar */}
+      <div
+        className="scroll-progress"
+        style={{ transform: `scaleX(${scrollProgress})` }}
+        aria-hidden="true"
+      />
+
       {/* Atmospheric fixed overlay */}
       <div className="page-atmosphere" aria-hidden="true" />
 
@@ -363,7 +382,15 @@ export default function Home() {
       {/* ── Fixed nav ── */}
       <header className={`fixed-nav ${navVisible ? "fixed-nav-visible" : ""}`}>
         <div className="fixed-nav-inner">
-          <a href="#top" className="fixed-nav-mark">BL</a>
+          <a href="#top" className="fixed-nav-mark">
+            <Image
+              src="/Boondocklabs.png"
+              alt="Boondock Labs"
+              width={28}
+              height={28}
+              className="nav-logo"
+            />
+          </a>
           <nav className="fixed-nav-links">
             <a href="#work">Work</a>
             <a href="#capabilities">Capabilities</a>
@@ -385,7 +412,7 @@ export default function Home() {
             I build software that holds up.
           </h2>
           <p className="statement-body" data-reveal data-reveal-delay="1">
-            Full-stack products, AI-native systems, and protocol tooling —
+            Full-stack products, AI-native systems, and protocol tooling,
             shaped with architectural depth, visual conviction, and the kind
             of care that makes complex things feel inevitable.
           </p>
@@ -426,13 +453,13 @@ export default function Home() {
         <SceneBreak />
 
         {/* ─────────── CONVICTIONS ─────────── */}
-        <section data-reveal>
+        <section data-reveal="scale">
           <div className="section-wrap p-6 sm:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
               <div className="space-y-4">
                 <p className="mono-label">Why this studio</p>
                 <h2 className="section-heading">
-                  Bridging concept, interface, architecture, and execution —
+                  Bridging concept, interface, architecture, and execution
                   without flattening the work.
                 </h2>
               </div>
@@ -464,7 +491,7 @@ export default function Home() {
             </h2>
             <p className="section-body">
               Each project demanded a different shape of thinking. The portfolio
-              reads as range because the work required it — not because diversity
+              reads as range because the work required it, not because diversity
               was the goal.
             </p>
           </div>
@@ -475,7 +502,7 @@ export default function Home() {
               <div
                 key={project.title}
                 className={`scene ${index % 2 === 1 ? "scene-alt" : ""}`}
-                data-reveal
+                data-reveal={index % 2 === 0 ? "fade-left" : "fade-right"}
               >
                 <div className="scene-content">
                   <p className="scene-number">
@@ -694,7 +721,7 @@ export default function Home() {
             })}
           </div>
 
-          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal>
+          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal="fade-right">
             <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div className="space-y-4">
                 <p className="mono-label">Current toolkit</p>
@@ -770,13 +797,13 @@ export default function Home() {
             })}
           </div>
 
-          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal>
+          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal="fade-left">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-2">
                 <p className="mono-label">Pricing note</p>
                 <p className="max-w-3xl text-sm leading-7 text-[var(--muted)]">
                   When a project spans product strategy, interface design, backend
-                  architecture, AI workflows, and custom integrations — it enters
+                  architecture, AI workflows, and custom integrations, it enters
                   the custom range. For a faster estimate, Clippy can qualify scope
                   before you reach out.
                 </p>
@@ -832,7 +859,7 @@ export default function Home() {
         <SceneBreak />
 
         {/* ─────────── CONTACT ─────────── */}
-        <section id="contact" data-reveal>
+        <section id="contact" data-reveal="scale">
           <div className="section-wrap contact-panel p-6 sm:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:gap-12">
               <div className="space-y-5">
