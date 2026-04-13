@@ -15,6 +15,14 @@ interface ClippyAgent {
   animate: () => void;
   dispose: () => void;
   _el: HTMLElement;
+  _animator?: {
+    _sounds?: Record<string, HTMLAudioElement>;
+  };
+  _balloon?: {
+    _balloon?: HTMLElement;
+    _content?: HTMLElement;
+    _tip?: HTMLElement;
+  };
 }
 
 type Message = {
@@ -61,6 +69,71 @@ const QUICK_PROMPTS = [
     prompt: "What services does Eugene offer and what are his typical rates?",
   },
 ] as const;
+
+const CLIPPY_SCALE = 1.28;
+
+function muteAgentSounds(agent: ClippyAgent | null) {
+  const sounds = agent?._animator?._sounds;
+
+  if (!sounds) {
+    return;
+  }
+
+  for (const sound of Object.values(sounds)) {
+    sound.muted = true;
+    sound.volume = 0;
+  }
+}
+
+function enhanceClippyPresentation(agent: ClippyAgent | null) {
+  if (!agent) {
+    return;
+  }
+
+  agent._el.classList.add("clippy-agent-shell");
+  agent._el.setAttribute("aria-label", "Clippy portfolio assistant");
+
+  Object.assign(agent._el.style, {
+    transform: `translateZ(0) scale(${CLIPPY_SCALE})`,
+    transformOrigin: "bottom right",
+    filter:
+      "drop-shadow(0 28px 42px rgba(15, 16, 12, 0.22)) saturate(1.08) contrast(1.05)",
+    backfaceVisibility: "hidden",
+    willChange: "transform, filter",
+  });
+
+  const balloon = agent._balloon?._balloon;
+  const content = agent._balloon?._content;
+  const tip = agent._balloon?._tip;
+
+  if (balloon) {
+    balloon.classList.add("clippy-agent-bubble");
+    Object.assign(balloon.style, {
+      background: "rgba(255, 252, 247, 0.97)",
+      color: "#141510",
+      border: "1px solid rgba(18, 19, 15, 0.1)",
+      borderRadius: "18px",
+      padding: "12px 14px",
+      boxShadow: "0 22px 55px rgba(20, 20, 16, 0.16)",
+      backdropFilter: "blur(14px)",
+    });
+  }
+
+  if (content) {
+    Object.assign(content.style, {
+      maxWidth: "260px",
+      minWidth: "160px",
+      fontFamily: "var(--font-main), sans-serif",
+      fontSize: "0.95rem",
+      lineHeight: "1.65",
+      color: "#141510",
+    });
+  }
+
+  if (tip) {
+    tip.style.filter = "drop-shadow(0 8px 16px rgba(20, 20, 16, 0.1))";
+  }
+}
 
 function buildHistory(messages: Message[]): HistoryItem[] {
   return messages
@@ -289,6 +362,7 @@ export default function ClippyAssistant({
   }, []);
 
   const play = useCallback((animation: string) => {
+    muteAgentSounds(agentRef.current);
     agentRef.current?.play(animation);
   }, []);
 
@@ -345,12 +419,15 @@ export default function ClippyAssistant({
 
         const agent = instance as unknown as ClippyAgent;
         agentRef.current = agent;
+        muteAgentSounds(agent);
         agent.show(true);
-        agent._el.style.filter = "drop-shadow(0 22px 40px rgba(15, 16, 12, 0.28))";
+        enhanceClippyPresentation(agent);
 
         const moveToDefaultPosition = () => {
-          const x = Math.max(window.innerWidth - 188, 84);
-          const y = Math.max(window.innerHeight - 246, 96);
+          const width = agent._el.offsetWidth || 124;
+          const height = agent._el.offsetHeight || 93;
+          const x = Math.max(window.innerWidth - width - 44, 84);
+          const y = Math.max(window.innerHeight - height - 38, 96);
           agent.moveTo(x, y, 0);
         };
 

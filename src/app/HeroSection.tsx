@@ -8,15 +8,15 @@ import { useEffect, useRef } from "react";
 const signalStats = [
   {
     value: "17+",
-    label: "APIs orchestrated inside a single live platform",
+    label: "Live APIs orchestrated inside one platform",
   },
   {
     value: "30+",
-    label: "AI tools shaped into one coherent product suite",
+    label: "AI tools unified into a single product surface",
   },
   {
     value: "4+",
-    label: "Published packages spanning wrappers and MCP servers",
+    label: "Published packages — wrappers and MCP servers",
   },
   {
     value: "1,027",
@@ -30,21 +30,21 @@ const stagePanels = [
     image: "/morphed.png",
     alt: "Morphed interface preview",
     title: "Morphed.io",
-    description: "Platform engineering and protocol tooling",
+    description: "Platform architecture and protocol engineering",
   },
   {
     className: "hero-panel hero-panel-secondary hero-float",
     image: "/earthie-world.png",
     alt: "Earthie interface preview",
     title: "Earthie.world",
-    description: "Integrated data, mapping, and realtime signals",
+    description: "Integrated telemetry, cartography, and realtime data",
   },
   {
     className: "hero-panel hero-panel-tertiary hero-float",
     image: "/bikode.png",
     alt: "Bikode interface preview",
     title: "Bikode",
-    description: "Native editor engineering with AI assistance",
+    description: "Native editor engineering with AI integration",
   },
 ] as const;
 
@@ -72,7 +72,7 @@ export default function HeroSection() {
       createTimeline({
         defaults: {
           ease: "outExpo",
-          duration: 900,
+          duration: 1100,
         },
       })
         .add("[data-hero-kicker]", {
@@ -84,11 +84,11 @@ export default function HeroSection() {
           {
             opacity: [0, 1],
             translateY: ["1.1em", "0em"],
-            rotateZ: [6, 0],
-            delay: stagger(14),
-            duration: 720,
+            rotateZ: [4, 0],
+            delay: stagger(18),
+            duration: 880,
           },
-          "-=620",
+          "-=720",
         )
         .add(
           "[data-hero-body]",
@@ -96,7 +96,7 @@ export default function HeroSection() {
             opacity: [0, 1],
             translateY: [18, 0],
           },
-          "-=420",
+          "-=520",
         )
         .add(
           ".hero-action",
@@ -104,9 +104,9 @@ export default function HeroSection() {
             opacity: [0, 1],
             translateY: [18, 0],
             delay: stagger(90),
-            duration: 640,
+            duration: 740,
           },
-          "-=350",
+          "-=450",
         )
         .add(
           ".hero-stat-card",
@@ -115,9 +115,9 @@ export default function HeroSection() {
             translateY: [24, 0],
             scale: [0.94, 1],
             delay: stagger(85),
-            duration: 680,
+            duration: 780,
           },
-          "-=340",
+          "-=440",
         )
         .add(
           ".hero-panel",
@@ -126,10 +126,10 @@ export default function HeroSection() {
             translateX: ["10%", "0%"],
             translateY: ["8%", "0%"],
             rotate: [3, 0],
-            delay: stagger(120),
-            duration: 980,
+            delay: stagger(140),
+            duration: 1100,
           },
-          "-=880",
+          "-=980",
         )
         .add(
           ".hero-emblem, .hero-accent-orb, .hero-side-rail",
@@ -137,28 +137,28 @@ export default function HeroSection() {
             opacity: [0, 1],
             scale: [0.92, 1],
             delay: stagger(120),
-            duration: 760,
+            duration: 860,
           },
-          "-=640",
+          "-=740",
         )
         .init();
 
       animate(".hero-speed-line", {
         scaleX: [0.1, 1],
-        opacity: [0, 0.9, 0],
+        opacity: [0, 0.7, 0],
         ease: "inOutSine",
-        duration: 1800,
+        duration: 2200,
         delay: (_, index) => Number(speedLines[index]?.delay ?? 0),
         loop: true,
       });
 
       animate(".hero-float", {
-        translateY: [-8, 8],
+        translateY: [-6, 6],
         alternate: true,
         loop: true,
         ease: "inOutSine",
-        duration: 2600,
-        delay: stagger(220),
+        duration: 3200,
+        delay: stagger(280),
       });
 
       animate(".hero-accent-orb", {
@@ -167,7 +167,7 @@ export default function HeroSection() {
         alternate: true,
         loop: true,
         ease: "inOutQuad",
-        duration: 3400,
+        duration: 4000,
       });
 
       return () => {
@@ -190,21 +190,21 @@ export default function HeroSection() {
         </div>
 
         <div className="hero-heading-wrap">
-          <p className="mono-label">Portfolio / engineered with intent</p>
+          <p className="mono-label">Portfolio / built with conviction</p>
           <h1 className="hero-title" data-hero-title>
-            Interfaces with rhythm, systems with teeth, and code that holds up.
+            Interfaces with conviction. Architecture with teeth. Code that holds.
           </h1>
         </div>
 
         <p className="hero-body" data-hero-body>
-          I build web products and AI systems with stronger pacing, contrast,
-          and visual tension than the usual template stack, while keeping the
-          engineering underneath solid enough for real use.
+          Full-stack products and AI systems built with structural care,
+          visual tension, and the kind of engineering depth that template
+          stacks cannot approximate.
         </p>
 
         <div className="hero-action-row">
           <a href="#work" className="btn-solid hero-action">
-            Enter selected work
+            View the work
           </a>
           <a
             href="/Eugene_CV_Fullstack.pdf"
@@ -220,8 +220,8 @@ export default function HeroSection() {
         <div className="hero-callout hero-action">
           <Bot className="h-4 w-4 text-[var(--accent-teal)]" />
           <p>
-            Clippy is still here as the chat layer. Ask for project fit, stack
-            depth, rates, or the fast summary.
+            Clippy is active. Ask about project depth, stack details,
+            rates, or the short version.
           </p>
         </div>
 
@@ -248,7 +248,7 @@ export default function HeroSection() {
           </div>
 
           <div className="hero-side-rail" aria-hidden="true">
-            signal / motion / systems
+            signal · craft · systems
           </div>
 
           {stagePanels.map((panel) => (
@@ -270,11 +270,11 @@ export default function HeroSection() {
           ))}
 
           <article className="hero-panel hero-panel-data hero-float">
-            <p className="mono-label">Current vector</p>
-            <h2>Building systems that still feel cinematic.</h2>
+            <p className="mono-label">Current trajectory</p>
+            <h2>Systems that feel authored.</h2>
             <p>
               Full-stack product work, AI-native tooling, MCP architecture, and
-              interfaces with sharper visual rhythm than the usual template stack.
+              interfaces built with sharper rhythm than the template standard.
             </p>
           </article>
 
@@ -286,7 +286,7 @@ export default function HeroSection() {
 
           <div className="hero-stage-caption">
             <Sparkles className="h-4 w-4" />
-            motion, contrast, and signal instead of generic stacked blocks
+            motion, contrast, and signal — not generic layout
           </div>
         </div>
       </div>

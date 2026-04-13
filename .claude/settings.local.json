@@ -42,7 +42,8 @@
       "Bash(DEST=\"c:/Users/USER/Projects/Boondock-Labs-Portfolio/Boondock_Labs/public/win7/boot\")",
       "Bash(curl -s \"https://raw.githubusercontent.com/furkrn/PlymouthVista/main/images/flag60.png\" -o \"$DEST/flag60.png\")",
       "Bash(dir:*)",
-      "Bash(copy:*)"
+      "Bash(copy:*)",
+      "Bash(npx next:*)"
     ]
   }
 }
