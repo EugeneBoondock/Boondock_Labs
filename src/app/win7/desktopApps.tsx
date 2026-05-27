@@ -229,9 +229,16 @@ const ALL_PROJECTS = [
   {
     cat: 'client' as ProjFilter,
     icon: '🍽️', name: 'Platedom.com',
-    desc: 'AI restaurant platform — generative AI transforms menus into Michelin-star quality visual food photography in seconds.',
-    tags: ['Firebase', 'Generative AI', 'React'],
+    desc: 'AI restaurant platform — generative AI transforms menus, recipes, server briefs, and generates Michelin-star quality visual food photography in seconds.',
+    tags: ['Generative AI', 'Hospitality tech', 'Firebase'],
     img: null, url: 'https://platedom.com', linkLabel: 'Visit Site →',
+  },
+  {
+    cat: 'client' as ProjFilter,
+    icon: '🧠', name: 'Centralbrain.io',
+    desc: 'Unified Intelligence Layer powered by MCP. Connects SaaS applications, runs governance workflows, pauses sensitive work for human approval, and keeps audited logs.',
+    tags: ['MCP Server', 'AI Integration', 'Governance'],
+    img: null, url: 'https://centralbrain.io', linkLabel: 'Visit Site →',
   },
   {
     cat: 'client' as ProjFilter,
@@ -546,9 +553,16 @@ const IE_LINKS = {
     {
       icon: '🍽️',
       name: 'Platedom.com',
-      desc: 'AI restaurant platform — generative AI transforms menus into Michelin-star quality visual food photography.',
+      desc: 'AI restaurant platform — generative AI transforms menus, recipes, server briefs, and generates Michelin-star quality visual food photography in seconds.',
       url: 'https://platedom.com',
-      tags: ['Firebase', 'Generative AI', 'React'],
+      tags: ['Generative AI', 'Hospitality tech', 'Firebase'],
+    },
+    {
+      icon: '🧠',
+      name: 'Centralbrain.io',
+      desc: 'Unified Intelligence and Governance Layer powered by MCP. Connects apps, coordinates agents, pauses sensitive actions for approval, and records proof.',
+      url: 'https://centralbrain.io',
+      tags: ['MCP Server', 'AI Integration', 'Governance'],
     },
     {
       icon: '🏃',

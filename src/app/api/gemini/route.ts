@@ -37,17 +37,19 @@ Projects Eugene Has Worked On:
 
 6. MessageCFO.com (WIP) — WhatsApp-native financial management app. Users create invoices, log expenses, check cash balances, and manage customers entirely through WhatsApp messages. Stack: React, Express, PostgreSQL, WhatsApp Cloud API, Gemini AI.
 
-7. Platedom.com — AI restaurant platform where generative AI transforms menus into Michelin-star quality visual food photography. Built with Firebase, Generative AI, and React.
+7. Platedom.com — AI restaurant platform where generative AI transforms menus, recipes, server briefs, and generates Michelin-star quality visual food photography in seconds. Built with Firebase, Generative AI, and React.
 
-8. Nkechi Biokinetics (nkechi-biokinetics.vercel.app) — Professional portfolio for a Biokineticist showcasing health, wellness, movement science, and rehabilitation services.
+8. Centralbrain.io — Unified intelligence and governance layer powered by Model Context Protocol (MCP). Connects enterprise SaaS apps, coordinates workflows, pauses sensitive work for human approval, and keeps audited logs. Built with NextJS, React, and MCP servers.
 
-9. Bikode (bikode.co.za) — AI-first native Windows code editor built on Notepad2e and Scintilla. Combines lightning-fast Win32 editing with multi-provider AI assistance (OpenAI, Anthropic, local models), integrated terminal, Git UI, chat panel, inline diff preview, and a plugin system. Written in C with a two-process architecture (editor + AI engine).
+9. Nkechi Biokinetics (nkechi-biokinetics.vercel.app) — Professional portfolio for a Biokineticist showcasing health, wellness, movement science, and rehabilitation services.
 
-10. SavingWithDana.com — A coupon and savings platform; Eugene is building the AWS backend infrastructure.
+10. Bikode (bikode.co.za) — AI-first native Windows code editor built on Notepad2e and Scintilla. Combines lightning-fast Win32 editing with multi-provider AI assistance (OpenAI, Anthropic, local models), integrated terminal, Git UI, chat panel, inline diff preview, and a plugin system. Written in C with a two-process architecture (editor + AI engine).
 
-11. KinSpace (WIP) — A safe community space for people with chronic and mental illnesses — support, resources, and connection. Built with React.
+11. SavingWithDana.com — A coupon and savings platform; Eugene is building the AWS backend infrastructure.
 
-12. 3rdIslandTours.com — Tourism and virtual tour booking platform designed for performance and clear user flow.
+12. KinSpace (WIP) — A safe community space for people with chronic and mental illnesses — support, resources, and connection. Built with React.
+
+13. 3rdIslandTours.com — Tourism and virtual tour booking platform designed for performance and clear user flow.
 
 NPM Packages Eugene Created:
 1. earth2-api-wrapper (npmjs.com/package/earth2-api-wrapper): API wrapper for Earth2 platform

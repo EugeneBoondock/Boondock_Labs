@@ -124,13 +124,25 @@ const additionalProjects = [
     title: "Platedom",
     domain: "platedom.com",
     description:
-      "AI-powered restaurant merchandising that transforms menus into high-fidelity visual experiences and stronger digital presence for food brands.",
+      "AI restaurant platform where generative AI transforms menus, recipes, server briefs, and generates Michelin-star quality visual food photography in seconds.",
     href: "https://platedom.com",
-    tags: ["Hospitality tech", "Generative media", "Firebase"],
+    tags: ["Generative AI", "Hospitality tech", "Firebase"],
     icon: UtensilsCrossed,
     image: null,
     surface:
       "linear-gradient(145deg, rgba(108, 61, 34, 0.8) 0%, rgba(10, 8, 6, 0.92) 100%)",
+  },
+  {
+    title: "Centralbrain",
+    domain: "centralbrain.io",
+    description:
+      "Unified intelligence and governance layer built on MCP. Coordinates multi-agent workflows across SaaS applications, implements human-in-the-loop validation, and retains full audited execution trails.",
+    href: "https://centralbrain.io",
+    tags: ["MCP servers", "AI governance", "NextJS"],
+    icon: BrainCircuit,
+    image: null,
+    surface:
+      "linear-gradient(145deg, rgba(79, 70, 229, 0.8) 0%, rgba(7, 10, 15, 0.92) 100%)",
   },
 ] as const;
 
@@ -422,7 +434,7 @@ export default function Home() {
               View the work
             </a>
             <a
-              href="/Eugene_CV_Fullstack.pdf"
+              href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
               className="btn-ghost"
               target="_blank"
               rel="noreferrer"
@@ -878,7 +890,7 @@ export default function Home() {
                     philosncube@gmail.com
                   </a>
                   <a
-                    href="/Eugene_CV_Fullstack.pdf"
+                    href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
                     className="btn-ghost"
                     target="_blank"
                     rel="noreferrer"

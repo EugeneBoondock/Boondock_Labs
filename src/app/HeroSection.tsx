@@ -207,7 +207,7 @@ export default function HeroSection() {
             View the work
           </a>
           <a
-            href="/Eugene_CV_Fullstack.pdf"
+            href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
             className="btn-ghost hero-action"
             target="_blank"
             rel="noreferrer"

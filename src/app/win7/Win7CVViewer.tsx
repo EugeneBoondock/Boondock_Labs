@@ -34,14 +34,14 @@ export default function Win7CVViewer() {
         <button className="toolbar-btn" onClick={nextPage} disabled={pageNumber >= numPages}>→ Forward</button>
         <div className="address-bar">
           <span className="address-icon">📄</span>
-          <span>C:\Users\Eugene\Documents\Eugene_CV_Fullstack.pdf</span>
+          <span>C:\Users\Eugene\Documents\Eugene_Loyiso_Mzimakhwe_CV_updated.pdf</span>
         </div>
         {numPages > 0 && (
           <span className="cv-page-indicator">Page {pageNumber} of {numPages}</span>
         )}
         <a
-          href="/Eugene_CV_Fullstack.pdf"
-          download="Eugene_CV_Fullstack.pdf"
+          href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
+          download="Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
           className="toolbar-btn"
           style={{ textDecoration: "none", color: "inherit" }}
         >
@@ -59,13 +59,13 @@ export default function Win7CVViewer() {
         {error && (
           <div className="cv-loading">
             <span>⚠️ Could not load PDF.</span>
-            <a href="/Eugene_CV_Fullstack.pdf" download className="toolbar-btn" style={{ marginTop: 8 }}>
+            <a href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf" download className="toolbar-btn" style={{ marginTop: 8 }}>
               💾 Download CV instead
             </a>
           </div>
         )}
         <Document
-          file="/Eugene_CV_Fullstack.pdf"
+          file="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
           onLoadSuccess={onLoadSuccess}
           onLoadError={onLoadError}
           loading=""
