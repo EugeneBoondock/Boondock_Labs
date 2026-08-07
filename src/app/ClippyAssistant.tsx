@@ -3,7 +3,7 @@
 import { Send, Sparkles, X } from "lucide-react";
 import type { initAgent as InitAgentType } from "clippyjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { sendToGemini } from "./gemini";
+import { sendToAssistant } from "./chat";
 
 interface ClippyAgent {
   speak: (text: string, hold?: boolean) => void;
@@ -32,7 +32,7 @@ type Message = {
 };
 
 type HistoryItem = {
-  role: "user" | "model";
+  role: "user" | "assistant";
   content: string;
 };
 
@@ -49,24 +49,24 @@ const CLIPPY_LINES = {
 
 const QUICK_PROMPTS = [
   {
-    label: "Best projects",
+    label: "The products",
     animation: "Searching",
-    prompt: "Which projects best show Eugene's range and why?",
+    prompt: "What products does Boondock Labs build and operate?",
   },
   {
-    label: "AI work",
+    label: "PactLoop",
     animation: "Explain",
-    prompt: "How does Eugene use AI in real client and product work?",
+    prompt: "What is PactLoop and who is it for?",
   },
   {
-    label: "Hiring fit",
+    label: "How you work",
     animation: "Congratulate",
-    prompt: "What kind of roles or teams would Eugene be a strong fit for?",
+    prompt: "How does the studio run an engagement from brief to launch?",
   },
   {
     label: "Rates and scope",
     animation: "Writing",
-    prompt: "What services does Eugene offer and what are his typical rates?",
+    prompt: "What services does the studio offer and what are typical rates?",
   },
 ] as const;
 
@@ -139,7 +139,7 @@ function buildHistory(messages: Message[]): HistoryItem[] {
   return messages
     .filter((message) => !message.loading)
     .map((message) => ({
-      role: message.role === "user" ? "user" : "model",
+      role: message.role === "user" ? "user" : "assistant",
       content: message.text,
     }));
 }
@@ -233,7 +233,7 @@ function ClippyPanel({
       <div className="clippy-chat-titlebar">
         <div className="clippy-title-copy">
           <p className="mono-label">Clippy</p>
-          <h3>Portfolio assistant</h3>
+          <h3>Studio assistant</h3>
         </div>
         <button
           type="button"
@@ -246,7 +246,7 @@ function ClippyPanel({
       </div>
 
       <div className="clippy-chat-caption">
-        Ask about project depth, hiring fit, process, pricing, or specific builds.
+        Ask about the products, engagement scope, process, or pricing.
       </div>
 
       <div className="clippy-chat-messages">
@@ -315,9 +315,9 @@ function ClippyPanel({
         </button>
       </div>
 
-      <div className="clippy-gemini-badge">
+      <div className="clippy-provider-badge">
         <Sparkles className="h-3.5 w-3.5" />
-        Powered by Gemini
+        Powered by OpenAI
       </div>
     </div>
   );
@@ -341,7 +341,7 @@ export default function ClippyAssistant({
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "clippy",
-      text: "Need the fast read? Ask me what Eugene builds, how he works, or whether he fits your team.",
+      text: "Need the fast read? Ask what the studio builds, how we work, or whether we are the right fit for your project.",
     },
   ]);
 
@@ -379,7 +379,7 @@ export default function ClippyAssistant({
       play("Thinking");
 
       try {
-        const reply = await sendToGemini(userText, history);
+        const reply = await sendToAssistant(userText, history);
 
         setMessages([...withUser, { role: "clippy", text: reply }]);
         play(animation);

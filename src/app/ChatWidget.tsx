@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles } from 'lucide-react';
-import { sendToGemini } from './gemini';
+import { sendToAssistant } from './chat';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -39,8 +39,8 @@ export default function ChatWidget() {
     setError(null);
 
     try {
-      const aiReply = await sendToGemini(chatInput, chatHistory.map(m => ({
-        role: m.role === 'ai' ? 'model' : 'user',
+      const aiReply = await sendToAssistant(chatInput, chatHistory.map(m => ({
+        role: m.role === 'ai' ? 'assistant' as const : 'user' as const,
         content: m.text
       })));
       setChatHistory(h => [...h, { role: 'ai', text: aiReply }]);
