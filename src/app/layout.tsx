@@ -26,15 +26,14 @@ const monoFont = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Boondock Labs | Eugene Loyiso Boondock",
+    default: "Boondock Labs | Eugene Boondock",
     template: "%s | Boondock Labs",
   },
   description:
-    "Portfolio of Eugene Loyiso Boondock, a full-stack developer building AI-native products, MCP servers, platform tooling, and high-intent web experiences through Boondock Labs.",
+    "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering. Portfolio of Eugene Boondock, a full-stack developer building AI-native products, MCP servers, and platform tooling through Boondock Labs.",
   keywords: [
-    "Eugene Loyiso Boondock",
-    "Eugene Ncube",
     "Eugene Boondock",
+    "Eugene Loyiso Mzimakhwe",
     "Boondock Labs",
     "full-stack developer",
     "product engineer",
@@ -46,20 +45,21 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Eugene Loyiso Boondock",
+      name: "Eugene Boondock (Eugene Loyiso Mzimakhwe)",
       url: "https://boondocklabs.com",
     },
   ],
-  creator: "Eugene Loyiso Boondock",
+  creator: "Eugene Boondock (Eugene Loyiso Mzimakhwe)",
   publisher: "Boondock Labs",
   metadataBase: new URL("https://boondocklabs.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Boondock Labs | Eugene Loyiso Boondock",
+    title: "Boondock Labs | Eugene Boondock",
     description:
-      "AI-native products, platform systems, MCP servers, and portfolio work by Eugene Loyiso Boondock.",
+      "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering." +
+      " AI-native products, platform systems, and MCP servers by Eugene Boondock.",
     url: "https://boondocklabs.com",
     siteName: "Boondock Labs",
     locale: "en_US",
@@ -75,9 +75,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Boondock Labs | Eugene Loyiso Boondock",
-    description:
-      "Portfolio work spanning product engineering, AI systems, MCP tooling, and ambitious web builds.",
+    title: "Boondock Labs | Eugene Boondock",
+    description: "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering.",
     images: ["/Boondocklabs.png"],
     creator: "@eugeneboondock",
   },

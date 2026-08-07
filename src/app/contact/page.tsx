@@ -370,7 +370,7 @@ export default function Contact() {
 
           <div id="social" className="mt-8 text-center scroll-mt-24">
             <p className="text-sm text-black mb-4">
-              Prefer direct contact? <a href="mailto:philosncube@gmail.com" className="cream hover:[color:#d17927] font-medium">philosncube@gmail.com</a>
+              Prefer direct contact? <a href="mailto:loyiso.eugene.moketsi@gmail.com" className="cream hover:[color:#d17927] font-medium">loyiso.eugene.moketsi@gmail.com</a>
             </p>
             <div className="flex justify-center gap-4 mt-4">
               <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors text-sm">

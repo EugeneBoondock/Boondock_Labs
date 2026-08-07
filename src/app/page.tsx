@@ -90,6 +90,7 @@ const additionalProjects = [
     description:
       "A community architecture for people living with chronic and mental health challenges, built around safety, meaningful connection, and clinical resource access.",
     href: "https://www.kinspace.co.za/",
+    androidHref: null,
     tags: ["Community platform", "Support UX", "React"],
     icon: HeartPulse,
     image: "/kinspace.png",
@@ -102,6 +103,7 @@ const additionalProjects = [
     description:
       "An audible location engine that transforms walks into narrative audio journeys using live geolocation, mapping intelligence, and AI-directed storytelling.",
     href: "https://www.pathnote.co.za/",
+    androidHref: null,
     tags: ["Geolocation", "Audio UX", "AI storytelling"],
     icon: AudioLines,
     image: null,
@@ -114,6 +116,7 @@ const additionalProjects = [
     description:
       "WhatsApp-native financial operations: invoicing, expense tracking, balance sheets, and client management through conversational interface.",
     href: "https://messagecfo.com",
+    androidHref: null,
     tags: ["WhatsApp workflows", "Fintech ops", "PostgreSQL"],
     icon: MessageSquareText,
     image: null,
@@ -126,6 +129,7 @@ const additionalProjects = [
     description:
       "AI restaurant platform where generative AI transforms menus, recipes, server briefs, and generates Michelin-star quality visual food photography in seconds.",
     href: "https://platedom.com",
+    androidHref: null,
     tags: ["Generative AI", "Hospitality tech", "Firebase"],
     icon: UtensilsCrossed,
     image: null,
@@ -138,11 +142,26 @@ const additionalProjects = [
     description:
       "Unified intelligence and governance layer built on MCP. Coordinates multi-agent workflows across SaaS applications, implements human-in-the-loop validation, and retains full audited execution trails.",
     href: "https://centralbrain.io",
+    androidHref: null,
     tags: ["MCP servers", "AI governance", "NextJS"],
     icon: BrainCircuit,
     image: null,
     surface:
       "linear-gradient(145deg, rgba(79, 70, 229, 0.8) 0%, rgba(7, 10, 15, 0.92) 100%)",
+  },
+  {
+    title: "Trolley Scout",
+    domain: "trolleyscout.co.za",
+    description:
+      "Real store specials with the source behind every price. A South African grocery price-comparison platform with retailer tracking, subscription billing, and an ad marketplace, shipped on web and as a native Android app.",
+    href: "https://trolleyscout.co.za/",
+    androidHref:
+      "https://play.google.com/store/apps/details?id=za.co.trolleyscout.trolley_scout",
+    tags: ["Price intelligence", "Android app", "PayFast billing"],
+    icon: ShoppingBag,
+    image: null,
+    surface:
+      "linear-gradient(145deg, rgba(122, 84, 24, 0.8) 0%, rgba(9, 8, 6, 0.92) 100%)",
   },
 ] as const;
 
@@ -235,8 +254,8 @@ const principles = [
 
 const toolStack = [
   "Next.js", "React", "TypeScript", "Node.js", "Python",
-  "PostgreSQL", "Supabase", "MCP", "Gemini", "OpenAI",
-  "Claude", "Tailwind CSS",
+  "PostgreSQL", "Supabase", "Cloudflare", "MCP", "Gemini",
+  "OpenAI", "Claude", "Tailwind CSS",
 ] as const;
 
 const processSteps = [
@@ -423,13 +442,17 @@ export default function Home() {
           <h2 className="statement-declaration" data-reveal>
             I build software that holds up.
           </h2>
-          <p className="statement-body" data-reveal data-reveal-delay="1">
+          <p className="statement-motto" data-reveal data-reveal-delay="1">
+            Building intelligent, reliable, and beautifully designed apps that
+            solve everyday problems through thoughtful engineering.
+          </p>
+          <p className="statement-body" data-reveal data-reveal-delay="2">
             Full-stack products, AI-native systems, and protocol tooling,
             shaped with architectural depth, visual conviction, and the kind
             of care that makes complex things feel inevitable.
           </p>
 
-          <div className="statement-actions" data-reveal data-reveal-delay="2">
+          <div className="statement-actions" data-reveal data-reveal-delay="3">
             <a href="#work" className="btn-solid">
               View the work
             </a>
@@ -444,7 +467,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="statement-callout" data-reveal data-reveal-delay="3">
+          <div className="statement-callout" data-reveal data-reveal-delay="4">
             <Bot className="h-4 w-4 shrink-0 text-[var(--accent-teal)]" />
             <p>
               Clippy is active. Ask about project depth, stack details,
@@ -452,7 +475,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="statement-stats" data-reveal data-reveal-delay="4">
+          <div className="statement-stats" data-reveal data-reveal-delay="5">
             {signalStats.map((stat) => (
               <div key={stat.label} className="stat-block">
                 <p className="stat-value">{stat.value}</p>
@@ -598,14 +621,26 @@ export default function Home() {
                           {project.title}
                         </h3>
                       </div>
-                      <a
-                        href={project.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="project-link"
-                      >
-                        Visit <ArrowUpRight className="h-4 w-4" />
-                      </a>
+                      <div className="flex items-center gap-3">
+                        {project.androidHref && (
+                          <a
+                            href={project.androidHref}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="project-link"
+                          >
+                            Android <ArrowUpRight className="h-4 w-4" />
+                          </a>
+                        )}
+                        <a
+                          href={project.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="project-link"
+                        >
+                          Visit <ArrowUpRight className="h-4 w-4" />
+                        </a>
+                      </div>
                     </div>
                     <p className="text-sm leading-7 text-[var(--muted)]">
                       {project.description}
@@ -885,9 +920,9 @@ export default function Home() {
                   ambition. That is the filter.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <a href="mailto:philosncube@gmail.com" className="btn-solid">
+                  <a href="mailto:loyiso.eugene.moketsi@gmail.com" className="btn-solid">
                     <Mail className="h-4 w-4" />
-                    philosncube@gmail.com
+                    loyiso.eugene.moketsi@gmail.com
                   </a>
                   <a
                     href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"

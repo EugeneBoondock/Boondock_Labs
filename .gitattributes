@@ -1,0 +1,10 @@
+# The CV PDF is ASCII85-encoded end to end, so it contains no NUL bytes and git
+# autodetects it as text. With core.autocrlf=true that rewrites LF to CRLF on
+# checkout, shifting every byte offset in the PDF xref table and breaking the
+# file. Mark binary assets explicitly.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary

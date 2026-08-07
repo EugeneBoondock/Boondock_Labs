@@ -188,6 +188,10 @@ export default function OpeningGate() {
         <p className="gate-sub" data-gate-sub>
           Software studio, Edenvale, South Africa
         </p>
+        <p className="gate-motto" data-gate-sub>
+          Building intelligent, reliable, and beautifully designed apps that
+          solve everyday problems through thoughtful engineering.
+        </p>
       </div>
 
       {/* Scroll cue */}

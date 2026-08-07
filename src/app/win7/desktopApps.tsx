@@ -48,15 +48,15 @@ const AboutContent = () => (
           <img src="/win7/user-avatar.png" alt="Eugene Boondock" />
         </div>
         <div className="about-info">
-          <h1>Eugene Ncube</h1>
-          <p className="tagline">aka Eugene Boondock - Founder of Boondock Labs</p>
+          <h1>Eugene Boondock</h1>
+          <p className="tagline">Eugene Loyiso Mzimakhwe - Founder of Boondock Labs</p>
         </div>
       </div>
       
       <div className="about-section">
         <h2>🚀 A Lab for Boundless Creation</h2>
         <p>
-          Hi, I'm Eugene Ncube (Eugene Boondock) - founder of Boondock Labs. I don't just code; 
+          Hi, I'm Eugene Boondock (Eugene Loyiso Mzimakhwe) - founder of Boondock Labs. I don't just code; 
           I build digital playgrounds, spark new experiences, and turn ambitious ideas into reality.
         </p>
         <p>
@@ -386,7 +386,7 @@ const ContactContent = () => (
       <form className="contact-form">
         <div className="form-row">
           <label>To:</label>
-          <input type="text" value="philosncube@gmail.com" readOnly />
+          <input type="text" value="loyiso.eugene.moketsi@gmail.com" readOnly />
         </div>
         <div className="form-row">
           <label>From:</label>
@@ -495,7 +495,7 @@ const ComputerContent = () => (
       <div className="system-info-section">
         <h3>System Information</h3>
         <div className="system-info">
-          <p><strong>Developer:</strong> Eugene Ncube (Eugene Boondock)</p>
+          <p><strong>Developer:</strong> Eugene Boondock (Eugene Loyiso Mzimakhwe)</p>
           <p><strong>Company:</strong> Boondock Labs</p>
           <p><strong>Specialty:</strong> Full-Stack Development, AI Integration, MCP Servers</p>
           <p><strong>Location:</strong> Building the future, one line of code at a time</p>
@@ -771,7 +771,7 @@ Welcome to Boondock Labs!
 
 ================== ABOUT ==================
 
-Hi, I'm Eugene Ncube (Eugene Boondock), founder of Boondock Labs.
+Hi, I'm Eugene Boondock (Eugene Loyiso Mzimakhwe), founder of Boondock Labs.
 I build digital experiences that matter.
 
 ================== SERVICES ==================
@@ -785,7 +785,7 @@ I build digital experiences that matter.
 
 ================== CONTACT ==================
 
-Email: philosncube@gmail.com
+Email: loyiso.eugene.moketsi@gmail.com
 GitHub: @EugeneBoondock
 Website: https://boondocklabs.com
 

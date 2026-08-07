@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Globe, Code, ArrowRight, ExternalLink } from 'lucide-react';
+import { Globe, Code, ArrowRight, ExternalLink, ShoppingCart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 type Category = 'all' | 'featured' | 'client' | 'opensource';
@@ -185,6 +185,39 @@ export default function Work() {
             <a href="https://centralbrain.io" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'trolleyscout',
+      categories: ['featured', 'client'],
+      component: (
+        <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+          <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
+            <div className="text-center">
+              <ShoppingCart className="h-16 w-16 text-amber-700 mx-auto mb-2" />
+              <p className="text-sm font-bold text-amber-900">Trolley Scout</p>
+            </div>
+          </div>
+          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+            Trolleyscout.co.za - Grocery Price Intelligence
+          </h3>
+          <p className="text-sm mb-3 text-black">Real store specials with the source behind every price. A South African grocery price-comparison platform that tracks retailer promotions, handles subscription billing and an ad marketplace through PayFast, and ships on the web alongside a native Android app.</p>
+          <div className="flex items-center justify-between mt-auto pt-2">
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Price Intelligence</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Android App</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">PayFast</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <a href="https://play.google.com/store/apps/details?id=za.co.trolleyscout.trolley_scout" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+                Android <ExternalLink className="h-3 w-3 ml-1" />
+              </a>
+              <a href="https://trolleyscout.co.za/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+                Visit <ExternalLink className="h-3 w-3 ml-1" />
+              </a>
+            </div>
           </div>
         </div>
       )

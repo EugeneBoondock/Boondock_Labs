@@ -186,7 +186,7 @@ export default function HeroSection() {
           <span className="hero-kicker-dot" />
           <span>Boondock Labs</span>
           <span className="hero-kicker-dot" />
-          <span>Eugene Loyiso Boondock</span>
+          <span>Eugene Boondock</span>
         </div>
 
         <div className="hero-heading-wrap">
