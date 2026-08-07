@@ -20,6 +20,7 @@ import {
   Package,
   Rocket,
   ShoppingBag,
+  Sparkles,
   Twitter,
   UtensilsCrossed,
   Workflow,
@@ -218,7 +219,7 @@ const capabilities = [
     ],
   },
   {
-    icon: BrainCircuit,
+    icon: Sparkles,
     title: "AI-Native Systems",
     body: "AI is not decoration here. It is part of the product architecture: assistants, structured workflows, model orchestration, and protocol tooling designed as first-class features.",
     details: [
@@ -286,7 +287,7 @@ const processSteps = [
     body: "Architecture that survives growth: clean data flow, honest abstractions, and integration points established before they become painful.",
   },
   {
-    icon: BrainCircuit,
+    icon: Sparkles,
     title: "Apply AI with intent",
     body: "Automation, assistants, and model capabilities added with purpose. Stronger products, not trend compliance.",
   },
@@ -963,9 +964,9 @@ export default function Home() {
                   If the work is serious, the door is open.
                 </h2>
                 <p className="max-w-xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-                  The studio takes on product builds, platform work, and
-                  teams that want a partner with real ownership range. Serious
-                  briefs. Real ambition. That is the filter.
+                  The studio takes on product builds, platform work, and teams
+                  that want a partner with real ownership range. Serious briefs.
+                  Real ambition. That is the filter.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a
@@ -1084,8 +1085,8 @@ export default function Home() {
         </div>
         <div className="site-footer-legal">
           <span>
-            &copy; {new Date().getFullYear()} Boondock Labs (Pty) Ltd. Registered
-            in the Republic of South Africa, No. 2026/454520/07.
+            &copy; {new Date().getFullYear()} Boondock Labs (Pty) Ltd.
+            Registered in the Republic of South Africa, No. 2026/454520/07.
           </span>
           <span>Edenvale, Gauteng</span>
         </div>
