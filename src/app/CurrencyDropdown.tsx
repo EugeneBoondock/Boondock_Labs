@@ -42,7 +42,7 @@ export default function CurrencyDropdown({ className = "" }: { className?: strin
     <div className={`relative ${className}`} style={{ minWidth: 120 }}>
       <select
         className={
-          `glass-lighter border border-orange-200 text-[#3a2c1a] font-semibold px-2 py-1 text-sm rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-[#d17927] transition-all ` +
+          `glass-lighter border border-orange-200 text-[#3a2c1a] font-semibold px-2 py-1 text-sm rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-[#c96442] transition-all ` +
           `bg-[#e7dbc8]/80 hover:bg-[#f5e8d0] cursor-pointer w-full appearance-none`
         }
         value={currency}
@@ -57,7 +57,7 @@ export default function CurrencyDropdown({ className = "" }: { className?: strin
         ))}
       </select>
       {/* Custom dropdown arrow */}
-      <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[#d17927] text-sm">
+      <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[#c96442] text-sm">
         ▼
       </span>
       {/* Scrollable dropdown for long lists (native select will show scroll) */}

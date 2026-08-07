@@ -9,26 +9,26 @@ export default function About() {
           <div id="story" className="glass text-left py-8 px-6 sm:px-12 mb-12 card-hover shadow-md border border-orange-900/20 scroll-mt-24">
             <h2 className="text-2xl font-bold accent mb-3">A Lab for Boundless Creation</h2>
             <p className="text-base sm:text-lg mb-3 text-black leading-relaxed">
-              Hi, I'm Eugene Boondock <span className="cream">(Eugene Loyiso Mzimakhwe)</span> - founder of Boondock Labs. I don't just code; I build digital playgrounds, spark new experiences, and turn ambitious ideas into reality.
+              Boondock Labs (Pty) Ltd is a registered South African product studio based in Edenvale, Gauteng. We design, build, and operate software end to end, from the interface a customer touches to the infrastructure underneath it.
             </p>
             <p className="mb-6 text-black leading-relaxed">
-              Boondock Labs is my personal tech studio. Here I explore, experiment, and craft projects that matter, blending web technology, game design, and even forays into AI and digital worlds. It's more than a portfolio: it's a launchpad for unconventional thinking and digital artistry.
+              The studio is led by Eugene Boondock <span className="cream">(Eugene Loyiso Mzimakhwe)</span>. We ship our own products, including PactLoop, Platedom, and Trolley Scout, and we take the same standard into client engagements. Registered in the Republic of South Africa, No. 2026/454520/07.
             </p>
 
             <div id="skills" className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 scroll-mt-24">
               <div>
-                <h3 className="text-lg font-semibold accent mb-3">🚀 What I Build</h3>
+                <h3 className="text-lg font-semibold accent mb-3">🚀 What We Build</h3>
                 <div className="flex flex-col gap-2">
-                  <p className="accent text-sm">- Building web apps and digital experiences that invite wonder.</p>
-                  <p className="accent text-sm">- Merging utility, play, and bold ideas.</p>
-                  <p className="accent text-sm">- Unafraid to experiment, always learning.</p>
+                  <p className="accent text-sm">- Products and platforms that hold up under real customers.</p>
+                  <p className="accent text-sm">- Payments, AI workflows, and integrations built to production standard.</p>
+                  <p className="accent text-sm">- Localised for African markets: currencies, tax rules, and consent.</p>
                 </div>
               </div>
 
               <div>
                 <h3 className="text-lg font-semibold accent mb-3">⚡ AI-Powered Development</h3>
                 <p className="text-sm text-black mb-3">
-                  In this AI revolution, I leverage cutting-edge tools to accelerate development:
+                  In this AI revolution, the studio leans on cutting-edge tools to accelerate development:
                 </p>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {['Cursor', 'Windsurf', 'VS Code', 'Claude Code', 'OpenAI Codex', 'GitHub'].map((tool) => (
@@ -38,7 +38,7 @@ export default function About() {
                   ))}
                 </div>
                 <p className="text-sm text-black mb-2">
-                  Check out my work: <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="text-[#d17927] hover:underline font-medium">@EugeneBoondock</a>
+                  Check out my work: <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="text-[#c96442] hover:underline font-medium">@EugeneBoondock</a>
                 </p>
                 <p className="text-sm text-black">
                   Projects that would take <span className="font-semibold text-orange-600">years or months</span> now complete in <span className="font-semibold text-green-600">weeks or days</span>.

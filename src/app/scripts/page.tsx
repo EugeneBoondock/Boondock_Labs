@@ -16,15 +16,15 @@ export default function Scripts() {
             <div className="p-5 card-hover rounded-xl overflow-hidden border border-orange-900/10">
               <div className="flex items-start gap-4">
                 <div className="p-3 bg-orange-600/20 rounded-lg shrink-0">
-                  <Braces className="h-6 w-6" style={{ color: '#d17927' }} />
+                  <Braces className="h-6 w-6" style={{ color: '#c96442' }} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold mb-1" style={{ color: '#d17927' }}>Earth2 Auto-Marketplace Lister</h3>
+                  <h3 className="text-lg font-bold mb-1" style={{ color: '#c96442' }}>Earth2 Auto-Marketplace Lister</h3>
                   <p className="text-xs text-black mb-2">JavaScript • Earth2 • Automation</p>
                   <p className="text-sm text-black mb-3">
                     A script that allows Earth2 users to automatically list properties on the marketplace with custom pricing strategies. Includes safeguards and monitoring.
                   </p>
-                  <a href="#script1" className="text-sm font-medium underline underline-offset-2" style={{ color: '#d17927' }}>
+                  <a href="#script1" className="text-sm font-medium underline underline-offset-2" style={{ color: '#c96442' }}>
                     View Script Documentation
                   </a>
                 </div>
@@ -34,15 +34,15 @@ export default function Scripts() {
             <div className="p-5 card-hover rounded-xl overflow-hidden border border-orange-900/10">
               <div className="flex items-start gap-4">
                 <div className="p-3 bg-orange-600/20 rounded-lg shrink-0">
-                  <Braces className="h-6 w-6" style={{ color: '#d17927' }} />
+                  <Braces className="h-6 w-6" style={{ color: '#c96442' }} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold mb-1" style={{ color: '#d17927' }}>Earth2 Property Data Visualizer</h3>
+                  <h3 className="text-lg font-bold mb-1" style={{ color: '#c96442' }}>Earth2 Property Data Visualizer</h3>
                   <p className="text-xs text-black mb-2">JavaScript • Data Visualization • Earth2</p>
                   <p className="text-sm text-black mb-3">
                     Enhance your Earth2 experience with advanced property data visualization. Track value changes, compare properties, and identify opportunities with this script.
                   </p>
-                  <a href="#script2" className="text-sm font-medium underline underline-offset-2" style={{ color: '#d17927' }}>
+                  <a href="#script2" className="text-sm font-medium underline underline-offset-2" style={{ color: '#c96442' }}>
                     View Script Documentation
                   </a>
                 </div>

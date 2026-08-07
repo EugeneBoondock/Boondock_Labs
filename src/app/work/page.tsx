@@ -1,10 +1,16 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Globe, Code, ArrowRight, ExternalLink, ShoppingCart } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import {
+  ArrowRight,
+  Code,
+  ExternalLink,
+  Globe,
+  ShoppingCart,
+} from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-type Category = 'all' | 'featured' | 'client' | 'opensource';
+type Category = "all" | "featured" | "client" | "opensource";
 
 interface Project {
   id: string;
@@ -13,16 +19,16 @@ interface Project {
 }
 
 export default function Work() {
-  const [activeFilter, setActiveFilter] = useState<Category>('all');
+  const [activeFilter, setActiveFilter] = useState<Category>("all");
 
   // Handle hash navigation from navbar
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
+      const hash = window.location.hash.replace("#", "");
       const hashToFilter: { [key: string]: Category } = {
-        'featured': 'featured',
-        'clients': 'client',
-        'opensource': 'opensource'
+        featured: "featured",
+        clients: "client",
+        opensource: "opensource",
       };
 
       if (hash && hashToFilter[hash]) {
@@ -34,108 +40,215 @@ export default function Work() {
     handleHashChange();
 
     // Listen for hash changes
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   const projects: Project[] = [
     {
-      id: 'bikode',
-      categories: ['featured'],
+      id: "pactloop",
+      categories: ["featured"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
             <Image
-              src="/bikode.png"
+              src="/pactloop.webp"
+              alt="PactLoop customer platform"
+              fill
+              className="object-cover object-top transition-all hover:scale-105"
+            />
+          </div>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
+            PactLoop — AI Customer Platform
+          </h3>
+          <p className="text-sm mb-3 text-black">
+            A Boondock Labs product. Every chat, call, invoice, payment promise,
+            and field visit lands on one customer record, so sales, service, and
+            collections stop working from separate tools. Country packs for
+            South Africa, Nigeria, Kenya, and Ghana carry the currency, tax
+            labels, payment rails, and consent copy for each market.
+          </p>
+          <div className="flex items-center justify-between mt-auto pt-2">
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                AI Workspace
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                M-Pesa / Paystack
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Cloudflare D1
+              </span>
+            </div>
+            <a
+              href="https://pactloop.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
+              Visit <ExternalLink className="h-3 w-3 ml-1" />
+            </a>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "bikode",
+      categories: ["featured"],
+      component: (
+        <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
+          <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
+            <Image
+              src="/bikode.webp"
               alt="Bikode Editor"
               fill
-              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover transition-all hover:scale-105 object-top"
             />
             <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
-              <h3 className="font-semibold flex items-center" style={{ color: '#d17927' }}>
+              <h3
+                className="font-semibold flex items-center"
+                style={{ color: "#c96442" }}
+              >
                 Bikode <Code className="ml-2 h-4 w-4 text-cyan-400" />
               </h3>
             </div>
           </div>
-          <p className="text-sm mb-3 text-black">AI-first native Windows code editor built on Notepad2e. Combines lightning-fast Win32 editing with multi-provider AI assistance (OpenAI, Anthropic, local models), integrated terminal, Git UI, chat panel, inline diff preview, and a plugin system — all in a lightweight, zero-telemetry package.</p>
+          <p className="text-sm mb-3 text-black">
+            AI-first native Windows code editor built on Notepad2e. Combines
+            lightning-fast Win32 editing with multi-provider AI assistance
+            (OpenAI, Anthropic, local models), integrated terminal, Git UI, chat
+            panel, inline diff preview, and a plugin system — all in a
+            lightweight, zero-telemetry package.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">C / Win32</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Scintilla</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">AI Integration</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                C / Win32
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Scintilla
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                AI Integration
+              </span>
             </div>
-            <a href="https://bikode.co.za" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://bikode.co.za"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'earthie',
-      categories: ['featured'],
+      id: "earthie",
+      categories: ["featured"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
             <Image
-              src="/earthie-world.png"
+              src="/earthie-world.webp"
               alt="Earthie World"
               fill
-              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover transition-all hover:scale-105 object-top"
             />
             <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
-              <h3 className="font-semibold flex items-center" style={{ color: '#d17927' }}>
+              <h3
+                className="font-semibold flex items-center"
+                style={{ color: "#c96442" }}
+              >
                 Earthie.world <Globe className="ml-2 h-4 w-4 text-green-400" />
               </h3>
             </div>
           </div>
-          <p className="text-sm mb-3 text-black">A comprehensive Earth2 metaverse community platform with 17+ API integrations, real-time market data, interactive mapping, community features, and advanced subscription management. Features multiple specialized hubs for market analysis, minerals tracking, logistics, leaderboards, and portfolio management.</p>
+          <p className="text-sm mb-3 text-black">
+            A comprehensive Earth2 metaverse community platform with 17+ API
+            integrations, real-time market data, interactive mapping, community
+            features, and advanced subscription management. Features multiple
+            specialized hubs for market analysis, minerals tracking, logistics,
+            leaderboards, and portfolio management.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">NextJS</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">React</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                NextJS
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                React
+              </span>
             </div>
-            <a href="https://earthie.world" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://earthie.world"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'morphed',
-      categories: ['featured', 'client'],
+      id: "morphed",
+      categories: ["featured", "client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
             <Image
-              src="/morphed.png"
+              src="/morphed.webp"
               alt="Morphed.io"
               fill
-              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover transition-all hover:scale-105 object-top"
             />
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             Morphed.io - Full Platform Development
           </h3>
-          <p className="text-sm mb-3 text-black">Designed and developed both backend infrastructure and frontend interface to bring the Morphed.io platform to life. Created custom API endpoints, built the complete Model Context Protocol (MCP) server, and developed the user-facing application.</p>
+          <p className="text-sm mb-3 text-black">
+            Designed and developed both backend infrastructure and frontend
+            interface to bring the Morphed.io platform to life. Created custom
+            API endpoints, built the complete Model Context Protocol (MCP)
+            server, and developed the user-facing application.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Full-Stack</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP Server</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">API Development</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">UI/UX Design</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Full-Stack
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                MCP Server
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                API Development
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                UI/UX Design
+              </span>
             </div>
-            <a href="https://morphed.io" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://morphed.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'platedom',
-      categories: ['featured', 'client'],
+      id: "platedom",
+      categories: ["featured", "client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
@@ -144,26 +257,43 @@ export default function Work() {
               <p className="text-sm font-bold text-orange-800">Platedom</p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             Platedom.com - AI Restaurant Platform
           </h3>
-          <p className="text-sm mb-3 text-black">Generative AI platform that transforms menus, recipes, server briefs, and generates Michelin-star quality visual food photography in seconds. Built with Firebase for data and authentication, featuring real-time sync and secure asset generation workflows.</p>
+          <p className="text-sm mb-3 text-black">
+            Generative AI platform that transforms menus, recipes, server
+            briefs, and generates Michelin-star quality visual food photography
+            in seconds. Built with Firebase for data and authentication,
+            featuring real-time sync and secure asset generation workflows.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Generative AI</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Hospitality tech</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Firebase</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Generative AI
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Hospitality tech
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Firebase
+              </span>
             </div>
-            <a href="https://platedom.com" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://platedom.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'centralbrain',
-      categories: ['featured', 'client'],
+      id: "centralbrain",
+      categories: ["featured", "client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-indigo-100 to-blue-200 flex items-center justify-center">
@@ -172,26 +302,44 @@ export default function Work() {
               <p className="text-sm font-bold text-indigo-800">Centralbrain</p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             Centralbrain.io - Unified Intelligence Layer
           </h3>
-          <p className="text-sm mb-3 text-black">Governance and workflow orchestration layer powered by the Model Context Protocol (MCP). Connects various business tools (CRM, communication, tasks, finance), coordinates autonomous agents under strict human-in-the-loop validation, and retains absolute proof after every execution.</p>
+          <p className="text-sm mb-3 text-black">
+            Governance and workflow orchestration layer powered by the Model
+            Context Protocol (MCP). Connects various business tools (CRM,
+            communication, tasks, finance), coordinates autonomous agents under
+            strict human-in-the-loop validation, and retains absolute proof
+            after every execution.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP Server</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">AI Governance</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">NextJS</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                MCP Server
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                AI Governance
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                NextJS
+              </span>
             </div>
-            <a href="https://centralbrain.io" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://centralbrain.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'trolleyscout',
-      categories: ['featured', 'client'],
+      id: "trolleyscout",
+      categories: ["featured", "client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
@@ -200,59 +348,102 @@ export default function Work() {
               <p className="text-sm font-bold text-amber-900">Trolley Scout</p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             Trolleyscout.co.za - Grocery Price Intelligence
           </h3>
-          <p className="text-sm mb-3 text-black">Real store specials with the source behind every price. A South African grocery price-comparison platform that tracks retailer promotions, handles subscription billing and an ad marketplace through PayFast, and ships on the web alongside a native Android app.</p>
+          <p className="text-sm mb-3 text-black">
+            Real store specials with the source behind every price. A South
+            African grocery price-comparison platform that tracks retailer
+            promotions, handles subscription billing and an ad marketplace
+            through PayFast, and ships on the web alongside a native Android
+            app.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Price Intelligence</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Android App</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">PayFast</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Price Intelligence
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Android App
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                PayFast
+              </span>
             </div>
             <div className="flex items-center gap-3">
-              <a href="https://play.google.com/store/apps/details?id=za.co.trolleyscout.trolley_scout" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+              <a
+                href="https://play.google.com/store/apps/details?id=za.co.trolleyscout.trolley_scout"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium flex items-center"
+                style={{ color: "#c96442" }}
+              >
                 Android <ExternalLink className="h-3 w-3 ml-1" />
               </a>
-              <a href="https://trolleyscout.co.za/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+              <a
+                href="https://trolleyscout.co.za/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium flex items-center"
+                style={{ color: "#c96442" }}
+              >
                 Visit <ExternalLink className="h-3 w-3 ml-1" />
               </a>
             </div>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'earth2-mcp',
-      categories: ['featured', 'opensource'],
+      id: "earth2-mcp",
+      categories: ["featured", "opensource"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
             <div className="text-center">
               <Code className="h-16 w-16 text-orange-600 mx-auto mb-2" />
-              <p className="text-sm font-bold text-orange-800">Earth2 MCP Server</p>
+              <p className="text-sm font-bold text-orange-800">
+                Earth2 MCP Server
+              </p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             Earth2 MCP Server - Claude Integration
           </h3>
-          <p className="text-sm mb-3 text-black">Built a complete MCP server enabling Claude to access Earth2 account data, properties, wallet information, transactions, and marketplace listings. Features dual credential support and full Claude Desktop integration.</p>
+          <p className="text-sm mb-3 text-black">
+            Built a complete MCP server enabling Claude to access Earth2 account
+            data, properties, wallet information, transactions, and marketplace
+            listings. Features dual credential support and full Claude Desktop
+            integration.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP Server</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Earth2 API</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">NPM Package</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                MCP Server
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Earth2 API
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                NPM Package
+              </span>
             </div>
-            <a href="https://www.npmjs.com/package/earth2-mcp-server" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://www.npmjs.com/package/earth2-mcp-server"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               View NPM <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'hubspot-mcp',
-      categories: ['opensource'],
+      id: "hubspot-mcp",
+      categories: ["opensource"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
@@ -261,26 +452,43 @@ export default function Work() {
               <p className="text-sm font-bold text-white">HubSpot MCP</p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             HubSpot MCP Server - CRM Integration
           </h3>
-          <p className="text-sm mb-3 text-black">Model Context Protocol server for HubSpot CRM integration. Enables Claude to interact with HubSpot contacts, companies, deals, and tickets. Streamlines CRM workflows with AI-powered automation and data access.</p>
+          <p className="text-sm mb-3 text-black">
+            Model Context Protocol server for HubSpot CRM integration. Enables
+            Claude to interact with HubSpot contacts, companies, deals, and
+            tickets. Streamlines CRM workflows with AI-powered automation and
+            data access.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP Server</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">HubSpot API</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">CRM</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                MCP Server
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                HubSpot API
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                CRM
+              </span>
             </div>
-            <a href="https://www.npmjs.com/package/hubspot-mcp-server" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://www.npmjs.com/package/hubspot-mcp-server"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               View NPM <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'morphed-mcp',
-      categories: ['opensource'],
+      id: "morphed-mcp",
+      categories: ["opensource"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-purple-100 to-purple-300 flex items-center justify-center">
@@ -289,54 +497,90 @@ export default function Work() {
               <p className="text-sm font-bold text-purple-900">Morphed MCP</p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             Morphed MCP Server - Data Integration
           </h3>
-          <p className="text-sm mb-3 text-black">Custom MCP server for Morphed.io platform integration. Provides Claude with access to platform data, user management, and API endpoints. Enables seamless AI-powered interactions with the Morphed ecosystem.</p>
+          <p className="text-sm mb-3 text-black">
+            Custom MCP server for Morphed.io platform integration. Provides
+            Claude with access to platform data, user management, and API
+            endpoints. Enables seamless AI-powered interactions with the Morphed
+            ecosystem.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">MCP Server</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Custom API</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Integration</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                MCP Server
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Custom API
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Integration
+              </span>
             </div>
-            <a href="https://www.npmjs.com/package/morphed-mcp-server" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://www.npmjs.com/package/morphed-mcp-server"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               View NPM <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'earth2-api',
-      categories: ['featured', 'opensource'],
+      id: "earth2-api",
+      categories: ["featured", "opensource"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-green-100 to-blue-200 flex items-center justify-center">
             <div className="text-center">
               <Code className="h-16 w-16 text-green-700 mx-auto mb-2" />
-              <p className="text-sm font-bold text-green-900">Earth2 API Wrapper</p>
+              <p className="text-sm font-bold text-green-900">
+                Earth2 API Wrapper
+              </p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             Earth2 API Wrapper - JavaScript Library
           </h3>
-          <p className="text-sm mb-3 text-black">Comprehensive JavaScript/TypeScript wrapper for the Earth2 metaverse API. Simplifies integration with Earth2 services, providing easy-to-use methods for properties, transactions, marketplace, and user data. Full TypeScript support with detailed documentation.</p>
+          <p className="text-sm mb-3 text-black">
+            Comprehensive JavaScript/TypeScript wrapper for the Earth2 metaverse
+            API. Simplifies integration with Earth2 services, providing
+            easy-to-use methods for properties, transactions, marketplace, and
+            user data. Full TypeScript support with detailed documentation.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">TypeScript</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">API Wrapper</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">NPM Package</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                TypeScript
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                API Wrapper
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                NPM Package
+              </span>
             </div>
-            <a href="https://www.npmjs.com/package/earth2-api-wrapper" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://www.npmjs.com/package/earth2-api-wrapper"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               View NPM <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'dana',
-      categories: ['client'],
+      id: "dana",
+      categories: ["client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
@@ -344,56 +588,80 @@ export default function Work() {
               src="/dana.png"
               alt="SavingWithDana.com"
               fill
-              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover transition-all hover:scale-105 object-top"
             />
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             SavingWithDana.com - Backend Development
           </h3>
-          <p className="text-sm mb-3 text-black">Built robust backend infrastructure using AWS services and modern cloud architecture for a savings and deals platform.</p>
+          <p className="text-sm mb-3 text-black">
+            Built robust backend infrastructure using AWS services and modern
+            cloud architecture for a savings and deals platform.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">AWS</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Backend</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Cloud Architecture</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                AWS
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Backend
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Cloud Architecture
+              </span>
             </div>
-            <span className="text-xs font-medium px-2 py-1 bg-blue-100 text-blue-800 rounded">Done</span>
+            <span className="text-xs font-medium px-2 py-1 bg-blue-100 text-blue-800 rounded">
+              Done
+            </span>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'entropysuite',
-      categories: ['featured'],
+      id: "entropysuite",
+      categories: ["featured"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
             <Image
-              src="/entropysuite.png"
+              src="/entropysuite.webp"
               alt="Entropysuite"
               fill
-              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover transition-all hover:scale-105 object-top"
             />
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             entropysuite.co.za
           </h3>
-          <p className="text-sm mb-3 text-black">Platform for random tools, including AI tools. A digital suite for experimentation and productivity.</p>
+          <p className="text-sm mb-3 text-black">
+            Platform for random tools, including AI tools. A digital suite for
+            experimentation and productivity.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">AI Tools</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Web Platform</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                AI Tools
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Web Platform
+              </span>
             </div>
-            <a href="https://entropysuite.co.za" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://entropysuite.co.za"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'pathnote',
-      categories: ['featured', 'client'],
+      id: "pathnote",
+      categories: ["featured", "client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg bg-gradient-to-br from-cyan-100 to-blue-200 flex items-center justify-center">
@@ -402,27 +670,45 @@ export default function Work() {
               <p className="text-sm font-bold text-cyan-900">PathNote</p>
             </div>
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             pathnote.co.za - Audible Location Explorer
           </h3>
-          <p className="text-sm mb-3 text-black">Location-based audio storytelling platform with OpenStreetMap, real-time location tracking, community-submitted points of interest, and AI narration that turns walks into guided audio experiences.</p>
+          <p className="text-sm mb-3 text-black">
+            Location-based audio storytelling platform with OpenStreetMap,
+            real-time location tracking, community-submitted points of interest,
+            and AI narration that turns walks into guided audio experiences.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">React</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Supabase</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">OpenStreetMap</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Audio UX</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                React
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Supabase
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                OpenStreetMap
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Audio UX
+              </span>
             </div>
-            <a href="https://www.pathnote.co.za/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://www.pathnote.co.za/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'nkechi',
-      categories: ['client'],
+      id: "nkechi",
+      categories: ["client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
@@ -430,57 +716,84 @@ export default function Work() {
               src="/biokinetics.jpeg"
               alt="Nkechi Biokinetics"
               fill
-              className="object-cover object-left transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover object-left transition-all hover:scale-105 object-top"
             />
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
             nkechi-biokinetics.vercel.app
           </h3>
-          <p className="text-sm mb-3 text-black">A Biokineticist portfolio. Showcasing expertise in health, wellness, and movement science.</p>
+          <p className="text-sm mb-3 text-black">
+            A Biokineticist portfolio. Showcasing expertise in health, wellness,
+            and movement science.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Portfolio</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Biokinetics</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Portfolio
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Biokinetics
+              </span>
             </div>
-            <a href="https://nkechi-biokinetics.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://nkechi-biokinetics.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'kinspace',
-      categories: ['featured'],
+      id: "kinspace",
+      categories: ["featured"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
             <Image
-              src="/kinspace.png"
+              src="/kinspace.webp"
               alt="KinSpace"
               fill
-              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover transition-all hover:scale-105 object-top"
             />
           </div>
-          <h3 className="font-semibold mb-1" style={{ color: '#d17927' }}>
-            kin-space-jade.vercel.app <span className="ml-2 text-xs text-purple-700">WIP</span>
+          <h3 className="font-semibold mb-1" style={{ color: "#c96442" }}>
+            kin-space-jade.vercel.app{" "}
+            <span className="ml-2 text-xs text-purple-700">WIP</span>
           </h3>
-          <p className="text-sm mb-3 text-black">A platform (WIP) for individuals with chronic and mental illnesses. Community, support, and resources in a safe space.</p>
+          <p className="text-sm mb-3 text-black">
+            A platform (WIP) for individuals with chronic and mental illnesses.
+            Community, support, and resources in a safe space.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Community</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Health</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Community
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Health
+              </span>
             </div>
-            <a href="https://kin-space-jade.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://kin-space-jade.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: '3rdisland',
-      categories: ['client'],
+      id: "3rdisland",
+      categories: ["client"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-40 relative mb-3 overflow-hidden rounded-lg">
@@ -488,30 +801,46 @@ export default function Work() {
               src="/3rdislandtours.png"
               alt="3rd Island Tours"
               fill
-              className="object-cover transition-all hover:scale-105 brightness-[0.9]"
+              className="object-cover transition-all hover:scale-105 object-top"
             />
             <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
-              <h3 className="font-semibold flex items-center" style={{ color: '#d17927' }}>
-                3rdIslandTours.com <Globe className="ml-2 h-4 w-4 text-blue-400" />
+              <h3
+                className="font-semibold flex items-center"
+                style={{ color: "#c96442" }}
+              >
+                3rdIslandTours.com{" "}
+                <Globe className="ml-2 h-4 w-4 text-blue-400" />
               </h3>
             </div>
           </div>
-          <p className="text-sm mb-3 text-black">Company website for a touring company in South Africa.</p>
+          <p className="text-sm mb-3 text-black">
+            Company website for a touring company in South Africa.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">JavaScript</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">HTML & CSS</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                JavaScript
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                HTML & CSS
+              </span>
             </div>
-            <a href="https://3rdIslandtours.com" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://3rdIslandtours.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               Visit <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
+      ),
     },
     {
-      id: 'earth2-scripts',
-      categories: ['opensource'],
+      id: "earth2-scripts",
+      categories: ["opensource"],
       component: (
         <div className="p-5 card-hover rounded-xl overflow-hidden flex flex-col">
           <div className="h-32 relative mb-3 overflow-hidden rounded-lg">
@@ -522,88 +851,115 @@ export default function Work() {
               className="object-cover transition-all hover:scale-105 brightness-[0.9] object-center"
             />
             <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
-              <h3 className="font-semibold flex items-center" style={{ color: '#d17927' }}>
-                Earth2 Metaverse JavaScript Scripts <Code className="ml-2 h-4 w-4 text-yellow-400" />
+              <h3
+                className="font-semibold flex items-center"
+                style={{ color: "#c96442" }}
+              >
+                Earth2 Metaverse JavaScript Scripts{" "}
+                <Code className="ml-2 h-4 w-4 text-yellow-400" />
               </h3>
             </div>
           </div>
-          <p className="text-sm mb-3 text-black">Custom JavaScript scripts for Earth2 metaverse users. Enhanced functionality, automation, and new capabilities for the virtual world.</p>
+          <p className="text-sm mb-3 text-black">
+            Custom JavaScript scripts for Earth2 metaverse users. Enhanced
+            functionality, automation, and new capabilities for the virtual
+            world.
+          </p>
           <div className="flex items-center justify-between mt-auto pt-2">
             <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">JavaScript</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Metaverse</span>
-              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">Earth2</span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                JavaScript
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Metaverse
+              </span>
+              <span className="px-2 py-1 bg-zinc-800/70 rounded text-xs text-black">
+                Earth2
+              </span>
             </div>
-            <a href="https://www.earthie.world/script-tools" target="_blank" rel="noopener noreferrer" className="text-sm font-medium flex items-center" style={{ color: '#d17927' }}>
+            <a
+              href="https://www.earthie.world/script-tools"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium flex items-center"
+              style={{ color: "#c96442" }}
+            >
               See scripts <ArrowRight className="h-3 w-3 ml-1" />
             </a>
           </div>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
-  const filteredProjects = activeFilter === 'all'
-    ? projects
-    : projects.filter(project => project.categories.includes(activeFilter));
+  const filteredProjects =
+    activeFilter === "all"
+      ? projects
+      : projects.filter((project) => project.categories.includes(activeFilter));
 
   const handleFilterChange = (filter: Category) => {
     setActiveFilter(filter);
     // Update URL hash without page reload
     const hashMap: { [key in Category]: string } = {
-      'all': '',
-      'featured': 'featured',
-      'client': 'clients',
-      'opensource': 'opensource'
+      all: "",
+      featured: "featured",
+      client: "clients",
+      opensource: "opensource",
     };
     const hash = hashMap[filter];
-    window.history.pushState(null, '', hash ? `#${hash}` : window.location.pathname);
+    window.history.pushState(
+      null,
+      "",
+      hash ? `#${hash}` : window.location.pathname,
+    );
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start pb-24">
       <section className="w-full pt-24 sm:pt-32 px-4 flex justify-center">
         <div className="pattern-dots max-w-4xl w-full glass border border-orange-900/20 py-8 px-6 sm:px-10 mb-16 shadow-lg">
-          <h2 className="text-2xl font-bold mb-4 accent">My Digital Playground</h2>
+          <h2 className="text-2xl font-bold mb-4 accent">
+            My Digital Playground
+          </h2>
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap gap-3 mb-6">
             <button
-              onClick={() => handleFilterChange('all')}
+              onClick={() => handleFilterChange("all")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeFilter === 'all'
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-zinc-100 text-black hover:bg-zinc-200'
+                activeFilter === "all"
+                  ? "bg-orange-600 text-white"
+                  : "bg-zinc-100 text-black hover:bg-zinc-200"
               }`}
             >
               View all work →
             </button>
             <button
-              onClick={() => handleFilterChange('featured')}
+              onClick={() => handleFilterChange("featured")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeFilter === 'featured'
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-zinc-100 text-black hover:bg-zinc-200'
+                activeFilter === "featured"
+                  ? "bg-orange-600 text-white"
+                  : "bg-zinc-100 text-black hover:bg-zinc-200"
               }`}
             >
               Featured Projects
             </button>
             <button
-              onClick={() => handleFilterChange('client')}
+              onClick={() => handleFilterChange("client")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeFilter === 'client'
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-zinc-100 text-black hover:bg-zinc-200'
+                activeFilter === "client"
+                  ? "bg-orange-600 text-white"
+                  : "bg-zinc-100 text-black hover:bg-zinc-200"
               }`}
             >
               Client Work
             </button>
             <button
-              onClick={() => handleFilterChange('opensource')}
+              onClick={() => handleFilterChange("opensource")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeFilter === 'opensource'
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-zinc-100 text-black hover:bg-zinc-200'
+                activeFilter === "opensource"
+                  ? "bg-orange-600 text-white"
+                  : "bg-zinc-100 text-black hover:bg-zinc-200"
               }`}
             >
               Open Source
@@ -611,10 +967,8 @@ export default function Work() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredProjects.map(project => (
-              <div key={project.id}>
-                {project.component}
-              </div>
+            {filteredProjects.map((project) => (
+              <div key={project.id}>{project.component}</div>
             ))}
           </div>
         </div>

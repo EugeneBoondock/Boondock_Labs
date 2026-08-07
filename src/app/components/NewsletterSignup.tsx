@@ -71,7 +71,7 @@ export default function NewsletterSignup({
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all disabled:opacity-50"
+                className="btn-primary px-6 py-3 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all disabled:opacity-50"
               >
                 {loading ? 'Subscribing...' : 'Subscribe'}
               </button>
@@ -148,7 +148,7 @@ export default function NewsletterSignup({
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all disabled:opacity-50"
+              className="btn-primary px-6 py-3 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all disabled:opacity-50"
             >
               {loading ? 'Subscribing...' : 'Subscribe'}
             </button>

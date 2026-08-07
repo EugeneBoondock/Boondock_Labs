@@ -37,14 +37,14 @@ export default function NotFound() {
               height={120}
               className="opacity-70"
             />
-            <div className="absolute -top-2 -right-2 bg-[#d17927] text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold shadow-lg">
+            <div className="absolute -top-2 -right-2 bg-[#c96442] text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold shadow-lg">
               ?
             </div>
           </div>
         </div>
 
         {/* 404 Number */}
-        <h1 className="text-9xl font-bold text-[#d17927] mb-4 animate-in fade-in-up" style={{ 
+        <h1 className="text-9xl font-bold text-[#c96442] mb-4 animate-in fade-in-up" style={{ 
           textShadow: '4px 4px 0px rgba(209, 121, 39, 0.2)' 
         }}>
           404
@@ -111,19 +111,19 @@ export default function NotFound() {
             Looking for something specific?
           </p>
           <div className="flex flex-wrap gap-2 justify-center">
-            <Link href="/about" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#d17927] hover:text-white transition-colors no-underline">
+            <Link href="/about" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#c96442] hover:text-white transition-colors no-underline">
               About
             </Link>
-            <Link href="/work" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#d17927] hover:text-white transition-colors no-underline">
+            <Link href="/work" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#c96442] hover:text-white transition-colors no-underline">
               Work
             </Link>
-            <Link href="/services" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#d17927] hover:text-white transition-colors no-underline">
+            <Link href="/services" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#c96442] hover:text-white transition-colors no-underline">
               Services
             </Link>
-            <Link href="/contact" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#d17927] hover:text-white transition-colors no-underline">
+            <Link href="/contact" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#c96442] hover:text-white transition-colors no-underline">
               Contact
             </Link>
-            <Link href="/mcp" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#d17927] hover:text-white transition-colors no-underline">
+            <Link href="/mcp" className="text-xs bg-white px-3 py-2 rounded-lg hover:bg-[#c96442] hover:text-white transition-colors no-underline">
               MCP
             </Link>
           </div>

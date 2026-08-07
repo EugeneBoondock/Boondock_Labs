@@ -116,7 +116,7 @@ export default function Home() {
         <div className="glass shadow-xl max-w-2xl w-full text-center py-8 sm:py-10 px-4 sm:px-12 flex flex-col items-center fade-in-up relative z-10">
           <div className="relative flex items-center justify-center mb-3 sm:mb-4">
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="rounded-full w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] bg-[#d17927] opacity-40 blur-2xl logo-glow"></div>
+              <div className="rounded-full w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] bg-[#c96442] opacity-40 blur-2xl logo-glow"></div>
             </div>
           <Image
             src="/Boondocklabs.png"
@@ -136,16 +136,16 @@ export default function Home() {
           <p className="text-xs italic text-[#3a2c1a]/70 mb-3 sm:mb-2 font-medium tracking-wide">`translucency is by design`</p>
           <div className="flex justify-center gap-3 sm:gap-4 mt-2">
             <a href="https://twitter.com/eugeneboondock" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="p-2 hover:bg-white/20 rounded-full transition-colors">
-              <Twitter className="w-5 h-5 sm:w-6 sm:h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+              <Twitter className="w-5 h-5 sm:w-6 sm:h-6 text-[#c96442] hover:scale-110 hover:text-[#ccad89] transition" />
             </a>
             <a href="https://www.linkedin.com/in/eboondock/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 hover:bg-white/20 rounded-full transition-colors">
-              <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+              <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 text-[#c96442] hover:scale-110 hover:text-[#ccad89] transition" />
             </a>
             <a href="https://www.facebook.com/philosophisticater/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 hover:bg-white/20 rounded-full transition-colors">
-              <Facebook className="w-5 h-5 sm:w-6 sm:h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+              <Facebook className="w-5 h-5 sm:w-6 sm:h-6 text-[#c96442] hover:scale-110 hover:text-[#ccad89] transition" />
             </a>
             <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 hover:bg-white/20 rounded-full transition-colors">
-              <Github className="w-5 h-5 sm:w-6 sm:h-6 text-[#d17927] hover:scale-110 hover:text-[#ccad89] transition" />
+              <Github className="w-5 h-5 sm:w-6 sm:h-6 text-[#c96442] hover:scale-110 hover:text-[#ccad89] transition" />
             </a>
           </div>
         </div>
@@ -294,24 +294,24 @@ export default function Home() {
             <p className="text-xs sm:text-sm text-zinc-700 mb-2 leading-relaxed">Perfect for personal, portfolio, or informational sites. Includes up to 3 pages, mobile responsive, and basic SEO.</p>
             <ul className="text-xs text-black space-y-1.5 mb-3 flex-grow">
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Up to 3 pages
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Mobile responsive design
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Basic SEO optimization
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Contact form integration
               </li>
             </ul>
             <button
-              className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
+              className="btn-primary mt-auto !text-white !bg-[#c96442] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
               onClick={() => openModal('Basic Website')}
             >
               Select
@@ -339,28 +339,28 @@ export default function Home() {
             <p className="text-xs sm:text-sm text-zinc-700 mb-2 leading-relaxed">For small businesses or startups. Up to 8 pages, contact forms, Google Maps, blog, and enhanced SEO.</p>
             <ul className="text-xs text-black space-y-1.5 mb-3 flex-grow">
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Up to 8 pages
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Contact forms integration
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Google Maps integration
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Blog functionality
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Enhanced SEO optimization
               </li>
             </ul>
             <button
-              className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
+              className="btn-primary mt-auto !text-white !bg-[#c96442] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
               onClick={() => openModal('Business Website')}
             >
               Select
@@ -388,28 +388,28 @@ export default function Home() {
             <p className="text-xs sm:text-sm text-zinc-700 mb-2 leading-relaxed">Online shop with product catalog, payment gateway, order management, and training. Scalable for growth.</p>
             <ul className="text-xs text-black space-y-1.5 mb-3 flex-grow">
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Product catalog management
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Payment gateway integration
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Order management system
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Inventory tracking
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Staff training included
               </li>
             </ul>
             <button
-              className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
+              className="btn-primary mt-auto !text-white !bg-[#c96442] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
               onClick={() => openModal('E-commerce Website')}
             >
               Select
@@ -438,28 +438,28 @@ export default function Home() {
             <p className="text-xs sm:text-sm text-zinc-700 mb-2 leading-relaxed">For complex needs: custom features, integrations, web apps, or large corporate sites. Tailored to your vision.</p>
             <ul className="text-xs text-black space-y-1.5 mb-3 flex-grow">
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Custom feature development
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Third-party integrations
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Web application development
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Advanced functionality
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Enterprise-level solutions
               </li>
             </ul>
             <button
-              className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
+              className="btn-primary mt-auto !text-white !bg-[#c96442] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
               onClick={() => openModal('Custom / Advanced Website')}
             >
               Select
@@ -484,24 +484,24 @@ export default function Home() {
             <p className="text-xs sm:text-sm text-zinc-700 mb-2 leading-relaxed">Custom Model Context Protocol (MCP) servers built from scratch. Transform your APIs into powerful AI-integrated tools for Claude and other LLMs.</p>
             <ul className="text-xs text-black space-y-1.5 mb-3">
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Complete MCP server architecture
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Custom tool development
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 NPM package publishing
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Documentation & testing
               </li>
             </ul>
             <button
-              className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
+              className="btn-primary mt-auto !text-white !bg-[#c96442] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
               onClick={() => openModal('MCP Server Building')}
             >
               Select
@@ -526,24 +526,24 @@ export default function Home() {
             <p className="text-xs sm:text-sm text-zinc-700 mb-2 leading-relaxed">Custom RESTful API endpoints tailored to your business needs. Scalable, secure, and well-documented APIs that power your applications.</p>
             <ul className="text-xs text-black space-y-1.5 mb-3">
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 RESTful API architecture
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Authentication & authorization
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 Database integration
               </li>
               <li className="flex items-center">
-                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#d17927' }} />
+                <ArrowRight className="h-3 w-3 mr-1.5" style={{ color: '#c96442' }} />
                 API documentation & testing
               </li>
             </ul>
             <button
-              className="btn-primary mt-auto !text-white !bg-[#d17927] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
+              className="btn-primary mt-auto !text-white !bg-[#c96442] hover:!bg-orange-700 hover:!text-white focus:!text-white active:!text-white w-full min-h-[44px]"
               onClick={() => openModal('API Endpoint Building')}
             >
               Select

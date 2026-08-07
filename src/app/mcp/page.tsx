@@ -419,7 +419,7 @@ export default function MCPPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => setShowPricingModal(true)}
-              className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all inline-flex items-center justify-center"
+              className="btn-primary px-6 py-3 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all inline-flex items-center justify-center"
             >
               View Pricing <ArrowRight className="ml-2 h-4 w-4" />
             </button>
@@ -445,7 +445,7 @@ export default function MCPPage() {
                     <Network className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-[#d17927]">MCP Server Development</h2>
+                    <h2 className="text-2xl font-bold text-[#c96442]">MCP Server Development</h2>
                     <p className="text-sm text-zinc-600">Custom Model Context Protocol servers for AI integration</p>
                   </div>
                 </div>
@@ -474,19 +474,19 @@ export default function MCPPage() {
                   </p>
                   <ul className="text-xs text-black space-y-2 mb-4 flex-grow">
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       Complete MCP server architecture
                     </li>
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       Custom tool development
                     </li>
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       NPM package publishing
                     </li>
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       Documentation & testing
                     </li>
                   </ul>
@@ -506,19 +506,19 @@ export default function MCPPage() {
                   </p>
                   <ul className="text-xs text-black space-y-2 mb-4 flex-grow">
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       RESTful API architecture
                     </li>
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       Authentication & authorization
                     </li>
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       Database integration
                     </li>
                     <li className="flex items-center">
-                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#d17927' }} />
+                      <ArrowRight className="h-3 w-3 mr-2" style={{ color: '#c96442' }} />
                       API documentation & testing
                     </li>
                   </ul>
@@ -568,7 +568,7 @@ export default function MCPPage() {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link
                     href="/contact"
-                    className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all inline-flex items-center justify-center"
+                    className="btn-primary px-6 py-3 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all inline-flex items-center justify-center"
                   >
                     Get Custom Quote <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>

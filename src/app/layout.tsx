@@ -26,15 +26,19 @@ const monoFont = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Boondock Labs | Eugene Boondock",
+    default: "Boondock Labs | Product Studio",
     template: "%s | Boondock Labs",
   },
   description:
-    "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering. Portfolio of Eugene Boondock, a full-stack developer building AI-native products, MCP servers, and platform tooling through Boondock Labs.",
+    "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering. Boondock Labs is a South African product studio building AI-native products, payment platforms, and MCP tooling.",
   keywords: [
     "Eugene Boondock",
     "Eugene Loyiso Mzimakhwe",
     "Boondock Labs",
+    "Boondock Labs Pty Ltd",
+    "South African software studio",
+    "product studio",
+    "PactLoop",
     "full-stack developer",
     "product engineer",
     "MCP servers",
@@ -50,16 +54,16 @@ export const metadata: Metadata = {
     },
   ],
   creator: "Eugene Boondock (Eugene Loyiso Mzimakhwe)",
-  publisher: "Boondock Labs",
+  publisher: "Boondock Labs (Pty) Ltd",
   metadataBase: new URL("https://boondocklabs.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Boondock Labs | Eugene Boondock",
+    title: "Boondock Labs | Product Studio",
     description:
       "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering." +
-      " AI-native products, platform systems, and MCP servers by Eugene Boondock.",
+      " A South African product studio building AI-native products, payment platforms, and MCP tooling.",
     url: "https://boondocklabs.com",
     siteName: "Boondock Labs",
     locale: "en_US",
@@ -75,7 +79,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Boondock Labs | Eugene Boondock",
+    title: "Boondock Labs | Product Studio",
     description: "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering.",
     images: ["/Boondocklabs.png"],
     creator: "@eugeneboondock",

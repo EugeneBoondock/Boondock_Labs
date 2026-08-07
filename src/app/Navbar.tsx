@@ -21,9 +21,9 @@ export default function Navbar() {
       href: '/about',
       label: 'About',
       icon: User,
-      description: 'Learn about Eugene Boondock and his journey in tech',
+      description: 'The studio, the team, and how Boondock Labs works',
       items: [
-        { label: 'Personal Story', href: '/about#story' },
+        { label: 'Studio Story', href: '/about#story' },
         { label: 'Skills & Expertise', href: '/about#skills' },
         { label: 'Career Timeline', href: '/about#timeline' }
       ]
@@ -158,7 +158,7 @@ export default function Navbar() {
               height={56}
               className="mr-3"
             />
-            <span className="font-bold text-lg text-[#d17927]">
+            <span className="font-bold text-lg text-[#c96442]">
               Boondock Labs
             </span>
           </div>
@@ -183,7 +183,7 @@ export default function Navbar() {
                   >
                     <Link
                       href={link.href}
-                      className="text-sm font-medium text-[#3a2c1a] hover:text-[#d17927] hover:bg-white/30 transition-all px-3 py-2 rounded-full flex items-center gap-1 group"
+                      className="text-sm font-medium text-[#3a2c1a] hover:text-[#c96442] hover:bg-white/30 transition-all px-3 py-2 rounded-full flex items-center gap-1 group"
                     >
                       <IconComponent className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                       {link.label}
@@ -204,7 +204,7 @@ export default function Navbar() {
                   }}
                 >
                   <button
-                    className="text-sm font-medium text-[#3a2c1a] hover:text-[#d17927] hover:bg-white/30 transition-all px-3 py-2 rounded-full flex items-center gap-1 group"
+                    className="text-sm font-medium text-[#3a2c1a] hover:text-[#c96442] hover:bg-white/30 transition-all px-3 py-2 rounded-full flex items-center gap-1 group"
                   >
                     <Wrench className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                     More
@@ -242,7 +242,7 @@ export default function Navbar() {
                                   <IconComponent className="h-5 w-5 text-white" />
                                 </div>
                                 <div>
-                                  <h3 className="font-bold text-[#d17927] text-lg mb-1">{link.label}</h3>
+                                  <h3 className="font-bold text-[#c96442] text-lg mb-1">{link.label}</h3>
                                   <p className="text-sm text-zinc-600 leading-relaxed">{link.description}</p>
                                 </div>
                               </div>
@@ -259,12 +259,12 @@ export default function Navbar() {
                                   >
                                     <div className="flex items-start justify-between h-full">
                                       <div className="flex-1">
-                                        <h4 className="font-medium text-[#3a2c1a] group-hover:text-[#d17927] transition-colors mb-2">
+                                        <h4 className="font-medium text-[#3a2c1a] group-hover:text-[#c96442] transition-colors mb-2">
                                           {item.label}
                                         </h4>
-                                        <div className="w-8 h-0.5 bg-gradient-to-r from-[#d17927] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <div className="w-8 h-0.5 bg-gradient-to-r from-[#c96442] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                       </div>
-                                      <svg className="h-4 w-4 text-zinc-400 group-hover:text-[#d17927] group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <svg className="h-4 w-4 text-zinc-400 group-hover:text-[#c96442] group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                       </svg>
                                     </div>
@@ -276,7 +276,7 @@ export default function Navbar() {
                               <div className="mt-4 pt-3 border-t border-zinc-300/20">
                                 <Link
                                   href={link.href}
-                                  className="inline-flex items-center text-sm font-medium text-[#d17927] hover:text-orange-700 transition-colors group"
+                                  className="inline-flex items-center text-sm font-medium text-[#c96442] hover:text-orange-700 transition-colors group"
                                 >
                                   View all {link.label.toLowerCase()}
                                   <svg className="ml-1 h-3 w-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -305,7 +305,7 @@ export default function Navbar() {
                                 <IconComponent className="h-5 w-5 text-white" />
                               </div>
                               <div>
-                                <h3 className="font-bold text-[#d17927] text-lg mb-1">{link.label}</h3>
+                                <h3 className="font-bold text-[#c96442] text-lg mb-1">{link.label}</h3>
                                 <p className="text-sm text-zinc-600 leading-relaxed">{link.description}</p>
                               </div>
                             </div>
@@ -322,12 +322,12 @@ export default function Navbar() {
                                 >
                                   <div className="flex items-start justify-between h-full">
                                     <div className="flex-1">
-                                      <h4 className="font-medium text-[#3a2c1a] group-hover:text-[#d17927] transition-colors mb-2">
+                                      <h4 className="font-medium text-[#3a2c1a] group-hover:text-[#c96442] transition-colors mb-2">
                                         {item.label}
                                       </h4>
-                                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#d17927] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                      <div className="w-8 h-0.5 bg-gradient-to-r from-[#c96442] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     </div>
-                                    <svg className="h-4 w-4 text-zinc-400 group-hover:text-[#d17927] group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="h-4 w-4 text-zinc-400 group-hover:text-[#c96442] group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
                                   </div>
@@ -339,7 +339,7 @@ export default function Navbar() {
                             <div className="mt-4 pt-3 border-t border-zinc-300/20">
                               <Link
                                 href={link.href}
-                                className="inline-flex items-center text-sm font-medium text-[#d17927] hover:text-orange-700 transition-colors group"
+                                className="inline-flex items-center text-sm font-medium text-[#c96442] hover:text-orange-700 transition-colors group"
                               >
                                 View all {link.label.toLowerCase()}
                                 <svg className="ml-1 h-3 w-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -372,13 +372,13 @@ export default function Navbar() {
                 className="mr-2 sm:mr-3"
                 priority
               />
-              <span className="font-bold text-base sm:text-lg text-[#d17927]">
+              <span className="font-bold text-base sm:text-lg text-[#c96442]">
                 Boondock Labs
               </span>
             </Link>
 
             <button
-              className="p-2 text-[#3a2c1a] hover:text-[#d17927] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+              className="p-2 text-[#3a2c1a] hover:text-[#c96442] transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >

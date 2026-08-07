@@ -97,13 +97,13 @@ export default function Contact() {
               {[1, 2, 3].map((step) => (
                 <div key={step} className="flex items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
-                    step <= currentStep ? 'bg-[#d17927] text-white' : 'bg-zinc-200 text-zinc-600'
+                    step <= currentStep ? 'bg-[#c96442] text-white' : 'bg-zinc-200 text-zinc-600'
                   }`}>
                     {step < currentStep ? <CheckCircle className="h-4 w-4" /> : step}
                   </div>
                   {step < 3 && (
                     <div className={`w-12 h-0.5 mx-2 transition-all ${
-                      step < currentStep ? 'bg-[#d17927]' : 'bg-zinc-200'
+                      step < currentStep ? 'bg-[#c96442]' : 'bg-zinc-200'
                     }`} />
                   )}
                 </div>
@@ -129,7 +129,7 @@ export default function Contact() {
                       <input
                         type="text"
                         id="name"
-                        className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#d17927] focus:border-transparent transition"
+                        className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#c96442] focus:border-transparent transition"
                         placeholder="Your full name"
                         value={form.name}
                         onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
@@ -143,7 +143,7 @@ export default function Contact() {
                       <input
                         type="email"
                         id="email"
-                        className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#d17927] focus:border-transparent transition"
+                        className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#c96442] focus:border-transparent transition"
                         placeholder="your.email@example.com"
                         value={form.email}
                         onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
@@ -159,7 +159,7 @@ export default function Contact() {
                     <input
                       type="text"
                       id="company"
-                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#d17927] focus:border-transparent transition"
+                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#c96442] focus:border-transparent transition"
                       placeholder="Your company name"
                       value={form.company}
                       onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
@@ -186,7 +186,7 @@ export default function Contact() {
                             value={type}
                             checked={form.projectType === type}
                             onChange={e => setForm(f => ({ ...f, projectType: e.target.value }))}
-                            className="mr-2 text-[#d17927] focus:ring-[#d17927]"
+                            className="mr-2 text-[#c96442] focus:ring-[#c96442]"
                           />
                           <span className="text-sm text-black">{type}</span>
                         </label>
@@ -223,7 +223,7 @@ export default function Contact() {
                             value={budget}
                             checked={form.budget === budget}
                             onChange={e => setForm(f => ({ ...f, budget: e.target.value }))}
-                            className="mr-2 text-[#d17927] focus:ring-[#d17927]"
+                            className="mr-2 text-[#c96442] focus:ring-[#c96442]"
                           />
                           <span className="text-sm text-black">{budget}</span>
                         </label>
@@ -250,7 +250,7 @@ export default function Contact() {
                             value={timeline}
                             checked={form.timeline === timeline}
                             onChange={e => setForm(f => ({ ...f, timeline: e.target.value }))}
-                            className="mr-2 text-[#d17927] focus:ring-[#d17927]"
+                            className="mr-2 text-[#c96442] focus:ring-[#c96442]"
                           />
                           <span className="text-sm text-black">{timeline}</span>
                         </label>
@@ -275,7 +275,7 @@ export default function Contact() {
                     <textarea
                       id="description"
                       rows={4}
-                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#d17927] focus:border-transparent transition"
+                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#c96442] focus:border-transparent transition"
                       placeholder="Describe your project, what you want to build, and what problem it solves..."
                       value={form.description}
                       onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
@@ -290,7 +290,7 @@ export default function Contact() {
                     <textarea
                       id="goals"
                       rows={3}
-                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#d17927] focus:border-transparent transition"
+                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#c96442] focus:border-transparent transition"
                       placeholder="What do you want to achieve with this project?"
                       value={form.goals}
                       onChange={e => setForm(f => ({ ...f, goals: e.target.value }))}
@@ -304,7 +304,7 @@ export default function Contact() {
                     <textarea
                       id="challenges"
                       rows={3}
-                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#d17927] focus:border-transparent transition"
+                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#c96442] focus:border-transparent transition"
                       placeholder="What challenges are you facing that this project will solve?"
                       value={form.challenges}
                       onChange={e => setForm(f => ({ ...f, challenges: e.target.value }))}
@@ -318,7 +318,7 @@ export default function Contact() {
                     <textarea
                       id="additionalInfo"
                       rows={2}
-                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#d17927] focus:border-transparent transition"
+                      className="w-full px-4 py-3 rounded-lg border border-orange-900/30 bg-[#f7f2e7] text-black focus:ring-2 focus:ring-[#c96442] focus:border-transparent transition"
                       placeholder="Any other details, references, or questions..."
                       value={form.additionalInfo}
                       onChange={e => setForm(f => ({ ...f, additionalInfo: e.target.value }))}
@@ -347,7 +347,7 @@ export default function Contact() {
                     type="button"
                     onClick={nextStep}
                     disabled={!isStepValid(currentStep)}
-                    className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center"
+                    className="btn-primary px-6 py-3 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center"
                   >
                     Next <ArrowRight className="ml-2 h-4 w-4" />
                   </button>
@@ -355,7 +355,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={loading || !isStepValid(currentStep)}
-                    className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
+                    className="btn-primary px-6 py-3 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
                   >
                     <span>{loading ? 'Sending...' : 'Send Project Inquiry'}</span>
                     <MessagesSquare className="h-4 w-4" />
@@ -370,7 +370,7 @@ export default function Contact() {
 
           <div id="social" className="mt-8 text-center scroll-mt-24">
             <p className="text-sm text-black mb-4">
-              Prefer direct contact? <a href="mailto:loyiso.eugene.moketsi@gmail.com" className="cream hover:[color:#d17927] font-medium">loyiso.eugene.moketsi@gmail.com</a>
+              Prefer direct contact? <a href="mailto:loyiso.eugene.moketsi@gmail.com" className="cream hover:[color:#c96442] font-medium">loyiso.eugene.moketsi@gmail.com</a>
             </p>
             <div className="flex justify-center gap-4 mt-4">
               <a href="https://github.com/EugeneBoondock" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors text-sm">

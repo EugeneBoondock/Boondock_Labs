@@ -256,7 +256,7 @@ function CaseStudiesContent() {
                     {/* CTA */}
                     <button
                       onClick={() => openModal(study)}
-                      className="w-full btn-primary px-4 py-2 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all inline-flex items-center justify-center group text-sm"
+                      className="w-full btn-primary px-4 py-2 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all inline-flex items-center justify-center group text-sm"
                     >
                       Read Full Case Study <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
                     </button>

@@ -159,7 +159,7 @@ export default function BlogPage() {
                 </div>
                 <button
                   onClick={() => openModal(blogPosts.find(post => post.id === 'earth2-platform-case-study')!)}
-                  className="btn-primary px-6 py-3 !text-white !bg-[#d17927] hover:!bg-orange-700 transition-all inline-flex items-center"
+                  className="btn-primary px-6 py-3 !text-white !bg-[#c96442] hover:!bg-orange-700 transition-all inline-flex items-center"
                 >
                   Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
                 </button>

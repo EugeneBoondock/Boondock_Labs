@@ -1,7 +1,7 @@
 "use client";
 
+import { animate, createScope, createTimeline } from "animejs";
 import { useEffect, useRef } from "react";
-import { createScope, createTimeline, animate } from "animejs";
 
 const MOTES = [
   { x: 12, y: 18, delay: 0, dur: 11 },
@@ -57,7 +57,7 @@ export default function OpeningGate() {
             duration: 1200,
             ease: "outQuart",
           },
-          "-=400"
+          "-=400",
         )
         /* horizontal rule draws outward */
         .add(
@@ -68,7 +68,7 @@ export default function OpeningGate() {
             duration: 1400,
             ease: "outQuart",
           },
-          "-=800"
+          "-=800",
         )
         /* ambient orb fades in */
         .add(
@@ -79,7 +79,7 @@ export default function OpeningGate() {
             duration: 2000,
             ease: "outQuad",
           },
-          "-=1200"
+          "-=1200",
         )
         /* studio name emerges */
         .add(
@@ -90,7 +90,7 @@ export default function OpeningGate() {
             translateY: [8, 0],
             duration: 1800,
           },
-          "-=1400"
+          "-=1400",
         )
         /* subtitle appears */
         .add(
@@ -100,7 +100,7 @@ export default function OpeningGate() {
             translateY: [12, 0],
             duration: 1100,
           },
-          "-=600"
+          "-=600",
         )
         /* motes fade in */
         .add(
@@ -109,7 +109,7 @@ export default function OpeningGate() {
             opacity: [0, 1],
             duration: 1200,
           },
-          "-=800"
+          "-=800",
         )
         /* scroll indicator appears */
         .add(
@@ -119,7 +119,7 @@ export default function OpeningGate() {
             translateY: [8, 0],
             duration: 900,
           },
-          "-=400"
+          "-=400",
         )
         .init();
 
@@ -175,10 +175,26 @@ export default function OpeningGate() {
       <div className="gate-rule-v" data-gate-rule-v aria-hidden="true" />
 
       {/* Viewfinder corners */}
-      <div className="gate-corner gate-corner-tl" data-gate-corner aria-hidden="true" />
-      <div className="gate-corner gate-corner-tr" data-gate-corner aria-hidden="true" />
-      <div className="gate-corner gate-corner-bl" data-gate-corner aria-hidden="true" />
-      <div className="gate-corner gate-corner-br" data-gate-corner aria-hidden="true" />
+      <div
+        className="gate-corner gate-corner-tl"
+        data-gate-corner
+        aria-hidden="true"
+      />
+      <div
+        className="gate-corner gate-corner-tr"
+        data-gate-corner
+        aria-hidden="true"
+      />
+      <div
+        className="gate-corner gate-corner-bl"
+        data-gate-corner
+        aria-hidden="true"
+      />
+      <div
+        className="gate-corner gate-corner-br"
+        data-gate-corner
+        aria-hidden="true"
+      />
 
       {/* Content */}
       <div className="gate-content">
@@ -186,12 +202,20 @@ export default function OpeningGate() {
           Boondock Labs
         </h1>
         <p className="gate-sub" data-gate-sub>
-          Software studio, Edenvale, South Africa
+          Product studio · Edenvale, South Africa
         </p>
         <p className="gate-motto" data-gate-sub>
           Building intelligent, reliable, and beautifully designed apps that
           solve everyday problems through thoughtful engineering.
         </p>
+        <div className="gate-actions" data-gate-sub>
+          <a href="#work" className="btn-solid">
+            See the work
+          </a>
+          <a href="#contact" className="btn-ghost">
+            Start a project
+          </a>
+        </div>
       </div>
 
       {/* Scroll cue */}

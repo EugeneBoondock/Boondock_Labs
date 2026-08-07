@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import {
   ArrowUpRight,
   AudioLines,
@@ -26,6 +24,8 @@ import {
   UtensilsCrossed,
   Workflow,
 } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import ClippyAssistant from "./ClippyAssistant";
 import OpeningGate from "./OpeningGate";
 
@@ -34,20 +34,30 @@ import OpeningGate from "./OpeningGate";
    ═══════════════════════════════════════════════════ */
 
 const signalStats = [
-  { value: "17+", label: "Live APIs orchestrated inside one platform" },
-  { value: "30+", label: "AI tools unified into a single product surface" },
+  { value: "10+", label: "Products designed, built, and operated in-house" },
+  { value: "4", label: "African markets served with localised payment rails" },
+  { value: "17+", label: "Live APIs orchestrated inside a single platform" },
   { value: "4+", label: "Published packages, wrappers, and MCP servers" },
-  { value: "1,027", label: "Poems archived into a searchable, discussable PWA" },
 ] as const;
 
 const featuredProjects = [
+  {
+    title: "PactLoop",
+    description:
+      "An AI customer platform that pulls every chat, call, invoice, payment promise, and field visit into one workspace. Sales, service, collections, and consent share a single customer record.",
+    impact:
+      "Country packs for South Africa, Nigeria, Kenya, and Ghana set currency, tax labels, payment rails, and consent copy. Multi-local from day one, not bolted on later.",
+    image: "/pactloop.webp",
+    href: "https://pactloop.com",
+    tags: ["AI workspace", "M-Pesa & Paystack", "Cloudflare D1"],
+  },
   {
     title: "Morphed.io",
     description:
       "End-to-end platform architecture: frontend systems, backend infrastructure, custom API design, and a complete MCP server engineered from the ground up.",
     impact:
       "The kind of build that reveals range: product instinct, systems thinking, implementation depth, and protocol fluency in a single engagement.",
-    image: "/morphed.png",
+    image: "/morphed.webp",
     href: "https://morphed.io",
     tags: ["Full-stack architecture", "Custom APIs", "MCP tooling"],
   },
@@ -57,7 +67,7 @@ const featuredProjects = [
       "A living Earth2 intelligence layer with real-time market telemetry, interactive cartography, and an AI companion hardened against platform complexity.",
     impact:
       "Seventeen APIs integrated without losing clarity. Complex integrations are where the work gets interesting.",
-    image: "/earthie-world.png",
+    image: "/earthie-world.webp",
     href: "https://earthie.world",
     tags: ["17+ integrations", "Realtime data", "Interactive maps"],
   },
@@ -67,7 +77,7 @@ const featuredProjects = [
       "Thirty-plus AI instruments for analysis, conversion, and experimentation, unified into one product surface that stays fast and navigable.",
     impact:
       "The challenge was not the tools themselves. It was making a broad feature surface feel coherent and effortless.",
-    image: "/entropysuite.png",
+    image: "/entropysuite.webp",
     href: "https://entropysuite.co.za",
     tags: ["AI product design", "Tool ecosystems", "React"],
   },
@@ -77,7 +87,7 @@ const featuredProjects = [
       "A native Windows code editor built in C and Win32. AI-assisted, Git-integrated, plugin-ready. Close to the metal by choice.",
     impact:
       "Evidence that the work here is not limited to the web stack. Hard problems. Low-level engineering. By preference.",
-    image: "/bikode.png",
+    image: "/bikode.webp",
     href: "https://bikode.co.za",
     tags: ["C / Win32", "Editor engineering", "AI integration"],
   },
@@ -93,9 +103,7 @@ const additionalProjects = [
     androidHref: null,
     tags: ["Community platform", "Support UX", "React"],
     icon: HeartPulse,
-    image: "/kinspace.png",
-    surface:
-      "linear-gradient(145deg, rgba(74, 154, 156, 0.8) 0%, rgba(8, 8, 10, 0.92) 100%)",
+    image: "/kinspace.webp",
   },
   {
     title: "PathNote",
@@ -106,9 +114,7 @@ const additionalProjects = [
     androidHref: null,
     tags: ["Geolocation", "Audio UX", "AI storytelling"],
     icon: AudioLines,
-    image: null,
-    surface:
-      "linear-gradient(145deg, rgba(29, 82, 99, 0.8) 0%, rgba(6, 6, 8, 0.92) 100%)",
+    image: "/pathnote.webp",
   },
   {
     title: "MessageCFO",
@@ -119,9 +125,7 @@ const additionalProjects = [
     androidHref: null,
     tags: ["WhatsApp workflows", "Fintech ops", "PostgreSQL"],
     icon: MessageSquareText,
-    image: null,
-    surface:
-      "linear-gradient(145deg, rgba(26, 74, 55, 0.8) 0%, rgba(6, 8, 7, 0.92) 100%)",
+    image: "/messagecfo.webp",
   },
   {
     title: "Platedom",
@@ -132,9 +136,7 @@ const additionalProjects = [
     androidHref: null,
     tags: ["Generative AI", "Hospitality tech", "Firebase"],
     icon: UtensilsCrossed,
-    image: null,
-    surface:
-      "linear-gradient(145deg, rgba(108, 61, 34, 0.8) 0%, rgba(10, 8, 6, 0.92) 100%)",
+    image: "/platedom.webp",
   },
   {
     title: "Centralbrain",
@@ -145,9 +147,7 @@ const additionalProjects = [
     androidHref: null,
     tags: ["MCP servers", "AI governance", "NextJS"],
     icon: BrainCircuit,
-    image: null,
-    surface:
-      "linear-gradient(145deg, rgba(79, 70, 229, 0.8) 0%, rgba(7, 10, 15, 0.92) 100%)",
+    image: "/centralbrain.webp",
   },
   {
     title: "Trolley Scout",
@@ -159,9 +159,7 @@ const additionalProjects = [
       "https://play.google.com/store/apps/details?id=za.co.trolleyscout.trolley_scout",
     tags: ["Price intelligence", "Android app", "PayFast billing"],
     icon: ShoppingBag,
-    image: null,
-    surface:
-      "linear-gradient(145deg, rgba(122, 84, 24, 0.8) 0%, rgba(9, 8, 6, 0.92) 100%)",
+    image: "/trolleyscout.webp",
   },
 ] as const;
 
@@ -213,13 +211,21 @@ const capabilities = [
     icon: Layers3,
     title: "Product Engineering",
     body: "Interfaces built with structure, conviction, and taste. Translating unclear requirements into products that feel composed from first impression to final interaction.",
-    details: ["Next.js and React", "Responsive systems", "UX polish with intent"],
+    details: [
+      "Next.js and React",
+      "Responsive systems",
+      "UX polish with intent",
+    ],
   },
   {
     icon: BrainCircuit,
     title: "AI-Native Systems",
     body: "AI is not decoration here. It is part of the product architecture: assistants, structured workflows, model orchestration, and protocol tooling designed as first-class features.",
-    details: ["Gemini and LLM workflows", "MCP servers", "Prompt and tool design"],
+    details: [
+      "Gemini and LLM workflows",
+      "MCP servers",
+      "Prompt and tool design",
+    ],
   },
   {
     icon: Braces,
@@ -233,7 +239,7 @@ const principles = [
   {
     number: "01",
     title: "Full surface ownership.",
-    body: "Frontend, backend, AI systems, integrations, and design intent. Connected, not siloed. One person, one coherent vision.",
+    body: "Frontend, backend, AI systems, integrations, and design intent. Connected, not siloed. One studio, one coherent vision.",
   },
   {
     number: "02",
@@ -253,9 +259,19 @@ const principles = [
 ] as const;
 
 const toolStack = [
-  "Next.js", "React", "TypeScript", "Node.js", "Python",
-  "PostgreSQL", "Supabase", "Cloudflare", "MCP", "Gemini",
-  "OpenAI", "Claude", "Tailwind CSS",
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Node.js",
+  "Python",
+  "PostgreSQL",
+  "Supabase",
+  "Cloudflare",
+  "MCP",
+  "Gemini",
+  "OpenAI",
+  "Claude",
+  "Tailwind CSS",
 ] as const;
 
 const processSteps = [
@@ -286,50 +302,72 @@ const pricingTiers = [
     icon: Layers3,
     title: "Starter Website",
     price: "R3,000 - R10,000",
-    summary: "Portfolio sites, landing pages, and compact business websites that need to look sharp and ship cleanly.",
+    summary:
+      "Portfolio sites, landing pages, and compact business websites that need to look sharp and ship cleanly.",
     details: ["Up to 3 pages", "Responsive build", "Basic SEO setup"],
   },
   {
     icon: BriefcaseBusiness,
     title: "Business Website",
     price: "R11,000 - R15,000",
-    summary: "Fuller company sites with stronger structure, more content depth, and proper lead capture.",
+    summary:
+      "Fuller company sites with stronger structure, more content depth, and proper lead capture.",
     details: ["Up to 8 pages", "Forms and maps", "Blog and enhanced SEO"],
   },
   {
     icon: ShoppingBag,
     title: "E-commerce Build",
     price: "R15,000 - R20,000",
-    summary: "Online stores with product structure, payment flow, and enough polish to feel trustworthy from day one.",
+    summary:
+      "Online stores with product structure, payment flow, and enough polish to feel trustworthy from day one.",
     details: ["Catalog and checkout", "Order flow", "Admin handover basics"],
   },
   {
     icon: Rocket,
     title: "Custom Product Build",
     price: "From R30,000+",
-    summary: "Platforms, dashboards, AI-heavy products, and custom systems with deeper engineering and more moving parts.",
-    details: ["Custom features", "Data systems", "Advanced UX and integrations"],
+    summary:
+      "Platforms, dashboards, AI-heavy products, and custom systems with deeper engineering and more moving parts.",
+    details: [
+      "Custom features",
+      "Data systems",
+      "Advanced UX and integrations",
+    ],
   },
   {
     icon: Network,
     title: "MCP Server Engineering",
     price: "R20,000 - R50,000",
-    summary: "APIs turned into usable model tools with proper architecture, testing, and publishable packaging.",
+    summary:
+      "APIs turned into usable model tools with proper architecture, testing, and publishable packaging.",
     details: ["Custom MCP tools", "NPM packaging", "Docs and testing"],
   },
   {
     icon: Database,
     title: "API and Integration Work",
     price: "R15,000 - R40,000",
-    summary: "Backend systems, auth flows, endpoint design, and platform integration work that powers the product behind the curtain.",
-    details: ["REST architecture", "Auth and database work", "Documentation and security"],
+    summary:
+      "Backend systems, auth flows, endpoint design, and platform integration work that powers the product behind the curtain.",
+    details: [
+      "REST architecture",
+      "Auth and database work",
+      "Documentation and security",
+    ],
   },
 ] as const;
 
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/EugeneBoondock", icon: Github },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/eboondock/", icon: Linkedin },
-  { label: "Twitter", href: "https://twitter.com/eugeneboondock", icon: Twitter },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/eboondock/",
+    icon: Linkedin,
+  },
+  {
+    label: "Twitter",
+    href: "https://twitter.com/eugeneboondock",
+    icon: Twitter,
+  },
 ] as const;
 
 /* ═══════════════════════════════════════════════════
@@ -353,11 +391,21 @@ export default function Home() {
   const [navVisible, setNavVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  /* A note for whoever opens the console. Every gate leads somewhere. */
+  useEffect(() => {
+    console.log(
+      "%cBOONDOCK LABS%c\n異世界 — you crossed the gate. Welcome to the other side.\nBuilding here? loyiso.eugene.moketsi@gmail.com",
+      "font:600 15px/1.6 Georgia,serif;letter-spacing:.22em;color:#c96442",
+      "font:12px/1.7 ui-monospace,monospace;color:#77736a",
+    );
+  }, []);
+
   /* Scroll progress bar */
   useEffect(() => {
     const onScroll = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -369,7 +417,7 @@ export default function Home() {
     if (!gateRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => setNavVisible(!entry.isIntersecting),
-      { threshold: 0.05 }
+      { threshold: 0.05 },
     );
     observer.observe(gateRef.current);
     return () => observer.disconnect();
@@ -387,7 +435,7 @@ export default function Home() {
           }
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
     );
     for (const el of elements) observer.observe(el);
     return () => observer.disconnect();
@@ -415,12 +463,16 @@ export default function Home() {
         <div className="fixed-nav-inner">
           <a href="#top" className="fixed-nav-mark">
             <Image
-              src="/Boondocklabs.png"
+              src="/boondock-mark.png"
               alt="Boondock Labs"
-              width={28}
-              height={28}
+              width={44}
+              height={44}
               className="nav-logo"
             />
+            <span className="nav-wordmark">
+              Boondock Labs
+              <em>Product studio</em>
+            </span>
           </a>
           <nav className="fixed-nav-links">
             <a href="#work">Work</a>
@@ -436,20 +488,19 @@ export default function Home() {
 
       {/* ── Main flow ── */}
       <div className="main-flow">
-
         {/* ─────────── STATEMENT ─────────── */}
         <section className="statement">
           <h2 className="statement-declaration" data-reveal>
-            I build software that holds up.
+            We build software that holds up.
           </h2>
           <p className="statement-motto" data-reveal data-reveal-delay="1">
             Building intelligent, reliable, and beautifully designed apps that
             solve everyday problems through thoughtful engineering.
           </p>
           <p className="statement-body" data-reveal data-reveal-delay="2">
-            Full-stack products, AI-native systems, and protocol tooling,
-            shaped with architectural depth, visual conviction, and the kind
-            of care that makes complex things feel inevitable.
+            Boondock Labs is a product studio in Edenvale, South Africa. We
+            design, build, and operate our own software, and we take the same
+            standard into the work we do for clients.
           </p>
 
           <div className="statement-actions" data-reveal data-reveal-delay="3">
@@ -470,8 +521,8 @@ export default function Home() {
           <div className="statement-callout" data-reveal data-reveal-delay="4">
             <Bot className="h-4 w-4 shrink-0 text-[var(--accent-teal)]" />
             <p>
-              Clippy is active. Ask about project depth, stack details,
-              rates, or the short version.
+              Clippy is active. Ask about project depth, stack details, rates,
+              or the short version.
             </p>
           </div>
 
@@ -525,9 +576,9 @@ export default function Home() {
               Built across the full surface. Judged by what holds.
             </h2>
             <p className="section-body">
-              Each project demanded a different shape of thinking. The portfolio
-              reads as range because the work required it, not because diversity
-              was the goal.
+              Products the studio owns and operates, alongside platform work
+              built for clients. Each one demanded a different shape of
+              thinking, which is why the range reads the way it does.
             </p>
           </div>
 
@@ -548,7 +599,9 @@ export default function Home() {
                   <p className="scene-impact">{project.impact}</p>
                   <div className="scene-tags">
                     {project.tags.map((tag) => (
-                      <span key={tag} className="stack-chip">{tag}</span>
+                      <span key={tag} className="stack-chip">
+                        {tag}
+                      </span>
                     ))}
                   </div>
                   <a
@@ -579,47 +632,32 @@ export default function Home() {
             {additionalProjects.map((project) => {
               const Icon = project.icon;
               return (
-                <article key={project.title} className="portfolio-card" data-reveal>
+                <article
+                  key={project.title}
+                  className="portfolio-card"
+                  data-reveal
+                >
                   <div className="project-media">
-                    {project.image ? (
-                      <Image
-                        src={project.image}
-                        alt={`${project.title} preview`}
-                        fill
-                        className="object-cover"
-                        sizes="(min-width: 1024px) 45vw, 100vw"
-                      />
-                    ) : (
-                      <div
-                        className="relative flex h-full min-h-[240px] flex-col justify-between overflow-hidden p-6 text-white"
-                        style={{ background: project.surface }}
-                      >
-                        <div className="absolute inset-0 opacity-25">
-                          <div className="absolute inset-x-[-12%] top-[18%] h-px rotate-[-12deg] bg-white/15" />
-                          <div className="absolute inset-x-[-8%] top-[46%] h-px rotate-[8deg] bg-white/10" />
-                          <div className="absolute inset-x-[-10%] bottom-[20%] h-px rotate-[-7deg] bg-white/12" />
-                        </div>
-                        <div className="relative z-10 flex items-center justify-between gap-4">
-                          <div className="icon-badge border-white/8 bg-white/6 text-white">
-                            <Icon className="h-5 w-5" />
-                          </div>
-                          <p className="mono-label !mb-0 !text-white/40">{project.domain}</p>
-                        </div>
-                        <div className="relative z-10 max-w-md space-y-2">
-                          <h3 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">
-                            {project.title}
-                          </h3>
-                        </div>
-                      </div>
-                    )}
+                    <Image
+                      src={project.image}
+                      alt={`${project.title} preview`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="(min-width: 1024px) 45vw, 100vw"
+                    />
                   </div>
                   <div className="space-y-4 p-6">
                     <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <p className="mono-label">{project.domain}</p>
-                        <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
-                          {project.title}
-                        </h3>
+                      <div className="flex items-center gap-3">
+                        <div className="icon-badge">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="mono-label">{project.domain}</p>
+                          <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
+                            {project.title}
+                          </h3>
+                        </div>
                       </div>
                       <div className="flex items-center gap-3">
                         {project.androidHref && (
@@ -647,7 +685,9 @@ export default function Home() {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="stack-chip">{tag}</span>
+                        <span key={tag} className="stack-chip">
+                          {tag}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -703,7 +743,9 @@ export default function Home() {
                   <div className="space-y-4">
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="stack-chip">{tag}</span>
+                        <span key={tag} className="stack-chip">
+                          {tag}
+                        </span>
                       ))}
                     </div>
                     <a
@@ -727,9 +769,7 @@ export default function Home() {
         <section id="capabilities">
           <div className="max-w-3xl space-y-4 mb-8" data-reveal>
             <p className="mono-label">Capabilities</p>
-            <h2 className="section-heading">
-              Deep stack. Sharper taste.
-            </h2>
+            <h2 className="section-heading">Deep stack. Sharper taste.</h2>
             <p className="section-body">
               Most developers can wire frameworks together. The difference is
               knowing what to build, what to leave out, and how to make complex
@@ -760,7 +800,9 @@ export default function Home() {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {cap.details.map((d) => (
-                      <span key={d} className="stack-chip">{d}</span>
+                      <span key={d} className="stack-chip">
+                        {d}
+                      </span>
                     ))}
                   </div>
                 </article>
@@ -768,7 +810,10 @@ export default function Home() {
             })}
           </div>
 
-          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal="fade-right">
+          <div
+            className="section-wrap mt-8 p-6 sm:p-8"
+            data-reveal="fade-right"
+          >
             <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div className="space-y-4">
                 <p className="mono-label">Current toolkit</p>
@@ -777,14 +822,16 @@ export default function Home() {
                   integration layers.
                 </h3>
                 <p className="text-sm leading-7 text-[var(--muted)]">
-                  Equally at home shipping clean frontends, backend systems,
-                  data pipelines, and AI-enhanced workflows. The range produces
+                  The studio ships clean frontends, backend systems, data
+                  pipelines, and AI-enhanced workflows. The range produces
                   coherent systems rather than disconnected pieces.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3">
                 {toolStack.map((t) => (
-                  <span key={t} className="tool-chip">{t}</span>
+                  <span key={t} className="tool-chip">
+                    {t}
+                  </span>
                 ))}
               </div>
             </div>
@@ -797,13 +844,11 @@ export default function Home() {
         <section id="investment">
           <div className="max-w-3xl space-y-4 mb-8" data-reveal>
             <p className="mono-label">Investment</p>
-            <h2 className="section-heading">
-              Scope-honest. No filler.
-            </h2>
+            <h2 className="section-heading">Scope-honest. No filler.</h2>
             <p className="section-body">
-              Ranges for the work I usually take on. Final pricing follows
-              complexity, integration depth, urgency, and how much of the
-              system falls under my ownership.
+              Ranges for the engagements the studio takes on. Final pricing
+              follows complexity, integration depth, urgency, and how much of
+              the system falls under our ownership.
             </p>
           </div>
 
@@ -836,7 +881,9 @@ export default function Home() {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {tier.details.map((d) => (
-                      <span key={d} className="stack-chip">{d}</span>
+                      <span key={d} className="stack-chip">
+                        {d}
+                      </span>
                     ))}
                   </div>
                 </article>
@@ -849,10 +896,10 @@ export default function Home() {
               <div className="space-y-2">
                 <p className="mono-label">Pricing note</p>
                 <p className="max-w-3xl text-sm leading-7 text-[var(--muted)]">
-                  When a project spans product strategy, interface design, backend
-                  architecture, AI workflows, and custom integrations, it enters
-                  the custom range. For a faster estimate, Clippy can qualify scope
-                  before you reach out.
+                  When a project spans product strategy, interface design,
+                  backend architecture, AI workflows, and custom integrations,
+                  it enters the custom range. For a faster estimate, Clippy can
+                  qualify scope before you reach out.
                 </p>
               </div>
               <a href="#contact" className="btn-solid self-start lg:self-auto">
@@ -872,8 +919,9 @@ export default function Home() {
               From ambiguity to architecture to artifact.
             </h2>
             <p className="section-body">
-              The projects change shape. The rhythm stays: find the real problem,
-              design the structure, build with precision, refine until it reads.
+              The projects change shape. The rhythm stays: find the real
+              problem, design the structure, build with precision, refine until
+              it reads.
             </p>
           </div>
 
@@ -915,12 +963,15 @@ export default function Home() {
                   If the work is serious, the door is open.
                 </h2>
                 <p className="max-w-xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-                  Taking on contract work, freelance builds, and teams that want
-                  a developer with real ownership range. Serious briefs. Real
-                  ambition. That is the filter.
+                  The studio takes on product builds, platform work, and
+                  teams that want a partner with real ownership range. Serious
+                  briefs. Real ambition. That is the filter.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <a href="mailto:loyiso.eugene.moketsi@gmail.com" className="btn-solid">
+                  <a
+                    href="mailto:loyiso.eugene.moketsi@gmail.com"
+                    className="btn-solid"
+                  >
                     <Mail className="h-4 w-4" />
                     loyiso.eugene.moketsi@gmail.com
                   </a>
@@ -976,9 +1027,9 @@ export default function Home() {
                 <article className="contact-card">
                   <p className="mono-label">Before you email</p>
                   <p className="text-sm leading-7 text-[var(--muted)]">
-                    Try Clippy first: ask which project demonstrates backend depth,
-                    how AI fits into the real workflow, or whether this is the right
-                    fit for a product engineering engagement.
+                    Try Clippy first: ask which project demonstrates backend
+                    depth, how AI fits into the real workflow, or whether this
+                    is the right fit for a product engineering engagement.
                   </p>
                 </article>
               </div>
@@ -990,9 +1041,53 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="site-footer">
         <div className="site-footer-rule" />
-        <div className="site-footer-text">
-          <span>Boondock Labs</span>
-          <span>Edenvale, South Africa</span>
+        <div className="site-footer-grid">
+          <div className="site-footer-brand">
+            <p className="site-footer-mark">Boondock Labs</p>
+            <p className="site-footer-tagline">
+              Building intelligent, reliable, and beautifully designed apps that
+              solve everyday problems through thoughtful engineering.
+            </p>
+          </div>
+          <div className="site-footer-col">
+            <p className="mono-label">Studio</p>
+            <a href="#work">Work</a>
+            <a href="#capabilities">Capabilities</a>
+            <a href="#investment">Investment</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div className="site-footer-col">
+            <p className="mono-label">Products</p>
+            <a href="https://pactloop.com" target="_blank" rel="noreferrer">
+              PactLoop
+            </a>
+            <a href="https://platedom.com" target="_blank" rel="noreferrer">
+              Platedom
+            </a>
+            <a
+              href="https://trolleyscout.co.za/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Trolley Scout
+            </a>
+            <a href="https://earthie.world" target="_blank" rel="noreferrer">
+              Earthie
+            </a>
+          </div>
+          <div className="site-footer-col">
+            <p className="mono-label">Registered office</p>
+            <p>67 7th Avenue, Edenvale</p>
+            <p>Johannesburg, Gauteng, 1609</p>
+            <p>South Africa</p>
+          </div>
+        </div>
+        <div className="site-footer-legal">
+          <span>
+            &copy; {new Date().getFullYear()} Boondock Labs (Pty) Ltd. Registered
+            in the Republic of South Africa, No. 2026/454520/07.
+          </span>
+          <span>Edenvale, Gauteng</span>
         </div>
       </footer>
     </ClippyAssistant>

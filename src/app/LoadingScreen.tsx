@@ -120,16 +120,16 @@ export default function LoadingScreen() {
       {/* Animated circles - orbital design */}
       <div className="relative w-64 h-64 flex items-center justify-center">
         {/* Outer orbital ring */}
-        <div className="loading-circle absolute inset-0 rounded-full border-2 border-[#d17927]/15"></div>
+        <div className="loading-circle absolute inset-0 rounded-full border-2 border-[#c96442]/15"></div>
         
         {/* Middle orbital ring */}
-        <div className="loading-circle absolute inset-8 rounded-full border-2 border-[#d17927]/20"></div>
+        <div className="loading-circle absolute inset-8 rounded-full border-2 border-[#c96442]/20"></div>
         
         {/* Inner orbital ring */}
-        <div className="loading-circle absolute inset-16 rounded-full border-2 border-[#d17927]/25"></div>
+        <div className="loading-circle absolute inset-16 rounded-full border-2 border-[#c96442]/25"></div>
         
         {/* Center sun/planet with logo */}
-        <div className="loading-circle absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-gradient-to-br from-[#d17927] to-[#e08a38] shadow-xl shadow-[#d17927]/40 flex items-center justify-center p-3">
+        <div className="loading-circle absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-gradient-to-br from-[#c96442] to-[#e08a38] shadow-xl shadow-[#c96442]/40 flex items-center justify-center p-3">
           <Image 
             src="/Boondocklabs.png" 
             alt="Boondock Labs" 
@@ -141,34 +141,34 @@ export default function LoadingScreen() {
 
         {/* Orbital particles - scattered around */}
         {/* Top left area */}
-        <div className="loading-circle absolute top-8 left-12 w-3 h-3 rounded-full bg-[#d17927]"></div>
+        <div className="loading-circle absolute top-8 left-12 w-3 h-3 rounded-full bg-[#c96442]"></div>
         <div className="loading-circle absolute top-16 left-6 w-2 h-2 rounded-full bg-[#e08a38]"></div>
         
         {/* Top right area */}
-        <div className="loading-circle absolute top-6 right-16 w-2.5 h-2.5 rounded-full bg-[#d17927]"></div>
+        <div className="loading-circle absolute top-6 right-16 w-2.5 h-2.5 rounded-full bg-[#c96442]"></div>
         <div className="loading-circle absolute top-14 right-8 w-2 h-2 rounded-full bg-[#e08a38]"></div>
         
         {/* Bottom left area */}
-        <div className="loading-circle absolute bottom-12 left-8 w-2 h-2 rounded-full bg-[#d17927]"></div>
+        <div className="loading-circle absolute bottom-12 left-8 w-2 h-2 rounded-full bg-[#c96442]"></div>
         <div className="loading-circle absolute bottom-16 left-16 w-2.5 h-2.5 rounded-full bg-[#e08a38]"></div>
         
         {/* Bottom right area */}
-        <div className="loading-circle absolute bottom-8 right-12 w-2 h-2 rounded-full bg-[#d17927]"></div>
+        <div className="loading-circle absolute bottom-8 right-12 w-2 h-2 rounded-full bg-[#c96442]"></div>
         
         {/* Small accent dots */}
-        <div className="loading-circle absolute top-20 left-20 w-1.5 h-1.5 rounded-full bg-[#d17927]/60"></div>
+        <div className="loading-circle absolute top-20 left-20 w-1.5 h-1.5 rounded-full bg-[#c96442]/60"></div>
         <div className="loading-circle absolute bottom-20 right-20 w-1.5 h-1.5 rounded-full bg-[#e08a38]/60"></div>
       </div>
 
       {/* Loading text */}
       <div className="loading-text absolute bottom-1/4 left-1/2 -translate-x-1/2 text-center">
-        <h2 className="text-3xl font-bold" style={{ color: '#d17927' }}>
+        <h2 className="text-3xl font-bold" style={{ color: '#c96442' }}>
           Boondock Labs
         </h2>
         <div className="flex items-center justify-center space-x-1 mt-3">
-          <div className="w-2 h-2 bg-[#d17927] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-          <div className="w-2 h-2 bg-[#d17927] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-          <div className="w-2 h-2 bg-[#d17927] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+          <div className="w-2 h-2 bg-[#c96442] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+          <div className="w-2 h-2 bg-[#c96442] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+          <div className="w-2 h-2 bg-[#c96442] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
         </div>
       </div>
     </div>

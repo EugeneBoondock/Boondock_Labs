@@ -54,7 +54,7 @@ export default function ServiceModal({
           onClick={onClose}
           className="absolute top-4 right-4 z-10 p-2 bg-[#e7dbc8]/80 hover:bg-[#e7dbc8] rounded-full shadow-lg transition-colors border border-orange-900/20"
         >
-          <X className="h-5 w-5 text-[#d17927]" />
+          <X className="h-5 w-5 text-[#c96442]" />
         </button>
 
         {/* Content */}
@@ -71,7 +71,7 @@ export default function ServiceModal({
             <ul className="space-y-2">
               {serviceFeatures.map((feature, index) => (
                 <li key={index} className="flex items-center text-sm text-black">
-                  <div className="w-2 h-2 bg-[#d17927] rounded-full mr-3 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-[#c96442] rounded-full mr-3 flex-shrink-0"></div>
                   {feature}
                 </li>
               ))}
@@ -83,7 +83,7 @@ export default function ServiceModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input
                 type="text"
-                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
                 placeholder="Your Name"
                 value={formFields.name}
                 onChange={e => onFormChange('name', e.target.value)}
@@ -91,7 +91,7 @@ export default function ServiceModal({
               />
               <input
                 type="email"
-                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
                 placeholder="Your Email"
                 value={formFields.email}
                 onChange={e => onFormChange('email', e.target.value)}
@@ -101,14 +101,14 @@ export default function ServiceModal({
 
             <input
               type="text"
-              className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+              className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
               placeholder="Business/Brand (if any)"
               value={formFields.business}
               onChange={e => onFormChange('business', e.target.value)}
             />
 
             <textarea
-              className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+              className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
               placeholder="Project Goals (what do you want to achieve?)"
               value={formFields.goals}
               onChange={e => onFormChange('goals', e.target.value)}
@@ -118,14 +118,14 @@ export default function ServiceModal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <textarea
-                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
                 placeholder="Required Features"
                 value={formFields.features}
                 onChange={e => onFormChange('features', e.target.value)}
                 rows={2}
               />
               <textarea
-                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
                 placeholder="Design Preferences"
                 value={formFields.design}
                 onChange={e => onFormChange('design', e.target.value)}
@@ -136,14 +136,14 @@ export default function ServiceModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input
                 type="text"
-                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
                 placeholder="Budget Range (optional)"
                 value={formFields.budget}
                 onChange={e => onFormChange('budget', e.target.value)}
               />
               <input
                 type="text"
-                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+                className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
                 placeholder="Timeline (when do you need it?)"
                 value={formFields.timeline}
                 onChange={e => onFormChange('timeline', e.target.value)}
@@ -151,7 +151,7 @@ export default function ServiceModal({
             </div>
 
             <textarea
-              className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#d17927] focus:border-[#d17927] outline-none"
+              className="w-full rounded px-3 py-2 border text-sm focus:ring-2 focus:ring-[#c96442] focus:border-[#c96442] outline-none"
               placeholder="Anything else you'd like to add?"
               value={formFields.extra}
               onChange={e => onFormChange('extra', e.target.value)}
