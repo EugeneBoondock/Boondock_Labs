@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     "full-stack developer",
     "product engineer",
     "MCP servers",
-    "AI integration",
+    "AI systems",
     "Next.js developer",
     "React developer",
     "portfolio",
@@ -80,7 +80,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Boondock Labs | Product Studio",
-    description: "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering.",
+    description:
+      "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering.",
     images: ["/Boondocklabs.png"],
     creator: "@eugeneboondock",
   },
@@ -108,7 +109,12 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/Boondocklabs.png" sizes="any" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
         <link rel="shortcut icon" href="/favicon-32x32.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>

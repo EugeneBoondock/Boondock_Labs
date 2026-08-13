@@ -1,0 +1,16 @@
+{
+  "name": "boondock-logo-signal",
+  "source": "/boondock-mark.png",
+  "delivery": "alpha-atlas",
+  "driver": "pointer-horizontal",
+  "parameterSpace": "linear",
+  "frameCount": 36,
+  "columns": 6,
+  "rows": 6,
+  "frameWidth": 448,
+  "frameHeight": 448,
+  "restFrame": 18,
+  "loop": "none",
+  "backgroundOwner": "page",
+  "reducedMotion": "/boondock-mark.png"
+}
