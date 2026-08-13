@@ -1,1096 +1,442 @@
 "use client";
 
 import {
+  ArrowDown,
+  ArrowRight,
   ArrowUpRight,
-  AudioLines,
-  Bot,
   Braces,
   BrainCircuit,
-  BriefcaseBusiness,
   Database,
-  FileDown,
+  Download,
   Github,
-  HeartPulse,
-  Layers3,
-  Linkedin,
   Mail,
   MapPin,
-  MessageSquareText,
   Network,
-  Package,
-  Rocket,
-  ShoppingBag,
-  Sparkles,
-  Twitter,
-  UtensilsCrossed,
-  Workflow,
+  Smartphone,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import ClippyAssistant from "./ClippyAssistant";
-import OpeningGate from "./OpeningGate";
+import { useEffect, useState } from "react";
+import GitHubActivity from "./GitHubActivity";
+import LabMotionScene from "./LabMotionScene";
+import OilLogoMotion from "./OilLogoMotion";
+import styles from "./portfolio.module.css";
 
-/* ═══════════════════════════════════════════════════
-   DATA
-   ═══════════════════════════════════════════════════ */
-
-const signalStats = [
-  { value: "10+", label: "Products designed, built, and operated in-house" },
-  { value: "4", label: "African markets served with localised payment rails" },
-  { value: "17+", label: "Live APIs orchestrated inside a single platform" },
-  { value: "4+", label: "Published packages, wrappers, and MCP servers" },
-] as const;
-
-const featuredProjects = [
+const projects = [
   {
-    title: "PactLoop",
-    description:
-      "An AI customer platform that pulls every chat, call, invoice, payment promise, and field visit into one workspace. Sales, service, collections, and consent share a single customer record.",
-    impact:
-      "Country packs for South Africa, Nigeria, Kenya, and Ghana set currency, tax labels, payment rails, and consent copy. Multi-local from day one, not bolted on later.",
+    index: "01",
+    name: "PactLoop",
+    summary: "AI customer operations for modern teams.",
+    outcome:
+      "Chats, calls, invoices, payment promises, field visits, and consent share one customer record.",
+    stack: "Next.js · TypeScript · Cloudflare D1",
     image: "/pactloop.webp",
     href: "https://pactloop.com",
-    tags: ["AI workspace", "M-Pesa & Paystack", "Cloudflare D1"],
   },
   {
-    title: "Morphed.io",
-    description:
-      "End-to-end platform architecture: frontend systems, backend infrastructure, custom API design, and a complete MCP server engineered from the ground up.",
-    impact:
-      "The kind of build that reveals range: product instinct, systems thinking, implementation depth, and protocol fluency in a single engagement.",
+    index: "02",
+    name: "Morphed.io",
+    summary: "Full-stack platform work from interface to custom APIs.",
+    outcome:
+      "Product architecture, backend systems, AI tooling, and a complete MCP server built from the ground up.",
+    stack: "Next.js · Custom APIs · MCP",
     image: "/morphed.webp",
     href: "https://morphed.io",
-    tags: ["Full-stack architecture", "Custom APIs", "MCP tooling"],
   },
   {
-    title: "Earthie.world",
-    description:
-      "A living Earth2 intelligence layer with real-time market telemetry, interactive cartography, and an AI companion hardened against platform complexity.",
-    impact:
-      "Seventeen APIs integrated without losing clarity. Complex integrations are where the work gets interesting.",
+    index: "03",
+    name: "Earthie.world",
+    summary: "A living Earth2 intelligence layer.",
+    outcome:
+      "Real-time market telemetry, interactive cartography, and an AI companion powered by seventeen APIs.",
+    stack: "Next.js · Live data · Interactive maps",
     image: "/earthie-world.webp",
     href: "https://earthie.world",
-    tags: ["17+ integrations", "Realtime data", "Interactive maps"],
   },
   {
-    title: "EntropySuite.co.za",
-    description:
-      "Thirty-plus AI instruments for analysis, conversion, and experimentation, unified into one product surface that stays fast and navigable.",
-    impact:
-      "The challenge was not the tools themselves. It was making a broad feature surface feel coherent and effortless.",
+    index: "04",
+    name: "EntropySuite",
+    summary: "Thirty-plus AI instruments in one fast product.",
+    outcome:
+      "A broad set of analysis, conversion, and experiment tools shaped into a clear, usable surface.",
+    stack: "React · AI workflows · Product design",
     image: "/entropysuite.webp",
     href: "https://entropysuite.co.za",
-    tags: ["AI product design", "Tool ecosystems", "React"],
   },
   {
-    title: "Bikode",
-    description:
-      "A native Windows code editor built in C and Win32. AI-assisted, Git-integrated, plugin-ready. Close to the metal by choice.",
-    impact:
-      "Evidence that the work here is not limited to the web stack. Hard problems. Low-level engineering. By preference.",
+    index: "05",
+    name: "Bikode",
+    summary: "A native Windows code editor built in C and Win32.",
+    outcome:
+      "AI-assisted, Git-ready, and plugin-capable desktop software built close to the metal.",
+    stack: "C · Win32 · Editor engineering",
     image: "/bikode.webp",
     href: "https://bikode.co.za",
-    tags: ["C / Win32", "Editor engineering", "AI integration"],
-  },
-] as const;
-
-const additionalProjects = [
-  {
-    title: "KinSpace",
-    domain: "kinspace.co.za",
-    description:
-      "A community architecture for people living with chronic and mental health challenges, built around safety, meaningful connection, and clinical resource access.",
-    href: "https://www.kinspace.co.za/",
-    androidHref: null,
-    tags: ["Community platform", "Support UX", "React"],
-    icon: HeartPulse,
-    image: "/kinspace.webp",
-  },
-  {
-    title: "PathNote",
-    domain: "pathnote.co.za",
-    description:
-      "An audible location engine that transforms walks into narrative audio journeys using live geolocation, mapping intelligence, and AI-directed storytelling.",
-    href: "https://www.pathnote.co.za/",
-    androidHref: null,
-    tags: ["Geolocation", "Audio UX", "AI storytelling"],
-    icon: AudioLines,
-    image: "/pathnote.webp",
-  },
-  {
-    title: "MessageCFO",
-    domain: "messagecfo.com",
-    description:
-      "WhatsApp-native financial operations: invoicing, expense tracking, balance sheets, and client management through conversational interface.",
-    href: "https://messagecfo.com",
-    androidHref: null,
-    tags: ["WhatsApp workflows", "Fintech ops", "PostgreSQL"],
-    icon: MessageSquareText,
-    image: "/messagecfo.webp",
-  },
-  {
-    title: "Platedom",
-    domain: "platedom.com",
-    description:
-      "AI restaurant platform where generative AI transforms menus, recipes, server briefs, and generates Michelin-star quality visual food photography in seconds.",
-    href: "https://platedom.com",
-    androidHref: null,
-    tags: ["Generative AI", "Hospitality tech", "Firebase"],
-    icon: UtensilsCrossed,
-    image: "/platedom.webp",
-  },
-  {
-    title: "Centralbrain",
-    domain: "centralbrain.io",
-    description:
-      "Unified intelligence and governance layer built on MCP. Coordinates multi-agent workflows across SaaS applications, implements human-in-the-loop validation, and retains full audited execution trails.",
-    href: "https://centralbrain.io",
-    androidHref: null,
-    tags: ["MCP servers", "AI governance", "NextJS"],
-    icon: BrainCircuit,
-    image: "/centralbrain.webp",
-  },
-  {
-    title: "Trolley Scout",
-    domain: "trolleyscout.co.za",
-    description:
-      "Real store specials with the source behind every price. A South African grocery price-comparison platform with retailer tracking, subscription billing, and an ad marketplace, shipped on web and as a native Android app.",
-    href: "https://trolleyscout.co.za/",
-    androidHref:
-      "https://play.google.com/store/apps/details?id=za.co.trolleyscout.trolley_scout",
-    tags: ["Price intelligence", "Android app", "PayFast billing"],
-    icon: ShoppingBag,
-    image: "/trolleyscout.webp",
-  },
-] as const;
-
-const toolingProjects = [
-  {
-    title: "earth2-api-wrapper",
-    label: "Published package",
-    description:
-      "A clean TypeScript wrapper around the Earth2 API. Properties, accounts, transactions, and marketplace data made composable for downstream builds.",
-    href: "https://www.npmjs.com/package/earth2-api-wrapper",
-    cta: "View on npm",
-    icon: Database,
-    tags: ["TypeScript", "API wrapper", "Earth2"],
-  },
-  {
-    title: "earth2-mcp-server",
-    label: "Protocol tooling",
-    description:
-      "A complete MCP server that lets AI clients access Earth2 account data, wallet activity, properties, and marketplace actions through structured tools.",
-    href: "https://www.npmjs.com/package/earth2-mcp-server",
-    cta: "View on npm",
-    icon: Network,
-    tags: ["MCP server", "Claude tools", "Earth2"],
-  },
-  {
-    title: "morphed-mcp-server",
-    label: "Protocol tooling",
-    description:
-      "Built from scratch for Morphed.io. Platform APIs turned into usable AI tools with authentication, data access, and production-grade architecture.",
-    href: "https://www.npmjs.com/package/morphed-mcp-server",
-    cta: "View on npm",
-    icon: Rocket,
-    tags: ["MCP server", "Custom tools", "Platform APIs"],
-  },
-  {
-    title: "hubspot-mcp-server",
-    label: "Protocol tooling",
-    description:
-      "An extended HubSpot MCP implementation with deeper CRM operations, stronger integration ergonomics, and more serious backend architecture than standard demos.",
-    href: "https://www.npmjs.com/package/hubspot-mcp-server",
-    cta: "View on npm",
-    icon: Package,
-    tags: ["HubSpot", "MCP server", "CRM integration"],
   },
 ] as const;
 
 const capabilities = [
-  {
-    icon: Layers3,
-    title: "Product Engineering",
-    body: "Interfaces built with structure, conviction, and taste. Translating unclear requirements into products that feel composed from first impression to final interaction.",
-    details: [
-      "Next.js and React",
-      "Responsive systems",
-      "UX polish with intent",
-    ],
-  },
-  {
-    icon: Sparkles,
-    title: "AI-Native Systems",
-    body: "AI is not decoration here. It is part of the product architecture: assistants, structured workflows, model orchestration, and protocol tooling designed as first-class features.",
-    details: [
-      "Gemini and LLM workflows",
-      "MCP servers",
-      "Prompt and tool design",
-    ],
-  },
-  {
-    icon: Braces,
-    title: "Backend and Integrations",
-    body: "The invisible engineering most portfolios omit: authentication, API architecture, database design, third-party integration complexity, edge cases, and the structural work that makes products hold.",
-    details: ["Custom APIs", "OAuth flows", "Databases and automation"],
-  },
+  { label: "Product engineering", icon: Braces },
+  { label: "AI systems", icon: BrainCircuit },
+  { label: "Backend APIs", icon: Database },
+  { label: "MCP tooling", icon: Network },
+  { label: "Cross-platform apps", icon: Smartphone },
 ] as const;
-
-const principles = [
-  {
-    number: "01",
-    title: "Full surface ownership.",
-    body: "Frontend, backend, AI systems, integrations, and design intent. Connected, not siloed. One studio, one coherent vision.",
-  },
-  {
-    number: "02",
-    title: "Speed without compromise.",
-    body: "AI accelerates the workflow. Judgement stays human. Velocity is for going deeper, not cutting corners.",
-  },
-  {
-    number: "03",
-    title: "Complexity made legible.",
-    body: "Ambitious products still need elegance. Flow, hierarchy, language, and the feel of a system in the hand. These are engineering decisions.",
-  },
-  {
-    number: "04",
-    title: "Drawn to hard problems.",
-    body: "Protocol design, unusual integrations, unconventional product ideas, architecture from nothing. The difficult edge is where the best work lives.",
-  },
-] as const;
-
-const toolStack = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "Node.js",
-  "Python",
-  "PostgreSQL",
-  "Supabase",
-  "Cloudflare",
-  "MCP",
-  "Gemini",
-  "OpenAI",
-  "Claude",
-  "Tailwind CSS",
-] as const;
-
-const processSteps = [
-  {
-    icon: Workflow,
-    title: "Find the real brief",
-    body: "Most projects hide their actual problem behind the initial ask. Better scope and better decisions begin with finding it.",
-  },
-  {
-    icon: Rocket,
-    title: "Design for leverage",
-    body: "Architecture that survives growth: clean data flow, honest abstractions, and integration points established before they become painful.",
-  },
-  {
-    icon: Sparkles,
-    title: "Apply AI with intent",
-    body: "Automation, assistants, and model capabilities added with purpose. Stronger products, not trend compliance.",
-  },
-  {
-    icon: Mail,
-    title: "Refine until it reads",
-    body: "Good software communicates. Copy, motion, layout, and interaction quality are not cosmetic. They are structural credibility.",
-  },
-] as const;
-
-const pricingTiers = [
-  {
-    icon: Layers3,
-    title: "Starter Website",
-    price: "R3,000 - R10,000",
-    summary:
-      "Portfolio sites, landing pages, and compact business websites that need to look sharp and ship cleanly.",
-    details: ["Up to 3 pages", "Responsive build", "Basic SEO setup"],
-  },
-  {
-    icon: BriefcaseBusiness,
-    title: "Business Website",
-    price: "R11,000 - R15,000",
-    summary:
-      "Fuller company sites with stronger structure, more content depth, and proper lead capture.",
-    details: ["Up to 8 pages", "Forms and maps", "Blog and enhanced SEO"],
-  },
-  {
-    icon: ShoppingBag,
-    title: "E-commerce Build",
-    price: "R15,000 - R20,000",
-    summary:
-      "Online stores with product structure, payment flow, and enough polish to feel trustworthy from day one.",
-    details: ["Catalog and checkout", "Order flow", "Admin handover basics"],
-  },
-  {
-    icon: Rocket,
-    title: "Custom Product Build",
-    price: "From R30,000+",
-    summary:
-      "Platforms, dashboards, AI-heavy products, and custom systems with deeper engineering and more moving parts.",
-    details: [
-      "Custom features",
-      "Data systems",
-      "Advanced UX and integrations",
-    ],
-  },
-  {
-    icon: Network,
-    title: "MCP Server Engineering",
-    price: "R20,000 - R50,000",
-    summary:
-      "APIs turned into usable model tools with proper architecture, testing, and publishable packaging.",
-    details: ["Custom MCP tools", "NPM packaging", "Docs and testing"],
-  },
-  {
-    icon: Database,
-    title: "API and Integration Work",
-    price: "R15,000 - R40,000",
-    summary:
-      "Backend systems, auth flows, endpoint design, and platform integration work that powers the product behind the curtain.",
-    details: [
-      "REST architecture",
-      "Auth and database work",
-      "Documentation and security",
-    ],
-  },
-] as const;
-
-const socialLinks = [
-  { label: "GitHub", href: "https://github.com/EugeneBoondock", icon: Github },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/eboondock/",
-    icon: Linkedin,
-  },
-  {
-    label: "Twitter",
-    href: "https://twitter.com/eugeneboondock",
-    icon: Twitter,
-  },
-] as const;
-
-/* ═══════════════════════════════════════════════════
-   COMPONENTS
-   ═══════════════════════════════════════════════════ */
-
-function SceneBreak() {
-  return (
-    <div className="scene-break" aria-hidden="true">
-      <div className="scene-break-line" />
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════
-   PAGE
-   ═══════════════════════════════════════════════════ */
 
 export default function Home() {
-  const gateRef = useRef<HTMLDivElement>(null);
-  const [navVisible, setNavVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  /* A note for whoever opens the console. Every gate leads somewhere. */
   useEffect(() => {
-    console.log(
-      "%cBOONDOCK LABS%c\n異世界 — you crossed the gate. Welcome to the other side.\nBuilding here? loyiso.eugene.moketsi@gmail.com",
-      "font:600 15px/1.6 Georgia,serif;letter-spacing:.22em;color:#c96442",
-      "font:12px/1.7 ui-monospace,monospace;color:#77736a",
-    );
+    document.documentElement.dataset.theme = "dark";
+    document.documentElement.style.colorScheme = "dark";
   }, []);
 
-  /* Scroll progress bar */
   useEffect(() => {
     const onScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(max > 0 ? window.scrollY / max : 0);
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Nav visibility — appears when gate exits viewport */
   useEffect(() => {
-    if (!gateRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setNavVisible(!entry.isIntersecting),
-      { threshold: 0.05 },
-    );
-    observer.observe(gateRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  /* Scroll reveal system */
-  useEffect(() => {
-    const elements = document.querySelectorAll("[data-reveal]");
+    const targets = document.querySelectorAll(`.${styles.reveal}`);
+    const showVisible = () => {
+      for (const target of targets) {
+        const bounds = target.getBoundingClientRect();
+        if (bounds.top < window.innerHeight * 0.94 && bounds.bottom > 0) {
+          target.setAttribute("data-visible", "true");
+        }
+      }
+    };
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("revealed");
-            observer.unobserve(entry.target);
-          }
+          if (entry.isIntersecting)
+            entry.target.setAttribute("data-visible", "true");
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.12 },
     );
-    for (const el of elements) observer.observe(el);
-    return () => observer.disconnect();
+    for (const target of targets) observer.observe(target);
+    showVisible();
+    window.addEventListener("scroll", showVisible, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", showVisible);
+    };
   }, []);
 
+  const dateLabel = new Intl.DateTimeFormat("en-ZA", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  })
+    .format(new Date())
+    .toUpperCase();
+
   return (
-    <ClippyAssistant>
-      {/* Scroll progress bar */}
+    <main className={styles.page}>
       <div
-        className="scroll-progress"
+        className={styles.progress}
         style={{ transform: `scaleX(${scrollProgress})` }}
         aria-hidden="true"
       />
 
-      {/* Atmospheric fixed overlay */}
-      <div className="page-atmosphere" aria-hidden="true" />
-
-      {/* ── Gate ── */}
-      <div ref={gateRef}>
-        <OpeningGate />
-      </div>
-
-      {/* ── Fixed nav ── */}
-      <header className={`fixed-nav ${navVisible ? "fixed-nav-visible" : ""}`}>
-        <div className="fixed-nav-inner">
-          <a href="#top" className="fixed-nav-mark">
-            <Image
-              src="/boondock-mark.png"
-              alt="Boondock Labs"
-              width={44}
-              height={44}
-              className="nav-logo"
-            />
-            <span className="nav-wordmark">
-              Boondock Labs
-              <em>Product studio</em>
-            </span>
-          </a>
-          <nav className="fixed-nav-links">
-            <a href="#work">Work</a>
-            <a href="#capabilities">Capabilities</a>
-            <a href="#investment">Investment</a>
-            <a href="#contact">Contact</a>
-            <a href="#contact" className="fixed-nav-cta">
-              Start a conversation
-            </a>
-          </nav>
-        </div>
+      <header className={styles.navbar}>
+        <a
+          href="#top"
+          className={styles.navBrand}
+          aria-label="Boondock Labs home"
+        >
+          <Image src="/boondock-mark.png" alt="" width={34} height={34} />
+          <span>Boondock Labs</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="#work">Work</a>
+          <a href="#lab">Lab</a>
+          <a href="#github">GitHub</a>
+          <a href="#capabilities">Capabilities</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a
+          href="mailto:loyiso.eugene.moketsi@gmail.com"
+          className={styles.navCta}
+        >
+          Start a project <ArrowUpRight size={14} />
+        </a>
       </header>
 
-      {/* ── Main flow ── */}
-      <div className="main-flow">
-        {/* ─────────── STATEMENT ─────────── */}
-        <section className="statement">
-          <h2 className="statement-declaration" data-reveal>
-            We build software that holds up.
-          </h2>
-          <p className="statement-motto" data-reveal data-reveal-delay="1">
-            Building intelligent, reliable, and beautifully designed apps that
-            solve everyday problems through thoughtful engineering.
+      <section id="top" className={styles.hero}>
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>{dateLabel}</p>
+          <h1>
+            Boondock
+            <span>Labs</span>
+          </h1>
+          <p className={styles.owner}>Eugene Loyiso Mzimakhwe</p>
+          <p className={styles.positioning}>
+            Independent product engineer.
+            <br />
+            AI builder. Systems operator.
           </p>
-          <p className="statement-body" data-reveal data-reveal-delay="2">
-            Boondock Labs is a product studio in Edenvale, South Africa. We
-            design, build, and operate our own software, and we take the same
-            standard into the work we do for clients.
-          </p>
-
-          <div className="statement-actions" data-reveal data-reveal-delay="3">
-            <a href="#work" className="btn-solid">
-              View the work
+          <div className={styles.heroMeta}>
+            <span>
+              <MapPin size={15} /> Edenvale, South Africa
+            </span>
+            <span>
+              <i /> Available for new projects
+            </span>
+          </div>
+          <div className={styles.heroActions}>
+            <a href="#work" className={styles.primaryButton}>
+              View selected work <ArrowRight size={17} />
             </a>
             <a
-              href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
-              className="btn-ghost"
-              target="_blank"
-              rel="noreferrer"
+              href="mailto:loyiso.eugene.moketsi@gmail.com"
+              className={styles.secondaryButton}
             >
-              <FileDown className="h-4 w-4" />
-              Download CV
+              Start a project <ArrowRight size={17} />
             </a>
           </div>
+        </div>
 
-          <div className="statement-callout" data-reveal data-reveal-delay="4">
-            <Bot className="h-4 w-4 shrink-0 text-[var(--accent-teal)]" />
-            <p>
-              Clippy is active. Ask about project depth, stack details, rates,
-              or the short version.
-            </p>
-          </div>
+        <div className={styles.logoStage}>
+          <div className={styles.signalField} aria-hidden="true" />
+          <OilLogoMotion className={styles.oilLogo} />
+          <p>Move to inspect the signal.</p>
+        </div>
 
-          <div className="statement-stats" data-reveal data-reveal-delay="5">
-            {signalStats.map((stat) => (
-              <div key={stat.label} className="stat-block">
-                <p className="stat-value">{stat.value}</p>
-                <p className="stat-label">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <a href="#work" className={styles.scrollCue}>
+          Scroll <ArrowDown size={15} />
+        </a>
+      </section>
 
-        <SceneBreak />
-
-        {/* ─────────── CONVICTIONS ─────────── */}
-        <section data-reveal="scale">
-          <div className="section-wrap p-6 sm:p-8 lg:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
-              <div className="space-y-4">
-                <p className="mono-label">Why this studio</p>
-                <h2 className="section-heading">
-                  Bridging concept, interface, architecture, and execution
-                  without flattening the work.
-                </h2>
-              </div>
-              <div className="grid gap-4 md:grid-cols-2">
-                {principles.map((p) => (
-                  <article key={p.number} className="principle-card">
-                    <p className="mono-label">{p.number}</p>
-                    <h3 className="text-lg font-semibold text-[var(--ink-strong)]">
-                      {p.title}
-                    </h3>
-                    <p className="text-sm leading-7 text-[var(--muted)]">
-                      {p.body}
-                    </p>
-                  </article>
-                ))}
-              </div>
+      <section className={styles.founderSection}>
+        <div className={styles.sectionFrame}>
+          <div className={`${styles.founderGrid} ${styles.reveal}`}>
+            <div className={styles.founderImage}>
+              <Image
+                src="/founder-eugene-editorial.png"
+                alt="Eugene Loyiso Mzimakhwe, founder of Boondock Labs"
+                fill
+                sizes="(max-width: 760px) 100vw, 42vw"
+                priority
+              />
             </div>
-          </div>
-        </section>
-
-        <SceneBreak />
-
-        {/* ─────────── SELECTED WORK ─────────── */}
-        <section id="work">
-          <div className="max-w-3xl space-y-4 mb-12" data-reveal>
-            <p className="mono-label">Selected work</p>
-            <h2 className="section-heading">
-              Built across the full surface. Judged by what holds.
-            </h2>
-            <p className="section-body">
-              Products the studio owns and operates, alongside platform work
-              built for clients. Each one demanded a different shape of
-              thinking, which is why the range reads the way it does.
-            </p>
-          </div>
-
-          {/* Featured project scenes */}
-          <div className="space-y-8">
-            {featuredProjects.map((project, index) => (
-              <div
-                key={project.title}
-                className={`scene ${index % 2 === 1 ? "scene-alt" : ""}`}
-                data-reveal={index % 2 === 0 ? "fade-left" : "fade-right"}
-              >
-                <div className="scene-content">
-                  <p className="scene-number">
-                    {String(index + 1).padStart(2, "0")} / Case study
-                  </p>
-                  <h3 className="scene-title">{project.title}</h3>
-                  <p className="scene-description">{project.description}</p>
-                  <p className="scene-impact">{project.impact}</p>
-                  <div className="scene-tags">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="stack-chip">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="scene-link"
-                  >
-                    Visit project
-                    <ArrowUpRight className="h-4 w-4" />
-                  </a>
-                </div>
-                <div className="scene-media">
-                  <Image
-                    src={project.image}
-                    alt={`${project.title} project preview`}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Additional projects */}
-          <div className="grid gap-5 lg:grid-cols-2 mt-12">
-            {additionalProjects.map((project) => {
-              const Icon = project.icon;
-              return (
-                <article
-                  key={project.title}
-                  className="portfolio-card"
-                  data-reveal
-                >
-                  <div className="project-media">
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} preview`}
-                      fill
-                      className="object-cover object-top"
-                      sizes="(min-width: 1024px) 45vw, 100vw"
-                    />
-                  </div>
-                  <div className="space-y-4 p-6">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className="icon-badge">
-                          <Icon className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <p className="mono-label">{project.domain}</p>
-                          <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
-                            {project.title}
-                          </h3>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        {project.androidHref && (
-                          <a
-                            href={project.androidHref}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="project-link"
-                          >
-                            Android <ArrowUpRight className="h-4 w-4" />
-                          </a>
-                        )}
-                        <a
-                          href={project.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="project-link"
-                        >
-                          Visit <ArrowUpRight className="h-4 w-4" />
-                        </a>
-                      </div>
-                    </div>
-                    <p className="text-sm leading-7 text-[var(--muted)]">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="stack-chip">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-        <SceneBreak />
-
-        {/* ─────────── INFRASTRUCTURE ─────────── */}
-        <section>
-          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
-            <p className="mono-label">Open source & protocol engineering</p>
-            <h2 className="section-heading">
-              The infrastructure underneath the interfaces.
-            </h2>
-            <p className="section-body">
-              Wrappers, MCP servers, and developer tooling built for real
-              integration depth and AI-native workflows. Published, documented,
-              production-facing.
-            </p>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
-            {toolingProjects.map((project, index) => {
-              const Icon = project.icon;
-              return (
-                <article
-                  key={project.title}
-                  className="pricing-card"
-                  data-reveal
-                  data-reveal-delay={String(index + 1)}
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="icon-badge">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div className="pricing-pill">{project.label}</div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="mono-label">Package / protocol</p>
-                      <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
-                        {project.title}
-                      </h3>
-                    </div>
-                    <p className="text-sm leading-7 text-[var(--muted)]">
-                      {project.description}
-                    </p>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="stack-chip">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="project-link w-fit"
-                    >
-                      {project.cta} <ArrowUpRight className="h-4 w-4" />
-                    </a>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-        <SceneBreak />
-
-        {/* ─────────── CAPABILITIES ─────────── */}
-        <section id="capabilities">
-          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
-            <p className="mono-label">Capabilities</p>
-            <h2 className="section-heading">Deep stack. Sharper taste.</h2>
-            <p className="section-body">
-              Most developers can wire frameworks together. The difference is
-              knowing what to build, what to leave out, and how to make complex
-              systems feel simple.
-            </p>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-3">
-            {capabilities.map((cap, index) => {
-              const Icon = cap.icon;
-              return (
-                <article
-                  key={cap.title}
-                  className="capability-card"
-                  data-reveal
-                  data-reveal-delay={String(index + 1)}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="icon-badge">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
-                      {cap.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm leading-7 text-[var(--muted)]">
-                    {cap.body}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {cap.details.map((d) => (
-                      <span key={d} className="stack-chip">
-                        {d}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          <div
-            className="section-wrap mt-8 p-6 sm:p-8"
-            data-reveal="fade-right"
-          >
-            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-              <div className="space-y-4">
-                <p className="mono-label">Current toolkit</p>
-                <h3 className="text-2xl font-semibold text-[var(--ink-strong)] lg:text-3xl">
-                  Working across modern web, AI infrastructure, and custom
-                  integration layers.
-                </h3>
-                <p className="text-sm leading-7 text-[var(--muted)]">
-                  The studio ships clean frontends, backend systems, data
-                  pipelines, and AI-enhanced workflows. The range produces
-                  coherent systems rather than disconnected pieces.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {toolStack.map((t) => (
-                  <span key={t} className="tool-chip">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <SceneBreak />
-
-        {/* ─────────── INVESTMENT ─────────── */}
-        <section id="investment">
-          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
-            <p className="mono-label">Investment</p>
-            <h2 className="section-heading">Scope-honest. No filler.</h2>
-            <p className="section-body">
-              Ranges for the engagements the studio takes on. Final pricing
-              follows complexity, integration depth, urgency, and how much of
-              the system falls under our ownership.
-            </p>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-3">
-            {pricingTiers.map((tier, index) => {
-              const Icon = tier.icon;
-              return (
-                <article
-                  key={tier.title}
-                  className="pricing-card"
-                  data-reveal
-                  data-reveal-delay={String((index % 3) + 1)}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-3">
-                      <div className="icon-badge">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <p className="mono-label">Engagement</p>
-                        <h3 className="text-xl font-semibold text-[var(--ink-strong)]">
-                          {tier.title}
-                        </h3>
-                      </div>
-                    </div>
-                    <div className="pricing-pill">{tier.price}</div>
-                  </div>
-                  <p className="text-sm leading-7 text-[var(--muted)]">
-                    {tier.summary}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {tier.details.map((d) => (
-                      <span key={d} className="stack-chip">
-                        {d}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          <div className="section-wrap mt-8 p-6 sm:p-8" data-reveal="fade-left">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div className="space-y-2">
-                <p className="mono-label">Pricing note</p>
-                <p className="max-w-3xl text-sm leading-7 text-[var(--muted)]">
-                  When a project spans product strategy, interface design,
-                  backend architecture, AI workflows, and custom integrations,
-                  it enters the custom range. For a faster estimate, Clippy can
-                  qualify scope before you reach out.
-                </p>
-              </div>
-              <a href="#contact" className="btn-solid self-start lg:self-auto">
-                Ask for a quote
+            <div className={styles.founderCopy}>
+              <p className={styles.eyebrow}>The person behind the systems</p>
+              <h2>I build the kind of software I want to exist.</h2>
+              <p>
+                Boondock Labs is my independent product studio in Edenvale,
+                South Africa. I take ambitious ideas from a rough brief to a
+                working product, owning the interface, data, AI, and backend
+                decisions along the way.
+              </p>
+              <p>
+                I’m drawn to hard technical work and clear product thinking:
+                unusual APIs, MCP servers, native Windows software, local
+                payment rails, and products that need more than a polished front
+                end.
+              </p>
+              <a href="#work" className={styles.textLink}>
+                See what that looks like <ArrowDown size={15} />
               </a>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <SceneBreak />
-
-        {/* ─────────── PROCESS ─────────── */}
-        <section>
-          <div className="max-w-3xl space-y-4 mb-8" data-reveal>
-            <p className="mono-label">Process</p>
-            <h2 className="section-heading">
-              From ambiguity to architecture to artifact.
-            </h2>
-            <p className="section-body">
-              The projects change shape. The rhythm stays: find the real
-              problem, design the structure, build with precision, refine until
-              it reads.
+      <section id="lab" className={styles.labSection}>
+        <div className={styles.sectionFrame}>
+          <div className={styles.labIntro}>
+            <div>
+              <p className={styles.eyebrow}>Inside the lab</p>
+              <h2>Software starts as an experiment.</h2>
+            </div>
+            <p>
+              Boondock Labs treats product work like a working bench: inspect
+              the signal, test the hard parts, and ship what survives contact
+              with the real world.
             </p>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-4">
-            {processSteps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <article
-                  key={step.title}
-                  className="process-card"
-                  data-reveal
-                  data-reveal-delay={String(index + 1)}
-                >
-                  <div className="icon-badge">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <p className="mono-label">Step {index + 1}</p>
-                  <h3 className="text-lg font-semibold text-[var(--ink-strong)]">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm leading-7 text-[var(--muted)]">
-                    {step.body}
-                  </p>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-        <SceneBreak />
-
-        {/* ─────────── CONTACT ─────────── */}
-        <section id="contact" data-reveal="scale">
-          <div className="section-wrap contact-panel p-6 sm:p-8 lg:p-10">
-            <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:gap-12">
-              <div className="space-y-5">
-                <p className="mono-label">Contact</p>
-                <h2 className="section-heading !text-[clamp(2rem,4vw,3rem)]">
-                  If the work is serious, the door is open.
-                </h2>
-                <p className="max-w-xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-                  The studio takes on product builds, platform work, and teams
-                  that want a partner with real ownership range. Serious briefs.
-                  Real ambition. That is the filter.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <a
-                    href="mailto:loyiso.eugene.moketsi@gmail.com"
-                    className="btn-solid"
-                  >
-                    <Mail className="h-4 w-4" />
-                    loyiso.eugene.moketsi@gmail.com
-                  </a>
-                  <a
-                    href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
-                    className="btn-ghost"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FileDown className="h-4 w-4" />
-                    View CV
-                  </a>
-                </div>
-              </div>
-
-              <div className="grid gap-4">
-                <article className="contact-card">
-                  <div className="flex items-center gap-3">
-                    <div className="icon-badge">
-                      <MapPin className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="mono-label">Location</p>
-                      <p className="text-lg font-medium text-[var(--ink-strong)]">
-                        Edenvale, South Africa
-                      </p>
-                    </div>
-                  </div>
-                </article>
-
-                <article className="contact-card">
-                  <p className="mono-label">Profiles</p>
-                  <div className="grid gap-3 sm:grid-cols-3">
-                    {socialLinks.map((link) => {
-                      const Icon = link.icon;
-                      return (
-                        <a
-                          key={link.label}
-                          href={link.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="social-card"
-                        >
-                          <Icon className="h-5 w-5" />
-                          <span>{link.label}</span>
-                          <ArrowUpRight className="h-4 w-4" />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </article>
-
-                <article className="contact-card">
-                  <p className="mono-label">Before you email</p>
-                  <p className="text-sm leading-7 text-[var(--muted)]">
-                    Try Clippy first: ask which project demonstrates backend
-                    depth, how AI fits into the real workflow, or whether this
-                    is the right fit for a product engineering engagement.
-                  </p>
-                </article>
-              </div>
+          <div className={`${styles.reveal} ${styles.labHeroScene}`}>
+            <LabMotionScene />
+            <div className={styles.labSceneCaption}>
+              <span>01 / Working bench</span>
+              <p>
+                A scroll-driven study of the tools, signals, and machines behind
+                the work.
+              </p>
             </div>
           </div>
-        </section>
-      </div>
 
-      {/* ── Footer ── */}
-      <footer className="site-footer">
-        <div className="site-footer-rule" />
-        <div className="site-footer-grid">
-          <div className="site-footer-brand">
-            <p className="site-footer-mark">Boondock Labs</p>
-            <p className="site-footer-tagline">
-              Building intelligent, reliable, and beautifully designed apps that
-              solve everyday problems through thoughtful engineering.
+          <div className={styles.labStudies}>
+            <article className={styles.reveal}>
+              <div className={styles.labStudyImage}>
+                <Image
+                  src="/lab/neural-apparatus.png"
+                  alt="A brain-shaped neural computing apparatus with rust circuitry"
+                  fill
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                />
+              </div>
+              <div className={styles.labStudyCopy}>
+                <span>02 / Neural apparatus</span>
+                <h3>Machine reasoning, made physical.</h3>
+                <p>
+                  AI systems drawn as machinery: inspectable, deliberate, and
+                  built to earn their place in the product.
+                </p>
+              </div>
+            </article>
+
+            <article className={styles.reveal}>
+              <div className={styles.labStudyImage}>
+                <Image
+                  src="/lab/protocol-reactor.png"
+                  alt="A glass protocol reactor linked to a matte-black server core"
+                  fill
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                />
+              </div>
+              <div className={styles.labStudyCopy}>
+                <span>03 / Protocol reactor</span>
+                <h3>Raw inputs become working systems.</h3>
+                <p>
+                  APIs, data, and product rules pass through one tested path
+                  before they reach the interface.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="work" className={styles.workSection}>
+        <div className={styles.sectionFrame}>
+          <div className={styles.sectionIntro}>
+            <div>
+              <p className={styles.eyebrow}>Selected work</p>
+              <h2>Shipped systems, built to hold up.</h2>
+            </div>
+            <p>
+              Product thinking, interface craft, backend depth, and AI systems
+              brought together in working software.
             </p>
           </div>
-          <div className="site-footer-col">
-            <p className="mono-label">Studio</p>
-            <a href="#work">Work</a>
-            <a href="#capabilities">Capabilities</a>
-            <a href="#investment">Investment</a>
-            <a href="#contact">Contact</a>
+
+          <div className={styles.projectList}>
+            {projects.map((project) => (
+              <article
+                key={project.name}
+                className={`${styles.projectRow} ${styles.reveal}`}
+              >
+                <p className={styles.projectIndex}>{project.index}</p>
+                <div className={styles.projectCopy}>
+                  <p className={styles.projectDomain}>{project.name}</p>
+                  <h3>{project.summary}</h3>
+                  <p>
+                    <strong>Build</strong> {project.outcome}
+                  </p>
+                  <small>{project.stack}</small>
+                </div>
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.projectImage}
+                  aria-label={`Visit ${project.name}`}
+                >
+                  <Image
+                    src={project.image}
+                    alt={`${project.name} product preview`}
+                    fill
+                    sizes="(max-width: 760px) 100vw, 58vw"
+                  />
+                  <span>
+                    <ArrowUpRight size={20} />
+                  </span>
+                </a>
+              </article>
+            ))}
           </div>
-          <div className="site-footer-col">
-            <p className="mono-label">Products</p>
-            <a href="https://pactloop.com" target="_blank" rel="noreferrer">
-              PactLoop
+        </div>
+      </section>
+
+      <GitHubActivity />
+
+      <section id="capabilities" className={styles.capabilitiesSection}>
+        <div className={styles.sectionFrame}>
+          <div className={styles.capabilitiesHeader}>
+            <div>
+              <p className={styles.eyebrow}>Capabilities</p>
+              <h2>One studio. The whole product surface.</h2>
+            </div>
+            <p>
+              From a rough brief to production software, with the hard parts
+              kept visible and owned.
+            </p>
+          </div>
+          <div className={styles.capabilityGrid}>
+            {capabilities.map(({ label, icon: Icon }) => (
+              <div key={label}>
+                <Icon size={24} strokeWidth={1.5} />
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer id="contact" className={styles.contactSection}>
+        <div className={styles.contactGrid}>
+          <div>
+            <p className={styles.eyebrow}>Have a hard problem?</p>
+            <h2>Let’s build something that holds up.</h2>
+          </div>
+          <div className={styles.contactDetails}>
+            <a href="mailto:loyiso.eugene.moketsi@gmail.com">
+              <Mail size={17} /> loyiso.eugene.moketsi@gmail.com
             </a>
-            <a href="https://platedom.com" target="_blank" rel="noreferrer">
-              Platedom
-            </a>
+            <span>
+              <MapPin size={17} /> Edenvale, Gauteng, South Africa
+            </span>
             <a
-              href="https://trolleyscout.co.za/"
+              href="https://github.com/EugeneBoondock"
               target="_blank"
               rel="noreferrer"
             >
-              Trolley Scout
-            </a>
-            <a href="https://earthie.world" target="_blank" rel="noreferrer">
-              Earthie
+              <Github size={17} /> @EugeneBoondock
             </a>
           </div>
-          <div className="site-footer-col">
-            <p className="mono-label">Registered office</p>
-            <p>67 7th Avenue, Edenvale</p>
-            <p>Johannesburg, Gauteng, 1609</p>
-            <p>South Africa</p>
+          <div className={styles.contactActions}>
+            <a
+              href="mailto:loyiso.eugene.moketsi@gmail.com"
+              className={styles.contactPrimary}
+            >
+              Start a project <ArrowRight size={17} />
+            </a>
+            <a
+              href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.contactSecondary}
+            >
+              Download CV <Download size={17} />
+            </a>
           </div>
         </div>
-        <div className="site-footer-legal">
-          <span>
-            &copy; {new Date().getFullYear()} Boondock Labs (Pty) Ltd.
-            Registered in the Republic of South Africa, No. 2026/454520/07.
-          </span>
-          <span>Edenvale, Gauteng</span>
+        <div className={styles.footerLine}>
+          <span>Boondock Labs</span>
+          <span>© {new Date().getFullYear()} Eugene Loyiso Mzimakhwe</span>
+          <a href="mailto:loyiso.eugene.moketsi@gmail.com">
+            Contact <ArrowUpRight size={13} />
+          </a>
         </div>
       </footer>
-    </ClippyAssistant>
+    </main>
   );
 }

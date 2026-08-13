@@ -1,0 +1,14 @@
+{
+  "name": "boondock-lab-workbench",
+  "source": "/lab/lab-workbench.png",
+  "delivery": "atlas",
+  "driver": "scroll",
+  "parameterSpace": "linear",
+  "frameCount": 24,
+  "columns": 6,
+  "rows": 4,
+  "frameWidth": 640,
+  "frameHeight": 400,
+  "loop": "none",
+  "reducedMotion": "/lab/lab-workbench.png"
+}
