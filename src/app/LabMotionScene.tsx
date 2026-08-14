@@ -55,7 +55,7 @@ export default function LabMotionScene() {
         window.addEventListener("resize", onScroll, { passive: true });
       }
     };
-    image.src = "/motion/lab-workbench-atlas.webp";
+    image.src = "/motion/lab-workbench-atlas.webp?v=2";
 
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -71,7 +71,7 @@ export default function LabMotionScene() {
       className={styles.labMotion}
       data-ready={ready}
       role="img"
-      aria-label="A dark Boondock Labs workbench with a flask, oscilloscope, server stack, circuit boards, and a robotic arm"
+      aria-label="A dark software workbench with an oscilloscope, server rack, circuit boards and a robotic arm"
     >
       <div className={styles.labMotionFallback} aria-hidden="true" />
       <div

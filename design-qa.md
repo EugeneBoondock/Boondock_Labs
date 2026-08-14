@@ -2,20 +2,13 @@
 
 ## Comparison setup
 
-- Source visual truth: `C:\Users\USER\.codex\generated_images\019ffd50-989d-7031-abf1-ffbfe7627a08\exec-cec6d4e7-3183-44c4-85c9-bc506d45c5d9.png`
-- Source reference capture: `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08\reference-adit-desktop.png`
-- Main implementation evidence: `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08\implementation-hero-desktop.png`
-- Founder evidence: `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08\implementation-founder-desktop.png`
-- GitHub evidence: `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08\implementation-github-desktop.png`
-- Lab evidence: `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08\implementation-lab-desktop.png`
-- Lab study evidence: `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08\implementation-lab-studies-desktop.png`
-- Mobile evidence: `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08\implementation-lab-mobile.png` and `implementation-lab-studies-mobile.png`
-- Combined comparison evidence: `design-comparison-hero.png` and `design-comparison-github.png` in the same visualization folder.
-- Source pixels: 862 × 1825 for the chosen mock; 1236 × 990 for the source-site desktop capture.
-- Implementation pixels: 1241 × 716 for the focused hero, founder, and GitHub captures; 1242 × 995 for the focused desktop lab captures; 383 × 829 for mobile lab captures.
-- CSS viewports: 1440 × 720 for the focused desktop comparison pass, 1440 × 1000 for the lab pass, and 390 × 844 for mobile. Device scale factor was 1.
-- Normalization: source and implementation crops were placed into equal 1440 × 550 comparison boards. The lab is a later user-requested chapter, so it was checked against the Boondock mark and the chosen mock’s visual rules rather than a matching source section.
-- State: dark home route, live GitHub data loaded, Oil logo ready, lab atlas ready.
+- Source visual truth: the user’s two correction screenshots at `C:\Users\USER\AppData\Local\Temp\codex-clipboard-069cfe42-76f2-4e52-8236-7fa9be189b82.png` and `C:\Users\USER\AppData\Local\Temp\codex-clipboard-c6a821fb-a747-4621-8d72-e5b17a1b2218.png`.
+- Brand source: `C:\Users\USER\Projects\Boondock-Labs-Portfolio\Boondock_Labs\public\boondock-mark.png`.
+- Content source: `C:\Users\USER\Projects\Boondock-Labs-Portfolio\Boondock_Labs\public\Eugene_Loyiso_Mzimakhwe_CV_updated.pdf`.
+- Implementation evidence: `correction-founder-desktop.png`, `correction-lab-desktop.png`, and `correction-work-desktop.png` under `C:\Users\USER\.codex\visualizations\2026\08\13\019ffd50-989d-7031-abf1-ffbfe7627a08`.
+- Mobile evidence: browser capture at a 390 × 844 CSS viewport.
+- Desktop viewport: 1440 × 1000 CSS pixels, device scale factor 1. Browser capture measured 1242 × 995 pixels because of the app panel width.
+- State: dark home route, founder section, animated lab scene, project archive.
 
 ## Findings
 
@@ -23,38 +16,29 @@ No actionable P0, P1, or P2 findings remain.
 
 ### Required fidelity surfaces
 
-- Fonts and typography: the Cormorant display face and compact mono labels preserve the source hierarchy. Display weights, line heights, letter spacing, wrapping, and small-label scale remain legible at desktop and mobile sizes.
-- Spacing and layout rhythm: the wide editorial grid, square corners, thin dividers, large vertical gaps, and staggered content order match the chosen direction. Desktop and mobile captures show no collision or horizontal overflow.
-- Colors and visual tokens: carbon black, warm ivory, burnt rust, and restrained moss are mapped through shared page tokens. The all-dark treatment is an intentional change requested after the mock was chosen.
-- Image quality and asset fidelity: the founder portrait preserves the supplied person’s identity and uses the selected studio lighting. The lab workbench, neural apparatus, and protocol reactor match the logo’s black silhouette, rust circuitry, pale contour lines, and tactile grain. Crops remain sharp and readable at both breakpoints.
-- Copy and content: the writing is specific to Eugene, Boondock Labs, and the shipped products. Lab captions explain the visual story without placeholder text.
-- Interactions and accessibility: pointer-driven logo motion, scroll-driven lab frames, project links, mail links, GitHub data, keyboard focus, alt text, and reduced-motion fallbacks were checked. The lab frame changed from `60% 100%` to `0% 33.3333%` during the scroll test. No runtime errors or new warnings appeared in the final browser pass.
+- Fonts and typography: the serif and mono type system remains intact. Founder and lab headlines are shorter, use fewer line breaks, and scan cleanly. Project names have a consistent size and weight.
+- Spacing and layout: the founder panel fell from a 620-pixel minimum image to 430 pixels on desktop. Its content frame is capped at 1120 pixels. Mobile uses a portrait no wider than 300 pixels. The work archive uses a two-column desktop grid and one column on mobile.
+- Colors and tokens: all corrected sections use the existing carbon, warm-ivory, rust and moss tokens. Text contrast remains readable in both viewports.
+- Image quality and asset fidelity: the replacement workbench and two close studies contain real lab equipment. No generated copy of the Boondock mark appears inside those assets. The real supplied mark appears once beside the lab description. Crops are sharp and stable.
+- Copy and content: the founder text now names Morphed.io work and concrete product areas. The lab text describes actual testing activity. Eleven products and four npm packages appear. All nine CV projects are present.
+- Interactions and accessibility: logo motion, 24-frame lab scroll motion, hover states, project links, npm links, keyboard focus, alt text and reduced-motion fallbacks remain active. No horizontal overflow appeared at 1440 or 390 pixels.
 
-## Focused region evidence
+## Comparison history
 
-- Hero: the combined comparison confirms the large serif name, two-column balance, technical mono copy, and logo-led visual anchor.
-- GitHub: the combined comparison confirms the dark technical section, contribution grid density, rust and moss levels, and compact repository rows.
-- Founder: the focused capture confirms identity, portrait crop, text scale, and border alignment.
-- Lab: separate focused desktop and mobile captures were required because the generated assets and scroll state are too small to judge in a whole-page image.
-
-## Pass history
-
-1. P2: the chosen mock included a light work area after the user requested dark mode everywhere. Fix: all home surfaces now use the dark token set. Post-fix evidence: hero, founder, GitHub, and lab captures remain dark with readable contrast.
-2. P2: the first build did not yet carry the lab story beyond the logo. Fix: added one large workbench scene, two apparatus studies, a sweep signal, hover motion, and a 24-frame scroll atlas. Post-fix evidence: `implementation-lab-desktop.png` and `implementation-lab-studies-desktop.png`.
-3. P2: the first lab browser check showed the scene hidden when the reveal observer did not fire in the app browser’s scripted scroll. Fix: reveal content now defaults visible while the independent frame and hover motion remain active. Post-fix evidence: desktop and mobile lab captures, plus a verified frame-position change.
+1. P1: the founder image dominated the section. Fix: reduced section padding, image height and total frame width; capped the mobile portrait width. Post-fix evidence: `correction-founder-desktop.png` and the 390-pixel browser capture.
+2. P1: generated lab art contained a false copy of the brand mark. Fix: replaced the workbench, oscilloscope study and server study with three assets that contain equipment only. The actual supplied mark is displayed separately. Post-fix evidence: `correction-lab-desktop.png`.
+3. P1: the work list omitted CV projects. Fix: added Centralbrain, Platedom, Trolley Scout, MessageCFO and KinSpace; retained PathNote and Bikode; added four npm packages. Post-fix evidence: `correction-work-desktop.png`, with eleven project cards and four package rows verified in the browser.
+4. P2: page text relied on broad studio claims. Fix: rewrote the founder, lab, work, capability and contact copy around named products, tasks and tools.
 
 ## Implementation checklist
 
-- [x] Keep every portfolio surface dark.
-- [x] Preserve the supplied identity in the founder portrait.
-- [x] Use real generated lab assets in the logo’s visual language.
-- [x] Use the Oil Motion method for the hero logo and lab atlas.
-- [x] Load live public GitHub activity with usable fallback states.
-- [x] Check desktop and mobile overflow, crops, focus, and reduced motion.
-- [x] Pass TypeScript, production build, motion budget, and browser runtime checks.
-
-## Follow-up polish
-
-- P3: a future pass could add one more small lab study for native Windows tooling if the page needs a denser studio story.
+- [x] Compact founder portrait on desktop and mobile.
+- [x] Remove false brand shapes from generated lab art.
+- [x] Display the real Boondock mark beside the lab copy.
+- [x] Keep the Oil Motion logo and lab animation.
+- [x] Include every product listed on the CV.
+- [x] Include the extra portfolio products and published packages.
+- [x] Replace broad claims with short factual copy.
+- [x] Check desktop and mobile overflow, crops and readability.
 
 final result: passed

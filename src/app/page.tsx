@@ -12,6 +12,7 @@ import {
   Mail,
   MapPin,
   Network,
+  Package,
   Smartphone,
 } from "lucide-react";
 import Image from "next/image";
@@ -25,52 +26,128 @@ const projects = [
   {
     index: "01",
     name: "PactLoop",
-    summary: "AI customer operations for modern teams.",
-    outcome:
-      "Chats, calls, invoices, payment promises, field visits, and consent share one customer record.",
-    stack: "Next.js · TypeScript · Cloudflare D1",
+    description:
+      "One customer record for chats, calls, invoices, payment promises, field visits and consent, with country packs for South Africa, Nigeria, Kenya and Ghana.",
+    stack: "Next.js / TypeScript / Cloudflare D1",
     image: "/pactloop.webp",
     href: "https://pactloop.com",
   },
   {
     index: "02",
+    name: "Centralbrain",
+    description:
+      "An agent-first business workspace for company AI tools, controlled automation and day-to-day operations.",
+    stack: "Next.js / MCP / Business software",
+    image: "/centralbrain.webp",
+    href: "https://centralbrain.io",
+  },
+  {
+    index: "03",
+    name: "Platedom",
+    description:
+      "Restaurant software that produces menus, food-service copy and branded visual output in minutes.",
+    stack: "Generative AI / Firebase / Hospitality",
+    image: "/platedom.webp",
+    href: "https://platedom.com",
+  },
+  {
+    index: "04",
     name: "Morphed.io",
-    summary: "Full-stack platform work from interface to custom APIs.",
-    outcome:
-      "Product architecture, backend systems, AI tooling, and a complete MCP server built from the ground up.",
-    stack: "Next.js · Custom APIs · MCP",
+    description:
+      "Observability software with live dashboards, reports, customer portals and MCP tools for business data.",
+    stack: "Next.js / HubSpot / MCP",
     image: "/morphed.webp",
     href: "https://morphed.io",
   },
   {
-    index: "03",
+    index: "05",
     name: "Earthie.world",
-    summary: "A living Earth2 intelligence layer.",
-    outcome:
-      "Real-time market telemetry, interactive cartography, and an AI companion powered by seventeen APIs.",
-    stack: "Next.js · Live data · Interactive maps",
+    description:
+      "Community tools, market data, maps and API access for Earth2 users, backed by more than seventeen data sources.",
+    stack: "Next.js / Maps / Live data",
     image: "/earthie-world.webp",
     href: "https://earthie.world",
   },
   {
-    index: "04",
+    index: "06",
+    name: "Trolley Scout",
+    description:
+      "A South African grocery price-comparison app with a verifiable source behind every special, shipped on web and Android.",
+    stack: "Web / Android / Retail data",
+    image: "/trolleyscout.webp",
+    href: "https://trolleyscout.co.za",
+  },
+  {
+    index: "07",
+    name: "MessageCFO",
+    description:
+      "WhatsApp invoicing, expense tracking and client records for small businesses.",
+    stack: "WhatsApp / PostgreSQL / Fintech",
+    image: "/messagecfo.webp",
+    href: "https://messagecfo.com",
+  },
+  {
+    index: "08",
     name: "EntropySuite",
-    summary: "Thirty-plus AI instruments in one fast product.",
-    outcome:
-      "A broad set of analysis, conversion, and experiment tools shaped into a clear, usable surface.",
-    stack: "React · AI workflows · Product design",
+    description:
+      "More than thirty AI tools for analysis, file conversion and everyday tasks in one product.",
+    stack: "React / AI tools / File processing",
     image: "/entropysuite.webp",
     href: "https://entropysuite.co.za",
   },
   {
-    index: "05",
+    index: "09",
+    name: "KinSpace",
+    description:
+      "A private community for people living with chronic and mental health conditions.",
+    stack: "React / Community / Support",
+    image: "/kinspace.webp",
+    href: "https://www.kinspace.co.za",
+  },
+  {
+    index: "10",
+    name: "PathNote",
+    description:
+      "Location-aware audio walks generated from live maps and the route around the listener.",
+    stack: "Geolocation / Audio / Maps",
+    image: "/pathnote.webp",
+    href: "https://www.pathnote.co.za",
+  },
+  {
+    index: "11",
     name: "Bikode",
-    summary: "A native Windows code editor built in C and Win32.",
-    outcome:
-      "AI-assisted, Git-ready, and plugin-capable desktop software built close to the metal.",
-    stack: "C · Win32 · Editor engineering",
+    description:
+      "A native Windows code editor written in C and Win32, with Git, plugins and AI features.",
+    stack: "C / Win32 / Desktop",
     image: "/bikode.webp",
     href: "https://bikode.co.za",
+  },
+] as const;
+
+const packages = [
+  {
+    name: "earth2-api-wrapper",
+    description:
+      "A TypeScript wrapper for Earth2 properties, accounts, transactions and marketplace data.",
+    href: "https://www.npmjs.com/package/earth2-api-wrapper",
+  },
+  {
+    name: "earth2-mcp-server",
+    description:
+      "MCP tools for Earth2 account data, wallet activity, properties and marketplace actions.",
+    href: "https://www.npmjs.com/package/earth2-mcp-server",
+  },
+  {
+    name: "morphed-mcp-server",
+    description:
+      "Morphed platform APIs exposed as authenticated tools for AI clients.",
+    href: "https://www.npmjs.com/package/morphed-mcp-server",
+  },
+  {
+    name: "hubspot-mcp-server",
+    description:
+      "HubSpot CRM tools for contacts, companies, deals and activity data.",
+    href: "https://www.npmjs.com/package/hubspot-mcp-server",
   },
 ] as const;
 
@@ -177,21 +254,21 @@ export default function Home() {
           </h1>
           <p className={styles.owner}>Eugene Loyiso Mzimakhwe</p>
           <p className={styles.positioning}>
-            Independent product engineer.
+            Full-stack developer.
             <br />
-            AI builder. Systems operator.
+            Product builder. MCP server author.
           </p>
           <div className={styles.heroMeta}>
             <span>
               <MapPin size={15} /> Edenvale, South Africa
             </span>
             <span>
-              <i /> Available for new projects
+              <i /> Available for selected work
             </span>
           </div>
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryButton}>
-              View selected work <ArrowRight size={17} />
+              View all work <ArrowRight size={17} />
             </a>
             <a
               href="mailto:loyiso.eugene.moketsi@gmail.com"
@@ -226,22 +303,20 @@ export default function Home() {
               />
             </div>
             <div className={styles.founderCopy}>
-              <p className={styles.eyebrow}>The person behind the systems</p>
-              <h2>I build the kind of software I want to exist.</h2>
+              <p className={styles.eyebrow}>Eugene Loyiso Mzimakhwe</p>
+              <h2>I design and ship software.</h2>
               <p>
-                Boondock Labs is my independent product studio in Edenvale,
-                South Africa. I take ambitious ideas from a rough brief to a
-                working product, owning the interface, data, AI, and backend
-                decisions along the way.
+                I’m a full-stack developer in Edenvale. At Morphed.io I work on
+                dashboards, APIs, customer portals, reporting jobs and MCP
+                servers for business data.
               </p>
               <p>
-                I’m drawn to hard technical work and clear product thinking:
-                unusual APIs, MCP servers, native Windows software, local
-                payment rails, and products that need more than a polished front
-                end.
+                I also run Boondock Labs. The work below covers grocery prices,
+                restaurant menus, CRM operations, Earth2 data, community
+                products and a native Windows editor.
               </p>
               <a href="#work" className={styles.textLink}>
-                See what that looks like <ArrowDown size={15} />
+                Browse the work <ArrowDown size={15} />
               </a>
             </div>
           </div>
@@ -253,22 +328,31 @@ export default function Home() {
           <div className={styles.labIntro}>
             <div>
               <p className={styles.eyebrow}>Inside the lab</p>
-              <h2>Software starts as an experiment.</h2>
+              <h2>This is where the work gets tested.</h2>
             </div>
-            <p>
-              Boondock Labs treats product work like a working bench: inspect
-              the signal, test the hard parts, and ship what survives contact
-              with the real world.
-            </p>
+            <div className={styles.labIntroAside}>
+              <Image
+                src="/boondock-mark.png"
+                alt=""
+                width={104}
+                height={104}
+                aria-hidden="true"
+              />
+              <p>
+                API traces, broken builds, test runs, database changes and
+                hardware side projects. Inspect the evidence, fix the problem,
+                ship the result.
+              </p>
+            </div>
           </div>
 
           <div className={`${styles.reveal} ${styles.labHeroScene}`}>
             <LabMotionScene />
             <div className={styles.labSceneCaption}>
-              <span>01 / Working bench</span>
+              <span>01 / The workbench</span>
               <p>
-                A scroll-driven study of the tools, signals, and machines behind
-                the work.
+                Scroll through the bench. The scene moves frame by frame using
+                the same Oil Motion approach as the logo.
               </p>
             </div>
           </div>
@@ -277,18 +361,17 @@ export default function Home() {
             <article className={styles.reveal}>
               <div className={styles.labStudyImage}>
                 <Image
-                  src="/lab/neural-apparatus.png"
-                  alt="A brain-shaped neural computing apparatus with rust circuitry"
+                  src="/lab/signal-inspection.png"
+                  alt="An oscilloscope connected to an open circuit board"
                   fill
                   sizes="(max-width: 760px) 100vw, 50vw"
                 />
               </div>
               <div className={styles.labStudyCopy}>
-                <span>02 / Neural apparatus</span>
-                <h3>Machine reasoning, made physical.</h3>
+                <span>02 / Signal check</span>
+                <h3>Find the fault.</h3>
                 <p>
-                  AI systems drawn as machinery: inspectable, deliberate, and
-                  built to earn their place in the product.
+                  A scope, probes and an open board. Start with the evidence.
                 </p>
               </div>
             </article>
@@ -296,18 +379,18 @@ export default function Home() {
             <article className={styles.reveal}>
               <div className={styles.labStudyImage}>
                 <Image
-                  src="/lab/protocol-reactor.png"
-                  alt="A glass protocol reactor linked to a matte-black server core"
+                  src="/lab/server-assembly.png"
+                  alt="A robotic arm assembling a circuit board beside a server rack"
                   fill
                   sizes="(max-width: 760px) 100vw, 50vw"
                 />
               </div>
               <div className={styles.labStudyCopy}>
-                <span>03 / Protocol reactor</span>
-                <h3>Raw inputs become working systems.</h3>
+                <span>03 / Build station</span>
+                <h3>Make the next version.</h3>
                 <p>
-                  APIs, data, and product rules pass through one tested path
-                  before they reach the interface.
+                  Servers, scripts and repeatable tools turn a fix into a
+                  release.
                 </p>
               </div>
             </article>
@@ -319,12 +402,12 @@ export default function Home() {
         <div className={styles.sectionFrame}>
           <div className={styles.sectionIntro}>
             <div>
-              <p className={styles.eyebrow}>Selected work</p>
-              <h2>Shipped systems, built to hold up.</h2>
+              <p className={styles.eyebrow}>All work</p>
+              <h2>Products I’ve built or helped build.</h2>
             </div>
             <p>
-              Product thinking, interface craft, backend depth, and AI systems
-              brought together in working software.
+              The nine products named on my CV are here, plus PathNote and
+              Bikode. Four published developer packages follow below.
             </p>
           </div>
 
@@ -332,17 +415,8 @@ export default function Home() {
             {projects.map((project) => (
               <article
                 key={project.name}
-                className={`${styles.projectRow} ${styles.reveal}`}
+                className={`${styles.projectCard} ${styles.reveal}`}
               >
-                <p className={styles.projectIndex}>{project.index}</p>
-                <div className={styles.projectCopy}>
-                  <p className={styles.projectDomain}>{project.name}</p>
-                  <h3>{project.summary}</h3>
-                  <p>
-                    <strong>Build</strong> {project.outcome}
-                  </p>
-                  <small>{project.stack}</small>
-                </div>
                 <a
                   href={project.href}
                   target="_blank"
@@ -360,8 +434,52 @@ export default function Home() {
                     <ArrowUpRight size={20} />
                   </span>
                 </a>
+                <div className={styles.projectCardBody}>
+                  <div className={styles.projectTopline}>
+                    <span>{project.index}</span>
+                    <small>{project.stack}</small>
+                  </div>
+                  <h3>{project.name}</h3>
+                  <p>{project.description}</p>
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.textLink}
+                  >
+                    Visit project <ArrowUpRight size={14} />
+                  </a>
+                </div>
               </article>
             ))}
+          </div>
+
+          <div className={styles.packageArchive}>
+            <div className={styles.packageHeader}>
+              <div>
+                <p className={styles.eyebrow}>Published packages</p>
+                <h3>Code other developers can use.</h3>
+              </div>
+              <p>Four npm packages for Earth2, Morphed and HubSpot.</p>
+            </div>
+            <div className={styles.packageList}>
+              {packages.map((item, index) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className={styles.packageNumber}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <Package size={18} strokeWidth={1.5} />
+                  <strong>{item.name}</strong>
+                  <span>{item.description}</span>
+                  <ArrowUpRight size={17} />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -372,12 +490,12 @@ export default function Home() {
         <div className={styles.sectionFrame}>
           <div className={styles.capabilitiesHeader}>
             <div>
-              <p className={styles.eyebrow}>Capabilities</p>
-              <h2>One studio. The whole product surface.</h2>
+              <p className={styles.eyebrow}>What I do</p>
+              <h2>Web products, APIs and developer tools.</h2>
             </div>
             <p>
-              From a rough brief to production software, with the hard parts
-              kept visible and owned.
+              Frontend, backend, data, AI features and the release work needed
+              to put a product online.
             </p>
           </div>
           <div className={styles.capabilityGrid}>
@@ -394,8 +512,8 @@ export default function Home() {
       <footer id="contact" className={styles.contactSection}>
         <div className={styles.contactGrid}>
           <div>
-            <p className={styles.eyebrow}>Have a hard problem?</p>
-            <h2>Let’s build something that holds up.</h2>
+            <p className={styles.eyebrow}>Contact</p>
+            <h2>Tell me what you’re building.</h2>
           </div>
           <div className={styles.contactDetails}>
             <a href="mailto:loyiso.eugene.moketsi@gmail.com">
