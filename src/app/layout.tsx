@@ -33,7 +33,6 @@ export const metadata: Metadata = {
     "Building intelligent, reliable, and beautifully designed apps that solve everyday problems through thoughtful engineering. Boondock Labs is a South African product studio building AI-native products, payment platforms, and MCP tooling.",
   keywords: [
     "Eugene Boondock",
-    "Eugene Loyiso Mzimakhwe",
     "Boondock Labs",
     "Boondock Labs Pty Ltd",
     "South African software studio",
@@ -49,11 +48,11 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Eugene Boondock (Eugene Loyiso Mzimakhwe)",
+      name: "Eugene Boondock",
       url: "https://boondocklabs.com",
     },
   ],
-  creator: "Eugene Boondock (Eugene Loyiso Mzimakhwe)",
+  creator: "Eugene Boondock",
   publisher: "Boondock Labs (Pty) Ltd",
   metadataBase: new URL("https://boondocklabs.com"),
   alternates: {

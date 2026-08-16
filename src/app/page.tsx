@@ -252,7 +252,7 @@ export default function Home() {
             Boondock
             <span>Labs</span>
           </h1>
-          <p className={styles.owner}>Eugene Loyiso Mzimakhwe</p>
+          <p className={styles.owner}>Eugene Boondock</p>
           <p className={styles.positioning}>
             Full-stack developer.
             <br />
@@ -296,14 +296,14 @@ export default function Home() {
             <div className={styles.founderImage}>
               <Image
                 src="/founder-eugene-editorial.png"
-                alt="Eugene Loyiso Mzimakhwe, founder of Boondock Labs"
+                alt="Eugene Boondock, founder of Boondock Labs"
                 fill
                 sizes="(max-width: 760px) 100vw, 42vw"
                 priority
               />
             </div>
             <div className={styles.founderCopy}>
-              <p className={styles.eyebrow}>Eugene Loyiso Mzimakhwe</p>
+              <p className={styles.eyebrow}>Eugene Boondock</p>
               <h2>I design and ship software.</h2>
               <p>
                 I’m a full-stack developer in Edenvale. At Morphed.io I work on
@@ -549,7 +549,7 @@ export default function Home() {
         </div>
         <div className={styles.footerLine}>
           <span>Boondock Labs</span>
-          <span>© {new Date().getFullYear()} Eugene Loyiso Mzimakhwe</span>
+          <span>© {new Date().getFullYear()} Eugene Boondock</span>
           <a href="mailto:loyiso.eugene.moketsi@gmail.com">
             Contact <ArrowUpRight size={13} />
           </a>

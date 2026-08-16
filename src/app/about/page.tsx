@@ -12,7 +12,7 @@ export default function About() {
               Boondock Labs (Pty) Ltd is a registered South African product studio based in Edenvale, Gauteng. We design, build, and operate software end to end, from the interface a customer touches to the infrastructure underneath it.
             </p>
             <p className="mb-6 text-black leading-relaxed">
-              The studio is led by Eugene Boondock <span className="cream">(Eugene Loyiso Mzimakhwe)</span>. We ship our own products, including PactLoop, Platedom, and Trolley Scout, and we take the same standard into client engagements. Registered in the Republic of South Africa, No. 2026/454520/07.
+              The studio is led by <span className="cream">Eugene Boondock</span>. We ship our own products, including PactLoop, Platedom, and Trolley Scout, and we take the same standard into client engagements. Registered in the Republic of South Africa, No. 2026/454520/07.
             </p>
 
             <div id="skills" className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 scroll-mt-24">
