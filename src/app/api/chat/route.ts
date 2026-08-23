@@ -33,7 +33,10 @@ function sanitiseHistory(history: unknown): Turn[] {
         ((t as Turn).role === "user" || (t as Turn).role === "assistant"),
     )
     .slice(-MAX_HISTORY_TURNS)
-    .map((t) => ({ role: t.role, content: t.content.slice(0, MAX_MESSAGE_CHARS) }));
+    .map((t) => ({
+      role: t.role,
+      content: t.content.slice(0, MAX_MESSAGE_CHARS),
+    }));
 }
 
 export async function POST(request: Request) {
@@ -45,7 +48,10 @@ export async function POST(request: Request) {
 
     const message = body.message?.trim();
     if (!message) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Message is required" },
+        { status: 400 },
+      );
     }
 
     const client = getClient();

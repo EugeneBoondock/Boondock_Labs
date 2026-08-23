@@ -2,7 +2,7 @@
 
 import { ArrowUpRight, GitCommitHorizontal } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import styles from "./portfolio.module.css";
+import styles from "./home.module.css";
 
 type ContributionDay = {
   date: string;
@@ -84,7 +84,7 @@ export default function GitHubActivity() {
         <div className={styles.githubHeader}>
           <div>
             <h2>@EugeneBoondock</h2>
-            <p>Public work, measured over the last year.</p>
+            <p>The founder’s public work, measured over the last year.</p>
           </div>
           <div className={styles.githubStats} aria-live="polite">
             <div>

@@ -1,8 +1,9 @@
 "use client";
 
-import { Send, Sparkles, X } from "lucide-react";
 import type { initAgent as InitAgentType } from "clippyjs";
+import { Paperclip, Send, Sparkles, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { sendToAssistant } from "./chat";
 
 interface ClippyAgent {
@@ -97,7 +98,9 @@ function enhanceClippyPresentation(agent: ClippyAgent | null) {
     transform: `translateZ(0) scale(${CLIPPY_SCALE})`,
     transformOrigin: "bottom right",
     imageRendering: "auto",
-    filter: "drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35))",
+    // Warm the stock sprite (blue clip on yellow pad) toward the site's ember palette.
+    filter:
+      "sepia(0.75) hue-rotate(-14deg) saturate(1.3) brightness(0.96) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45))",
     backfaceVisibility: "hidden",
     willChange: "transform",
   });
@@ -186,26 +189,17 @@ function ClippyPanel({
   }, [messages]);
 
   const panelPosition = useMemo(() => {
-    const margin = 12;
     const width = Math.min(380, Math.max(312, viewport.width - 24));
-    const height = Math.min(560, Math.max(420, viewport.height - 32));
+    // Anchor the panel by its bottom edge just above the Clippy toggle so it
+    // hugs the agent and grows upward as the conversation fills in.
+    const bottom = Math.min(
+      Math.max(88, viewport.height - anchor.y + 44),
+      viewport.height - 240,
+    );
+    const maxHeight = Math.min(560, viewport.height - bottom - 16);
+    const right = Math.max(12, Math.min(24, viewport.width - width - 12));
 
-    let left = anchor.x - width - margin;
-    let top = anchor.y - height + 80;
-
-    if (left < 12) {
-      left = Math.min(anchor.x + 78, viewport.width - width - 12);
-    }
-
-    if (top < 12) {
-      top = 12;
-    }
-
-    if (top + height > viewport.height - 12) {
-      top = viewport.height - height - 12;
-    }
-
-    return { left, top, width, height };
+    return { right, bottom, width, maxHeight };
   }, [anchor, viewport.height, viewport.width]);
 
   const submit = () => {
@@ -223,17 +217,22 @@ function ClippyPanel({
     <div
       className="clippy-chat-panel"
       style={{
-        left: panelPosition.left,
-        top: panelPosition.top,
+        right: panelPosition.right,
+        bottom: panelPosition.bottom,
         width: panelPosition.width,
-        maxHeight: panelPosition.height,
+        maxHeight: panelPosition.maxHeight,
       }}
       onClick={(event) => event.stopPropagation()}
     >
       <div className="clippy-chat-titlebar">
+        <span className="clippy-chat-mark" aria-hidden="true">
+          <Paperclip size={15} strokeWidth={1.8} />
+        </span>
         <div className="clippy-title-copy">
-          <p className="mono-label">Clippy</p>
-          <h3>Studio assistant</h3>
+          <h3>Clippy</h3>
+          <p>
+            <i aria-hidden="true" /> Studio assistant
+          </p>
         </div>
         <button
           type="button"
@@ -241,12 +240,8 @@ function ClippyPanel({
           onClick={onClose}
           aria-label="Close Clippy chat"
         >
-          <X className="h-4 w-4" />
+          <X size={15} />
         </button>
-      </div>
-
-      <div className="clippy-chat-caption">
-        Ask about the products, engagement scope, process, or pricing.
       </div>
 
       <div className="clippy-chat-messages">
@@ -255,10 +250,7 @@ function ClippyPanel({
             key={`${message.role}-${index}`}
             className={`clippy-msg clippy-msg-${message.role}`}
           >
-            {message.role === "clippy" && (
-              <span className="clippy-msg-icon">C</span>
-            )}
-            <span
+            <div
               className={`clippy-msg-bubble ${message.loading ? "clippy-loading" : ""}`}
             >
               {message.loading ? (
@@ -267,34 +259,45 @@ function ClippyPanel({
                   <span />
                   <span />
                 </span>
+              ) : message.role === "clippy" ? (
+                <ReactMarkdown>{message.text}</ReactMarkdown>
               ) : (
                 message.text
               )}
-            </span>
+            </div>
           </div>
         ))}
         <div ref={endRef} />
       </div>
 
-      <div className="clippy-chat-suggestions">
-        {QUICK_PROMPTS.map((suggestion) => (
-          <button
-            key={suggestion.label}
-            type="button"
-            className="clippy-suggestion-btn"
-            onClick={() => onPrompt(suggestion.prompt, suggestion.animation)}
-            disabled={isThinking}
-          >
-            {suggestion.label}
-          </button>
-        ))}
-      </div>
+      {messages.some((message) => message.role === "user") ? null : (
+        <div className="clippy-chat-suggestions">
+          <p>Quick asks</p>
+          <div>
+            {QUICK_PROMPTS.map((suggestion) => (
+              <button
+                key={suggestion.label}
+                type="button"
+                className="clippy-suggestion-btn"
+                onClick={() =>
+                  onPrompt(suggestion.prompt, suggestion.animation)
+                }
+                disabled={isThinking}
+              >
+                {suggestion.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="clippy-chat-input-row">
         <input
           type="text"
           className="clippy-chat-input"
-          placeholder={isThinking ? "Clippy is thinking..." : "Ask Clippy anything..."}
+          placeholder={
+            isThinking ? "Clippy is thinking..." : "Ask about the studio..."
+          }
           value={input}
           disabled={isThinking}
           onChange={(event) => setInput(event.target.value)}
@@ -309,14 +312,14 @@ function ClippyPanel({
           className="clippy-chat-send"
           onClick={submit}
           disabled={isThinking || !input.trim()}
+          aria-label="Send message"
         >
-          <Send className="h-4 w-4" />
-          Send
+          <Send size={16} />
         </button>
       </div>
 
       <div className="clippy-provider-badge">
-        <Sparkles className="h-3.5 w-3.5" />
+        <Sparkles size={11} />
         Powered by OpenAI
       </div>
     </div>

@@ -1,13 +1,15 @@
 "use client";
 
+import { AtTheHorizon } from "@designcodeio/threeui/components/AtTheHorizon";
+import { ConnectivityGraph } from "@designcodeio/threeui/components/ConnectivityGraph";
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Braces,
   BrainCircuit,
   Database,
   Download,
+  FlaskConical,
   Github,
   Mail,
   MapPin,
@@ -16,11 +18,11 @@ import {
   Smartphone,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import ClippyAssistant from "./ClippyAssistant";
+import ContactForm from "./ContactForm";
 import GitHubActivity from "./GitHubActivity";
-import LabMotionScene from "./LabMotionScene";
-import OilLogoMotion from "./OilLogoMotion";
-import styles from "./portfolio.module.css";
+import styles from "./home.module.css";
 
 const projects = [
   {
@@ -152,41 +154,47 @@ const packages = [
 ] as const;
 
 const capabilities = [
-  { label: "Product engineering", icon: Braces },
-  { label: "AI systems", icon: BrainCircuit },
-  { label: "Backend APIs", icon: Database },
-  { label: "MCP tooling", icon: Network },
-  { label: "Cross-platform apps", icon: Smartphone },
+  {
+    label: "Product engineering",
+    note: "Next.js, React, TypeScript",
+    icon: Braces,
+  },
+  {
+    label: "AI systems",
+    note: "Agents, LLM features, RAG",
+    icon: BrainCircuit,
+  },
+  { label: "Backend APIs", note: "Postgres, D1, serverless", icon: Database },
+  { label: "MCP tooling", note: "Four published servers", icon: Network },
+  {
+    label: "Cross-platform apps",
+    note: "Web, Android, Win32",
+    icon: Smartphone,
+  },
 ] as const;
 
-export default function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
+const tickerItems = [
+  "Tech studio",
+  "Founded by Eugene Boondock",
+  "Product engineering",
+  "AI systems",
+  "MCP tooling",
+  "Edenvale, South Africa",
+  "11 shipped products",
+  "4 npm packages",
+  "Available for selected work",
+] as const;
 
+const EMAIL = "loyiso.eugene.moketsi@gmail.com";
+
+export default function Home() {
   useEffect(() => {
     document.documentElement.dataset.theme = "dark";
     document.documentElement.style.colorScheme = "dark";
   }, []);
 
   useEffect(() => {
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(max > 0 ? window.scrollY / max : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
     const targets = document.querySelectorAll(`.${styles.reveal}`);
-    const showVisible = () => {
-      for (const target of targets) {
-        const bounds = target.getBoundingClientRect();
-        if (bounds.top < window.innerHeight * 0.94 && bounds.bottom > 0) {
-          target.setAttribute("data-visible", "true");
-        }
-      }
-    };
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -194,275 +202,167 @@ export default function Home() {
             entry.target.setAttribute("data-visible", "true");
         }
       },
-      { threshold: 0.12 },
+      { threshold: 0.1 },
     );
-    for (const target of targets) observer.observe(target);
-    showVisible();
-    window.addEventListener("scroll", showVisible, { passive: true });
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", showVisible);
-    };
+    for (const target of targets) {
+      const bounds = target.getBoundingClientRect();
+      if (bounds.top < window.innerHeight * 0.95 && bounds.bottom > 0) {
+        target.setAttribute("data-visible", "true");
+      } else {
+        observer.observe(target);
+      }
+    }
+    return () => observer.disconnect();
   }, []);
 
   const dateLabel = new Intl.DateTimeFormat("en-ZA", {
     day: "2-digit",
-    month: "long",
+    month: "short",
     year: "numeric",
   })
     .format(new Date())
     .toUpperCase();
 
   return (
-    <main className={styles.page}>
-      <div
-        className={styles.progress}
-        style={{ transform: `scaleX(${scrollProgress})` }}
-        aria-hidden="true"
-      />
-
-      <header className={styles.navbar}>
-        <a
-          href="#top"
-          className={styles.navBrand}
-          aria-label="Boondock Labs home"
-        >
-          <Image src="/boondock-mark.png" alt="" width={34} height={34} />
-          <span>Boondock Labs</span>
-        </a>
-        <nav aria-label="Primary navigation">
-          <a href="#work">Work</a>
-          <a href="#lab">Lab</a>
-          <a href="#github">GitHub</a>
-          <a href="#capabilities">Capabilities</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a
-          href="mailto:loyiso.eugene.moketsi@gmail.com"
-          className={styles.navCta}
-        >
-          Start a project <ArrowUpRight size={14} />
-        </a>
-      </header>
-
-      <section id="top" className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>{dateLabel}</p>
-          <h1>
-            Boondock
-            <span>Labs</span>
-          </h1>
-          <p className={styles.owner}>Eugene Boondock</p>
-          <p className={styles.positioning}>
-            Full-stack developer.
-            <br />
-            Product builder. MCP server author.
-          </p>
-          <div className={styles.heroMeta}>
-            <span>
-              <MapPin size={15} /> Edenvale, South Africa
+    <ClippyAssistant>
+      <main className={styles.page}>
+        <header className={styles.nav}>
+          <a
+            href="#top"
+            className={styles.navBrand}
+            aria-label="Boondock Labs home"
+          >
+            <span className={styles.brandMark} aria-hidden="true">
+              <FlaskConical size={14} strokeWidth={1.8} />
             </span>
-            <span>
-              <i /> Available for selected work
-            </span>
+            <span>Boondock Labs</span>
+          </a>
+          <nav className={styles.navLinks} aria-label="Primary navigation">
+            <a href="#work">Work</a>
+            <a href="#packages">Packages</a>
+            <a href="#github">GitHub</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <a href="#contact" className={styles.navCta}>
+            Start a project <ArrowUpRight size={13} />
+          </a>
+        </header>
+
+        <section id="top" className={styles.hero}>
+          <div className={styles.heroField} aria-hidden="true">
+            <AtTheHorizon />
           </div>
-          <div className={styles.heroActions}>
-            <a href="#work" className={styles.primaryButton}>
-              View all work <ArrowRight size={17} />
-            </a>
-            <a
-              href="mailto:loyiso.eugene.moketsi@gmail.com"
-              className={styles.secondaryButton}
-            >
-              Start a project <ArrowRight size={17} />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.logoStage}>
-          <div className={styles.signalField} aria-hidden="true" />
-          <OilLogoMotion className={styles.oilLogo} />
-          <p>Move to inspect the signal.</p>
-        </div>
-
-        <a href="#work" className={styles.scrollCue}>
-          Scroll <ArrowDown size={15} />
-        </a>
-      </section>
-
-      <section className={styles.founderSection}>
-        <div className={styles.sectionFrame}>
-          <div className={`${styles.founderGrid} ${styles.reveal}`}>
-            <div className={styles.founderImage}>
-              <Image
-                src="/founder-eugene-editorial.png"
-                alt="Eugene Boondock, founder of Boondock Labs"
-                fill
-                sizes="(max-width: 760px) 100vw, 42vw"
-                priority
-              />
+          <div className={styles.heroVeil} aria-hidden="true" />
+          <div className={`${styles.frame} ${styles.heroInner}`}>
+            <div className={styles.heroKicker}>
+              <span>{dateLabel}</span>
+              <em>Tech studio, founded by Eugene Boondock</em>
+              <span className={styles.statusDot}>
+                <i /> Available for selected work
+              </span>
             </div>
-            <div className={styles.founderCopy}>
-              <p className={styles.eyebrow}>Eugene Boondock</p>
-              <h2>I design and ship software.</h2>
+            <h1 className={styles.heroTitle}>
+              <span>Boondock</span>
+              <span>Labs</span>
+            </h1>
+            <div className={styles.heroLede}>
               <p>
-                I’m a full-stack developer in Edenvale. At Morphed.io I work on
-                dashboards, APIs, customer portals, reporting jobs and MCP
-                servers for business data.
+                A South African tech studio that designs, builds and ships{" "}
+                <strong>software that gets used</strong>: web products, APIs, AI
+                systems, MCP servers and native tools.
               </p>
-              <p>
-                I also run Boondock Labs. The work below covers grocery prices,
-                restaurant menus, CRM operations, Earth2 data, community
-                products and a native Windows editor.
-              </p>
-              <a href="#work" className={styles.textLink}>
-                Browse the work <ArrowDown size={15} />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="lab" className={styles.labSection}>
-        <div className={styles.sectionFrame}>
-          <div className={styles.labIntro}>
-            <div>
-              <p className={styles.eyebrow}>Inside the lab</p>
-              <h2>This is where the work gets tested.</h2>
-            </div>
-            <div className={styles.labIntroAside}>
-              <Image
-                src="/boondock-mark.png"
-                alt=""
-                width={104}
-                height={104}
-                aria-hidden="true"
-              />
-              <p>
-                API traces, broken builds, test runs, database changes and
-                hardware side projects. Inspect the evidence, fix the problem,
-                ship the result.
-              </p>
-            </div>
-          </div>
-
-          <div className={`${styles.reveal} ${styles.labHeroScene}`}>
-            <LabMotionScene />
-            <div className={styles.labSceneCaption}>
-              <span>01 / The workbench</span>
-              <p>
-                Scroll through the bench. The scene moves frame by frame using
-                the same Oil Motion approach as the logo.
-              </p>
-            </div>
-          </div>
-
-          <div className={styles.labStudies}>
-            <article className={styles.reveal}>
-              <div className={styles.labStudyImage}>
-                <Image
-                  src="/lab/signal-inspection.png"
-                  alt="An oscilloscope connected to an open circuit board"
-                  fill
-                  sizes="(max-width: 760px) 100vw, 50vw"
-                />
-              </div>
-              <div className={styles.labStudyCopy}>
-                <span>02 / Signal check</span>
-                <h3>Find the fault.</h3>
-                <p>
-                  A scope, probes and an open board. Start with the evidence.
-                </p>
-              </div>
-            </article>
-
-            <article className={styles.reveal}>
-              <div className={styles.labStudyImage}>
-                <Image
-                  src="/lab/server-assembly.png"
-                  alt="A robotic arm assembling a circuit board beside a server rack"
-                  fill
-                  sizes="(max-width: 760px) 100vw, 50vw"
-                />
-              </div>
-              <div className={styles.labStudyCopy}>
-                <span>03 / Build station</span>
-                <h3>Make the next version.</h3>
-                <p>
-                  Servers, scripts and repeatable tools turn a fix into a
-                  release.
-                </p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="work" className={styles.workSection}>
-        <div className={styles.sectionFrame}>
-          <div className={styles.sectionIntro}>
-            <div>
-              <p className={styles.eyebrow}>All work</p>
-              <h2>Products I’ve built or helped build.</h2>
-            </div>
-            <p>
-              The nine products named on my CV are here, plus PathNote and
-              Bikode. Four published developer packages follow below.
-            </p>
-          </div>
-
-          <div className={styles.projectList}>
-            {projects.map((project) => (
-              <article
-                key={project.name}
-                className={`${styles.projectCard} ${styles.reveal}`}
-              >
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={styles.projectImage}
-                  aria-label={`Visit ${project.name}`}
-                >
-                  <Image
-                    src={project.image}
-                    alt={`${project.name} product preview`}
-                    fill
-                    sizes="(max-width: 760px) 100vw, 58vw"
-                  />
-                  <span>
-                    <ArrowUpRight size={20} />
-                  </span>
+              <div className={styles.heroActions}>
+                <a href="#work" className={styles.buttonPrimary}>
+                  View the work <ArrowRight size={15} />
                 </a>
-                <div className={styles.projectCardBody}>
-                  <div className={styles.projectTopline}>
-                    <span>{project.index}</span>
-                    <small>{project.stack}</small>
-                  </div>
-                  <h3>{project.name}</h3>
-                  <p>{project.description}</p>
+                <a href="#contact" className={styles.buttonGhost}>
+                  Start a project <ArrowUpRight size={15} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className={styles.ticker} aria-hidden="true">
+          <div className={styles.tickerTrack}>
+            {[0, 1].map((copy) => (
+              <span key={copy}>
+                {tickerItems.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <section id="work" className={styles.workSection}>
+          <div className={styles.frame}>
+            <div className={styles.sectionHead}>
+              <div>
+                <p className={styles.eyebrow}>Selected work</p>
+                <h2>Products the studio has shipped.</h2>
+              </div>
+              <p>
+                Eleven products across fintech, retail data, hospitality,
+                community and developer tooling, built end to end.
+              </p>
+            </div>
+            <div className={styles.workGrid}>
+              {projects.map((project) => (
+                <article
+                  key={project.name}
+                  className={`${styles.projectCard} ${styles.reveal}`}
+                >
                   <a
                     href={project.href}
                     target="_blank"
                     rel="noreferrer"
-                    className={styles.textLink}
+                    className={styles.projectMedia}
+                    aria-label={`Visit ${project.name}`}
                   >
-                    Visit project <ArrowUpRight size={14} />
+                    <Image
+                      src={project.image}
+                      alt={`${project.name} product preview`}
+                      fill
+                      sizes="(max-width: 860px) 100vw, 50vw"
+                    />
+                    <span>
+                      <ArrowUpRight size={18} />
+                    </span>
                   </a>
-                </div>
-              </article>
-            ))}
+                  <div className={styles.projectBody}>
+                    <div className={styles.projectTopline}>
+                      <span>{project.index}</span>
+                      <small>{project.stack}</small>
+                    </div>
+                    <h3>{project.name}</h3>
+                    <p>{project.description}</p>
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={styles.textLink}
+                    >
+                      Visit project <ArrowUpRight size={13} />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
+        </section>
 
-          <div className={styles.packageArchive}>
-            <div className={styles.packageHeader}>
+        <section id="packages" className={styles.packagesSection}>
+          <div className={styles.frame}>
+            <div className={styles.sectionHead}>
               <div>
                 <p className={styles.eyebrow}>Published packages</p>
-                <h3>Code other developers can use.</h3>
+                <h2>Code other developers can use.</h2>
               </div>
               <p>Four npm packages for Earth2, Morphed and HubSpot.</p>
             </div>
-            <div className={styles.packageList}>
+            <div className={`${styles.packageList} ${styles.reveal}`}>
               {packages.map((item, index) => (
                 <a
                   key={item.name}
@@ -470,91 +370,102 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <span className={styles.packageNumber}>
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <Package size={18} strokeWidth={1.5} />
+                  <span>{String(index + 1).padStart(2, "0")}</span>
                   <strong>{item.name}</strong>
                   <span>{item.description}</span>
-                  <ArrowUpRight size={17} />
+                  <Package size={17} strokeWidth={1.5} />
                 </a>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <GitHubActivity />
+        <GitHubActivity />
 
-      <section id="capabilities" className={styles.capabilitiesSection}>
-        <div className={styles.sectionFrame}>
-          <div className={styles.capabilitiesHeader}>
-            <div>
-              <p className={styles.eyebrow}>What I do</p>
-              <h2>Web products, APIs and developer tools.</h2>
-            </div>
-            <p>
-              Frontend, backend, data, AI features and the release work needed
-              to put a product online.
-            </p>
-          </div>
-          <div className={styles.capabilityGrid}>
-            {capabilities.map(({ label, icon: Icon }) => (
-              <div key={label}>
-                <Icon size={24} strokeWidth={1.5} />
-                <span>{label}</span>
+        <section id="about" className={styles.aboutSection}>
+          <div className={styles.frame}>
+            <div className={styles.sectionHead}>
+              <div>
+                <p className={styles.eyebrow}>About the studio</p>
+                <h2>Built in the boondocks. Shipped everywhere.</h2>
               </div>
-            ))}
+            </div>
+            <div className={`${styles.aboutGrid} ${styles.reveal}`}>
+              <div className={styles.aboutCopy}>
+                <p>
+                  <em>Boondock Labs</em> is a tech studio in Edenvale, South
+                  Africa, founded and run by <em>Eugene Boondock</em>, a
+                  full-stack developer who also builds dashboards, APIs,
+                  customer portals and MCP servers at Morphed.io.
+                </p>
+                <p>
+                  The studio’s work covers grocery prices, restaurant menus, CRM
+                  operations, Earth2 data, community products and a native
+                  Windows editor, all built end to end, from the first schema to
+                  the deploy.
+                </p>
+              </div>
+              <div className={styles.capabilityList}>
+                {capabilities.map(({ label, note, icon: Icon }) => (
+                  <div key={label}>
+                    <Icon size={20} strokeWidth={1.5} />
+                    <span>{label}</span>
+                    <span>{note}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer id="contact" className={styles.contactSection}>
-        <div className={styles.contactGrid}>
-          <div>
-            <p className={styles.eyebrow}>Contact</p>
-            <h2>Tell me what you’re building.</h2>
+        <footer id="contact" className={styles.contactSection}>
+          <div className={styles.contactField} aria-hidden="true">
+            <ConnectivityGraph mode="dark" hue={-160} saturation={0.7} />
           </div>
-          <div className={styles.contactDetails}>
-            <a href="mailto:loyiso.eugene.moketsi@gmail.com">
-              <Mail size={17} /> loyiso.eugene.moketsi@gmail.com
-            </a>
-            <span>
-              <MapPin size={17} /> Edenvale, Gauteng, South Africa
-            </span>
-            <a
-              href="https://github.com/EugeneBoondock"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Github size={17} /> @EugeneBoondock
-            </a>
+          <div className={styles.contactVeil} aria-hidden="true" />
+          <div className={`${styles.frame} ${styles.contactInner}`}>
+            <div>
+              <p className={styles.eyebrow}>Contact</p>
+              <h2>Tell us what you’re building.</h2>
+            </div>
+            <ContactForm />
+            <div className={styles.contactRow}>
+              <div className={styles.contactMeta}>
+                <span>
+                  <Mail size={15} /> {EMAIL}
+                </span>
+                <span>
+                  <MapPin size={15} /> Edenvale, Gauteng, South Africa
+                </span>
+                <a
+                  href="https://github.com/EugeneBoondock"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Github size={15} /> @EugeneBoondock
+                </a>
+              </div>
+              <a
+                href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.buttonGhost}
+              >
+                Founder CV <Download size={15} />
+              </a>
+            </div>
           </div>
-          <div className={styles.contactActions}>
-            <a
-              href="mailto:loyiso.eugene.moketsi@gmail.com"
-              className={styles.contactPrimary}
-            >
-              Start a project <ArrowRight size={17} />
-            </a>
-            <a
-              href="/Eugene_Loyiso_Mzimakhwe_CV_updated.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.contactSecondary}
-            >
-              Download CV <Download size={17} />
-            </a>
+          <div className={styles.frame}>
+            <div className={styles.footerLine}>
+              <span>Boondock Labs</span>
+              <span>© {new Date().getFullYear()} Boondock Labs</span>
+              <a href="#contact">
+                Contact <ArrowUpRight size={12} />
+              </a>
+            </div>
           </div>
-        </div>
-        <div className={styles.footerLine}>
-          <span>Boondock Labs</span>
-          <span>© {new Date().getFullYear()} Eugene Boondock</span>
-          <a href="mailto:loyiso.eugene.moketsi@gmail.com">
-            Contact <ArrowUpRight size={13} />
-          </a>
-        </div>
-      </footer>
-    </main>
+        </footer>
+      </main>
+    </ClippyAssistant>
   );
 }
