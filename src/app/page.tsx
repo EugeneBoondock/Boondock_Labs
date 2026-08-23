@@ -6,16 +6,15 @@ import {
   ArrowRight,
   ArrowUpRight,
   Braces,
-  BrainCircuit,
   Database,
   Download,
-  FlaskConical,
   Github,
   Mail,
   MapPin,
   Network,
   Package,
   Smartphone,
+  Sparkles,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -162,7 +161,7 @@ const capabilities = [
   {
     label: "AI systems",
     note: "Agents, LLM features, RAG",
-    icon: BrainCircuit,
+    icon: Sparkles,
   },
   { label: "Backend APIs", note: "Postgres, D1, serverless", icon: Database },
   { label: "MCP tooling", note: "Four published servers", icon: Network },
@@ -232,9 +231,7 @@ export default function Home() {
             className={styles.navBrand}
             aria-label="Boondock Labs home"
           >
-            <span className={styles.brandMark} aria-hidden="true">
-              <FlaskConical size={14} strokeWidth={1.8} />
-            </span>
+            <Image src="/boondock-mark.png" alt="" width={30} height={30} />
             <span>Boondock Labs</span>
           </a>
           <nav className={styles.navLinks} aria-label="Primary navigation">
