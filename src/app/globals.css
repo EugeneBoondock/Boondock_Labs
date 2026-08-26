@@ -66,6 +66,16 @@
     background: #050504;
   }
 
+  html[data-theme="light"],
+  html[data-theme="light"] body {
+    background: #f3f0e8;
+  }
+
+  html[data-theme="dark"],
+  html[data-theme="dark"] body {
+    background: #050504;
+  }
+
   body {
     min-height: 100%;
     margin: 0;

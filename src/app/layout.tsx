@@ -24,6 +24,8 @@ const monoFont = IBM_Plex_Mono({
   variable: "--font-mono",
 });
 
+const themeBootstrap = `(function(){try{var saved=localStorage.getItem("boondock-theme");var theme=saved==="light"||saved==="dark"?saved:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;}catch(error){document.documentElement.dataset.theme="dark";document.documentElement.style.colorScheme="dark";}})();`;
+
 export const metadata: Metadata = {
   title: {
     default: "Boondock Labs | Product Studio",
@@ -105,8 +107,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        <script>{themeBootstrap}</script>
         <link rel="icon" href="/Boondocklabs.png" sizes="any" />
         <link
           rel="icon"
