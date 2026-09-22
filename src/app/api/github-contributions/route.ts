@@ -44,13 +44,24 @@ function calculateStreak(days: ContributionDay[], today: string) {
 export async function GET() {
   const now = new Date();
   const currentYear = now.getUTCFullYear();
+  const githubToken = process.env.GITHUB_TOKEN?.trim();
   const headers = {
     Accept: "text/html",
     "User-Agent": "Boondock-Labs-Portfolio",
   };
+  const apiHeaders = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "Boondock-Labs-Portfolio",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
 
   try {
-    const [previousResponse, currentResponse, reposResponse] =
+    const [
+      previousResponse,
+      currentResponse,
+      publicReposResponse,
+      authenticatedReposResponse,
+    ] =
       await Promise.all([
         fetch(
           `https://github.com/users/EugeneBoondock/contributions?y=${currentYear - 1}`,
@@ -63,13 +74,22 @@ export async function GET() {
         fetch(
           "https://api.github.com/users/EugeneBoondock/repos?sort=pushed&direction=desc&per_page=8",
           {
-            headers: {
-              Accept: "application/vnd.github+json",
-              "User-Agent": "Boondock-Labs-Portfolio",
-            },
+            headers: apiHeaders,
             next: { revalidate },
           },
         ),
+        githubToken
+          ? fetch(
+              "https://api.github.com/user/repos?visibility=all&affiliation=owner&sort=pushed&direction=desc&per_page=50",
+              {
+                headers: {
+                  ...apiHeaders,
+                  Authorization: `Bearer ${githubToken}`,
+                },
+                next: { revalidate },
+              },
+            )
+          : Promise.resolve(null),
       ]);
 
     if (!previousResponse.ok || !currentResponse.ok) {
@@ -92,19 +112,45 @@ export async function GET() {
       .filter((day) => day.date >= startKey && day.date <= endKey)
       .sort((a, b) => a.date.localeCompare(b.date));
 
-    const repositories = reposResponse.ok
-      ? ((await reposResponse.json()) as Array<Record<string, unknown>>)
-          .filter((repo) => repo.fork !== true)
-          .slice(0, 5)
-          .map((repo) => ({
-            name: String(repo.name),
-            description:
-              typeof repo.description === "string" ? repo.description : null,
-            language: typeof repo.language === "string" ? repo.language : null,
-            url: String(repo.html_url),
-            updatedAt: String(repo.pushed_at),
-          }))
+    const publicRepositories = publicReposResponse.ok
+      ? ((await publicReposResponse.json()) as Array<Record<string, unknown>>)
       : [];
+    const authenticatedRepositories = authenticatedReposResponse?.ok
+      ? ((await authenticatedReposResponse.json()) as Array<
+          Record<string, unknown>
+        >)
+      : [];
+    const repositoriesByName = new Map<string, Record<string, unknown>>();
+
+    for (const repo of [
+      ...publicRepositories,
+      ...authenticatedRepositories,
+    ]) {
+      const fullName = typeof repo.full_name === "string" ? repo.full_name : "";
+      if (
+        repo.fork === true ||
+        !fullName.toLowerCase().startsWith("eugeneboondock/")
+      ) {
+        continue;
+      }
+
+      repositoriesByName.set(fullName.toLowerCase(), repo);
+    }
+
+    const repositories = [...repositoriesByName.values()]
+      .sort((a, b) =>
+        String(b.pushed_at ?? "").localeCompare(String(a.pushed_at ?? "")),
+      )
+      .slice(0, 5)
+      .map((repo) => ({
+        name: String(repo.name),
+        description:
+          typeof repo.description === "string" ? repo.description : null,
+        language: typeof repo.language === "string" ? repo.language : null,
+        url: String(repo.html_url),
+        updatedAt: String(repo.pushed_at),
+        private: repo.private === true,
+      }));
 
     return NextResponse.json({
       days,

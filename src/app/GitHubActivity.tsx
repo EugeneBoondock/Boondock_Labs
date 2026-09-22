@@ -16,6 +16,7 @@ type Repository = {
   language: string | null;
   url: string;
   updatedAt: string;
+  private: boolean;
 };
 
 type ActivityPayload = {
@@ -84,7 +85,7 @@ export default function GitHubActivity() {
         <div className={styles.githubHeader}>
           <div>
             <h2>@EugeneBoondock</h2>
-            <p>The founder’s public work, measured over the last year.</p>
+            <p>The founder’s GitHub work, measured over the last year.</p>
           </div>
           <div className={styles.githubStats} aria-live="polite">
             <div>
@@ -147,8 +148,12 @@ export default function GitHubActivity() {
             <a key={repo.name} href={repo.url} target="_blank" rel="noreferrer">
               <GitCommitHorizontal size={16} />
               <strong>{repo.name}</strong>
-              <span>{repo.description ?? "Public repository"}</span>
+              <span>
+                {repo.description ??
+                  (repo.private ? "Private repository" : "Public repository")}
+              </span>
               <small>
+                {repo.private ? "Private · " : ""}
                 {repo.language ?? "Code"} · {formatUpdated(repo.updatedAt)}
               </small>
               <ArrowUpRight size={15} />
