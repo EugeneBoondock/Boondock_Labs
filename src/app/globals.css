@@ -1246,8 +1246,8 @@
   position: fixed !important;
   top: auto !important;
   left: auto !important;
-  right: var(--clippy-balloon-right, 24px) !important;
-  bottom: var(--clippy-balloon-bottom, 168px) !important;
+  right: 24px !important;
+  bottom: 168px !important;
   max-width: min(280px, calc(100vw - 48px)) !important;
   border: 1px solid rgba(236, 229, 216, 0.16) !important;
   border-radius: 4px !important;
