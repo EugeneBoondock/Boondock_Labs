@@ -86,6 +86,22 @@ function muteAgentSounds(agent: ClippyAgent | null) {
   }
 }
 
+function positionClippyBalloon(agent: ClippyAgent | null) {
+  const balloon = agent?._balloon?._balloon;
+
+  if (!agent || !balloon) {
+    return;
+  }
+
+  const agentRect = agent._el.getBoundingClientRect();
+  const gap = 12;
+  const right = Math.max(12, window.innerWidth - agentRect.right);
+  const bottom = Math.max(12, window.innerHeight - agentRect.top + gap);
+
+  balloon.style.setProperty("--clippy-balloon-right", `${right}px`);
+  balloon.style.setProperty("--clippy-balloon-bottom", `${bottom}px`);
+}
+
 function enhanceClippyPresentation(agent: ClippyAgent | null) {
   if (!agent) {
     return;
@@ -110,7 +126,7 @@ function enhanceClippyPresentation(agent: ClippyAgent | null) {
   const tip = agent._balloon?._tip;
 
   if (balloon) {
-    balloon.classList.add("clippy-agent-bubble");
+    balloon.classList.add("clippy-agent-bubble", "clippy-balloon");
     Object.assign(balloon.style, {
       background: "rgba(18, 18, 22, 0.95)",
       color: "#ddd9d3",
@@ -435,6 +451,7 @@ export default function ClippyAssistant({
           const x = Math.max(window.innerWidth - width - rightMargin, 16);
           const y = Math.max(window.innerHeight - height - bottomMargin, 60);
           agent.moveTo(x, y, 0);
+          window.requestAnimationFrame(() => positionClippyBalloon(agent));
         };
 
         moveToDefaultPosition();
