@@ -99,36 +99,38 @@ export default function GitHubActivity() {
         </div>
 
         <div className={styles.activityScroller}>
-          <div className={styles.monthLabels} aria-hidden="true">
-            {monthLabels.map((day) => (
-              <span key={day.date}>
-                {new Intl.DateTimeFormat("en", { month: "short" }).format(
-                  new Date(`${day.date}T00:00:00`),
-                )}
-              </span>
-            ))}
-          </div>
-          <div className={styles.contributionGrid}>
-            {days.map((day) => (
-              <button
-                type="button"
-                key={day.date}
-                className={styles.contributionCell}
-                data-level={day.level}
-                tabIndex={data ? 0 : -1}
-                aria-label={
-                  data
-                    ? `${day.count} ${day.count === 1 ? "contribution" : "contributions"} on ${new Intl.DateTimeFormat(
-                        "en",
-                        {
-                          dateStyle: "long",
-                        },
-                      ).format(new Date(`${day.date}T00:00:00`))}`
-                    : "Loading activity"
-                }
-                title={data ? `${day.date}: ${day.count} contributions` : ""}
-              />
-            ))}
+          <div className={styles.activityCalendar}>
+            <div className={styles.monthLabels} aria-hidden="true">
+              {monthLabels.map((day) => (
+                <span key={day.date}>
+                  {new Intl.DateTimeFormat("en", { month: "short" }).format(
+                    new Date(`${day.date}T00:00:00`),
+                  )}
+                </span>
+              ))}
+            </div>
+            <div className={styles.contributionGrid}>
+              {days.map((day) => (
+                <button
+                  type="button"
+                  key={day.date}
+                  className={styles.contributionCell}
+                  data-level={day.level}
+                  tabIndex={data ? 0 : -1}
+                  aria-label={
+                    data
+                      ? `${day.count} ${day.count === 1 ? "contribution" : "contributions"} on ${new Intl.DateTimeFormat(
+                          "en",
+                          {
+                            dateStyle: "long",
+                          },
+                        ).format(new Date(`${day.date}T00:00:00`))}`
+                      : "Loading activity"
+                  }
+                  title={data ? `${day.date}: ${day.count} contributions` : ""}
+                />
+              ))}
+            </div>
           </div>
         </div>
 

@@ -903,10 +903,14 @@
   scrollbar-color: var(--faint) transparent;
 }
 
+.activityCalendar {
+  width: max-content;
+  min-width: 720px;
+}
+
 .monthLabels {
   display: flex;
   justify-content: space-between;
-  min-width: 720px;
   margin-bottom: 8px;
   font-family: var(--font-mono), monospace;
   font-size: 10px;
