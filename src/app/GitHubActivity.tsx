@@ -24,6 +24,7 @@ type ActivityPayload = {
   total: number;
   streak: number;
   repos: Repository[];
+  privateRepoAccess: boolean;
 };
 
 const EMPTY_DAYS = Array.from({ length: 371 }, (_, index) => ({
@@ -143,7 +144,10 @@ export default function GitHubActivity() {
         ) : null}
 
         <div className={styles.repoList}>
-          <p className={styles.eyebrow}>Recently updated repositories</p>
+          <p className={styles.eyebrow}>
+            Recently updated repositories
+            {data && !data.privateRepoAccess ? " · public feed only" : ""}
+          </p>
           {(data?.repos ?? []).map((repo) => (
             <a key={repo.name} href={repo.url} target="_blank" rel="noreferrer">
               <GitCommitHorizontal size={16} />

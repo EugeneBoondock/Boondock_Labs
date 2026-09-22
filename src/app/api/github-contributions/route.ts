@@ -80,7 +80,7 @@ export async function GET() {
         ),
         githubToken
           ? fetch(
-              "https://api.github.com/user/repos?visibility=all&affiliation=owner&sort=pushed&direction=desc&per_page=50",
+              "https://api.github.com/user/repos?visibility=all&affiliation=owner,collaborator,organization_member&sort=pushed&direction=desc&per_page=100",
               {
                 headers: {
                   ...apiHeaders,
@@ -120,6 +120,17 @@ export async function GET() {
           Record<string, unknown>
         >)
       : [];
+    const privateRepositoryCount = authenticatedRepositories.filter(
+      (repo) => repo.private === true,
+    ).length;
+    const privateRepoAccess = privateRepositoryCount > 0;
+
+    console.info("[github-contributions] authenticated repository access", {
+      tokenConfigured: Boolean(githubToken),
+      responseStatus: authenticatedReposResponse?.status ?? null,
+      repositoryCount: authenticatedRepositories.length,
+      privateRepositoryCount,
+    });
     const repositoriesByName = new Map<string, Record<string, unknown>>();
 
     for (const repo of [
@@ -127,10 +138,7 @@ export async function GET() {
       ...authenticatedRepositories,
     ]) {
       const fullName = typeof repo.full_name === "string" ? repo.full_name : "";
-      if (
-        repo.fork === true ||
-        !fullName.toLowerCase().startsWith("eugeneboondock/")
-      ) {
+      if (repo.fork === true || !fullName) {
         continue;
       }
 
@@ -157,6 +165,7 @@ export async function GET() {
       total: days.reduce((sum, day) => sum + day.count, 0),
       streak: calculateStreak(days, endKey),
       repos: repositories,
+      privateRepoAccess,
     });
   } catch {
     return NextResponse.json(
