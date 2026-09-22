@@ -232,10 +232,8 @@ const tickerItems = [
 const EMAIL = "loyiso.eugene.moketsi@gmail.com";
 
 export default function Home() {
-  const heroVisualRef = useRef<HTMLDivElement>(null);
   const contactVisualRef = useRef<HTMLDivElement>(null);
   const [theme, setTheme] = useState<Theme>("dark");
-  const [heroNearViewport, setHeroNearViewport] = useState(false);
   const [contactNearViewport, setContactNearViewport] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
 
@@ -278,11 +276,6 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.target === heroVisualRef.current) {
-            setHeroNearViewport((wasMounted) =>
-              retainVisualAfterFirstEntry(wasMounted, entry.isIntersecting),
-            );
-          }
           if (entry.target === contactVisualRef.current) {
             setContactNearViewport((wasMounted) =>
               retainVisualAfterFirstEntry(wasMounted, entry.isIntersecting),
@@ -293,7 +286,6 @@ export default function Home() {
       { rootMargin: "320px 0px" },
     );
 
-    if (heroVisualRef.current) observer.observe(heroVisualRef.current);
     if (contactVisualRef.current) observer.observe(contactVisualRef.current);
     motionQuery.addEventListener("change", syncMotionPreference);
 
@@ -376,11 +368,7 @@ export default function Home() {
         </header>
 
         <section id="top" className={styles.hero}>
-          <div
-            ref={heroVisualRef}
-            className={styles.heroField}
-            aria-hidden="true"
-          >
+          <div className={styles.heroField} aria-hidden="true">
             <Image
               src="/hero-poster.webp"
               alt=""
@@ -389,10 +377,7 @@ export default function Home() {
               sizes="100vw"
               className={styles.heroPoster}
             />
-            {shouldMountAnimatedVisual(
-              heroNearViewport,
-              prefersReducedMotion,
-            ) && <AtTheHorizon />}
+            <AtTheHorizon />
           </div>
           <div className={styles.heroVeil} aria-hidden="true" />
           <div className={`${styles.frame} ${styles.heroInner}`}>
