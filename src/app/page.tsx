@@ -229,7 +229,7 @@ const tickerItems = [
   "Available for selected work",
 ] as const;
 
-const EMAIL = "loyiso.eugene.moketsi@gmail.com";
+const EMAIL = "eugene@boondocklabs.co.za";
 
 export default function Home() {
   const contactVisualRef = useRef<HTMLDivElement>(null);
@@ -568,9 +568,9 @@ export default function Home() {
             <ContactForm />
             <div className={styles.contactRow}>
               <div className={styles.contactMeta}>
-                <span>
+                <a href={`mailto:${EMAIL}`}>
                   <Mail size={15} /> {EMAIL}
-                </span>
+                </a>
                 <span>
                   <MapPin size={15} /> Edenvale, Gauteng, South Africa
                 </span>
