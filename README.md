@@ -5,7 +5,7 @@ A modern, creative portfolio and tech studio site for Eugene Boondock, built wit
 ## Features
 - Animated glassmorphism UI with custom background
 - Responsive design for mobile and desktop
-- Interactive chat with AI avatar (Gemini API)
+- Interactive chat with AI avatar (OpenAI API)
 - Contact and inquiry forms
 - Animated particle background
 - Social media links and branding
@@ -16,8 +16,9 @@ A modern, creative portfolio and tech studio site for Eugene Boondock, built wit
 - [React 18](https://react.dev/)
 - [Tailwind CSS 3](https://tailwindcss.com/)
 - [Lucide React Icons](https://lucide.dev/)
-- [Vercel Deployment](https://vercel.com/)
-- [Gemini AI API](https://ai.google.dev/)
+- [Cloudflare Workers](https://developers.cloudflare.com/workers/)
+- [Cloudflare D1](https://developers.cloudflare.com/d1/)
+- [OpenAI API](https://platform.openai.com/)
 
 ## Getting Started
 
@@ -43,13 +44,23 @@ A modern, creative portfolio and tech studio site for Eugene Boondock, built wit
    Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ## Deployment
-- Deploys automatically on [Vercel](https://vercel.com/).
-- Push to the `master` branch to trigger a new deployment.
+
+The site runs as a Cloudflare Worker using OpenNext. The Worker configuration is in `wrangler.jsonc`. The `OUTREACH_DB` binding points to the existing `boondock-labs-outreach` D1 database. Apply new D1 migrations separately before deploying code that needs them.
+
+```bash
+npm ci
+npm run build:cloudflare
+npx wrangler deploy
+```
+
+The production Worker requires the `OPENAI_API_KEY` secret for `/api/chat`. Set it through Wrangler’s hidden prompt. The admin routes require Cloudflare Access for `/admin` and `/api/admin/*`, plus `CF_ACCESS_TEAM_DOMAIN` and `CF_ACCESS_AUD` Worker settings. They deny access when those settings are absent. The public contact form uses `NEXT_PUBLIC_FORMSPREE_ENDPOINT` at build time. Keep local environment files out of Git.
+
+See [the migration record](CLOUDFLARE_MIGRATION.md) for DNS, hosting identifiers, and rollback steps.
 
 ## Customization
 - **Fonts:** Uses Rubik via `next/font/google` for a modern look.
 - **Theme:** Easily customizable via Tailwind and CSS variables in `globals.css`.
-- **AI Chat:** Configure Gemini API keys in `.env.local`.
+- **AI Chat:** Configure `OPENAI_API_KEY` for the Worker.
 
 ## License
 MIT

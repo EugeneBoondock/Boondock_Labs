@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "boondock-labs-site",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "keep_vars": true,
+  "vars": {
+    "CF_ACCESS_TEAM_DOMAIN": "cool-dew-053c.cloudflareaccess.com",
+    "CF_ACCESS_AUD": "7477973e07f9b913ba4729e05147292504afe96297217d6e2ac9e01ef31d9955"
+  },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "OUTREACH_DB",
+      "database_name": "boondock-labs-outreach",
+      "database_id": "01a355bf-a7fa-48d3-8708-d615397301f7"
+    }
+  ]
+}
