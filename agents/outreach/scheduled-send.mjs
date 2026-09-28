@@ -70,15 +70,14 @@ async function researchAndQueue() {
     webSearches += webResearch.searches;
     webSearchFailures += webResearch.failures;
     const candidates = [...webResearch.candidates, ...(round === 0 ? savedCandidates : [])];
-    let newlyQualified = 0;
     for (const candidate of candidates) {
       known.push(candidate?.websiteUrl ?? candidate?.contactSourceUrl);
       const email = String(candidate?.contactEmail ?? '').toLowerCase().trim();
       if (!email || seenEmails.has(email)) continue;
-      seenEmails.add(email);
       reviewed++;
       try {
         const data = await verifyLeadCandidate(candidate);
+        seenEmails.add(email);
         let prospect = await registry.request('/prospects', { ...data, ownerAgentId: 'lead-research',
           idempotencyKey: `${leadKey}:prospect:${reviewed}` });
         if (!['new','qualified'].includes(prospect.stage)) continue;
@@ -86,13 +85,13 @@ async function researchAndQueue() {
           idempotencyKey: `${leadKey}:observation:${reviewed}` });
         if (prospect.stage === 'new') prospect = await registry.request(`/prospects/${prospect.id}/stage`, {
           stage: 'qualified', idempotencyKey: `${leadKey}:qualified:${reviewed}` });
-        if (prospect.stage === 'qualified') { qualified++; newlyQualified++; }
+        if (prospect.stage === 'qualified') qualified++;
       } catch (error) {
+        if (error.message !== 'Public source could not be verified') seenEmails.add(email);
         console.log(JSON.stringify({ skippedLeadIndex: reviewed, reason: String(error.message).slice(0, 200) }));
       }
       if (qualified + existingProspects.filter((item) => item.stage === 'qualified').length >= 15) break;
     }
-    if (!newlyQualified) break;
   }
   await registry.request(`/runs/${leadRun.id}/status`, { status: 'succeeded', idempotencyKey: `${leadKey}:succeeded`,
     externalRunId: leadSession.id });
