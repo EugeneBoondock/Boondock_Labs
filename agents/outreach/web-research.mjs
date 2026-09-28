@@ -1,10 +1,10 @@
 const SEARCHES = [
-  { sector: 'restaurants and cafes across South African provinces', directory: false },
-  { sector: 'caterers, bakeries and small food producers across South African provinces', directory: false },
-  { sector: 'local repair shops, plumbers, electricians and other trades across South African provinces', directory: false },
-  { sector: 'independent salons, spas, retailers and boutiques across South African provinces', directory: false },
-  { sector: 'small studios, guest houses, tourism businesses and professional services across South African provinces', directory: false },
-  { sector: 'small South African businesses on Live Profiles, AfricaBizInfo, or SA Online Directory whose individual listing gives a public email and no dedicated website', directory: true },
+  { sector: 'small restaurants, cafes, caterers and bakeries on Live Profiles, AfricaBizInfo or SA Online Directory with a public email and no dedicated website across South Africa', directory: true },
+  { sector: 'independent plumbers, electricians, repair shops and other trades on Live Profiles, AfricaBizInfo or SA Online Directory with a public email and no dedicated website across South Africa', directory: true },
+  { sector: 'local salons, spas, retailers and boutiques on Live Profiles, AfricaBizInfo or SA Online Directory with a public email and no dedicated website across South Africa', directory: true },
+  { sector: 'small guest houses, studios and professional services on Live Profiles, AfricaBizInfo or SA Online Directory with a public email and no dedicated website across South Africa', directory: true },
+  { sector: 'restaurants, cafes, caterers and local shops across South African provinces', directory: false },
+  { sector: 'trades, studios, guest houses and professional services across South African provinces', directory: false },
 ];
 
 function outputText(response) {
