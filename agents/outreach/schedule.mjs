@@ -172,6 +172,10 @@ export async function verifyLeadCandidate(candidate, fetcher = fetch, at = new D
     return await response.text();
   }));
   if (!pages[0].toLowerCase().includes(contactEmail)) throw new Error('Contact email is absent from the public source');
+  if (!websiteUrl && (!visibleText(pages[0]).includes(visibleText(companyName)) ||
+    !/\bsouth africa\b/.test(visibleText(pages[0])))) {
+    throw new Error('Directory listing does not identify a South African business');
+  }
   if (!websiteUrl && !/there is no website listed|company website\s*:\s*(?:www\.)?facebook\.com|open website\s+not provided/i.test(visibleText(pages[0]))) {
     throw new Error('Listing does not support a missing dedicated website');
   }

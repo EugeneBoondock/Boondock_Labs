@@ -114,7 +114,7 @@ test('a public listing can qualify a business without a dedicated website', asyn
     finding: 'The public listing offers a Facebook link but no dedicated website, so a small service site could help visitors learn about the business.',
     offeringCode: 'website-redesign' };
   const fetcher = async (url) => ({ ok: true, url, headers: new Headers(), text: async () =>
-    `<html><body>${candidate.companyName} ${candidate.contactEmail} ${candidate.evidenceText}</body></html>` });
+    `<html><body>${candidate.companyName} South Africa ${candidate.contactEmail} ${candidate.evidenceText}</body></html>` });
   const verified = await verifyLeadCandidate(candidate, fetcher, new Date('2026-09-28T10:00:00Z'));
   assert.equal(verified.websiteUrl, null);
   const prospect = { stage: 'qualified', email_normalized: candidate.contactEmail, website_url: null, source: listing };
@@ -130,7 +130,7 @@ test('a live business profile with a public email and no listed website qualifie
     finding: 'The public directory profile shows a business email and marks the website as not provided.',
     offeringCode: 'website-redesign' };
   const fetcher = async () => ({ ok: true, url, headers: new Headers(), text: async () =>
-    '<p>Email Address waterworksplumbco@gmail.com</p><p>Open Website Not provided</p>' });
+    '<p>El Waterworks Plumbing Co, Berea, South Africa</p><p>Email Address waterworksplumbco@gmail.com</p><p>Open Website Not provided</p>' });
   const verified = await verifyLeadCandidate(candidate, fetcher);
   assert.equal(verified.websiteUrl, null);
   assert.equal(verified.source, url);
