@@ -183,6 +183,9 @@ for (const prospect of prospects) {
             reason: String(error.message).slice(0, 200) }));
         }
       } else {
+        if (/usage or billing limit|no credits remaining|credit_balance_exhausted/i.test(turn.error ?? '')) {
+          throw new Error('OpenAI credits are exhausted; restore the organization balance before resuming outreach');
+        }
         console.log(JSON.stringify({ draftRetry: draftAttempt, prospectId: prospect.id,
           reason: `Outreach draft turn ${turn.status}: ${turn.error ?? 'no detail'}`.slice(0, 200) }));
       }
