@@ -78,6 +78,7 @@ test('fixed send slots, current public evidence, and opt-out text gate scheduled
   const draft = [{ type: 'message', role: 'assistant', turn_id: 'turn-1', content: [{ type: 'output_text',
     text: JSON.stringify({ subject: 'Project portfolio', bodyText }) }] }];
   assert.equal(parseOutreachDraft(draft, 'turn-1').subject, 'Project portfolio');
+  assert.match(parseOutreachDraft(draft, 'turn-1').bodyText, /AI agents that can help with common customer enquiries/);
   assert.throws(() => parseOutreachDraft(draft, 'turn-2'), /incomplete/);
   assert.throws(() => parseOutreachDraft([{ ...draft[0], content: [{ type: 'output_text',
     text: JSON.stringify({ subject: 'Project portfolio', bodyText: 'Would a refreshed project page help? If not, reply no thanks.' }) }] }], 'turn-1'), /checks/);

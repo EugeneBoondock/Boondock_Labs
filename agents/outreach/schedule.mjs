@@ -36,7 +36,14 @@ export function parseOutreachDraft(items, turnId) {
   const text = item?.content?.find((part) => part.type === 'output_text')?.text;
   const draft = JSON.parse(text ?? 'null');
   if (!draft || typeof draft.subject !== 'string' || typeof draft.bodyText !== 'string') throw new Error('Agent draft is incomplete');
-  const subject = draft.subject.trim(), bodyText = draft.bodyText.trim();
+  const subject = draft.subject.trim();
+  let bodyText = draft.bodyText.trim();
+  if (!/\bAI agents?\b/i.test(bodyText)) {
+    const paragraphs = bodyText.split(/\n\s*\n/);
+    const ideaIndex = Math.max(0, paragraphs.length - 2);
+    paragraphs[ideaIndex] += ' We also build AI agents that can help with common customer enquiries, if that would be useful to you.';
+    bodyText = paragraphs.join('\n\n');
+  }
   const wordCount = bodyText.split(/\s+/).length;
   if (!subject || subject.length > 150 || !bodyText || bodyText.length > 1800 ||
     wordCount < 85 || wordCount > 170 || !/\b(?:I am|I'm|I’m) Eugene\b/i.test(bodyText) ||

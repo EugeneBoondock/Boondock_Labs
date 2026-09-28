@@ -25,6 +25,8 @@ if (!instructions.includes('Boondock Labs is based in South Africa.')) {
 }
 const introductionPolicy = 'For every initial email, introduce yourself in the body as Eugene from Boondock Labs and explain in plain language that we design and build websites for South African businesses. Write a considerate 95 to 140 word note that acknowledges the recipient’s work, describes one verified observation without talking down to them, offers one specific helpful idea, invites a reply or short call, and gives an easy opt-out. Do not rely on the signature as the introduction. Do not send a generic one-paragraph pitch.';
 if (!instructions.includes(introductionPolicy)) instructions += `\n${introductionPolicy}`;
+const aiAgentPolicy = 'For every initial email, add one natural sentence saying Boondock Labs can also build AI agents to help with common customer enquiries, without assuming the recipient needs one. Keep the verified business observation and specific website idea central to the note.';
+if (!instructions.includes(aiAgentPolicy)) instructions += `\n${aiAgentPolicy}`;
 if (instructions === current.instructions) {
   console.log(JSON.stringify({ id, updated: false, cap50: true, daily200: true, southAfrica: true, introductionPolicy: true }));
   process.exit(0);
