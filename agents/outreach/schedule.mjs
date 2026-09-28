@@ -167,8 +167,14 @@ export async function verifyLeadCandidate(candidate, fetcher = fetch, at = new D
   if (!websiteUrl && !/there is no website listed|company website\s*:\s*(?:www\.)?facebook\.com/i.test(visibleText(pages[0]))) {
     throw new Error('Listing does not support a missing dedicated website');
   }
-  if (!visibleText(pages[1]).includes(visibleText(evidenceText))) throw new Error('Dated opportunity text is absent from the live page');
+  let verifiedFinding = finding;
+  if (!visibleText(pages[1]).includes(visibleText(evidenceText))) {
+    const notice = websiteUrl && visibleText(pages[1]).slice(0, 1600)
+      .match(/\b(?:website|site|we are|our new site)\s+(?:is\s+|is currently\s+)?(?:coming soon|under construction|under maintenance)\b/);
+    if (!notice) throw new Error('Dated opportunity text is absent from the live page');
+    verifiedFinding = `The public website currently displays “${notice[0]}”. A completed site could present the business and give visitors a clear enquiry path.`;
+  }
   const observations = validateLeadObservations([{ sourceUrl: observationUrl.href, observedAt: at.toISOString(),
-    finding, offeringCode: candidate.offeringCode }], at.getTime());
+    finding: verifiedFinding, offeringCode: candidate.offeringCode }], at.getTime());
   return { companyName, websiteUrl: websiteUrl?.href ?? null, contactEmail, source: contactSourceUrl.href, observations };
 }

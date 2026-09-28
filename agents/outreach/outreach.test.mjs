@@ -98,6 +98,11 @@ test('scheduled research admits only independently visible email and opportunity
   assert.equal(verified.observations[0].offeringCode, 'website-redesign');
   await assert.rejects(() => verifyLeadCandidate({ ...candidate, evidenceText: 'A much newer project listing' }, fetcher),
     /absent from the live page/);
+  const placeholderFetch = async (url) => ({ ok: true, url, headers: new Headers(), text: async () =>
+    '<h1>Website Coming Soon</h1><p>info@example.co.za</p>' });
+  const placeholder = await verifyLeadCandidate({ ...candidate, contactSourceUrl: 'https://example.co.za/',
+    observationUrl: 'https://example.co.za/', evidenceText: 'Our new site will launch soon' }, placeholderFetch);
+  assert.match(placeholder.observations[0].finding, /currently displays “website coming soon”/);
 });
 
 test('a public listing can qualify a business without a dedicated website', async () => {
