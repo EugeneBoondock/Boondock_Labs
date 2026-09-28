@@ -1,6 +1,7 @@
 import { normalizeEmail, requiredText, validateLeadObservations } from './rules.mjs';
 
 export const SLOT_HOURS = Object.freeze({ 1: 9, 2: 13, 3: 16, 4: 20 });
+const DIRECTORY_HOSTS = new Set(['africabizinfo.com', 'saonlinedirectory.co.za', 'live-profiles.com']);
 
 export function scheduledSlot(slot, at = new Date()) {
   const hour = SLOT_HOURS[slot];
@@ -15,11 +16,11 @@ export function prospectEvidence(prospect, events, at = Date.now()) {
   if (prospect?.stage !== 'qualified' || !prospect.email_normalized) return null;
   const source = new URL(prospect.source);
   const website = prospect.website_url ? new URL(prospect.website_url) : null;
-  const verifiedDirectory = ['africabizinfo.com', 'saonlinedirectory.co.za'].includes(source.hostname.replace(/^www\./, ''));
+  const verifiedDirectory = DIRECTORY_HOSTS.has(source.hostname.replace(/^www\./, ''));
   const emailDomain = prospect.email_normalized.split('@')[1];
   if (source.protocol !== 'https:' || (website && source.hostname.replace(/^www\./, '') !== website.hostname.replace(/^www\./, '') &&
     !(verifiedDirectory && emailDomain === website.hostname.replace(/^www\./, ''))) ||
-    (!website && !['africabizinfo.com', 'saonlinedirectory.co.za'].includes(source.hostname.replace(/^www\./, '')))) {
+    (!website && !DIRECTORY_HOSTS.has(source.hostname.replace(/^www\./, '')))) {
     throw new Error('Qualified prospect needs a verified public contact URL');
   }
   const event = events.find((item) => ['prospect.created','prospect.observations_updated'].includes(item.event_type));
@@ -154,7 +155,7 @@ export async function verifyLeadCandidate(candidate, fetcher = fetch, at = new D
   const contactSourceUrl = new URL(candidate?.contactSourceUrl);
   const observationUrl = new URL(candidate?.observationUrl);
   const contactHost = host(contactSourceUrl.href), websiteHost = websiteUrl ? host(websiteUrl.href) : null;
-  const directoryContact = ['africabizinfo.com', 'saonlinedirectory.co.za'].includes(contactHost);
+  const directoryContact = DIRECTORY_HOSTS.has(contactHost);
   if (!contactEmail || [websiteUrl, contactSourceUrl, observationUrl].filter(Boolean).some((url) => url.protocol !== 'https:') ||
     (websiteHost && websiteHost !== contactHost && !(directoryContact && contactEmail.split('@')[1] === websiteHost)) ||
     host(websiteUrl?.href ?? contactSourceUrl.href) !== host(observationUrl.href) ||
@@ -171,7 +172,7 @@ export async function verifyLeadCandidate(candidate, fetcher = fetch, at = new D
     return await response.text();
   }));
   if (!pages[0].toLowerCase().includes(contactEmail)) throw new Error('Contact email is absent from the public source');
-  if (!websiteUrl && !/there is no website listed|company website\s*:\s*(?:www\.)?facebook\.com/i.test(visibleText(pages[0]))) {
+  if (!websiteUrl && !/there is no website listed|company website\s*:\s*(?:www\.)?facebook\.com|open website\s+not provided/i.test(visibleText(pages[0]))) {
     throw new Error('Listing does not support a missing dedicated website');
   }
   let verifiedFinding = finding;

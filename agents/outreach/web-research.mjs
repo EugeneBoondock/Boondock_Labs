@@ -4,7 +4,7 @@ const SEARCHES = [
   { sector: 'local repair shops, plumbers, electricians and other trades across South African provinces', directory: false },
   { sector: 'independent salons, spas, retailers and boutiques across South African provinces', directory: false },
   { sector: 'small studios, guest houses, tourism businesses and professional services across South African provinces', directory: false },
-  { sector: 'small South African businesses on AfricaBizInfo or SA Online Directory whose listing explicitly says no website is listed or gives only a Facebook page', directory: true },
+  { sector: 'small South African businesses on Live Profiles, AfricaBizInfo, or SA Online Directory whose individual listing gives a public email and no dedicated website', directory: true },
 ];
 
 function outputText(response) {
@@ -23,7 +23,7 @@ export function parseWebResearch(text) {
 export async function forcedWebResearch({ apiKey, organizationId, projectId, known = [], fetcher = fetch }) {
   const groups = await Promise.allSettled(SEARCHES.map(async ({ sector, directory }) => {
     const sourceRule = directory
-      ? 'Return only exact public business directory listings that visibly give both the business email and either the words “there is no website listed” or a Facebook page as its website. Set websiteUrl to null. Never infer absence of a website from search results.'
+      ? 'Return only exact public business directory listings that visibly give both the business email and either the words “there is no website listed,” a Facebook page as its website, or the field “Open Website” followed by “Not provided.” Prioritize live-profiles.com/ZA pages when both Email Address and Open Website fields are present. Set websiteUrl to null. Never infer absence of a website from search results.'
       : 'Return only the business’s own HTTPS website pages. Do not return directory, social-media, search-result, or third-party pages. The live site must visibly say coming soon, under construction, or under maintenance and visibly give a business email on the same site. Set websiteUrl to the business site.';
     const input = `Use live web search to find up to 8 real ${sector}. Search across provinces, not just one city. Give priority to small independent businesses. Larger businesses are eligible with a specific verified fit. ${sourceRule} Search beyond these already known pages: ${JSON.stringify(known.slice(-150))}. Return only JSON in this shape: {"candidates":[{"companyName":"name","websiteUrl":"HTTPS site URL or null","contactEmail":"public email","contactSourceUrl":"exact HTTPS page showing email","observationUrl":"exact HTTPS page showing opportunity","evidenceText":"exact visible excerpt of 20 to 220 characters","finding":"specific respectful opportunity based only on that excerpt","offeringCode":"website-redesign"}]}. Never invent an email, URL or quote. Exclude businesses without the exact evidence. Do not send mail.`;
     const response = await fetcher('https://api.openai.com/v1/responses', {

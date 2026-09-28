@@ -122,6 +122,20 @@ test('a public listing can qualify a business without a dedicated website', asyn
   assert.equal(prospectEvidence(prospect, events, Date.parse('2026-09-28T11:00:00Z')).contactSourceUrl, listing);
 });
 
+test('a live business profile with a public email and no listed website qualifies', async () => {
+  const url = 'https://live-profiles.com/ZAUX-OX0JG';
+  const candidate = { companyName: 'El Waterworks Plumbing Co', websiteUrl: null,
+    contactEmail: 'waterworksplumbco@gmail.com', contactSourceUrl: url, observationUrl: url,
+    evidenceText: 'Open Website Not provided',
+    finding: 'The public directory profile shows a business email and marks the website as not provided.',
+    offeringCode: 'website-redesign' };
+  const fetcher = async () => ({ ok: true, url, headers: new Headers(), text: async () =>
+    '<p>Email Address waterworksplumbco@gmail.com</p><p>Open Website Not provided</p>' });
+  const verified = await verifyLeadCandidate(candidate, fetcher);
+  assert.equal(verified.websiteUrl, null);
+  assert.equal(verified.source, url);
+});
+
 test('a directory contact on the business email domain can verify a placeholder website', async () => {
   const listing = 'https://saonlinedirectory.co.za/showlisting.php?listing=123';
   const website = 'https://example.co.za/';
