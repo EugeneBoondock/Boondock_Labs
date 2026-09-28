@@ -30,9 +30,9 @@ test('scheduled discovery forces live search and keeps valid results when anothe
         ] }) }] },
       ] });
     } });
-  assert.equal(calls.length, 4);
+  assert.equal(calls.length, 6);
   assert.ok(calls.every((call) => call.tool_choice === 'required' && call.tools[0].type === 'web_search'));
-  assert.equal(result.failures, 3);
+  assert.equal(result.failures, 5);
   assert.equal(result.candidates.length, 1);
 });
 

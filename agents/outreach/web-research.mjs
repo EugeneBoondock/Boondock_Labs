@@ -1,8 +1,10 @@
 const SEARCHES = [
-  'restaurants, cafes, caterers and bakeries in South Africa',
-  'independent shops, salons, repair services and local trades in South Africa',
-  'small studios, tourism businesses, clinics and professional services in South Africa',
-  'small South African businesses on AfricaBizInfo or SA Online Directory whose listing gives a public email and explicitly says there is no website listed or gives only a Facebook page as the website',
+  { sector: 'restaurants and cafes across South African provinces', directory: false },
+  { sector: 'caterers, bakeries and small food producers across South African provinces', directory: false },
+  { sector: 'local repair shops, plumbers, electricians and other trades across South African provinces', directory: false },
+  { sector: 'independent salons, spas, retailers and boutiques across South African provinces', directory: false },
+  { sector: 'small studios, guest houses, tourism businesses and professional services across South African provinces', directory: false },
+  { sector: 'small South African businesses on AfricaBizInfo or SA Online Directory whose listing explicitly says no website is listed or gives only a Facebook page', directory: true },
 ];
 
 function outputText(response) {
@@ -19,8 +21,11 @@ export function parseWebResearch(text) {
 }
 
 export async function forcedWebResearch({ apiKey, organizationId, projectId, known = [], fetcher = fetch }) {
-  const groups = await Promise.allSettled(SEARCHES.map(async (sector) => {
-    const input = `Use live web search to find up to 8 real ${sector}. Search across provinces, not just one city. Give priority to small independent businesses. Larger businesses are eligible when their own public site shows a clear website improvement opportunity. For businesses with a website, prefer a live coming-soon or under-construction page with a visible business email on that same site. For a missing-site lead, use only an exact public directory listing that visibly gives both the email and either the words “there is no website listed” or a Facebook page as its website; set websiteUrl to null. Do not infer absence of a website from a search result. Search beyond these already known websites: ${JSON.stringify(known)}. Return only JSON in this shape: {"candidates":[{"companyName":"name","websiteUrl":"HTTPS site URL or null","contactEmail":"public email","contactSourceUrl":"exact HTTPS page showing email","observationUrl":"exact HTTPS page showing opportunity","evidenceText":"exact visible excerpt of 20 to 220 characters","finding":"specific respectful opportunity based only on that excerpt","offeringCode":"website-redesign"}]}. Never invent an email, URL or quote. Exclude listings without the exact evidence. Do not send mail.`;
+  const groups = await Promise.allSettled(SEARCHES.map(async ({ sector, directory }) => {
+    const sourceRule = directory
+      ? 'Return only exact public business directory listings that visibly give both the business email and either the words “there is no website listed” or a Facebook page as its website. Set websiteUrl to null. Never infer absence of a website from search results.'
+      : 'Return only the business’s own HTTPS website pages. Do not return directory, social-media, search-result, or third-party pages. The live site must visibly say coming soon, under construction, or under maintenance and visibly give a business email on the same site. Set websiteUrl to the business site.';
+    const input = `Use live web search to find up to 8 real ${sector}. Search across provinces, not just one city. Give priority to small independent businesses. Larger businesses are eligible with a specific verified fit. ${sourceRule} Search beyond these already known pages: ${JSON.stringify(known.slice(-150))}. Return only JSON in this shape: {"candidates":[{"companyName":"name","websiteUrl":"HTTPS site URL or null","contactEmail":"public email","contactSourceUrl":"exact HTTPS page showing email","observationUrl":"exact HTTPS page showing opportunity","evidenceText":"exact visible excerpt of 20 to 220 characters","finding":"specific respectful opportunity based only on that excerpt","offeringCode":"website-redesign"}]}. Never invent an email, URL or quote. Exclude businesses without the exact evidence. Do not send mail.`;
     const response = await fetcher('https://api.openai.com/v1/responses', {
       method: 'POST', signal: AbortSignal.timeout(150000),
       headers: { Authorization: `Bearer ${apiKey}`, 'OpenAI-Organization': organizationId,
@@ -46,6 +51,6 @@ export async function forcedWebResearch({ apiKey, organizationId, projectId, kno
       candidates.push(candidate);
     }
   }
-  if (failures === SEARCHES.length) throw new Error('All four live web searches failed');
-  return { candidates: candidates.slice(0, 30), searches: SEARCHES.length, failures };
+  if (failures === SEARCHES.length) throw new Error('All live web searches failed');
+  return { candidates: candidates.slice(0, 50), searches: SEARCHES.length, failures };
 }
