@@ -1,0 +1,24 @@
+[Unit]
+Description=Boondock Labs Gmail OAuth callback
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=boondock-outreach
+Group=boondock-outreach
+WorkingDirectory=/opt/boondock-outreach/current
+EnvironmentFile=/etc/boondock-outreach/outreach.env
+ExecStart=/usr/bin/node /opt/boondock-outreach/current/agents/outreach/oauth-server.mjs
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/boondock-outreach
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target

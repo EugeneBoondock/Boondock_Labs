@@ -1,0 +1,11 @@
+[Unit]
+Description=Boondock Labs prospect slot 1 at 09:00 South Africa time
+
+[Timer]
+OnCalendar=*-*-* 09:00:00 Africa/Johannesburg
+AccuracySec=1min
+Persistent=false
+Unit=boondock-outreach-send@1.service
+
+[Install]
+WantedBy=timers.target

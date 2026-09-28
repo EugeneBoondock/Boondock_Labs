@@ -1,0 +1,12 @@
+[Unit]
+Description=Process newly recorded prospect replies every five minutes
+
+[Timer]
+OnBootSec=6min
+OnUnitActiveSec=5min
+RandomizedDelaySec=30s
+Persistent=false
+Unit=boondock-outreach-reply.service
+
+[Install]
+WantedBy=timers.target

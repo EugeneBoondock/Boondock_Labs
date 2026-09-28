@@ -1,0 +1,19 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "boondock-outreach-registry",
+  "account_id": "e31feaa4cca751cc2db46646c505f63b",
+  "main": "./worker.mjs",
+  "compatibility_date": "2026-09-27",
+  "d1_databases": [
+    {
+      "binding": "OUTREACH_DB",
+      "database_name": "boondock-labs-outreach",
+      "database_id": "01a355bf-a7fa-48d3-8708-d615397301f7"
+    }
+  ],
+  "vars": {
+    "OUTREACH_DAILY_LIMIT": "45",
+    "OUTREACH_RUN_LIMIT": "15",
+    "OUTREACH_MAX_QUOTE_MINOR": "100000000"
+  }
+}

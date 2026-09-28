@@ -1,0 +1,19 @@
+[Unit]
+Description=Boondock Labs Gmail reply poll
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=boondock-outreach
+Group=boondock-outreach
+WorkingDirectory=/opt/boondock-outreach/current
+EnvironmentFile=/etc/boondock-outreach/outreach.env
+ExecStart=/usr/bin/node /opt/boondock-outreach/current/agents/outreach/runner.mjs poll-replies
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/boondock-outreach
+MemoryMax=512M
