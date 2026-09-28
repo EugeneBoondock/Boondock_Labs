@@ -168,7 +168,7 @@ function assessQuoteContext(scope, benchmarks, assumptions, currentTime = Date.n
 }
 
 // agents/outreach/schedule.mjs
-var SLOT_HOURS = Object.freeze({ 1: 9, 2: 13, 3: 16 });
+var SLOT_HOURS = Object.freeze({ 1: 9, 2: 13, 3: 16, 4: 20 });
 function host(url) {
   return new URL(url).hostname.toLowerCase().replace(/^www\./, "");
 }
@@ -258,7 +258,7 @@ function event(db, { prospectId = null, runId = null, actor = "system", type, en
     VALUES (?,?,?,?,?,?,?,?,?,?)`, uid(), prospectId, runId, actor, type, entity, entityId, at, key, meta(metadata));
 }
 var Registry = class {
-  constructor(db, { dailyLimit = 45, runLimit = 15, replyDailyLimit = 100, maxQuoteMinor = 1e8, catalog = {}, quoteFetch = fetch } = {}) {
+  constructor(db, { dailyLimit = 200, runLimit = 50, replyDailyLimit = 100, maxQuoteMinor = 1e8, catalog = {}, quoteFetch = fetch } = {}) {
     this.db = db;
     this.dailyLimit = dailyLimit;
     this.runLimit = runLimit;
@@ -267,7 +267,7 @@ var Registry = class {
     this.catalog = catalog;
     this.quoteFetch = quoteFetch;
     if (!Number.isSafeInteger(dailyLimit) || dailyLimit < 1 || dailyLimit > 1e3) throw new Error("Invalid daily limit");
-    if (!Number.isSafeInteger(runLimit) || runLimit < 1 || runLimit > 15) throw new Error("Invalid per-run limit");
+    if (!Number.isSafeInteger(runLimit) || runLimit < 1 || runLimit > 50) throw new Error("Invalid per-run limit");
     if (!Number.isSafeInteger(replyDailyLimit) || replyDailyLimit < 1 || replyDailyLimit > 1e3) throw new Error("Invalid reply daily limit");
     if (!Number.isSafeInteger(maxQuoteMinor) || maxQuoteMinor < 1) throw new Error("Invalid quote limit");
   }
@@ -923,8 +923,8 @@ async function body(request) {
 function registry(env) {
   if (!env.OUTREACH_DB) throw new Error("D1 binding OUTREACH_DB is missing");
   return new Registry(env.OUTREACH_DB, {
-    dailyLimit: Number(env.OUTREACH_DAILY_LIMIT ?? 45),
-    runLimit: Number(env.OUTREACH_RUN_LIMIT ?? 15),
+    dailyLimit: Number(env.OUTREACH_DAILY_LIMIT ?? 200),
+    runLimit: Number(env.OUTREACH_RUN_LIMIT ?? 50),
     maxQuoteMinor: Number(env.OUTREACH_MAX_QUOTE_MINOR ?? 1e8),
     catalog: env.OUTREACH_PRICING_JSON ? JSON.parse(env.OUTREACH_PRICING_JSON) : {}
   });

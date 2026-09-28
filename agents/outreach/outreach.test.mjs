@@ -404,7 +404,8 @@ test('OAuth callback, encrypted token, and service endpoint access stay scoped',
   assert.equal((await allowed.json()).length, 3);
   const policy = await handleOutreachRequest(new Request('https://registry.example/policy', { headers: { Authorization: 'Bearer service-secret' } }), env);
   assert.equal(policy.status, 200);
-  assert.equal((await policy.json()).dailyInitialLimit, 45);
+  assert.deepEqual(await policy.json().then(({ dailyInitialLimit, perRunInitialLimit }) =>
+    ({ dailyInitialLimit, perRunInitialLimit })), { dailyInitialLimit: 200, perRunInitialLimit: 50 });
 });
 
 test('Earthie saved agents are checked before sessions and run outcomes are stored', async () => {

@@ -15,7 +15,7 @@ const resume = process.argv[3] === '--resume' || catchUp;
 const schedule = scheduledSlot(slot);
 const dayTarget = process.env.OUTREACH_DAY_TARGET_DATE === schedule.day && process.env.OUTREACH_DAY_TARGET
   ? Number(process.env.OUTREACH_DAY_TARGET) : null;
-if (dayTarget !== null && (!Number.isSafeInteger(dayTarget) || dayTarget < 1 || dayTarget > 60)) {
+if (dayTarget !== null && (!Number.isSafeInteger(dayTarget) || dayTarget < 1 || dayTarget > 200)) {
   throw new Error('Invalid outreach day target');
 }
 const localHour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Johannesburg',
@@ -47,9 +47,8 @@ async function itemsForTurn(sessionId) {
   return (await response.json()).data ?? [];
 }
 
-async function researchAndQueue() {
-  const leadKey = `run:${schedule.day}:slot-${schedule.slot}:lead`;
-  let leadRun = await registry.request('/runs', { agentId: 'lead-research', trigger: 'scheduled', idempotencyKey: leadKey });
+async function researchAndQueue(leadKey = `run:${schedule.day}:slot-${schedule.slot}:lead`, trigger = 'scheduled') {
+  let leadRun = await registry.request('/runs', { agentId: 'lead-research', trigger, idempotencyKey: leadKey });
   if (leadRun.status === 'succeeded') return { reviewed: 0, qualified: 0, prior: true };
   if (leadRun.status !== 'queued') throw new Error(`Lead research run is ${leadRun.status}; reconcile before retrying`);
   const leadSession = await api.existingSession('lead-research');
@@ -64,7 +63,7 @@ async function researchAndQueue() {
   const savedCandidates = parseLeadCandidates(await itemsForTurn(leadSession.id), turn.turnId);
   const seenEmails = new Set(existingProspects.map((item) => item.email_normalized));
   let qualified = 0, reviewed = 0, webSearches = 0, webSearchFailures = 0;
-  for (let round = 0; round < 4 && qualified + existingProspects.filter((item) => item.stage === 'qualified').length < 15; round++) {
+  for (let round = 0; round < 16 && qualified + existingProspects.filter((item) => item.stage === 'qualified').length < 50; round++) {
     const webResearch = await forcedWebResearch({ apiKey: process.env.OPENAI_API_KEY,
       organizationId: process.env.OPENAI_ORG_ID, projectId: process.env.OPENAI_PROJECT_ID, known });
     webSearches += webResearch.searches;
@@ -90,7 +89,7 @@ async function researchAndQueue() {
         if (error.message !== 'Public source could not be verified') seenEmails.add(email);
         console.log(JSON.stringify({ skippedLeadIndex: reviewed, reason: String(error.message).slice(0, 200) }));
       }
-      if (qualified + existingProspects.filter((item) => item.stage === 'qualified').length >= 15) break;
+      if (qualified + existingProspects.filter((item) => item.stage === 'qualified').length >= 50) break;
     }
   }
   await registry.request(`/runs/${leadRun.id}/status`, { status: 'succeeded', idempotencyKey: `${leadKey}:succeeded`,
@@ -128,7 +127,13 @@ if (resume) {
     const events = await registry.request(`/prospects/${encodeURIComponent(prospect.id)}/events`);
     priorAttempts += events.filter((event) => event.event_type === 'outbound.initial_reserved' && event.agent_run_id === run.id).length;
   }
-  if (priorAttempts >= 15) throw new Error('Completed slot has no remaining per-run capacity');
+  if (priorAttempts >= 50) throw new Error('Completed slot has no remaining per-run capacity');
+  if (catchUp) {
+    await pollReplies(gmail, registry);
+    research = await researchAndQueue(`run:${schedule.day}:slot-${schedule.slot}:catch-up:${crypto.randomUUID()}`, 'manual');
+    prospects = (await registry.request('/prospects')).filter((item) => item.stage === 'qualified')
+      .sort((a, b) => Number(Boolean(a.website_url)) - Number(Boolean(b.website_url)));
+  }
 } else {
   await pollReplies(gmail, registry);
   research = await researchAndQueue();
@@ -149,7 +154,7 @@ if (dayTarget !== null) {
 
 let attempted = 0, skipped = 0;
 for (const prospect of prospects) {
-  if (priorAttempts + attempted >= 15) break;
+  if (priorAttempts + attempted >= 50) break;
   if (dayTarget !== null && priorDayAttempts + attempted >= dayTarget) break;
   if (!scheduledSlot(slot).due && !catchUp) break;
   let phase = 'preflight';

@@ -34,7 +34,7 @@ function event(db, { prospectId = null, runId = null, actor = 'system', type, en
 }
 
 export class Registry {
-  constructor(db, { dailyLimit = 45, runLimit = 15, replyDailyLimit = 100, maxQuoteMinor = 100000000, catalog = {}, quoteFetch = fetch } = {}) {
+  constructor(db, { dailyLimit = 200, runLimit = 50, replyDailyLimit = 100, maxQuoteMinor = 100000000, catalog = {}, quoteFetch = fetch } = {}) {
     this.db = db;
     this.dailyLimit = dailyLimit;
     this.runLimit = runLimit;
@@ -43,7 +43,7 @@ export class Registry {
     this.catalog = catalog;
     this.quoteFetch = quoteFetch;
     if (!Number.isSafeInteger(dailyLimit) || dailyLimit < 1 || dailyLimit > 1000) throw new Error('Invalid daily limit');
-    if (!Number.isSafeInteger(runLimit) || runLimit < 1 || runLimit > 15) throw new Error('Invalid per-run limit');
+    if (!Number.isSafeInteger(runLimit) || runLimit < 1 || runLimit > 50) throw new Error('Invalid per-run limit');
     if (!Number.isSafeInteger(replyDailyLimit) || replyDailyLimit < 1 || replyDailyLimit > 1000) throw new Error('Invalid reply daily limit');
     if (!Number.isSafeInteger(maxQuoteMinor) || maxQuoteMinor < 1) throw new Error('Invalid quote limit');
   }

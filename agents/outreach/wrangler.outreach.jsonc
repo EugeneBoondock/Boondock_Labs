@@ -12,8 +12,8 @@
     }
   ],
   "vars": {
-    "OUTREACH_DAILY_LIMIT": "60",
-    "OUTREACH_RUN_LIMIT": "15",
+    "OUTREACH_DAILY_LIMIT": "200",
+    "OUTREACH_RUN_LIMIT": "50",
     "OUTREACH_MAX_QUOTE_MINOR": "100000000"
   }
 }

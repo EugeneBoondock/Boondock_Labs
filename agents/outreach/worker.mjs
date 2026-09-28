@@ -15,8 +15,8 @@ async function body(request) {
 function registry(env) {
   if (!env.OUTREACH_DB) throw new Error('D1 binding OUTREACH_DB is missing');
   return new Registry(env.OUTREACH_DB, {
-    dailyLimit: Number(env.OUTREACH_DAILY_LIMIT ?? 45),
-    runLimit: Number(env.OUTREACH_RUN_LIMIT ?? 15),
+    dailyLimit: Number(env.OUTREACH_DAILY_LIMIT ?? 200),
+    runLimit: Number(env.OUTREACH_RUN_LIMIT ?? 50),
     maxQuoteMinor: Number(env.OUTREACH_MAX_QUOTE_MINOR ?? 100000000),
     catalog: env.OUTREACH_PRICING_JSON ? JSON.parse(env.OUTREACH_PRICING_JSON) : {},
   });
