@@ -56,34 +56,47 @@ async function researchAndQueue() {
   if (leadSession.status !== 'idle') throw new Error('Lead research session is not idle');
   leadRun = await registry.request(`/runs/${leadRun.id}/status`, { status: 'running', idempotencyKey: `${leadKey}:running` });
   await registry.request(`/runs/${leadRun.id}/session`, { externalRunId: leadSession.id, idempotencyKey: `${leadKey}:session` });
-  const known = (await registry.request('/prospects')).map((item) => item.website_url).filter(Boolean);
+  const existingProspects = await registry.request('/prospects');
+  const known = existingProspects.map((item) => item.website_url ?? item.source).filter(Boolean);
   const input = `Date ${schedule.day}, Africa/Johannesburg. Use your web_search tool to propose up to 30 South African businesses for controller verification. Search broadly across provinces and sectors: restaurants, caterers, trades, local shops, service providers, and studios. First seek small independent businesses whose public listing shows no dedicated website and gives a visible business email. Larger businesses remain eligible with a specific verified fit. Try AfricaBizInfo and SA Online Directory, then search other public sources if they are unavailable. For a missing-site lead, set websiteUrl to null; the exact listing must show the email and say no website is listed or show only a Facebook page as its website. Include businesses whose live sites show a clear improvement opportunity such as a coming-soon page. The controller checks registry duplicates and suppression, so inability to read the registry is not a reason to return zero candidates. Search beyond this previous shortlist: ${JSON.stringify(known)}. Never send mail. Return JSON only: {"candidates":[{"companyName":"...","websiteUrl":null,"contactEmail":"public address","contactSourceUrl":"exact HTTPS page with that address","observationUrl":"exact HTTPS page showing opportunity","evidenceText":"20 to 220 characters copied exactly from the visible observation page","finding":"specific, respectful interpretation without an unsupported claim","offeringCode":"website-redesign"}]}. For businesses with a website, use its HTTPS URL in websiteUrl and same-site contact and observation pages. Do not use a copyright footer as age evidence. Exclude any business without directly visible contact and opportunity evidence. The controller independently fetches pages and qualifies leads; do not fabricate data.`;
   const turn = await api.runExistingSession('lead-research', input, leadKey);
   if (turn.status !== 'completed') throw new Error(`Lead research turn ${turn.status}`);
   const savedCandidates = parseLeadCandidates(await itemsForTurn(leadSession.id), turn.turnId);
-  const webResearch = await forcedWebResearch({ apiKey: process.env.OPENAI_API_KEY,
-    organizationId: process.env.OPENAI_ORG_ID, projectId: process.env.OPENAI_PROJECT_ID, known });
-  const candidates = [...webResearch.candidates, ...savedCandidates].slice(0, 30);
-  let qualified = 0;
-  for (const [index, candidate] of candidates.entries()) {
-    try {
-      const data = await verifyLeadCandidate(candidate);
-      let prospect = await registry.request('/prospects', { ...data, ownerAgentId: 'lead-research',
-        idempotencyKey: `${leadKey}:prospect:${index}` });
-      if (!['new','qualified'].includes(prospect.stage)) continue;
-      await registry.request(`/prospects/${prospect.id}/observations`, { observations: data.observations,
-        idempotencyKey: `${leadKey}:observation:${index}` });
-      if (prospect.stage === 'new') prospect = await registry.request(`/prospects/${prospect.id}/stage`, {
-        stage: 'qualified', idempotencyKey: `${leadKey}:qualified:${index}` });
-      if (prospect.stage === 'qualified') qualified++;
-    } catch (error) {
-      console.log(JSON.stringify({ skippedLeadIndex: index, reason: String(error.message).slice(0, 200) }));
+  const seenEmails = new Set(existingProspects.map((item) => item.email_normalized));
+  let qualified = 0, reviewed = 0, webSearches = 0, webSearchFailures = 0;
+  for (let round = 0; round < 4 && qualified + existingProspects.filter((item) => item.stage === 'qualified').length < 15; round++) {
+    const webResearch = await forcedWebResearch({ apiKey: process.env.OPENAI_API_KEY,
+      organizationId: process.env.OPENAI_ORG_ID, projectId: process.env.OPENAI_PROJECT_ID, known });
+    webSearches += webResearch.searches;
+    webSearchFailures += webResearch.failures;
+    const candidates = [...webResearch.candidates, ...(round === 0 ? savedCandidates : [])];
+    let newlyQualified = 0;
+    for (const candidate of candidates) {
+      known.push(candidate?.websiteUrl ?? candidate?.contactSourceUrl);
+      const email = String(candidate?.contactEmail ?? '').toLowerCase().trim();
+      if (!email || seenEmails.has(email)) continue;
+      seenEmails.add(email);
+      reviewed++;
+      try {
+        const data = await verifyLeadCandidate(candidate);
+        let prospect = await registry.request('/prospects', { ...data, ownerAgentId: 'lead-research',
+          idempotencyKey: `${leadKey}:prospect:${reviewed}` });
+        if (!['new','qualified'].includes(prospect.stage)) continue;
+        await registry.request(`/prospects/${prospect.id}/observations`, { observations: data.observations,
+          idempotencyKey: `${leadKey}:observation:${reviewed}` });
+        if (prospect.stage === 'new') prospect = await registry.request(`/prospects/${prospect.id}/stage`, {
+          stage: 'qualified', idempotencyKey: `${leadKey}:qualified:${reviewed}` });
+        if (prospect.stage === 'qualified') { qualified++; newlyQualified++; }
+      } catch (error) {
+        console.log(JSON.stringify({ skippedLeadIndex: reviewed, reason: String(error.message).slice(0, 200) }));
+      }
+      if (qualified + existingProspects.filter((item) => item.stage === 'qualified').length >= 15) break;
     }
+    if (!newlyQualified) break;
   }
   await registry.request(`/runs/${leadRun.id}/status`, { status: 'succeeded', idempotencyKey: `${leadKey}:succeeded`,
     externalRunId: leadSession.id });
-  return { reviewed: candidates.length, qualified, webSearches: webResearch.searches,
-    webSearchFailures: webResearch.failures };
+  return { reviewed, qualified, webSearches, webSearchFailures };
 }
 
 const agents = await registry.request('/agents');
