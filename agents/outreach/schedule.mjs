@@ -1,10 +1,10 @@
 import { normalizeEmail, requiredText, validateLeadObservations } from './rules.mjs';
 
-export const SLOT_HOURS = Object.freeze({ 1: 9, 2: 13, 3: 16 });
+export const SLOT_HOURS = Object.freeze({ 1: 9, 2: 13, 3: 16, 4: 20 });
 
 export function scheduledSlot(slot, at = new Date()) {
   const hour = SLOT_HOURS[slot];
-  if (!hour) throw new Error('Only the three scheduled outreach slots are allowed');
+  if (!hour) throw new Error('Only the four scheduled outreach slots are allowed');
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Africa/Johannesburg', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23',
   }).formatToParts(at).map((part) => [part.type, part.value]));

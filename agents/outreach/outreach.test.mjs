@@ -14,6 +14,27 @@ import { sendOutreach, sendQuote } from './send.mjs';
 import { assessQuoteContext } from './rules.mjs';
 import { scheduledSlot, prospectEvidence, parseOutreachDraft, parseLeadCandidates, verifyLeadCandidate,
   asksForQuote, replyNeedsHandoff, parseReplyDecision, verifyQuoteBenchmarks } from './schedule.mjs';
+import { forcedWebResearch } from './web-research.mjs';
+
+test('scheduled discovery forces live search and keeps valid results when another search fails', async () => {
+  const calls = [];
+  const result = await forcedWebResearch({ apiKey: 'test-key', organizationId: 'org-test', known: [],
+    fetcher: async (_url, options) => {
+      const request = JSON.parse(options.body);
+      calls.push(request);
+      if (calls.length > 1) return new Response('', { status: 429 });
+      return Response.json({ status: 'completed', output: [
+        { type: 'web_search_call' },
+        { type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ candidates: [
+          { companyName: 'A Cafe', contactEmail: 'hello@example.co.za' },
+        ] }) }] },
+      ] });
+    } });
+  assert.equal(calls.length, 4);
+  assert.ok(calls.every((call) => call.tool_choice === 'required' && call.tools[0].type === 'web_search'));
+  assert.equal(result.failures, 3);
+  assert.equal(result.candidates.length, 1);
+});
 
 test('daily outreach limits follow the South African calendar day', () => {
   assert.deepEqual(southAfricanDayBounds('2026-09-27T23:30:00.000Z'), {
@@ -41,7 +62,9 @@ test('fixed send slots, current public evidence, and opt-out text gate scheduled
   assert.deepEqual(scheduledSlot(1, new Date('2026-09-28T07:00:00Z')),
     { day: '2026-09-28', slot: 1, due: true });
   assert.equal(scheduledSlot(2, new Date('2026-09-28T07:00:00Z')).due, false);
-  assert.throws(() => scheduledSlot(4), /three scheduled/);
+  assert.deepEqual(scheduledSlot(4, new Date('2026-09-28T18:00:00Z')),
+    { day: '2026-09-28', slot: 4, due: true });
+  assert.throws(() => scheduledSlot(5), /four scheduled/);
   const prospect = { stage: 'qualified', email_normalized: 'info@example.co.za',
     website_url: 'https://example.co.za/', source: 'https://example.co.za/contact' };
   const events = [{ event_type: 'prospect.created', metadata_json: JSON.stringify({ observations: [{

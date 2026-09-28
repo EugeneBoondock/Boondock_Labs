@@ -6,6 +6,7 @@ import { pollReplies } from './poll.mjs';
 import { RegistryClient } from './registry-client.mjs';
 import { SLOT_HOURS, scheduledSlot, prospectEvidence, parseOutreachDraft, parseLeadCandidates, verifyLeadCandidate } from './schedule.mjs';
 import { sendOutreach } from './send.mjs';
+import { forcedWebResearch } from './web-research.mjs';
 
 const slot = process.argv[2];
 const checkOnly = process.argv[3] === '--check';
@@ -14,7 +15,7 @@ const resume = process.argv[3] === '--resume' || catchUp;
 const schedule = scheduledSlot(slot);
 const dayTarget = process.env.OUTREACH_DAY_TARGET_DATE === schedule.day && process.env.OUTREACH_DAY_TARGET
   ? Number(process.env.OUTREACH_DAY_TARGET) : null;
-if (dayTarget !== null && (!Number.isSafeInteger(dayTarget) || dayTarget < 1 || dayTarget > 45)) {
+if (dayTarget !== null && (!Number.isSafeInteger(dayTarget) || dayTarget < 1 || dayTarget > 60)) {
   throw new Error('Invalid outreach day target');
 }
 const localHour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Johannesburg',
@@ -56,10 +57,13 @@ async function researchAndQueue() {
   leadRun = await registry.request(`/runs/${leadRun.id}/status`, { status: 'running', idempotencyKey: `${leadKey}:running` });
   await registry.request(`/runs/${leadRun.id}/session`, { externalRunId: leadSession.id, idempotencyKey: `${leadKey}:session` });
   const known = (await registry.request('/prospects')).map((item) => item.website_url).filter(Boolean);
-  const input = `Date ${schedule.day}, Africa/Johannesburg. Use live web search to find up to 30 South African businesses. First seek small, independent businesses whose public listing shows no dedicated website, but gives a visible business email and describes their services. Larger businesses remain eligible when there is a specific verified fit. Search AfricaBizInfo and SA Online Directory first. For missing-site leads, websiteUrl must be null, and the exact business listing page must show the email and say no website is listed or show only a Facebook page as the website. Also find businesses with directly visible website improvement opportunities. Search beyond this previous shortlist: ${JSON.stringify(known)}. Never send mail. Return JSON only: {"candidates":[{"companyName":"...","websiteUrl":null,"contactEmail":"public address","contactSourceUrl":"exact HTTPS page with that address","observationUrl":"exact HTTPS page showing opportunity","evidenceText":"20 to 220 characters copied exactly from the visible observation page","finding":"specific, respectful interpretation without an unsupported claim","offeringCode":"website-redesign"}]}. For businesses with a website, use its HTTPS URL in websiteUrl and same-site contact and observation pages. Do not use a copyright footer as age evidence. Exclude any business without directly visible contact and opportunity evidence. The controller independently fetches pages and qualifies leads; do not fabricate data.`;
+  const input = `Date ${schedule.day}, Africa/Johannesburg. Use your web_search tool to propose up to 30 South African businesses for controller verification. Search broadly across provinces and sectors: restaurants, caterers, trades, local shops, service providers, and studios. First seek small independent businesses whose public listing shows no dedicated website and gives a visible business email. Larger businesses remain eligible with a specific verified fit. Try AfricaBizInfo and SA Online Directory, then search other public sources if they are unavailable. For a missing-site lead, set websiteUrl to null; the exact listing must show the email and say no website is listed or show only a Facebook page as its website. Include businesses whose live sites show a clear improvement opportunity such as a coming-soon page. The controller checks registry duplicates and suppression, so inability to read the registry is not a reason to return zero candidates. Search beyond this previous shortlist: ${JSON.stringify(known)}. Never send mail. Return JSON only: {"candidates":[{"companyName":"...","websiteUrl":null,"contactEmail":"public address","contactSourceUrl":"exact HTTPS page with that address","observationUrl":"exact HTTPS page showing opportunity","evidenceText":"20 to 220 characters copied exactly from the visible observation page","finding":"specific, respectful interpretation without an unsupported claim","offeringCode":"website-redesign"}]}. For businesses with a website, use its HTTPS URL in websiteUrl and same-site contact and observation pages. Do not use a copyright footer as age evidence. Exclude any business without directly visible contact and opportunity evidence. The controller independently fetches pages and qualifies leads; do not fabricate data.`;
   const turn = await api.runExistingSession('lead-research', input, leadKey);
   if (turn.status !== 'completed') throw new Error(`Lead research turn ${turn.status}`);
-  const candidates = parseLeadCandidates(await itemsForTurn(leadSession.id), turn.turnId);
+  const savedCandidates = parseLeadCandidates(await itemsForTurn(leadSession.id), turn.turnId);
+  const webResearch = await forcedWebResearch({ apiKey: process.env.OPENAI_API_KEY,
+    organizationId: process.env.OPENAI_ORG_ID, projectId: process.env.OPENAI_PROJECT_ID, known });
+  const candidates = [...webResearch.candidates, ...savedCandidates].slice(0, 30);
   let qualified = 0;
   for (const [index, candidate] of candidates.entries()) {
     try {
@@ -78,7 +82,8 @@ async function researchAndQueue() {
   }
   await registry.request(`/runs/${leadRun.id}/status`, { status: 'succeeded', idempotencyKey: `${leadKey}:succeeded`,
     externalRunId: leadSession.id });
-  return { reviewed: candidates.length, qualified };
+  return { reviewed: candidates.length, qualified, webSearches: webResearch.searches,
+    webSearchFailures: webResearch.failures };
 }
 
 const agents = await registry.request('/agents');
