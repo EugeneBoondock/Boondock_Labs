@@ -10,7 +10,8 @@ import { forcedWebResearch } from './web-research.mjs';
 
 const slot = process.argv[2];
 const checkOnly = process.argv[3] === '--check';
-const catchUp = process.argv[3] === '--catch-up';
+const catchUp = ['--catch-up', '--catch-up-resume'].includes(process.argv[3]);
+const skipResearch = process.argv[3] === '--catch-up-resume';
 const resume = process.argv[3] === '--resume' || catchUp;
 const schedule = scheduledSlot(slot);
 const dayTarget = process.env.OUTREACH_DAY_TARGET_DATE === schedule.day && process.env.OUTREACH_DAY_TARGET
@@ -128,7 +129,7 @@ if (resume) {
     priorAttempts += events.filter((event) => event.event_type === 'outbound.initial_reserved' && event.agent_run_id === run.id).length;
   }
   if (priorAttempts >= 50) throw new Error('Completed slot has no remaining per-run capacity');
-  if (catchUp) {
+  if (catchUp && !skipResearch) {
     await pollReplies(gmail, registry);
     research = await researchAndQueue(`run:${schedule.day}:slot-${schedule.slot}:catch-up:${crypto.randomUUID()}`, 'manual');
     prospects = (await registry.request('/prospects')).filter((item) => item.stage === 'qualified')
@@ -170,9 +171,23 @@ for (const prospect of prospects) {
     if ((await gmail.listSent(null, `to:${prospect.email_normalized}`)).messages?.length) { skipped++; continue; }
     phase = 'draft';
     const input = `Date ${schedule.day}, Africa/Johannesburg. Draft one thoughtful first-contact email as JSON with subject and bodyText. Do not send. Company: ${prospect.company_name}. Address: ${prospect.email_normalized}. Public contact page verified by controller: ${evidence.contactSourceUrl}. Use only these verified observations: ${JSON.stringify(evidence.observations)}. Write 95 to 140 words in the body. Early in the email say “I’m Eugene from Boondock Labs” and explain in plain language that we design and build websites for South African businesses. Acknowledge the business and its work respectfully. ${prospect.website_url ? 'Describe the specific website observation without sounding like you are correcting or scolding them, then offer one concrete, useful idea for presenting their work or helping customers.' : 'The business listing gives a public email and says no website is listed, or lists a Facebook page as its website. Do not claim you proved that no website exists. Mention the public listing and suggest a simple dedicated site that presents their services, examples of work, and a clear enquiry path.'} In one natural sentence, mention that we also build AI agents to help with common customer enquiries, without assuming the business needs one. Invite a reply with permission to send a couple of ideas by email or arrange a short call. End with a low-pressure opt-out such as “If this is not relevant, just reply no thanks and I will leave it there.” Write naturally, without formulaic praise, generic sales language, or claims beyond the observations. Do not include pricing, WhatsApp number, or a signature; the sender appends Eugene’s signature. Keep the subject plain ASCII to display correctly in email.`;
-    const turn = await api.runExistingSession('outreach', input, `${key}:${prospect.id}:draft`);
-    if (turn.status !== 'completed') throw new Error(`Outreach draft turn ${turn.status}`);
-    const draft = parseOutreachDraft(await itemsForTurn(session.id), turn.turnId);
+    let draft;
+    for (let draftAttempt = 1; draftAttempt <= 3; draftAttempt++) {
+      const turn = await api.runExistingSession('outreach', input, `${key}:${prospect.id}:draft:${draftAttempt}`);
+      if (turn.status === 'completed') {
+        try {
+          draft = parseOutreachDraft(await itemsForTurn(session.id), turn.turnId);
+          break;
+        } catch (error) {
+          console.log(JSON.stringify({ draftRetry: draftAttempt, prospectId: prospect.id,
+            reason: String(error.message).slice(0, 200) }));
+        }
+      } else {
+        console.log(JSON.stringify({ draftRetry: draftAttempt, prospectId: prospect.id,
+          reason: `Outreach draft turn ${turn.status}: ${turn.error ?? 'no detail'}`.slice(0, 200) }));
+      }
+    }
+    if (!draft) throw new Error('Outreach draft failed after three attempts');
     phase = 'send';
     const message = await sendOutreach({ registry, gmail, prospect, ...draft, kind: 'initial',
       idempotencyKey: `${key}:${prospect.id}:initial`, agentRunId: run.id });
