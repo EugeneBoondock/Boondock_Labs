@@ -68,10 +68,19 @@ async function researchAndQueue(leadKey = `run:${schedule.day}:slot-${schedule.s
   if (turn.status !== 'completed') throw new Error(`Lead research turn ${turn.status}`);
   const savedCandidates = parseLeadCandidates(await itemsForTurn(leadSession.id), turn.turnId);
   const seenEmails = new Set(existingProspects.map((item) => item.email_normalized));
-  let qualified = 0, reviewed = 0, browserPages = 0, browserFailures = 0;
+  let qualified = 0, reviewed = 0, browserPages = 0, browserFailures = 0, browserAvailable = true;
   for (let round = 0; round < 5 && qualified + existingProspects.filter((item) => item.stage === 'qualified').length < 50; round++) {
-    const rendered = await cloudflareDirectoryResearch({ registry,
-      offset: (schedule.slot - 1) * 250 + round * 50, pageLimit: 50 });
+    let rendered = { candidates: [], scanned: 0, failed: 0 };
+    if (browserAvailable) {
+      try {
+        rendered = await cloudflareDirectoryResearch({ registry,
+          offset: (schedule.slot - 1) * 250 + round * 50, pageLimit: 50 });
+      } catch (error) {
+        // A browser quota or render outage should not discard the agent's web-search candidates.
+        browserAvailable = false;
+        console.log(JSON.stringify({ directoryResearchStopped: String(error.message).slice(0, 200) }));
+      }
+    }
     browserPages += rendered.scanned;
     browserFailures += rendered.failed;
     const candidates = [...rendered.candidates, ...(round === 0 ? savedCandidates : [])];
@@ -142,7 +151,9 @@ if (resume) {
   }
 } else {
   await pollReplies(gmail, registry);
-  research = await researchAndQueue(undefined, backfill ? 'manual' : 'scheduled');
+  research = backfill
+    ? await researchAndQueue(`run:${schedule.day}:slot-${schedule.slot}:backfill-lead:${crypto.randomUUID()}`, 'manual')
+    : await researchAndQueue();
   prospects = (await allProspects()).filter((item) => item.stage === 'qualified')
     .sort((a, b) => Number(Boolean(a.website_url)) - Number(Boolean(b.website_url)));
   run = await registry.request(`/runs/${run.id}/status`, { status: 'running', idempotencyKey: `${key}:running` });
