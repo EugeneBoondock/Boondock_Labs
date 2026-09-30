@@ -1,6 +1,6 @@
 # Boondock Labs outreach
 
-The Cloudflare Worker in `worker.mjs` stores prospect, run, message, suppression, and quote records in D1. The Network Solutions VPS runs the three saved Earthie agent sessions, Gmail OAuth client, inbox poller, scheduled prospect sender, and reply sender. The database migrations are in the repository root `migrations/` directory.
+The Cloudflare Worker in `worker.mjs` stores prospect, run, message, suppression, and quote records in D1. The Network Solutions VPS runs the three saved Earthie agent sessions, Gmail OAuth client, inbox poller, and scheduled prospect sender. The automatic reply sender is installed but its timer is disabled: Eugene answers prospect replies himself, and the poller still records them so replied businesses are never contacted again. The database migrations are in the repository root `migrations/` directory.
 
 The prospect timers run at 09:00, 13:00, 16:00, and 20:00 Africa/Johannesburg. The registry enforces 50 initial attempts per run, 200 per local day, and one initial contact per business. `scheduled-send.mjs` also checks live public contact evidence, Gmail Sent, agent availability, and the current slot. Businesses with no listed dedicated website rank first in the queue when a supported directory page can be verified. Small independent businesses are the lead research priority; larger businesses remain eligible when the observed fit is clear.
 

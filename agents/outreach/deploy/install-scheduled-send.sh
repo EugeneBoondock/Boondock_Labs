@@ -51,8 +51,10 @@ systemd-run --collect --wait --pipe \
   /usr/bin/node /opt/boondock-outreach/current/agents/outreach/scheduled-reply.mjs --check
 
 if [[ "$mode" == activate ]]; then
-  systemctl enable --now boondock-outreach-send@1.timer boondock-outreach-send@2.timer boondock-outreach-send@3.timer boondock-outreach-send@4.timer boondock-outreach-reply.timer
-  systemctl list-timers 'boondock-outreach-send@*.timer' boondock-outreach-reply.timer --no-pager
+  systemctl enable --now boondock-outreach-send@1.timer boondock-outreach-send@2.timer boondock-outreach-send@3.timer boondock-outreach-send@4.timer
+  # Automatic replies stay off: Eugene answers prospect replies himself. The poll timer still records them.
+  systemctl disable --now boondock-outreach-reply.timer
+  systemctl list-timers 'boondock-outreach-*.timer' --no-pager
 else
   echo 'Read-only preflight passed. Send timers remain disabled.'
 fi
