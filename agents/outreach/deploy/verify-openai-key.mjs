@@ -23,7 +23,7 @@ if (!Array.isArray(body.data)) {
   console.error('OpenAI model-list response was missing data');
   process.exit(1);
 }
-const expectedModel = 'gpt-6-luna';
+const expectedModel = 'gpt-5.6-luna';
 if (!body.data.some((model) => model.id === expectedModel)) {
   console.error(`OpenAI credential accepted, but ${expectedModel} is not listed`);
   process.exit(1);

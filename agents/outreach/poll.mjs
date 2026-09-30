@@ -6,7 +6,14 @@ export function asksToStop(text) {
 }
 
 async function ingest(id, gmail, registry) {
-  const raw = await gmail.getMessage(id);
+  let raw;
+  try {
+    raw = await gmail.getMessage(id);
+  } catch (error) {
+    // Gmail history can retain an ID after its message has been removed.
+    if (error.status === 404) return 'missing';
+    throw error;
+  }
   if (raw.labelIds?.includes('SENT')) {
     const message = parseGmailMessage(raw);
     if (message.fromEmail !== SENDER) return 'skipped';

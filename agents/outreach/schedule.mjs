@@ -12,6 +12,20 @@ export function scheduledSlot(slot, at = new Date()) {
   return { day: `${parts.year}-${parts.month}-${parts.day}`, slot: Number(slot), due: Number(parts.hour) === hour };
 }
 
+const MAX_BACKFILL_DAYS = 3;
+
+// A missed slot from a recent past day, run once under its own dated idempotency key.
+export function backfillSlot(slot, day, at = new Date()) {
+  if (!SLOT_HOURS[slot]) throw new Error('Only the four scheduled outreach slots are allowed');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day ?? '') || Number.isNaN(Date.parse(`${day}T00:00:00Z`))) {
+    throw new Error('Backfill needs a YYYY-MM-DD day');
+  }
+  const today = scheduledSlot(slot, at).day;
+  const ageDays = (Date.parse(`${today}T00:00:00Z`) - Date.parse(`${day}T00:00:00Z`)) / 86400000;
+  if (ageDays < 1 || ageDays > MAX_BACKFILL_DAYS) throw new Error('Backfill day must be one to three days in the past');
+  return { day, slot: Number(slot), due: true, today };
+}
+
 export function prospectEvidence(prospect, events, at = Date.now()) {
   if (prospect?.stage !== 'qualified' || !prospect.email_normalized) return null;
   const source = new URL(prospect.source);

@@ -4,6 +4,9 @@
   "account_id": "e31feaa4cca751cc2db46646c505f63b",
   "main": "./worker.mjs",
   "compatibility_date": "2026-09-27",
+  "browser": {
+    "binding": "BROWSER"
+  },
   "d1_databases": [
     {
       "binding": "OUTREACH_DB",
@@ -12,6 +15,7 @@
     }
   ],
   "vars": {
+    "BROWSER_RESEARCH_HOSTS": "live-profiles.com,africabizinfo.com,saonlinedirectory.co.za",
     "OUTREACH_DAILY_LIMIT": "200",
     "OUTREACH_RUN_LIMIT": "50",
     "OUTREACH_MAX_QUOTE_MINOR": "100000000"

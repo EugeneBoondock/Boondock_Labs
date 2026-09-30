@@ -22,6 +22,18 @@ function registry(env) {
   });
 }
 
+export function researchUrl(value, allowedHosts) {
+  if (typeof value !== 'string' || value.length > 2048) throw new Error('Invalid research URL');
+  let url;
+  try { url = new URL(value); } catch { throw new Error('Invalid research URL'); }
+  if (url.protocol !== 'https:' || url.username || url.password || url.port || url.hash) throw new Error('Invalid research URL');
+  const hosts = String(allowedHosts ?? '').split(',').map((host) => host.trim().toLowerCase()).filter(Boolean);
+  if (!hosts.length || !hosts.some((host) => url.hostname === host || url.hostname.endsWith(`.${host}`))) {
+    throw new Error('Research host is not allowed');
+  }
+  return url.toString();
+}
+
 export async function handleOutreachRequest(request, env) {
   const path = new URL(request.url).pathname.replace(/^\/api\/outreach/, '').replace(/^\/+|\/+$/g, '');
   const parts = path ? path.split('/') : [];
@@ -29,6 +41,36 @@ export async function handleOutreachRequest(request, env) {
   const service = await isServiceRequest(request, env);
   const admin = await isAdminRequest(request, env);
   if (!service && !admin) return fail('Unauthorized', 403);
+  if (path === 'research/render') {
+    if (!service || method !== 'POST') return fail('Service authentication required', 403);
+    try {
+      if (!env.BROWSER) throw new Error('Browser binding is missing');
+      const input = await body(request);
+      const url = researchUrl(input.url, env.BROWSER_RESEARCH_HOSTS);
+      const action = input.action ?? 'markdown';
+      if (!['markdown', 'links'].includes(action)) return fail('Invalid research action', 400);
+      const response = await env.BROWSER.quickAction(action, { url });
+      if (!response.ok) return fail('Browser rendering failed', 502);
+      if (action === 'links') {
+        const data = await response.json();
+        if (!data.success || !Array.isArray(data.result)) return fail('Browser link extraction failed', 502);
+        const links = [...new Set(data.result.filter((value) => {
+          try { researchUrl(value, env.BROWSER_RESEARCH_HOSTS); return true; } catch { return false; }
+        }))];
+        const directoryLinks = new URL(url).hostname === 'live-profiles.com' && new URL(url).pathname === '/directory'
+          ? links.filter((value) => /^https:\/\/live-profiles\.com\/ZA[A-Z0-9]{2}-[A-Z0-9]{5}$/i.test(value)) : links;
+        const stride = Math.max(1, Math.ceil(directoryLinks.length / 1000));
+        const sample = directoryLinks.filter((_, index) => index % stride === 0).slice(0, 1000);
+        return json({ success: true, result: sample, totalAvailable: directoryLinks.length });
+      }
+      const markdown = await response.text();
+      if (markdown.length > 250000) return fail('Rendered page is too large', 413);
+      return new Response(markdown, { headers: { 'Content-Type': response.headers.get('content-type') ?? 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } });
+    } catch (error) {
+      const invalid = /Invalid research URL|Research host is not allowed/.test(error.message);
+      return fail(invalid ? error.message : 'Browser rendering failed', invalid ? 400 : 502);
+    }
+  }
   const adminWrite = (parts[0] === 'agents' && parts[2] === 'enabled') || (parts[0] === 'quotes' && parts[2] === 'approve') ||
     (parts[0] === 'prospects' && parts[2] === 'release-human-control');
   if (method !== 'GET' && !service && !(admin && adminWrite)) return fail('Service authentication required', 403);
@@ -37,7 +79,10 @@ export async function handleOutreachRequest(request, env) {
     if (method === 'GET' && path === 'policy') return json({ version: 'za-day-cap-verified-market-v1',
       dayBounds: southAfricanDayBounds(new Date()), dailyInitialLimit: db.dailyLimit, perRunInitialLimit: db.runLimit });
     if (method === 'GET' && path === 'agents') return json(await db.listAgents());
-    if (method === 'GET' && path === 'prospects') return json(await db.listProspects());
+    if (method === 'GET' && path === 'prospects') {
+      const requestedLimit = new URL(request.url).searchParams.get('limit');
+      return json(await db.listProspects(requestedLimit === null ? 50 : Number(requestedLimit)));
+    }
     if (method === 'GET' && path === 'runs') return json(await db.listRuns());
     if (method === 'GET' && path === 'messages/pending-replies') return json(await db.pendingReplies());
     if (method === 'GET' && path === 'mailbox/cursor') return json(await db.mailboxCursor());

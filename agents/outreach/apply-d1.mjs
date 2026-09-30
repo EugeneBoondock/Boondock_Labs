@@ -37,7 +37,7 @@ const expectedTables = ['activity_events','admin_handoffs','agent_runs','contact
   'outreach_agents','outreach_messages','outreach_opt_outs','prospect_business_keys','prospects','quote_documents','quote_items','quotes','sent_mail_observations'];
 const quoteTable = execute("SELECT sql FROM sqlite_master WHERE type='table' AND name='quote_items'")[0]?.sql ?? '';
 if (JSON.stringify(tables) !== JSON.stringify(expectedTables) || agents.length !== 3 ||
-    agents.some((agent) => agent.model !== 'gpt-6-luna') || !quoteTable.includes('verified_market')) {
+    agents.some((agent) => agent.model !== 'gpt-5.6-luna') || !quoteTable.includes('verified_market')) {
   throw new Error('Remote D1 verification did not match the outreach schema');
 }
-process.stdout.write(`Verified ${tables.length} tables, verified-market quote pricing, and ${agents.length} GPT-6 Luna agent rows.\n`);
+process.stdout.write(`Verified ${tables.length} tables, verified-market quote pricing, and ${agents.length} GPT-5.6 Luna agent rows.\n`);

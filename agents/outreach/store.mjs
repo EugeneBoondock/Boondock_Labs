@@ -586,7 +586,10 @@ export class Registry {
     return this.quote(id);
   }
 
-  async listProspects(limit = 50) { return (await this.db.prepare('SELECT * FROM prospects ORDER BY COALESCE(last_activity_at,created_at) DESC LIMIT ?').bind(limit).all()).results; }
+  async listProspects(limit = 50) {
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 1000) throw new Error('Invalid prospect list limit');
+    return (await this.db.prepare('SELECT * FROM prospects ORDER BY COALESCE(last_activity_at,created_at) DESC LIMIT ?').bind(limit).all()).results;
+  }
   async pendingReplies(limit = 100) {
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100) throw new Error('Invalid pending reply limit');
     return (await this.db.prepare(`SELECT m.* FROM outreach_messages m

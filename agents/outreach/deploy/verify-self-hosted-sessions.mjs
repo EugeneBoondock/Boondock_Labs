@@ -15,7 +15,7 @@ for (const role of ['lead-research', 'outreach', 'reply-quotation']) {
   if (!response.ok) throw new Error(`${role} session lookup failed (HTTP ${response.status})`);
   const session = await response.json();
   if (session.id !== saved.sessionId || session.environment?.type !== 'self_hosted' || session.environment?.id !== saved.environmentId ||
-    session.agent?.model !== 'gpt-6-luna') throw new Error(`${role} session identity mismatch`);
+    session.agent?.model !== 'gpt-5.6-luna') throw new Error(`${role} session identity mismatch`);
   const environmentResponse = await fetch(`https://api.openai.com/v1/agents/environments/${encodeURIComponent(saved.environmentId)}`, { headers });
   if (!environmentResponse.ok) throw new Error(`${role} environment lookup failed (HTTP ${environmentResponse.status})`);
   const environment = await environmentResponse.json();

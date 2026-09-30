@@ -1,3 +1,5 @@
+import { OUTREACH_MODEL } from './model.mjs';
+
 const SEARCHES = [
   { sector: 'small restaurants, cafes, caterers and bakeries on Live Profiles, AfricaBizInfo or SA Online Directory with a public email and no dedicated website across South Africa', directory: true },
   { sector: 'independent plumbers, electricians, repair shops and other trades on Live Profiles, AfricaBizInfo or SA Online Directory with a public email and no dedicated website across South Africa', directory: true },
@@ -30,7 +32,7 @@ export async function forcedWebResearch({ apiKey, organizationId, projectId, kno
       method: 'POST', signal: AbortSignal.timeout(150000),
       headers: { Authorization: `Bearer ${apiKey}`, 'OpenAI-Organization': organizationId,
         ...(projectId ? { 'OpenAI-Project': projectId } : {}), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'gpt-6-luna', tools: [{ type: 'web_search' }],
+      body: JSON.stringify({ model: OUTREACH_MODEL, tools: [{ type: 'web_search' }],
         tool_choice: 'required', input }),
     });
     if (!response.ok) throw new Error(`Forced web search failed (${response.status})`);

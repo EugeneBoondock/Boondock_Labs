@@ -9,12 +9,13 @@ import { buildMime, GmailClient, parseGmailMessage, signedBodies, SIGNATURE_TEXT
 import { pollReplies, parseDeliveryFailure } from './poll.mjs';
 import { encryptRefreshToken, decryptRefreshToken, authorizationUrl } from './oauth.mjs';
 import { AgentsApi, runSavedAgent } from './agents-api.mjs';
-import { handleOutreachRequest } from './worker.mjs';
+import { handleOutreachRequest, researchUrl } from './worker.mjs';
 import { sendOutreach, sendQuote } from './send.mjs';
 import { assessQuoteContext } from './rules.mjs';
-import { scheduledSlot, prospectEvidence, parseOutreachDraft, parseLeadCandidates, verifyLeadCandidate,
+import { scheduledSlot, backfillSlot, prospectEvidence, parseOutreachDraft, parseLeadCandidates, verifyLeadCandidate,
   asksForQuote, replyNeedsHandoff, parseReplyDecision, verifyQuoteBenchmarks } from './schedule.mjs';
 import { forcedWebResearch } from './web-research.mjs';
+import { cloudflareDirectoryResearch, parseDirectoryCandidate } from './cloudflare-research.mjs';
 
 test('scheduled discovery forces live search and keeps valid results when another search fails', async () => {
   const calls = [];
@@ -44,6 +45,17 @@ test('daily outreach limits follow the South African calendar day', () => {
   });
   assert.deepEqual(southAfricanDayBounds('2026-09-28T21:59:59.000Z').day, '2026-09-28');
   assert.deepEqual(southAfricanDayBounds('2026-09-28T22:00:00.000Z').day, '2026-09-29');
+});
+
+test('backfill only reopens a missed slot from one to three South African days ago', () => {
+  const at = new Date('2026-09-30T03:00:00Z');
+  assert.deepEqual(backfillSlot(3, '2026-09-29', at), { day: '2026-09-29', slot: 3, due: true, today: '2026-09-30' });
+  assert.equal(backfillSlot(1, '2026-09-27', at).day, '2026-09-27');
+  assert.throws(() => backfillSlot(1, '2026-09-30', at), /one to three days/);
+  assert.throws(() => backfillSlot(1, '2026-09-26', at), /one to three days/);
+  assert.throws(() => backfillSlot(1, '2026-10-01', at), /one to three days/);
+  assert.throws(() => backfillSlot(1, 'yesterday', at), /YYYY-MM-DD/);
+  assert.throws(() => backfillSlot(5, '2026-09-29', at), /four scheduled/);
 });
 
 test('completed manual first run occupies the matching scheduled send slot', async () => {
@@ -203,6 +215,19 @@ test('verified-market migration preserves existing quote items with foreign keys
 
 const prospectInput = (email, key) => ({ companyName: `${email.split('@')[0]} Ltd`, contactEmail: email, source: 'manual-test', idempotencyKey: key,
   observations: [{ sourceUrl: 'https://evidence.example.co.za/site', observedAt: new Date().toISOString(), finding: 'Contact form page lists an older copyright year', offeringCode: 'website-redesign' }] });
+
+test('runner can list the full prospect registry past the dashboard default', async () => {
+  const adapter = new D1TestAdapter();
+  const registry = new Registry(adapter);
+  const statement = adapter.sqlite.prepare('INSERT INTO prospects (id,company_name,contact_email,email_normalized,source,stage,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?)');
+  for (let index = 0; index < 126; index++) {
+    statement.run(`p-${index}`, `Business ${index}`, `hello${index}@example.co.za`, `hello${index}@example.co.za`,
+      'test', index < 76 ? 'contacted' : 'qualified', '2026-09-28T00:00:00Z', '2026-09-28T00:00:00Z');
+  }
+  assert.equal((await registry.listProspects()).length, 50);
+  assert.equal((await registry.listProspects(1000)).length, 126);
+  await assert.rejects(() => registry.listProspects(1001), /Invalid prospect list limit/);
+});
 
 test('core contract, run events, dedupe, suppression, and daily volume guard', async () => {
   const adapter = new D1TestAdapter();
@@ -407,6 +432,96 @@ test('Gmail MIME and reply polling preserve message and thread IDs', async () =>
   assert.ok(calls.some((call) => call.path === '/mailbox/cursor' && call.body?.historyId === '123'));
 });
 
+test('reply polling advances past a deleted Gmail history message', async () => {
+  const calls = [];
+  const registry = { async request(path, body) {
+    calls.push({ path, body });
+    if (path === '/mailbox/cursor' && !body) return { history_id: '120' };
+    return {};
+  } };
+  const gmail = {
+    profile: async () => ({ historyId: '123' }),
+    history: async () => ({ historyId: '123', history: [{ messagesAdded: [{ message: { id: 'gone' } }] }] }),
+    getMessage: async () => { const error = new Error('Gmail API failed (404)'); error.status = 404; throw error; },
+  };
+  const result = await pollReplies(gmail, registry);
+  assert.equal(result.processed, 1);
+  assert.equal(result.outcomes[0].status, 'missing');
+  assert.ok(calls.some((call) => call.path === '/mailbox/cursor' && call.body?.historyId === '123'));
+});
+
+test('Cloudflare research rendering is service-only and restricted to public seed hosts', async () => {
+  const allowedHosts = 'live-profiles.com,africabizinfo.com';
+  assert.equal(researchUrl('https://www.live-profiles.com/ZA/example', allowedHosts), 'https://www.live-profiles.com/ZA/example');
+  for (const url of ['http://live-profiles.com', 'https://live-profiles.com.evil.test',
+    'https://127.0.0.1/', 'https://user@live-profiles.com/', 'https://live-profiles.com:8443/']) {
+    assert.throws(() => researchUrl(url, allowedHosts));
+  }
+  const calls = [];
+  const env = { OUTREACH_SERVICE_TOKEN: 'test-secret', BROWSER_RESEARCH_HOSTS: allowedHosts,
+    BROWSER: { async quickAction(action, options) {
+      calls.push({ action, options });
+      if (action === 'links') return Response.json({ success: true,
+        result: ['https://live-profiles.com/ZA/a', 'https://127.0.0.1/', 'https://example.com/'] });
+      return new Response('# Business listing\n\nNo website listed.', { status: 200 });
+    } } };
+  const request = (url, token) => new Request('https://registry.example/research/render', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    body: JSON.stringify({ url }),
+  });
+  assert.equal((await handleOutreachRequest(request('https://live-profiles.com/ZA/example'), env)).status, 403);
+  assert.equal((await handleOutreachRequest(request('https://example.com/', 'test-secret'), env)).status, 400);
+  const badAction = new Request('https://registry.example/research/render', { method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer test-secret' },
+    body: JSON.stringify({ url: 'https://live-profiles.com/', action: 'screenshot' }) });
+  assert.equal((await handleOutreachRequest(badAction, env)).status, 400);
+  const response = await handleOutreachRequest(request('https://live-profiles.com/ZA/example', 'test-secret'), env);
+  assert.equal(response.status, 200);
+  assert.match(await response.text(), /No website listed/);
+  const linksRequest = new Request('https://registry.example/research/render', { method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer test-secret' },
+    body: JSON.stringify({ url: 'https://live-profiles.com/', action: 'links' }) });
+  const links = await handleOutreachRequest(linksRequest, env);
+  assert.deepEqual((await links.json()).result, ['https://live-profiles.com/ZA/a']);
+  assert.deepEqual(calls, [{ action: 'markdown', options: { url: 'https://live-profiles.com/ZA/example' } },
+    { action: 'links', options: { url: 'https://live-profiles.com/' } }]);
+});
+
+test('Cloudflare directory research selects only local businesses with visible email and missing website', async () => {
+  const url = 'https://live-profiles.com/ZAUX-OX0JG';
+  const page = '# El Waterworks Plumbing Co\n## Contact & Location\nEmail Address\nwaterworksplumbco@gmail.com\nOpen Website\nNot provided\nCity / Town\nBerea\nCountry\nSouth Africa\n## About This Business';
+  const candidate = parseDirectoryCandidate(page, url);
+  assert.equal(candidate.contactEmail, 'waterworksplumbco@gmail.com');
+  assert.equal(candidate.websiteUrl, null);
+  assert.equal(parseDirectoryCandidate(page.replace('Not provided', 'www.example.co.za'), url), null);
+  assert.equal(parseDirectoryCandidate(page.replace('Berea', 'Not provided'), url), null);
+  const calls = [];
+  const registry = { async request(path, input) {
+    calls.push({ path, input });
+    if (input.action === 'links') return { success: true, result: [url, url, 'https://example.com/private'] };
+    return { success: true, result: page };
+  } };
+  const result = await cloudflareDirectoryResearch({ registry, pageLimit: 2, sleep: async () => {} });
+  assert.equal(result.scanned, 1);
+  assert.equal(result.candidates.length, 1);
+  assert.equal(calls.length, 2);
+});
+
+test('directory links are sampled across the full South African listing', async () => {
+  const links = Array.from({ length: 1001 }, (_, index) =>
+    `https://live-profiles.com/ZAUX-${String(index).padStart(5, '0')}`);
+  const env = { OUTREACH_SERVICE_TOKEN: 'test-secret', BROWSER_RESEARCH_HOSTS: 'live-profiles.com',
+    BROWSER: { quickAction: async () => Response.json({ success: true, result: links }) } };
+  const response = await handleOutreachRequest(new Request('https://registry.example/research/render', {
+    method: 'POST', headers: { Authorization: 'Bearer test-secret', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url: 'https://live-profiles.com/directory', action: 'links' }),
+  }), env);
+  const result = await response.json();
+  assert.equal(result.totalAvailable, 1001);
+  assert.ok(result.result.length <= 1000);
+  assert.ok(result.result.some((value) => value.endsWith('01000')));
+});
+
 test('OAuth callback, encrypted token, and service endpoint access stay scoped', async () => {
   const key = Buffer.alloc(32, 7).toString('base64');
   const envelope = encryptRefreshToken('private-refresh-token', key);
@@ -435,10 +550,10 @@ test('Earthie saved agents are checked before sessions and run outcomes are stor
   let inputAccepted = false;
   const fakeFetch = async (url, options) => {
     calls.push({ url, options });
-    if (url.endsWith('/models/gpt-6-luna')) return Response.json({ id: 'gpt-6-luna' });
+    if (url.endsWith('/models/gpt-5.6-luna')) return Response.json({ id: 'gpt-5.6-luna' });
     const role = Object.keys(savedIds).find((key) => url.endsWith(`/agents/${savedIds[key]}`));
-    if (role) return Response.json({ id: savedIds[role], model: 'gpt-6-luna', metadata: { boondock_role: role } });
-    if (url.endsWith('/sessions/sess_lead')) return Response.json({ id: 'sess_lead', status: 'idle', agent: { id: savedIds['lead-research'], model: 'gpt-6-luna' }, environment: { type: 'self_hosted' } });
+    if (role) return Response.json({ id: savedIds[role], model: 'gpt-5.6-luna', metadata: { boondock_role: role } });
+    if (url.endsWith('/sessions/sess_lead')) return Response.json({ id: 'sess_lead', status: 'idle', agent: { id: savedIds['lead-research'], model: 'gpt-5.6-luna' }, environment: { type: 'self_hosted' } });
     if (url.includes('/sessions/sess_lead/turns?')) return Response.json({ data: inputAccepted ? [{ id: 'turn_1', status: 'completed' }] : [] });
     if (url.endsWith('/sessions/sess_lead/events') && options.method === 'POST') { inputAccepted = true; return new Response(null, { status: 202 }); }
     throw new Error(`Unexpected URL ${url}`);

@@ -1,4 +1,5 @@
 import { AGENT_IDS, requiredText } from './rules.mjs';
+import { OUTREACH_MODEL } from './model.mjs';
 
 export const AGENT_INSTRUCTIONS = Object.freeze({
   'lead-research': 'Research business leads from verifiable public sources. Identify specific dated observations on old or poorly designed sites without insults or unsupported defect claims. Return company, site, contact, source URL, observation date, finding, and only relevant offering codes: website-redesign, whatsapp-ai-agent, website-ai-chat, android-ios-app. Never invent a contact or email. Never send messages or propose repeat cold contact to a business.',
@@ -24,10 +25,10 @@ export class AgentsApi {
   }
 
   async verifyModelAccess() {
-    const response = await this.fetcher('https://api.openai.com/v1/models/gpt-6-luna', { headers: this.headers() });
-    if (!response.ok) throw new Error(`Earthie GPT-6 Luna access check failed (${response.status})`);
+    const response = await this.fetcher(`https://api.openai.com/v1/models/${OUTREACH_MODEL}`, { headers: this.headers() });
+    if (!response.ok) throw new Error(`Earthie ${OUTREACH_MODEL} access check failed (${response.status})`);
     const model = await response.json();
-    if (model.id !== 'gpt-6-luna') throw new Error('Unexpected model access response');
+    if (model.id !== OUTREACH_MODEL) throw new Error('Unexpected model access response');
     return true;
   }
 
@@ -58,7 +59,7 @@ export class AgentsApi {
     const response = await this.fetcher(`https://api.openai.com/v1/agents/${encodeURIComponent(agentId)}`, { headers: this.headers() });
     if (!response.ok) throw new Error(`Saved Earthie agent lookup failed (${response.status})`);
     const agent = await response.json();
-    if (agent.id !== agentId || agent.model !== 'gpt-6-luna' || (agent.metadata?.boondock_role && agent.metadata.boondock_role !== role)) throw new Error('Saved agent does not match Earthie role');
+    if (agent.id !== agentId || agent.model !== OUTREACH_MODEL || (agent.metadata?.boondock_role && agent.metadata.boondock_role !== role)) throw new Error('Saved agent does not match Earthie role');
     return agent;
   }
 
@@ -70,7 +71,7 @@ export class AgentsApi {
     if (!response.ok) throw new Error(`Saved session lookup failed (${response.status})`);
     const session = await response.json();
     if (session.id !== sessionId || session.environment?.type !== 'self_hosted' ||
-      (session.agent?.id ?? session.agent_id) !== agent.id || session.agent?.model !== 'gpt-6-luna') {
+      (session.agent?.id ?? session.agent_id) !== agent.id || session.agent?.model !== OUTREACH_MODEL) {
       throw new Error('Saved session identity mismatch');
     }
     return session;
